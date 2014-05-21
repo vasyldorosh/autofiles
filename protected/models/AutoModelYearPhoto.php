@@ -1,0 +1,222 @@
+<?php
+
+/**
+ * This is the model class for table "model_year_photo".
+ *
+ * The followings are the available columns in table 'model_year_photo':
+ * @property integer $id
+ * @property integer $year_id
+ * @property integer $rank
+ * @property string $name
+ * @property string $description
+ * @property string $file
+ *
+ * The followings are the available model relations:
+ * @property News $institution
+ *
+ */
+class AutoModelYearPhoto extends CActiveRecord
+{
+    public $file;
+    public $file_url;
+	
+	public $image_ext = 'jpg';
+
+    /**
+     * Returns the static model of the specified AR class.
+     * @param string $className active record class name.
+     * @return GalleryPhoto the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
+
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'auto_model_year_photo';
+    }
+
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('year_id', 'required'),
+            array('name', 'length', 'max' => 512),
+            array('file', 'length', 'max' => 128),
+			array(
+				'file', 
+				'file', 
+				'types'=>'jpg,png,gif,jpeg,JPG,PNG,GIF,JPEG',
+				'on'=>'insert'
+			),			
+            // The following rule is used by search().
+            // Please remove those attributes that should not be searched.
+            array('id, year_id, rank, name, description, file', 'safe', 'on' => 'search'),
+        );
+    }
+
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'ModelYear' => array(self::BELONGS_TO, 'AutoModelYear', 'year_id'),
+        );
+    }
+
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
+            'id' => 'ID',
+            'year_id' => 'Model Year',
+            'rank' => 'Rank',
+            'name' => 'Name',
+            'description' => 'Description',
+            'file' => 'File Name',
+        );
+    }
+
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search()
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+
+        $criteria = new CDbCriteria;
+
+        $criteria->compare('id', $this->id);
+        $criteria->compare('year_id', $this->year_id);
+        $criteria->compare('rank', $this->rank);
+        $criteria->compare('name', $this->name, true);
+        $criteria->compare('description', $this->description, true);
+       
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
+
+    public function save($runValidation = true, $attributes = null)
+    {
+        parent::save($runValidation, $attributes);
+        if ($this->rank == null) {
+            $this->rank = $this->id;
+            $this->setIsNewRecord(false);
+            $this->save(false);
+        }
+		
+        return true;
+    }
+
+	public function afterSave()
+	{
+		if (!empty($this->file)) {
+			$this->file_name = "{$this->ModelYear->year}-{$this->ModelYear->Model->Make->alias}-{$this->ModelYear->Model->alias}-{$this->id}.jpg";
+			$this->file->saveAs($this->getImage_directory(true) . $this->file_name);
+			$this->updateByPk($this->id, array('file_name'=>$this->file_name));
+		}
+		
+		if (!empty($this->file_url)) {
+			$this->file_name = "{$this->ModelYear->year}-{$this->ModelYear->Model->Make->alias}-{$this->ModelYear->Model->alias}-{$this->id}.jpg";
+			$imageContent = @file_get_contents($this->file_url);
+			if (!empty($imageContent)) {
+				file_put_contents($this->getImage_directory(true) . $this->file_name, $imageContent);
+				$this->updateByPk($this->id, array('file_name'=>$this->file_name));
+			}
+		}
+		
+		Yii::app()->cache->delete(AutoModelYear::CACHE_KEY_PHOTOS . $this->year_id);
+		
+		return parent::afterSave();
+	}	
+	
+	public function beforeDelete()
+	{
+		$this->_deleteImage();
+		
+		Yii::app()->cache->delete(AutoModelYear::CACHE_KEY_PHOTOS . $this->year_id);
+		
+		return parent::beforeDelete();
+	}
+	
+	private function _deleteImage()
+    {
+        if ($this->image_ext) {
+			Yii::app()->file->set($this->image_directory)->delete();
+        }
+    }	
+
+    public function getImage_directory($mkdir=false) {
+        if (!$mkdir) {
+			return Yii::app()->basePath . '/../photos/model_year/' . $this->year_id . '/';
+		
+		} else {
+			$directory =  Yii::app()->basePath . '/../photos/model_year/' . $this->year_id . '/';
+			if (file_exists($directory) == false) {
+				mkdir($directory);
+				chmod($directory, 0777);
+			}		
+
+			return $directory;
+		}
+    }
+
+    public function getPreview()
+    {
+        return $this->getThumb(135, 100, 'resize');
+    }	
+	
+	public function getThumb($width=null, $height=null, $mode='origin')
+	{
+		$dir = $this->getImage_directory();
+		$originFile = $dir . $this->file_name;
+		
+		if (!is_file($originFile)) {
+			return "http://www.placehold.it/{$width}x{$height}/EFEFEF/AAAAAA";
+		}
+		
+		if ($mode == 'origin') {
+			return '/photos/model_year/' . $this->year_id . '/' . $this->file_name;
+		}
+		
+		$subdir = $mode . $width .'x'.$height;
+		$subdirPath = $dir . $subdir;
+		$subdirPathFile =$subdirPath . '/' . $this->file_name;
+		if (file_exists($subdirPath) == false) {
+			mkdir($subdirPath);
+			chmod($subdirPath, 0777);
+		}		
+		
+		if ($mode == 'resize') {
+			Yii::app()->iwi->load($originFile)
+							   ->resize($width, $height)
+							   ->save($subdirPathFile);
+		} else {
+			Yii::app()->iwi->load($originFile)
+							   ->crop($width, $height)
+							   ->save($subdirPathFile);
+		}
+		
+		return '/photos/model_year/' . $this->year_id . '/'.$subdir.'/'. $this->file_name;
+	}	
+	
+
+	
+
+}
