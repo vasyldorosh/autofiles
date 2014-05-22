@@ -51,7 +51,7 @@ class ImportController extends Controller
 	public function actionModel()
 	{
 		$autoMakes = (array)AutoMake::model()->findAll();
-		$counterKey = 'model_count_pages';
+		$counterKey = 'model_count_pagesdd';
 		$data = Yii::app()->cache->get($counterKey);
 		if (empty($data)) {		
 			$data = array();
