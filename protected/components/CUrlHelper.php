@@ -16,7 +16,7 @@ class CUrlHelper
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 		}
 
-		//curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		//отсылаем серверу COOKIE полученные от него при авторизации
 		curl_setopt($ch, CURLOPT_COOKIEFILE, $cookiefile);
 		curl_setopt($ch, CURLOPT_COOKIEJAR, $cookiefile);
