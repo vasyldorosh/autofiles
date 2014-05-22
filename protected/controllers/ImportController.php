@@ -69,6 +69,9 @@ class ImportController extends Controller
 			d($data);
 		
 		foreach ($autoMakes as $keyMake=>$autoMake) {
+			if ($autoMake->id < 42)
+				continue;
+				
 			$pages = $data[$autoMake->alias];
 			
 			for ($i=0;$i<$pages;$i++) {
