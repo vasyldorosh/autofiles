@@ -59,7 +59,6 @@ class ImportController extends Controller
 			foreach ($autoMakes as $makeKey=>$autoMake) {
 				$url = 'http://autos.aol.com/' . $autoMake->alias;
 				$content = CUrlHelper::getPage($url, '', '');
-				d($content);
 				preg_match_all('/<div class="pagecount">Page <span>1<\/span> of <span>(.*?)<\/span><\/div>/', $content, $matches);
 				$data[$autoMake->alias] = (int) isset($matches[1][0]) ? $matches[1][0] : 0;
 			}
