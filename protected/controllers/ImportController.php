@@ -64,6 +64,8 @@ class ImportController extends Controller
 			Yii::app()->cache->set($counterKey, $data, 60*60*24*31);
 		}
 			
+		d($data);	
+			
 		foreach ($autoMakes as $keyMake=>$autoMake) {
 			$pages = $data[$autoMake->alias];
 			
@@ -71,7 +73,7 @@ class ImportController extends Controller
 				$url = 'http://autos.aol.com/' . $autoMake->alias . '/page-'.($i+1);
 				$content = CUrlHelper::getPage($url, '', '');
 				preg_match_all('/<li class="research_ifnoratings">All Years of <a class="first" href="\/(.*?)-(.*?)\/">(.*?)<\/a><\/li>/', $content, $matches);
-				d($matches);
+				
 				if (isset($matches[2]) && isset($matches[3])) {
 					foreach ($matches[2] as $key => $alias) {
 					
