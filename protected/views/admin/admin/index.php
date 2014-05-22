@@ -42,6 +42,13 @@ $this->pageTitle = Yii::app()->name.' - ' . Yii::t('admin', 'Admins');
 		}		
 		
 		$columns = array(
+				array(
+					'name'=>'id',
+					'value'=>'$data->id',
+					'htmlOptions' => array(
+						'width' => 60, 
+					),					
+				),		
                 array(
 					'name' => 'full_name',
 					'value' => 'CHtml::link($data->full_name, Yii::app()->createUrl("admin/admin/update", array("id"=>$data->id)))',
@@ -71,6 +78,25 @@ $this->pageTitle = Yii::app()->name.' - ' . Yii::t('admin', 'Admins');
             'filter' => $model,
             'type' => 'striped bordered condensed',
             'columns' => $columns,
+			'id' => 'list-grid',
+			'pager' => array(
+				  'class' => 'bootstrap.widgets.TbPager',
+				  'displayFirstAndLast' => true,
+			),			
+			'template'=>'{summary}{items}<div style="float:left">{pager}</div> <div style="float:right;margin-top:15px;"><span style="color:#666;">per page:</span> '.
+			CHtml::dropDownList(
+				'pageSize',
+				$pageSize,
+				Yii::app()->params->perPages,
+				array('class'=>'change-pageSize', 'style'=>'width: 70px;')) . '</div>',			
         ))?>
     </div>
+
 </div>
+
+<?php Yii::app()->clientScript->registerScript('initPageSize',<<<EOD
+    $('.change-pageSize').live('change', function() {
+        $.fn.yiiGridView.update('list-grid',{ data:{ pageSize: $(this).val() }})
+    });
+EOD
+,CClientScript::POS_READY); ?>

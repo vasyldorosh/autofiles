@@ -107,6 +107,8 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
+		'defaultPerPage'=>50,
+		'perPages'=>array(10=>10,20=>20,50=>50,100=>100,250=>250),
 	), 
 	'defaultController' => 'site/index'
 );

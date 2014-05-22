@@ -1,7 +1,12 @@
 <?php
 
 class ImportController extends Controller
-{
+{	 
+	public function init() 
+	{
+		ini_set('max_execution_time', 3600*5);
+		return parent::init();
+	}
 
 	public function actionBodyStyle()
 	{
@@ -46,7 +51,7 @@ class ImportController extends Controller
 	public function actionModel()
 	{
 		$autoMakes = (array)AutoMake::model()->findAll();
-		$counterKey = 'model_count_page';
+		$counterKey = 'model_count_pages';
 		$data = Yii::app()->cache->get($counterKey);
 		if (empty($data)) {		
 			$data = array();
@@ -87,10 +92,7 @@ class ImportController extends Controller
 				}
 			}
 			
-			//########################################
-			if ($keyMake == 10) {
-				//die();
-			}
+			echo $autoMake->id . ' - ' . $autoMake->title . '<br/>';
 		}	
 		
 	}	
@@ -100,8 +102,6 @@ class ImportController extends Controller
 	{
 		$autoModels = (array)AutoModel::model()->findAll();
 		foreach ($autoModels as $keyModel=>$autoModel) {
-			if (460 > $autoModel->id)
-				continue;
 		
 			$url = "http://autos.aol.com/{$autoModel->Make->alias}-{$autoModel->alias}/";
 			$content = CUrlHelper::getPage($url, '', '');
@@ -126,9 +126,7 @@ class ImportController extends Controller
 				}
 			}
 			
-			//###########################################
-			//if ($keyModel == 4)
-				//die();
+			echo $autoModel->id . ' - ' . $autoModel->title . '<br/>';
 		}
 	}	
 	
@@ -140,24 +138,16 @@ class ImportController extends Controller
 			
 			$content = CUrlHelper::getPage($url, '', '');
 			preg_match_all('/<a href="http:\/\/o.aolcdn.com\/commerce\/images\/(.*?)_Large.jpg">/', $content, $matches);
-			//d($matches);
+		
 			if (isset($matches[1])) {
 				foreach ($matches[1] as $file) {
 					$file_url = "http://o.aolcdn.com/commerce/images/{$file}_Large.jpg";
 					$photo = new AutoModelYearPhoto;
 					$photo->file_url = $file_url;
 					$photo->year_id = $autoModelYear->id;
-					$photo->save();
+					var_dump($photo->save());
 				}
 			}
-			
-			
-			
-			if ($keyYear == 2) {
-				die();
-			}
-			
-			echo $url . '<br>';
 		}
 	}	
 	

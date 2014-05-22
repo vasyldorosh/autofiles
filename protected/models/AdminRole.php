@@ -100,12 +100,12 @@ class AdminRole extends CActiveRecord
         $criteria->compare('id',$this->id);
         $criteria->compare('title',$this->title, true);
  
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-            'pagination'=>array(
-                'pageSize'=>100,
-            ),
-        ));
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+			'pagination'=>array(
+				'pageSize'=>Yii::app()->request->getParam('pageSize', Yii::app()->params->defaultPerPage),
+			),			
+		));
     }
 	
     public static function getAll() {

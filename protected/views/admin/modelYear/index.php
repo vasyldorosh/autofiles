@@ -31,7 +31,13 @@
         <?php 
 		
 		$columns = array(
-                'id',	
+				array(
+					'name'=>'id',
+					'value'=>'$data->id',
+					'htmlOptions' => array(
+						'width' => 60, 
+					),					
+				),	
 				array(
 					'name' => 'image_preview',
 					'value' => 'CHtml::link("<img src=\"{$data->image_preview}\">", "#")',
@@ -47,7 +53,13 @@
 					'value' => '$data->Model?$data->Model->title:"-"',	
 					'filter' => AutoModel::getAllWithMake(),
 				),				
-                'year',
+				array(
+					'name'=>'year',
+					'value'=>'$data->year',
+					'htmlOptions' => array(
+						'width' => 60, 
+					),					
+				),				
             );
 			
 		if (Access::is('modelYear.update') || Access::is('modelYear.delete')) {
@@ -67,7 +79,25 @@
             'filter' => $model,
             'type' => 'striped bordered condensed',
             'columns' => $columns,
+			'id' => 'list-grid',
+			'pager' => array(
+				  'class' => 'bootstrap.widgets.TbPager',
+				  'displayFirstAndLast' => true,
+			),			
+			'template'=>'{summary}{items}<div style="float:left">{pager}</div> <div style="float:right;margin-top:15px;"><span style="color:#666;">per page:</span> '.
+			CHtml::dropDownList(
+				'pageSize',
+				$pageSize,
+				Yii::app()->params->perPages,
+				array('class'=>'change-pageSize', 'style'=>'width: 70px;')) . '</div>',			
         ))?>
     </div>
 
 </div>
+
+<?php Yii::app()->clientScript->registerScript('initPageSize',<<<EOD
+    $('.change-pageSize').live('change', function() {
+        $.fn.yiiGridView.update('list-grid',{ data:{ pageSize: $(this).val() }})
+    });
+EOD
+,CClientScript::POS_READY); ?>

@@ -55,7 +55,7 @@ class AutoModelYearPhoto extends CActiveRecord
 				'file', 
 				'file', 
 				'types'=>'jpg,png,gif,jpeg,JPG,PNG,GIF,JPEG',
-				'on'=>'insert'
+				'allowEmpty'=>true
 			),			
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
@@ -111,19 +111,21 @@ class AutoModelYearPhoto extends CActiveRecord
             'criteria' => $criteria,
         ));
     }
-
-    public function save($runValidation = true, $attributes = null)
-    {
-        parent::save($runValidation, $attributes);
+	
+	public function beforeSave()
+	{
         if ($this->rank == null) {
-            $this->rank = $this->id;
-            $this->setIsNewRecord(false);
-            $this->save(false);
+			$maxRankNumber = Yii::app()->db->createCommand()
+			  ->select('max(rank) as rank')
+			  ->from('auto_model_year_photo')
+			  ->where("year_id={$this->year_id}")
+			  ->queryScalar();
+			$this->rank = $maxRankNumber + 1;
         }
-		
-        return true;
-    }
 
+		return parent::beforeSave();
+	}
+	
 	public function afterSave()
 	{
 		if (!empty($this->file)) {

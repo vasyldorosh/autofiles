@@ -13,6 +13,7 @@ class MakeController extends BackendController
 
         $this->render("index", array(
             'model' => $model,
+			'pageSize' => Yii::app()->request->getParam('pageSize', Yii::app()->params->defaultPerPage),
         ));
     }
 

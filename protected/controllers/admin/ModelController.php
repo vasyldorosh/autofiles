@@ -12,6 +12,7 @@ class ModelController extends BackendController
         }
 
         $this->render("index", array(
+            'pageSize' => Yii::app()->request->getParam('pageSize', Yii::app()->params->defaultPerPage),
             'model' => $model,
         ));
     }
@@ -29,7 +30,7 @@ class ModelController extends BackendController
 				$this->redirect('/admin/model');
 			}
         }		
-
+		
         $this->render('create', array(
             'model' => $model,
         ));
