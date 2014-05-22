@@ -51,7 +51,7 @@ class ImportController extends Controller
 	public function actionModel()
 	{
 		$autoMakes = (array)AutoMake::model()->findAll();
-		$counterKey = 'model_count_pagesdddd';
+		$counterKey = 'model_count_pagesddddd';
 		$data = Yii::app()->cache->get($counterKey);
 		
 		if (empty($data)) {		
@@ -60,7 +60,7 @@ class ImportController extends Controller
 				$url = 'http://autos.aol.com/' . $autoMake->alias;
 				$content = CUrlHelper::getPage($url, '', '');
 				preg_match_all('/<div class="pagecount">Page <span>1<\/span> of <span>(.*?)<\/span><\/div>/', $content, $matches);
-				$data[$autoMake->alias] = (int) isset($matches[1][0]) ? $matches[1][0] : 0;
+				$data[$autoMake->alias] = (int) isset($matches[1][0]) ? $matches[1][0] : 1;
 			}
 			Yii::app()->cache->set($counterKey, $data, 60*60*24*31);
 		}
