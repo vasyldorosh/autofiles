@@ -51,9 +51,10 @@ class ImportController extends Controller
 	public function actionModel()
 	{
 		$autoMakes = (array)AutoMake::model()->findAll();
-		$counterKey = 'model_count_pagesdd';
+		$counterKey = 'model_count_pagesdddd';
 		$data = Yii::app()->cache->get($counterKey);
-		if (empty($data) || true) {		
+		
+		if (empty($data)) {		
 			$data = array();
 			foreach ($autoMakes as $makeKey=>$autoMake) {
 				$url = 'http://autos.aol.com/' . $autoMake->alias;
@@ -64,9 +65,10 @@ class ImportController extends Controller
 			}
 			Yii::app()->cache->set($counterKey, $data, 60*60*24*31);
 		}
-			
-		d($data);	
-			
+
+		if (isset($_GET['t']))
+			d($data);
+		
 		foreach ($autoMakes as $keyMake=>$autoMake) {
 			$pages = $data[$autoMake->alias];
 			
