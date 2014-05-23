@@ -27,9 +27,23 @@ class AutoCompletion extends CActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
+		$rules = array(
 			array('title, model_year_id, code', 'required'),
 		);
+		
+		$specs = AutoSpecs::getAll();
+		foreach ($specs as $spec) {
+			if ($spec['is_required'])		
+				$rules[] = array($spec['alias'], 'required');
+				
+			if (in_array($spec['type'], array(AutoSpecs::TYPE_INT, AutoSpecs::TYPE_CHECKBOX, AutoSpecs::TYPE_SELECT)))
+				$rules[] = array($spec['alias'], 'numerical', 'integerOnly' => true);
+			
+			if ($spec['type'] == AutoSpecs::TYPE_FLOAT)
+				$rules[] = array($spec['alias'], 'numerical');		
+		}	
+
+		return $rules;
 	}
 	
 	/**
@@ -60,11 +74,18 @@ class AutoCompletion extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
+		$labels = array(
 			'id' => 'ID',
 			'title' => Yii::t('admin', 'Title'),
 			'rank' => Yii::t('admin', 'Rank'),
 		);
+		
+		$specs = AutoSpecs::getAll();
+		foreach ($specs as $spec) {
+			$labels[$spec['alias']] = $spec['title'];
+		}
+		
+		return $labels;
 	}
 
 	/**
@@ -93,6 +114,5 @@ class AutoCompletion extends CActiveRecord
 	public static function getAll()
 	{
 		return CHtml::listData(self::model()->findAll(), 'id', 'title');
-	}	
-
+	}
 }

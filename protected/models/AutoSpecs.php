@@ -2,6 +2,12 @@
 
 class AutoSpecs extends CActiveRecord
 {
+	const TYPE_INT = 1;
+	const TYPE_FLOAT = 2;
+	const TYPE_CHECKBOX = 3;
+	const TYPE_SELECT = 4;
+	const TYPE_STRING = 4;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -35,7 +41,7 @@ class AutoSpecs extends CActiveRecord
 	public function beforeValidate()
 	{
 		if (empty($this->alias)) {
-			$this->alias = str_replace(array('(', ')', ' ', '-', '.', ','), '_', strtolower($this->title));
+			$this->alias = str_replace(array('(', ')', ' ', '-', '.', ',', '/', '&', ';'), '_', strtolower($this->title));
 			$this->alias = str_replace(array('__'), '_', $this->alias);
 		}
 	
@@ -80,7 +86,12 @@ class AutoSpecs extends CActiveRecord
 	
 	public static function getAll()
 	{
-		return CHtml::listData(self::model()->findAll(), 'id', 'title');
+		return (array)self::model()->findAll();
 	}	
+	
+	public function updateField()
+	{
+		
+	}
 
 }
