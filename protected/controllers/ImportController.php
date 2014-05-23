@@ -156,73 +156,7 @@ class ImportController extends Controller
 				}
 			}
 		}
-	}	
-	
-	public function actionSpecs()
-	{
-		$autoModels = (array)AutoModelYear::model()->findAll();
-		foreach ($autoModels as $keyYear=>$autoModelYear) {
-			$url = "http://autos.aol.com".$autoModelYear->url."specs/";
-			$content = Yii::app()->cache->get($url);
-			if (empty($content)) {		
-				$content = CUrlHelper::getPage($url, '', '');
-				Yii::app()->cache->set($url, $content, 60*60*24*31);
-			}	
-			//echo $content;
-			//die();
-			
-			file_put_contents('test.txt', $content);
-			
-			// Create DOM from URL or file
-			$html = file_get_html('test.txt');
-
-			// Find all images 
-			$groups = array();
-			$completions = array();
-			foreach($html->find('#mm_data_navi li a span') as $key=>$element) {
-				$title = trim($element->plaintext);
-				$groups[$key] = $this->getSpecsGroup(array('title'=>$title));	
-
-					$element = $html->find('.ymm_data_table_wrap', $key);
-					file_put_contents('tab.txt', $element->innertext);
-					$tab = file_get_html('tab.txt');
-					foreach($html->find('.key_column .lgPadding') as $elTrim) {
-						$titleTrim = trim($elTrim->plaintext);
-						if ($titleTrim == 'Trims') continue;
-						
-						$completions[$key] = $this->getCompletion(array('title'=>$titleTrim, 'model_year_id'=>$autoModelYear->id));
-						$completions[$key] = $this->getCompletion(array('title'=>$titleTrim));
-						
-						echo $titleTrim . '<br/>';
-					}
-					
-					foreach ($html->find('.ymm_data_table_wrap', $key)->find('.data_column') as $element) {
-						//d($element->find('.heading', 0)->plaintext);
-						
-						foreach ($element->find('.lgPadding') as $specsValue) {
-							echo $specsValue->plaintext . '<br/>';
-						}
-						
-						$specs = $this->getSpecs(array('title'=>$title, 'group_id'=>$groups[$key]->id));
-						//echo $element->plaintext . '<br/>';
-					}
-
-					//$groups[$key]['wrap'] = $element->innertext;	
-					//die();
-				
-			}
-				
-			//d($groups);
-			
-			die();
-			
-			if ($keyYear == 2) {
-				die();
-			}
-			
-			echo $url . '<br>';
-		}
-	}	
+	}		
 
 	private function getSpecsGroup($attributes)
 	{
@@ -262,5 +196,74 @@ class ImportController extends Controller
 
 		return $completion;
 	}
+	
+	public function actionCompletion()
+	{
+		$autoModels = (array)AutoModelYear::model()->findAll();
+		foreach ($autoModels as $keyYear=>$autoModelYear) {
+			$url = "http://autos.aol.com{$autoModelYear->url}equipment/";
+			$content = Yii::app()->cache->get($url);
+			if (empty($content)) {		
+				$content = CUrlHelper::getPage($url, '', '');
+				Yii::app()->cache->set($url, $content, 60*60*24*31);
+			}	
+			
+			file_put_contents('test.txt', $content);
+			$html = file_get_html('test.txt');			
+			$linkCompare = $html->find('.tools_first a', 0);
+			
+			$contentCompare = Yii::app()->cache->get($linkCompare->href);
+			if (empty($contentCompare)) {		
+				$contentCompare = CUrlHelper::getPage($linkCompare->href, '', '');
+				Yii::app()->cache->set($linkCompare->href, $contentCompare, 60*60*24*31);
+			}	
+			
+			file_put_contents('test.txt', $contentCompare);	
+			$htmlCompare = file_get_html('test.txt');	
+			foreach ($htmlCompare->find('#compTrimList1 option') as $option) {
+				$completion = $this->getCompletion(array('model_year_id'=>$autoModelYear->id,'code'=>$option->value, 'title'=>$option->plaintext));
+				echo $completion->id . '<br/>';
+			}
+		}
+	}	
+	
+	public function actionCompletionDetails()
+	{
+		$completions = (array)AutoCompletion::model()->findAll();
+		foreach ($completions as $key=>$completion) {
+			$url = "http://autos.aol.com/cars-compare?cur_page=details&v1={$completion->code}&v2=&v3=&v4=&v5=&v6=&v7=&v8=&v9=";
+			$content = Yii::app()->cache->get($url);
+			if (empty($content)) {		
+				$content = CUrlHelper::getPage($url, '', '');
+				Yii::app()->cache->set($url, $content, 60*60*24*31);
+			}	
+			
+			file_put_contents('test.txt', $content);
+			$html = file_get_html('test.txt');	
+			$specsGroup = null;
+			foreach ($html->find('#data_table tr') as $tr) {
+			
+				if ($tr->class == 'header') {
+					$specsGroup = $this->getSpecsGroup(array('title'=>trim(str_replace('Compare ', '', $tr->find('td', 0)->plaintext))));
+					echo  $specsGroup->title . '<br/>';
+				} else if (!empty($specsGroup)) {
+					$specs = $this->getSpecs(array('title'=>trim($tr->find('td', 0)->plaintext), 'group_id'=>$specsGroup->id));
+		
+					$completionSpecs = new AutoCompletionSpecsTemp;
+					$completionSpecs->attributes = array(
+						'completion_id' => $completion->id,
+						'specs_id' => $specs->id,
+						'value' => trim($tr->find('td', 1)->plaintext),
+					);
+					$completionSpecs->save();
+					
+					echo  $specs->title . '<br/>';
+				}
+
+			}
+			
+			die();
+		}
+	}	
 	
 }

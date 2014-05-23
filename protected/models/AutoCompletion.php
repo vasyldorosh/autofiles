@@ -28,7 +28,7 @@ class AutoCompletion extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, model_year_id', 'required'),
+			array('title, model_year_id, code', 'required'),
 		);
 	}
 	

@@ -32,6 +32,16 @@ class AutoSpecs extends CActiveRecord
 		);
 	}
 	
+	public function beforeValidate()
+	{
+		if (empty($this->alias)) {
+			$this->alias = str_replace(array('(', ')', ' ', '-', '.', ','), '_', strtolower($this->title));
+			$this->alias = str_replace(array('__'), '_', $this->alias);
+		}
+	
+		return parent::beforeValidate();
+	}
+	
  
 	/**
 	 * @return array customized attribute labels (name=>label)
