@@ -266,4 +266,20 @@ class ImportController extends Controller
 		}
 	}	
 	
+	public function actionT()
+	{
+		$specs = AutoSpecs::model()->findAll();
+		foreach ($specs as $spec) {
+			$spec->addField();
+		}
+	}
+	
+	public function actionD()
+	{
+		$specs = AutoSpecs::model()->findAll();
+		foreach ($specs as $spec) {
+			$spec->deleteField();
+		}
+	}
+	
 }

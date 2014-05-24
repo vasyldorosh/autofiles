@@ -9,7 +9,7 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
-		echo __FILE__;
+		$this->render('index');
 	}
 	
 	/**

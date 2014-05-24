@@ -108,6 +108,12 @@ body {
 				array('label' => Yii::t('admin', 'Makes'), 'url' => Yii::app()->createUrl('admin/make'), 'visible'=>(Access::is('make'))),
 				array('label' => Yii::t('admin', 'Models'), 'url' => Yii::app()->createUrl('admin/model'), 'visible'=>(Access::is('model'))),
 				array('label' => Yii::t('admin', 'Models by Year'), 'url' => Yii::app()->createUrl('admin/modelYear'), 'visible'=>(Access::is('modelYear'))),
+				array('label' => Yii::t('admin', 'Completions'), 'url' => Yii::app()->createUrl('admin/completion'), 'visible'=>(Access::is('completion'))),
+		
+				array('label' => Yii::t('admin', 'Specs'), 'visible'=>(Access::is('specs') || Access::is('specsGroup')), 'items' => array(
+					array('label' => Yii::t('admin', 'Specs'), 'url' => Yii::app()->createUrl('admin/specs'), 'visible'=>Access::is('specs')),
+					array('label' => Yii::t('admin', 'Specs Group'), 'url' => Yii::app()->createUrl('admin/specsGroup'), 'visible'=>Access::is('specsGroup')),
+				)),		
 		
 	        ),
         ),
@@ -138,6 +144,13 @@ $(document).ready(function(){
 	
 });
 </script>
+
+<?php if (YII_DEBUG):?>
+<div style="position:fixed;right:0;top:0;color:green;margin-right:5px;z-index:10000;">
+  <?php $stat = Yii::app()->db->getStats();?>
+  <?=$stat[0]?> / <?=round($stat[1],5)?>
+</div> 
+<?php endif;?>
 
 
 </body>

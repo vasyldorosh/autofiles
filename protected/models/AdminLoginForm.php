@@ -37,9 +37,9 @@ class AdminLoginForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-            'username' => 'E-mail',
-            'password' => 'Пароль',
-			'rememberMe'=>'Запомнить меня',
+            'username' => Yii::t('admin', 'E-mail'),
+            'password' => Yii::t('admin', 'Password'),
+			'rememberMe'=> Yii::t('admin', 'Remember Me'),
 		);
 	}
 
@@ -53,7 +53,7 @@ class AdminLoginForm extends CFormModel
 		{
 			$this->_identity=new AdminIdentity($this->username,$this->password);
 			if(!$this->_identity->authenticate())
-				$this->addError('password','Неправильный логин или пароль.');
+				$this->addError('password', Yii::t('admin', 'Incorrect login or/and password'));
 		}
 	}
 

@@ -1,13 +1,20 @@
 <?php
 
 class AutoSpecs extends CActiveRecord
-{
+{	
+	const CACHE_KEY_LIST = 'AUTO_SPECS_LIST';
+
+	const TYPE_STRING = 0;
 	const TYPE_INT = 1;
 	const TYPE_FLOAT = 2;
 	const TYPE_CHECKBOX = 3;
 	const TYPE_SELECT = 4;
-	const TYPE_STRING = 4;
-
+	
+	private $_oldAttributes = array();
+		
+	public $post_options;
+	public $optionsErrorsIndex;	
+		
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -34,21 +41,129 @@ class AutoSpecs extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, group_id', 'required'),
+			array('title, group_id, alias', 'required'),
+			array('append, post_options', 'safe'),
+			array('alias', 'unique'),
+			array('rank, type, is_filter, is_required', 'numerical', 'integerOnly' => true),
+			array('post_options', 'validateOptions', ),			
 		);
+	}		
+
+	public function validateOptions()
+	{
+		if ($this->type == self::TYPE_SELECT) {
+			foreach ($this->post_options as $index => $item) {
+				if (empty($item['value'])) {
+					$this->optionsErrorsIndex['value'][$index] = 1;
+				}
+			}
+			if (!empty($this->optionsErrorsIndex)) {
+				$this->addError('post_options', 'Значения списка пустое');
+			}
+		}
+	}	
+	
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		return array(
+            'Group' => array(self::BELONGS_TO, 'AutoSpecsGroup', 'group_id', 'together'=>true,),
+			'Options' => array(self::HAS_MANY, 'AutoSpecsOption', 'specs_id'),
+	    );
+	}	
+	
+	public function afterFind()
+	{
+		$this->_oldAttributes = $this->attributes;
+		
+		return parent::afterFind();
 	}
 	
 	public function beforeValidate()
 	{
 		if (empty($this->alias)) {
-			$this->alias = str_replace(array('(', ')', ' ', '-', '.', ',', '/', '&', ';'), '_', strtolower($this->title));
-			$this->alias = str_replace(array('__'), '_', $this->alias);
+			$this->alias = $this->title;
 		}
+		
+		$this->alias = str_replace(array('(', ')', ' ', '-', '.', ',', '/', '&', ';'), '_', strtolower($this->alias));
+		$this->alias = str_replace(array('__'), '_', $this->alias);		
 	
 		return parent::beforeValidate();
 	}
 	
- 
+	public function afterSave()
+	{
+		if ($this->isNewRecord) {
+			$this->addField();
+		} else {
+			$this->updateField();
+		}
+		
+		//options
+		if (!$this->isNewRecord && $this->scenario == 'update') {
+			if ($this->type == self::TYPE_SELECT) {
+				$optionIds = array();
+				foreach ($this->post_options as $option)  {
+					if (isset($option['id'])) 
+						$optionIds[] = $option['id'];				
+				}
+				
+				$criteria = new CDbCriteria();
+				$criteria->compare('specs_id', $this->id);
+				$issetOptions = AutoSpecsOption::model()->findAll($criteria);
+				foreach ($issetOptions as $issetOption) {
+					if (!in_array($issetOption->id, $optionIds)) {
+						$issetOption->delete();
+					}
+				}	
+			} else {			
+				 $options = (array)AutoSpecsOption::model()->findAllByAttributes(array('specs_id'=>$this->id));
+				 foreach ($options as $option) {
+					$option->delete();
+				 }
+			}
+		}
+		
+		if ($this->type == self::TYPE_SELECT) {		
+			foreach ($this->post_options as $option) {			
+				$optionModel = null;
+				if (isset($option['id']))  {
+					$optionModel = AutoSpecsOption::model()->findByPk($option['id']);
+				}
+					
+				if (empty($optionModel)) {
+					$optionModel = new AutoSpecsOption();
+					$optionModel->specs_id = $this->id;
+				}			
+			
+				$optionModel->value = $option['value'];
+				$optionModel->save();
+			}
+		}	
+		
+		
+		$this->clearCache();
+		
+		return parent::afterSave();
+	}	
+	
+	public function afterDelete()
+	{
+		$this->clearCache();
+		
+		$this->deleteField();
+		
+		return parent::afterDelete();
+	}	
+	
+	private function clearCache()
+	{
+		Yii::app()->cache->delete(self::CACHE_KEY_LIST);
+		Yii::app()->cache->delete(AutoSpecsOption::CACHE_KEY_LIST . $this->id);
+	}
+	
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -58,7 +173,55 @@ class AutoSpecs extends CActiveRecord
 			'id' => 'ID',
 			'title' => Yii::t('admin', 'Title'),
 			'group_id' => Yii::t('admin', 'Group'),
+			'alias' => Yii::t('admin', 'Alias'),
+			'is_required' => Yii::t('admin', 'Required'),
+			'is_filter' => Yii::t('admin', 'On in Filter'),
+			'type' => Yii::t('admin', 'Type'),
+			'append' => Yii::t('admin', 'Append'),
+			'rank' => Yii::t('admin', 'Rank'),
 		);
+	}
+	
+	public static function getTypes()
+	{
+		return array(
+			self::TYPE_STRING => Yii::t('admin', 'String (input)'),
+			self::TYPE_INT => Yii::t('admin', 'Integer number (input)'),
+			self::TYPE_FLOAT => Yii::t('admin', 'Float number (input)'),
+			self::TYPE_CHECKBOX => Yii::t('admin', 'Boolean (checkbox)'),
+			self::TYPE_SELECT => Yii::t('admin', 'List (select)'),
+		);
+	}
+	
+	public function getTypeTitle()
+	{
+		$types = self::getTypes();
+		if ($types[$this->type]) {
+			return $types[$this->type];
+		} else {
+			return false;
+		}
+	}	
+	
+	public static function getTypesType()
+	{
+		return array(
+			self::TYPE_STRING => 'VARCHAR(64)',
+			self::TYPE_INT => 'INT(11)',
+			self::TYPE_FLOAT => 'FLOAT(9,2)',
+			self::TYPE_CHECKBOX => 'TINYINT(1) UNSIGNED',
+			self::TYPE_SELECT => 'INT(11) UNSIGNED',
+		);
+	}
+	
+	public function getTypesTypeTitle()
+	{
+		$types = self::getTypesType();
+		if ($types[$this->type]) {
+			return $types[$this->type];
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -72,9 +235,15 @@ class AutoSpecs extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('title',$this->title, true);
-		$criteria->compare('group_id',$this->group_id);
+		$criteria->compare('t.id',$this->id);
+		$criteria->compare('t.title',$this->title, true);
+		$criteria->compare('t.append',$this->append, true);
+		$criteria->compare('t.group_id',$this->group_id);
+		$criteria->compare('t.type',$this->type);
+		$criteria->compare('t.is_filter',$this->is_filter);
+		$criteria->compare('t.is_required',$this->is_required);
+		$criteria->compare('t.rank',$this->rank);
+		$criteria->with = array('Group');
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -86,12 +255,77 @@ class AutoSpecs extends CActiveRecord
 	
 	public static function getAll()
 	{
-		return (array)self::model()->findAll();
+		$data = Yii::app()->cache->get(self::CACHE_KEY_LIST);
+		if (empty($data)) {
+			$data = (array)self::model()->findAll();
+			Yii::app()->cache->set(self::CACHE_KEY_LIST, $data, 60*60*24*31);
+		}
+		
+		return $data;
 	}	
 	
+	public static function getAllWithGroup()
+	{
+		$criteria=new CDbCriteria;
+		$criteria->order = 'Group.rank, Group.id, t.rank, t.id';
+		$criteria->with = array('Group' => array('together'=>true));
+		$specs = self::model()->findAll($criteria);
+		$data = array();
+		foreach ($specs as $spec) {
+			if (!isset($data[$spec->group_id]['title']))
+				$data[$spec->group_id]['title'] = $spec->Group->title;
+			
+			$data[$spec->group_id]['specs'][$spec->alias] = array(
+				'title' => $spec->title,
+				'type' => $spec->type,
+				'append' => $spec->append,
+				'id' => $spec->id,
+			);
+		}
+		
+		return $data;
+	}	
+	
+	public function addField()
+	{
+		Yii::app()->db->createCommand()->addColumn('auto_completion', 'specs_'.$this->alias, $this->getTypesTypeTitle());
+	}
+
 	public function updateField()
 	{
+		if ($this->_oldAttributes['alias'] != $this->alias) {
+			Yii::app()->db->createCommand()->renameColumn('auto_completion', 'specs_'.$this->_oldAttributes['alias'], 'specs_'.$this->alias);	
+		}
 		
+		if ($this->_oldAttributes['type'] != $this->type) {
+			Yii::app()->db->createCommand()->alterColumn('auto_completion', 'specs_'.$this->alias, $this->getTypesTypeTitle());	
+		}
 	}
+
+	public function deleteField()
+	{
+		if (AutoCompletion::model()->hasProperty('specs_'.$this->alias)) {
+			Yii::app()->db->createCommand()->dropColumn('auto_completion', 'specs_'.$this->alias);
+		}
+	}
+	
+	public function getDataOptions()
+	{
+		if (Yii::app()->request->isPostRequest) {
+			return $this->post_options;
+		} else {
+			if ($this->isNewRecord) {
+				return array();
+			} else {
+				$data = array();
+				foreach ($this->Options as $option) {
+					$data[] =  $option->attributes;
+				}
+				
+				return $data;
+			}
+		}
+	}
+	
 
 }

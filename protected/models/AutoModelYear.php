@@ -31,6 +31,7 @@ class AutoModelYear extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('year, model_id', 'required'),
+            array('id, year', 'numerical', 'integerOnly' => true,),					
 		);
 	}
 	
@@ -70,9 +71,11 @@ class AutoModelYear extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('year',$this->year, true);
-		$criteria->compare('model_id',$this->model_id);
+		$criteria->compare('t.id',$this->id);
+		$criteria->compare('t.year',$this->year, true);
+		$criteria->compare('t.model_id',$this->model_id);
+		
+		$criteria->with = array('Model' => array('together'=>true));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -87,7 +90,7 @@ class AutoModelYear extends CActiveRecord
 	{
 		$key = self::CACHE_KEY_PHOTOS . $this->id;
 		$cache = Yii::app()->cache->get($key);
-		if (empty($cache)) {
+		if (empty($cache) && !is_array($cache)) {
 			$cache = $this->galleryPhotos;
 			Yii::app()->cache->set($key, $cache, 60*60*24);
 		}
@@ -109,4 +112,12 @@ class AutoModelYear extends CActiveRecord
 	{
 		return $this->getThumb(100, 60, 'crop');
 	}	
+	
+	public static function getAllByModel($model_id) 
+	{
+		$criteria=new CDbCriteria;
+		$criteria->compare('model_id',$model_id);	
+	
+		return CHtml::listData(self::model()->findAll($criteria), 'id', 'year');		
+	}
 }

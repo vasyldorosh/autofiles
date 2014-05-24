@@ -29,6 +29,7 @@ class AutoSpecsGroup extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('title', 'required'),
+			array('rank', 'numerical', 'integerOnly' => true,),	
 		);
 	}
 	

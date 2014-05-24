@@ -7,14 +7,11 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'LadyBonus',
+	'name'=>'Autofiles',
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
-		'application.components.cs.*',
-        'application.components.validators.*',
-        'application.modules.files.components.*',
         'application.extensions.*'
 	),
 	// application components

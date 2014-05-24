@@ -167,10 +167,14 @@ class AutoModel extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('title',$this->title, true);
-		$criteria->compare('make_id',$this->make_id);
-
+		$criteria->compare('t.id',$this->id);
+		$criteria->compare('t.title',$this->title, true);
+		$criteria->compare('t.make_id',$this->make_id);
+		
+		$criteria->with = array('Make' => array('together'=>true));		
+			
+		
+		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 			'pagination'=>array(

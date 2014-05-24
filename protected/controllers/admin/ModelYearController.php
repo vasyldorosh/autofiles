@@ -75,4 +75,11 @@ class ModelYearController extends BackendController
 		Yii::app()->admin->setFlash('success', Yii::t('admin', 'Model by Year successfully deleted'));
 		$this->redirect('/admin/modelYear');
 	}
+    
+	public function actionGetByModel() {
+		$id = (int)Yii::app()->getRequest()->getParam('id', 0);
+		
+		$items = AutoModelYear::getAllByModel($id);
+		echo json_encode(array('items'=>$items));
+	}
 }

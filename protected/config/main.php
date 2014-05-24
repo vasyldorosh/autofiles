@@ -75,24 +75,33 @@ return array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
 		),
+
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
 				array(
-					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
+					'class' => 'CWebLogRoute',
+                    'enabled' =>YII_DEBUG_SHOW_PROFILER,
+                    'categories' => 'system.db.*',
 				),
-				// uncomment the following to show log messages on web pages
-				/*
-				array(
-					'class'=>'CWebLogRoute',
-				),
-				*/
 			),
-		),
+		),		
 		
-		'cache'=>array(
-            'class'=>'system.caching.CFileCache', // используем кэш на файлах
+        'cache' => array(
+            //'class' => 'application.components.MemCacheI',
+			'class'=>'system.caching.CMemCache',
+            'servers' => array(
+                array(
+                    'host' => '127.0.0.1',
+                    'port' => 11211,
+                    'weight' => 60,
+                ),
+            ),
+			'behaviors' => array(
+                'clear' => array(
+                    'class' => 'ext.TaggingBehavior',
+                ),
+            ),
         ),
 		
         'file' => array(

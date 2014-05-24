@@ -1,5 +1,5 @@
     <div class="page-header">
-        <h3>Авторизация</h3>
+        <h3><?=Yii::t('admin', 'Sign In')?></h3>
     </div>
     <div>
         <? $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
@@ -15,7 +15,7 @@
 				<?php echo $form->label($model, 'rememberMe', array('class'=>'remember-label'));?>
 			</div>
 
-			<button class="btn btn-success" type="submit">Войти</button>		
+			<button class="btn btn-success" type="submit"><?=Yii::t('admin', 'Login')?></button>		
 		</div>
 			
         <? $this->endWidget()?>
