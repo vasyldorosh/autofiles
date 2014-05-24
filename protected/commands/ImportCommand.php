@@ -240,8 +240,7 @@ class ImportCommand extends CConsoleCommand
 				Yii::app()->cache->set($url, $content, 60*60*24*31);
 			}	
 			
-			file_put_contents('test.txt', $content);
-			$html = file_get_html('test.txt');	
+			$html = str_get_html($conten);	
 			$specsGroup = null;
 			foreach ($html->find('#data_table tr') as $tr) {
 			
