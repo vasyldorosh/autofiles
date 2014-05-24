@@ -203,7 +203,7 @@ class ImportCommand extends CConsoleCommand
 	public function actionCompletion()
 	{
 		$criteria = new CDbCriteria();
-		$criteria->addCondition('id > 2900');
+		$criteria->addCondition('id > 3413');
 	
 		$autoModels = (array)AutoModelYear::model()->findAll($criteria);
 		foreach ($autoModels as $keyYear=>$autoModelYear) {
