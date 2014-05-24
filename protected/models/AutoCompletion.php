@@ -80,6 +80,7 @@ class AutoCompletion extends CActiveRecord
 	{
 		//создаем алиас к тайтлу
 		$this->buildAlias();
+		$this->update_time = time();
 		return parent::beforeValidate();
 	}
 	

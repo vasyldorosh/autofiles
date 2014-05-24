@@ -75,7 +75,8 @@ return array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
 		),
-
+		
+		/*
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
@@ -85,7 +86,19 @@ return array(
                     'categories' => 'system.db.*',
 				),
 			),
-		),		
+		),
+		*/
+		
+		 'log'=>array(
+			'class'=>'CLogRouter',
+			'routes'=>array(      
+			  array(
+				'class'=>'CProfileLogRoute',
+				'report'=>'summary',
+			  ),			  
+			),
+		  ),		
+		
 		
         'cache' => array(
             //'class' => 'application.components.MemCacheI',

@@ -202,30 +202,28 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionCompletion()
 	{
-		$autoModels = (array)AutoModelYear::model()->findAll();
+		$criteria = new CDbCriteria();
+		$criteria->addCondition('id > 2900');
+	
+		$autoModels = (array)AutoModelYear::model()->findAll($criteria);
 		foreach ($autoModels as $keyYear=>$autoModelYear) {
 			echo $autoModelYear->id . ' - ' . $autoModelYear->year . "\n";
 			$url = "http://autos.aol.com{$autoModelYear->url}equipment/";
-			$content = Yii::app()->cache->get($url);
-			if (empty($content)) {		
-				$content = CUrlHelper::getPage($url, '', '');
-				Yii::app()->cache->set($url, $content, 60*60*24*31);
-			}	
+			$content = CUrlHelper::getPage($url, '', '');
+			preg_match_all('/cars-compare\?v1=(.*?)\&amp\;type\=other/', $content, $matches);
+									
+			$html = str_get_html($content);			
+			$linkCompare = 'http://autos.aol.com/' . $matches[0][0];
 			
-			file_put_contents('test.txt', $content);
-			$html = file_get_html('test.txt');			
-			$linkCompare = $html->find('.tools_first a', 0);
+			$contentCompare = CUrlHelper::getPage($linkCompare, '', '');	
+			preg_match_all('/<select name="trim_1" class="trimSelecter" id="compTrimList1">(.*?)<\/select>/', str_replace(array("\n", "\t"), "", $contentCompare), $matches);
 			
-			$contentCompare = Yii::app()->cache->get($linkCompare->href);
-			if (empty($contentCompare)) {		
-				$contentCompare = CUrlHelper::getPage($linkCompare->href, '', '');
-				Yii::app()->cache->set($linkCompare->href, $contentCompare, 60*60*24*31);
-			}	
-			
-			file_put_contents('test.txt', $contentCompare);	
-			$htmlCompare = file_get_html('test.txt');	
-			foreach ($htmlCompare->find('#compTrimList1 option') as $option) {
-				$completion = $this->getCompletion(array('model_year_id'=>$autoModelYear->id,'code'=>$option->value, 'title'=>$option->plaintext));
+			preg_match_all('/<option value="(.*?)">(.*?)<\/option>/', $matches[1][0], $matchOptopns);
+			//d($matchOptopns);
+		
+
+			foreach ($matchOptopns[1] as $key=>$code) {
+				$completion = $this->getCompletion(array('model_year_id'=>$autoModelYear->id,'code'=>$code, 'title'=>$matchOptopns[2][$key]));
 				echo "\t" . $completion->id . ' - ' . $completion->title . "\n";
 			}
 		}
@@ -261,7 +259,7 @@ class ImportCommand extends CConsoleCommand
 					);
 					$completionSpecs->save();
 					
-					echo  $specs->title . '<br/>';
+					echo  $specs->title . "\n";
 				}
 
 			}
