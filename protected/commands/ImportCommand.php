@@ -211,8 +211,7 @@ class ImportCommand extends CConsoleCommand
 			$url = "http://autos.aol.com{$autoModelYear->url}equipment/";
 			$content = CUrlHelper::getPage($url, '', '');
 			preg_match_all('/cars-compare\?v1=(.*?)\&amp\;type\=other/', $content, $matches);
-									
-			$html = str_get_html($content);			
+											
 			$linkCompare = 'http://autos.aol.com/' . $matches[0][0];
 			
 			$contentCompare = CUrlHelper::getPage($linkCompare, '', '');	
