@@ -234,13 +234,10 @@ class ImportCommand extends CConsoleCommand
 		$completions = (array)AutoCompletion::model()->findAll();
 		foreach ($completions as $key=>$completion) {
 			$url = "http://autos.aol.com/cars-compare?cur_page=details&v1={$completion->code}&v2=&v3=&v4=&v5=&v6=&v7=&v8=&v9=";
-			$content = Yii::app()->cache->get($url);
-			if (empty($content)) {		
-				$content = CUrlHelper::getPage($url, '', '');
-				Yii::app()->cache->set($url, $content, 60*60*24*31);
-			}	
 			
-			$html = str_get_html($conten);	
+			$content = CUrlHelper::getPage($url, '', '');
+			
+			$html = str_get_html($content);	
 			$specsGroup = null;
 			foreach ($html->find('#data_table tr') as $tr) {
 			
