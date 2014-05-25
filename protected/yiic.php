@@ -10,7 +10,7 @@ defined('YII_DEBUG_SHOW_PROFILER') or define('YII_DEBUG_SHOW_PROFILER',false);
 defined('YII_DEBUG_PROFILING') or define('YII_DEBUG_PROFILING',true);
 defined('YII_DEBUG_DISPLAY_TIME') or define('YII_DEBUG_DISPLAY_TIME',false);
 
-include('../simple_html_dom.php');
+include(dirname(__FILE__)'/../simple_html_dom.php');
 $yiic=dirname(__FILE__).'/../yii/framework/yiic.php';
 $config=dirname(__FILE__).'/config/console.php';
 
