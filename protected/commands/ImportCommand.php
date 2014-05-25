@@ -203,7 +203,7 @@ class ImportCommand extends CConsoleCommand
 	public function actionCompletion()
 	{
 		$criteria = new CDbCriteria();
-		$criteria->addCondition('id > 3413');
+		$criteria->addCondition('id > 4788');
 	
 		$autoModels = (array)AutoModelYear::model()->findAll($criteria);
 		foreach ($autoModels as $keyYear=>$autoModelYear) {
@@ -230,33 +230,67 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionCompletionDetails()
 	{
-		$completions = (array)AutoCompletion::model()->findAll();
-		foreach ($completions as $key=>$completion) {
-			$url = "http://autos.aol.com/cars-compare?cur_page=details&v1={$completion->code}&v2=&v3=&v4=&v5=&v6=&v7=&v8=&v9=";
-			
-			$content = CUrlHelper::getPage($url, '', '');
-			
-			$html = str_get_html($content);	
-			$specsGroup = null;
-			foreach ($html->find('#data_table tr') as $tr) {
-			
-				if ($tr->class == 'header') {
-					$specsGroup = $this->getSpecsGroup(array('title'=>trim(str_replace('Compare ', '', $tr->find('td', 0)->plaintext))));
-					echo  $specsGroup->title . '<br/>';
-				} else if (!empty($specsGroup)) {
-					$specs = $this->getSpecs(array('title'=>trim($tr->find('td', 0)->plaintext), 'group_id'=>$specsGroup->id));
+		$limit = 1000;
 		
-					$completionSpecs = new AutoCompletionSpecsTemp;
-					$completionSpecs->attributes = array(
-						'completion_id' => $completion->id,
-						'specs_id' => $specs->id,
-						'value' => trim($tr->find('td', 1)->plaintext),
-					);
-					$completionSpecs->save();
+		for ($offset=0; $offset<30000; $offset+=1000) {
+		
+			$criteria = new CDbCriteria();
+			$criteria->limit = $limit;		
+			$criteria->offset = $offset;	
+			$criteria->addCondition('id > 2442');	
+			
+			$completions = AutoCompletion::model()->findAll($criteria);
+			if (empty($completions))
+				die();
+			
+			foreach ($completions as $key=>$completion) {
+				$url = "http://autos.aol.com/cars-compare?cur_page=details&v1={$completion->code}&v2=&v3=&v4=&v5=&v6=&v7=&v8=&v9=";
+				
+				$content = CUrlHelper::getPage($url, '', '');
+				
+				$html = str_get_html($content);	
+				$specsGroup = null;
+				foreach ($html->find('#data_table tr') as $tr) {
+						
 					
-					echo  $specs->title . "\n";
-				}
+					if ($tr->class == 'header') {
+						$specsGroup = $this->getSpecsGroup(array('title'=>trim(str_replace('Compare ', '', $tr->find('td', 0)->plaintext))));
+					} else if (!empty($specsGroup)) {
+						$specs = $this->getSpecs(array('title'=>trim($tr->find('td', 0)->plaintext), 'group_id'=>$specsGroup->id));
+			
+						$completionSpecs = new AutoCompletionSpecsTemp;
+						$completionSpecs->attributes = array(
+							'completion_id' => $completion->id,
+							'specs_id' => $specs->id,
+							'value' => trim($tr->find('td', 1)->plaintext),
+						);
+						
+						$completionSpecs->save();
+					}
 
+				}
+				
+				$competitorCount = 0;
+				if (substr_count($content, "Competitors for") == 1) {
+					preg_match_all('/<a href="(.*?)" name="(.*?)" class="addVeh">/', $content, $matches);	
+					if (isset($matches[2]) && !empty($matches[2])) {
+						foreach ($matches[2] as $competitor_code) {
+							$competitorCompletion = AutoCompletion::model()->findByAttributes(array('code'=>$competitor_code));
+							if (!empty($competitorCompletion)) {
+								$competitorsTemp = new AutoCompletionCompetitorsTemp;
+								$competitorsTemp->completion_id = $completion->id;
+								$competitorsTemp->competitor_id = $competitorCompletion->id;
+								$competitorsTemp->save();
+								$competitorCount++;
+							} else {
+								file_put_contents('Completion_404.txt', $competitor_code . "\n", true);
+							}	
+						}
+					}
+						
+				}
+				
+				echo $completion->id . ' ' . $competitorCount . ' ' . date('H:i:s') . "\n";
 			}
 		}
 	}		

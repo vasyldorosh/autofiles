@@ -288,7 +288,7 @@ class AutoSpecs extends CActiveRecord
 	
 	public function addField()
 	{
-		Yii::app()->db->createCommand()->addColumn('auto_completion', 'specs_'.$this->alias, $this->getTypesTypeTitle());
+		//Yii::app()->db->createCommand()->addColumn('auto_completion', 'specs_'.$this->alias, $this->getTypesTypeTitle());
 	}
 
 	public function updateField()
