@@ -39,6 +39,7 @@ class SpecsController extends BackendController
 		Access::is('specs.update', 403);
 	
         $model = $this->loadModelYear($id);
+        $model->scenario = 'updateAdmin';
 
         if (isset($_POST['AutoSpecs'])) {
 			$model->attributes = $_POST['AutoSpecs'];

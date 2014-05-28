@@ -4,7 +4,9 @@ class AutoCompletion extends CActiveRecord
 {
 	public $model_id;
 	public $year;
-
+	
+	const PREFIX_SPECS = 'specs_';
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -38,16 +40,16 @@ class AutoCompletion extends CActiveRecord
 		
 		$specs = AutoSpecs::getAll();
 		foreach ($specs as $spec) {
-			$rules[] = array('specs_'.$spec['alias'], 'safe');
+			$rules[] = array(self::PREFIX_SPECS.$spec['alias'], 'safe');
 		
 			if ($spec['is_required'])		
-				$rules[] = array('specs_'.$spec['alias'], 'required');
+				$rules[] = array(self::PREFIX_SPECS.$spec['alias'], 'required');
 				
 			if (in_array($spec['type'], array(AutoSpecs::TYPE_INT, AutoSpecs::TYPE_CHECKBOX, AutoSpecs::TYPE_SELECT)))
-				$rules[] = array('specs_'.$spec['alias'], 'numerical', 'integerOnly' => true);
+				$rules[] = array(self::PREFIX_SPECS.$spec['alias'], 'numerical', 'integerOnly' => true);
 			
 			if ($spec['type'] == AutoSpecs::TYPE_FLOAT)
-				$rules[] = array('specs_'.$spec['alias'], 'numerical');		
+				$rules[] = array(self::PREFIX_SPECS.$spec['alias'], 'numerical');		
 		}	
 
 		return $rules;
@@ -80,8 +82,13 @@ class AutoCompletion extends CActiveRecord
 	{
 		//создаем алиас к тайтлу
 		$this->buildAlias();
-		$this->update_time = time();
 		return parent::beforeValidate();
+	}
+	
+	protected function beforeSave()
+	{
+		$this->update_time = time();
+		return parent::beforeSave();
 	}
 	
 	/**
@@ -112,7 +119,7 @@ class AutoCompletion extends CActiveRecord
 		
 		$specs = AutoSpecs::getAll();
 		foreach ($specs as $spec) {
-			$labels['specs_'.$spec['alias']] = $spec['title'];
+			$labels[self::PREFIX_SPECS.$spec['alias']] = $spec['title'];
 		}
 		
 		return $labels;
@@ -124,11 +131,8 @@ class AutoCompletion extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
-		$criteria->select = "t.id, t.title, ModelYear.*, Model.*";
+		//$criteria->select = "t.id, t.title, t.model_year_id";
 
 		$criteria->compare('t.id',$this->id);
 		$criteria->compare('t.title',$this->title, true);
@@ -138,17 +142,24 @@ class AutoCompletion extends CActiveRecord
 			'ModelYear',
 			'ModelYear.Model',
 		);
-	
+		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 			'pagination'=>array(
 				'pageSize'=>Yii::app()->request->getParam('pageSize', Yii::app()->params->defaultPerPage),
 			),			
 		));
+		
+		
 	}
 	
-	public static function getAll()
+	public static function deleteSpecsAttributes()
 	{
-		return CHtml::listData(self::model()->findAll(), 'id', 'title');
+		$columns = AutoCompletion::model()->getMetaData()->tableSchema->columns;
+		foreach ($columns as $field=>$data) {
+			if (preg_match('/^[specs_]/', $field) && $field!='code') {
+				Yii::app()->db->createCommand()->dropColumn('auto_completion', $field);
+			}
+		}
 	}
 }

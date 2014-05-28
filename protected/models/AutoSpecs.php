@@ -14,6 +14,7 @@ class AutoSpecs extends CActiveRecord
 		
 	public $post_options;
 	public $optionsErrorsIndex;	
+	public $maxlength = 2;	
 		
 	/**
 	 * Returns the static model of the specified AR class.
@@ -44,7 +45,8 @@ class AutoSpecs extends CActiveRecord
 			array('title, group_id, alias', 'required'),
 			array('append, post_options', 'safe'),
 			array('alias', 'unique'),
-			array('rank, type, is_filter, is_required', 'numerical', 'integerOnly' => true),
+			array('rank, type, is_filter, is_required, maxlength', 'numerical', 'integerOnly' => true),
+			array('maxlength', 'length', 'min' => 2, 'max' => 255),
 			array('post_options', 'validateOptions', ),			
 		);
 	}		
@@ -96,16 +98,16 @@ class AutoSpecs extends CActiveRecord
 	public function afterSave()
 	{
 		if ($this->isNewRecord) {
-			$this->addField();
+			//$this->addField();
 		} else {
-			$this->updateField();
+			//$this->updateField();
 		}
 		
 		//options
-		if (!$this->isNewRecord && $this->scenario == 'update') {
+		if (!$this->isNewRecord && $this->scenario == 'updateAdmin') {
 			if ($this->type == self::TYPE_SELECT) {
 				$optionIds = array();
-				foreach ($this->post_options as $option)  {
+				foreach ((array)$this->post_options as $option)  {
 					if (isset($option['id'])) 
 						$optionIds[] = $option['id'];				
 				}
@@ -118,15 +120,18 @@ class AutoSpecs extends CActiveRecord
 						$issetOption->delete();
 					}
 				}	
-			} else {			
-				 $options = (array)AutoSpecsOption::model()->findAllByAttributes(array('specs_id'=>$this->id));
+			} else {
+				 $criteria = new CDbCriteria();
+				 $criteria->compare('specs_id', $this->id);
+				
+				 $options = AutoSpecsOption::model()->findAll($criteria);
 				 foreach ($options as $option) {
 					$option->delete();
 				 }
 			}
 		}
 		
-		if ($this->type == self::TYPE_SELECT) {		
+		if ($this->type == self::TYPE_SELECT && is_array($this->post_options)) {		
 			foreach ($this->post_options as $option) {			
 				$optionModel = null;
 				if (isset($option['id']))  {
@@ -153,7 +158,7 @@ class AutoSpecs extends CActiveRecord
 	{
 		$this->clearCache();
 		
-		$this->deleteField();
+		//$this->deleteField();
 		
 		return parent::afterDelete();
 	}	
@@ -237,6 +242,7 @@ class AutoSpecs extends CActiveRecord
 
 		$criteria->compare('t.id',$this->id);
 		$criteria->compare('t.title',$this->title, true);
+		$criteria->compare('t.alias',$this->alias, true);
 		$criteria->compare('t.append',$this->append, true);
 		$criteria->compare('t.group_id',$this->group_id);
 		$criteria->compare('t.type',$this->type);
@@ -286,26 +292,39 @@ class AutoSpecs extends CActiveRecord
 		return $data;
 	}	
 	
+	public static function getAllWithAttributes()
+	{
+		$criteria=new CDbCriteria;
+		$specs = self::model()->findAll($criteria);
+		$data = array();
+		foreach ($specs as $spec) {
+			
+			$data[$spec->id] = $spec->attributes;
+		}
+		
+		return $data;
+	}	
+	
 	public function addField()
 	{
-		//Yii::app()->db->createCommand()->addColumn('auto_completion', 'specs_'.$this->alias, $this->getTypesTypeTitle());
+		Yii::app()->db->createCommand()->addColumn('auto_completion', AutoCompletion::PREFIX_SPECS.$this->alias, $this->getTypesTypeTitle());
 	}
 
 	public function updateField()
 	{
 		if ($this->_oldAttributes['alias'] != $this->alias) {
-			Yii::app()->db->createCommand()->renameColumn('auto_completion', 'specs_'.$this->_oldAttributes['alias'], 'specs_'.$this->alias);	
+			Yii::app()->db->createCommand()->renameColumn('auto_completion', AutoCompletion::PREFIX_SPECS.$this->_oldAttributes['alias'], AutoCompletion::PREFIX_SPECS.$this->alias);	
 		}
 		
 		if ($this->_oldAttributes['type'] != $this->type) {
-			Yii::app()->db->createCommand()->alterColumn('auto_completion', 'specs_'.$this->alias, $this->getTypesTypeTitle());	
+			Yii::app()->db->createCommand()->alterColumn('auto_completion', AutoCompletion::PREFIX_SPECS.$this->alias, $this->getTypesTypeTitle());	
 		}
 	}
 
 	public function deleteField()
 	{
-		if (AutoCompletion::model()->hasProperty('specs_'.$this->alias)) {
-			Yii::app()->db->createCommand()->dropColumn('auto_completion', 'specs_'.$this->alias);
+		if (AutoCompletion::model()->hasProperty(AutoCompletion::PREFIX_SPECS.$this->alias)) {
+			Yii::app()->db->createCommand()->dropColumn('auto_completion', AutoCompletion::PREFIX_SPECS.$this->alias);
 		}
 	}
 	

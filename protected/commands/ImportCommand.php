@@ -187,6 +187,19 @@ class ImportCommand extends CConsoleCommand
 		return $group;
 	}	
 	
+	private function getOption($attributes)
+	{
+		$option = AutoSpecsOption::model()->findByAttributes($attributes);
+						
+		if (empty($option)) {
+			$option = new AutoSpecsOption;
+			$option->attributes = $attributes;
+			$option->save();
+		} 
+
+		return $option;
+	}	
+	
 	private function getCompletion($attributes)
 	{
 		$completion = AutoCompletion::model()->findByAttributes($attributes);
@@ -200,6 +213,9 @@ class ImportCommand extends CConsoleCommand
 		return $completion;
 	}
 	
+	/*
+	* Парсинг кодов комплектации
+	*/	
 	public function actionCompletion()
 	{
 		$criteria = new CDbCriteria();
@@ -218,8 +234,6 @@ class ImportCommand extends CConsoleCommand
 			preg_match_all('/<select name="trim_1" class="trimSelecter" id="compTrimList1">(.*?)<\/select>/', str_replace(array("\n", "\t"), "", $contentCompare), $matches);
 			
 			preg_match_all('/<option value="(.*?)">(.*?)<\/option>/', $matches[1][0], $matchOptopns);
-			//d($matchOptopns);
-		
 
 			foreach ($matchOptopns[1] as $key=>$code) {
 				$completion = $this->getCompletion(array('model_year_id'=>$autoModelYear->id,'code'=>$code, 'title'=>$matchOptopns[2][$key]));
@@ -228,16 +242,23 @@ class ImportCommand extends CConsoleCommand
 		}
 	}	
 	
+	/*
+	* Парсинг страницы комплектации
+	*/	
 	public function actionCompletionDetails()
 	{
 		$limit = 1000;
+		
+		$from = 16973;
+		AutoCompletionCompetitorsTemp::model()->deleteAllByAttributes(array('completion_id'=>$from));
+		AutoCompletionSpecsTemp::model()->deleteAllByAttributes(array('completion_id'=>$from));		
 		
 		for ($offset=0; $offset<30000; $offset+=1000) {
 		
 			$criteria = new CDbCriteria();
 			$criteria->limit = $limit;		
 			$criteria->offset = $offset;	
-			$criteria->addCondition('id > 2442');	
+			$criteria->addCondition("id >= $from");	//
 			
 			$completions = AutoCompletion::model()->findAll($criteria);
 			if (empty($completions))
@@ -286,14 +307,227 @@ class ImportCommand extends CConsoleCommand
 								file_put_contents('Completion_404.txt', $competitor_code . "\n", true);
 							}	
 						}
-					}
-						
+					}	
 				}
 				
 				echo $completion->id . ' ' . $competitorCount . ' ' . date('H:i:s') . "\n";
 			}
 		}
-	}		
+	}
+	
+	/*
+	* Формируем тип полей характеристик
+	* Добавляем сформирование поля в таблицу комплектаций
+	*/
+	public function actionSpecs()
+	{
+		$time = time();
+		
+		AutoSpecsOption::model()->deleteAll();
+		$specs = AutoSpecs::model()->findAll();
+		$countSelect = 0;
+		$countFloatDD = 0;
+		foreach ($specs as $spec)
+		{
+			$sql = "SELECT DISTINCT value as value FROM `auto_completion_specs_temp` WHERE specs_id={$spec->id} ORDER BY value";
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();
+			$size = sizeof($rows);
+			
+			$type = AutoSpecs::TYPE_STRING;
+			$append = '';
+			
+			if ($size > 0) {
+			
+				$checkAppends = array(
+					'lbs\.'=>'lbs.', 
+					'passengers'=>'passengers', 
+					'mph'=>'mph', 
+					'cu\.ft\.'=>'cu.ft.', 
+					'gal\.'=>'gal.', 
+					'doors'=>'doors',
+					'mpg'=>'mpg',
+				);
+				
+				$isMatch = false;
+				
+				if (in_array($spec->id, array(97))) {
+					$isMatch = true;
+				}
+				
+				if (!$isMatch) {
+					foreach ($checkAppends as $checkAppendKey=>$checkAppendValue) {
+						if (preg_match("/^[0-9]{1,10}[\,][0-9]{1,10} $checkAppendKey/", $rows[0]['value'])) {
+							echo $rows[0]['value'] . "\n";
+							$append = $checkAppendValue;
+							$type = AutoSpecs::TYPE_FLOAT;
+							$isMatch = true;
+						} else if (preg_match("/^[0-9]{1,10}[\.][0-9]{1,10} $checkAppendKey/", $rows[0]['value'])) {
+							echo $rows[0]['value'] . "\n";
+							$append = $checkAppendValue;
+							$type = AutoSpecs::TYPE_FLOAT;
+							$isMatch = true;
+							
+						} else if (preg_match("/^[0-9]{1,10} $checkAppendKey/", $rows[0]['value'])) {
+							echo $rows[0]['value'] . "\n";
+							$append = $checkAppendValue;
+							$type = AutoSpecs::TYPE_INT;
+							$isMatch = true;
+						}					
+					}
+				}
+				
+				if (!$isMatch) {
+				
+					if (preg_match('/^[\$][0-9]{1,10}[\,][0-9]{1,5}/', $rows[0]['value'])) {
+						echo $spec->id . " " . $rows[0]['value'] . "\n";
+						$type = AutoSpecs::TYPE_INT;
+						$append = '$';
+						
+					} else if (preg_match('/^[\$][0-9]{1,10}/', $rows[0]['value'])) {
+						echo $spec->id . " " . $rows[0]['value'] . "\n";
+						$type = AutoSpecs::TYPE_INT;
+						$append = '$';					
+											
+					} else if (preg_match('/^[0-9]{1,10}[\.]{1}[0-9]{1,10} \"/', $rows[0]['value']) || preg_match('/^[0-9]{1,10}[\.]{1}[0-9]{1,10} \'\'/', $rows[0]['value'])) {
+						echo $spec->id . " " . $rows[0]['value'] . "\n";
+						$type = AutoSpecs::TYPE_FLOAT;
+						$append = '"';					
+						
+					} else if (preg_match('/^[0-9]{1,10} \"/', $rows[0]['value']) || preg_match('/^[0-9]{1,10} \'\'/', $rows[0]['value'])) {
+						echo $spec->id . " " . $rows[0]['value'] . "\n";
+						$type = AutoSpecs::TYPE_INT;
+						$append = '"';						
+						
+					} else if (preg_match('/^[\.][0-9]{1,10}/', $rows[0]['value'])) {
+						echo $spec->id . " " . $rows[0]['value'] . "\n";
+						$type = AutoSpecs::TYPE_FLOAT;
+						$append = '';						
+
+					} else if (preg_match('/^[0-9]{1,10}$/', $rows[0]['value'])) {
+						echo $spec->id . " " . $rows[0]['value'] . "\n";
+						$type = AutoSpecs::TYPE_INT;
+						$append = '';
+						
+					} else if ($size <= 100 && $size >= 2) {
+
+						foreach ($rows as $row) {
+							$option = $this->getOption(array('specs_id'=>$spec->id, 'value'=>$row['value']));
+							echo "\t option - $option->value \n";
+						}
+
+						$type = AutoSpecs::TYPE_SELECT;
+						$append = '';					
+					}
+				}
+				
+				$spec->type = $type;
+				$spec->append = $append;
+				$spec->save(false);	
+
+				echo $spec->id . ' ' .$spec->alias . ' ' . $spec->type . "\n";
+			} 		
+		}
+		
+		/*
+		AutoCompletion::deleteSpecsAttributes();
+		$specs = AutoSpecs::model()->findAll();
+		foreach ($specs as $spec) {
+			$spec->addField();
+			echo "added filed $spec->alias \n";
+		}
+		*/
+		
+		$t = time()-$time;
+		
+		echo $t;
+		
+	}
+	
+	/*
+	* Заполняем поля таблицы комплектации значениямы
+	*/
+	public function actionCompletionData()
+	{
+		$limit = 1000;
+		
+		$specsData = AutoSpecs::getAllWithAttributes();
+		
+		for ($offset=0; $offset<30000; $offset+=$limit) {
+		
+			$criteria = new CDbCriteria();
+			$criteria->limit = $limit;		
+			$criteria->offset = $offset;	
+			//$criteria->addCondition('id > 3598');	
+			
+			$completions = AutoCompletion::model()->findAll($criteria);
+			if (empty($completions))
+				die();
+			
+			foreach ($completions as $key=>$completion) {
+				$criteria = new CDbCriteria();
+				$criteria->compare('completion_id', $completion->id);				
+			
+				$completionSpecs = AutoCompletionSpecsTemp::model()->findAll($criteria);	
+				foreach ($completionSpecs as $completionSpec) {
+					$specData = $specsData[$completionSpec['specs_id']];
+				
+					$value = trim($completionSpec->value);
+						
+					if (in_array($value, array('-'))) {
+						$value = null;
+					} else {
+					
+						if ($specData['type'] == AutoSpecs::TYPE_INT) {
+							$value = (int) str_replace(array('$', ',', '"'. "'", 'lbs.', 'mph', 'cu.ft.', 'gal.', 'doors', 'passengers', 'mpg'), '', $value);
+						} else if ($specData['type'] == AutoSpecs::TYPE_FLOAT) {
+							$value = (float) str_replace(array('$', ',', '"'. "'", 'lbs.', 'mph', 'cu.ft.', 'gal.', 'doors', 'passengers', 'mpg'), '', $value);
+						} else if ($specData['type'] == AutoSpecs::TYPE_SELECT) {
+							$value = AutoSpecsOption::getIdByValueAndSpecsId($specData['id'], $value);
+						}
+					}
+						
+					$attr = AutoCompletion::PREFIX_SPECS . $specData['alias'];
+					if ($completion->hasAttribute($attr) && !empty($value))
+						$completion->$attr = $value;
+							
+					//echo $completion->id . ' ' . $specData['id'] ." $completionSpec->value \t $value $attr \n"; 							
+					//echo "------------------------------------------------------- \n"; 							
+			
+				}
+				unset($completionSpecs);
+
+				if(!$completion->save()) {
+					foreach ($completion->errors as $key=>$error) {
+						echo "\t" . $completion->$key . "\t" . $error[0] . "\n";
+					}
+				}
+						
+				echo $completion->id . ' ' . date('H:i:s') . "\n";
+			}
+			unset($completions);
+		}
+	}
+
+	/*
+	* Восстановление кодов
+	*/	
+	public function actionCode()
+	{
+		$limit = 1000;
+		
+		for ($offset=0; $offset<30000; $offset+=1000) {
+			$sql = "SELECT id, code FROM auto_completion_temp LIMIT $offset, $limit";
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();
+			if (empty($rows)) die();
+			foreach ($rows as $row) {
+				$completion = AutoCompletion::model()->findByPk($row['id']);
+				$completion->code = $row['code'];
+				$completion->save(false);
+				echo $completion->id . ' ' . $completion->code . "\n";
+			}
+		}
+	}
+	
 
 }
 ?>

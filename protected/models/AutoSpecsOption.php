@@ -11,7 +11,7 @@
  */
 class AutoSpecsOption extends CActiveRecord
 {
-	const CACHE_KEY_LIST = 'AUTO_SPECS_OPTION_LIST_';
+	const CACHE_KEY_LIST = 'AUTO_SPECS_OPTION_LIST__';
 
 	public static function model($className = __CLASS__) 
 	{ 
@@ -48,12 +48,25 @@ class AutoSpecsOption extends CActiveRecord
 		);
 	}
 	
+	public function afterSave()
+	{
+		$this->clearCache();
+		
+		return parent::afterSave();
+	}	
+	
 	public function afterDelete()
 	{
 		AutoCompletion::model()->updateAll(array("specs_".$this->Specs->alias => NULL));
+		$this->clearCache();
 		
 		return parent::afterDelete();
 	}	
+	
+	private function clearCache()
+	{
+		Yii::app()->cache->delete(self::CACHE_KEY_LIST . $this->specs_id);
+	}
 	
 	public static function getAllBySpecs($specs_id)
 	{
@@ -62,11 +75,22 @@ class AutoSpecsOption extends CActiveRecord
 		if (empty($data) && !is_array($data)) {
 			$criteria=new CDbCriteria;
 			$criteria->compare('specs_id', $specs_id);		
-			$data = CHtml::listData(self::model()->findAll(), 'id', 'value');
+			$data = CHtml::listData(self::model()->findAll($criteria), 'id', 'value');
 			Yii::app()->cache->set($key, $data, 60*60*24*31);
 		}
 		
-		return $data;
+		return (array)$data;
+	}
+	
+	public static function getIdByValueAndSpecsId($specs_id, $value) 
+	{
+		$options = self::getAllBySpecs($specs_id);
+		$options = array_flip($options);
+		if (isset($options[$value])) {
+			return $options[$value];
+		} else {
+			return false;
+		}
 	}
 	
 	
