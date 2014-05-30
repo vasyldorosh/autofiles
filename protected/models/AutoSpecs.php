@@ -2,7 +2,7 @@
 
 class AutoSpecs extends CActiveRecord
 {	
-	const CACHE_KEY_LIST = 'AUTO_SPECS_LIST';
+	const CACHE_KEY_LIST = 'AUTO_SPECS_LIST__';
 
 	const TYPE_STRING = 0;
 	const TYPE_INT = 1;
@@ -46,7 +46,7 @@ class AutoSpecs extends CActiveRecord
 			array('append, post_options', 'safe'),
 			array('alias', 'unique'),
 			array('rank, type, is_filter, is_required, maxlength', 'numerical', 'integerOnly' => true),
-			array('maxlength', 'length', 'min' => 2, 'max' => 255),
+			array('maxlength', 'length', 'min' => 2, 'max' => 128),
 			array('post_options', 'validateOptions', ),			
 		);
 	}		
@@ -211,7 +211,7 @@ class AutoSpecs extends CActiveRecord
 	public static function getTypesType()
 	{
 		return array(
-			self::TYPE_STRING => 'VARCHAR(64)',
+			self::TYPE_STRING => 'VARCHAR(128)',
 			self::TYPE_INT => 'INT(11)',
 			self::TYPE_FLOAT => 'FLOAT(9,2)',
 			self::TYPE_CHECKBOX => 'TINYINT(1) UNSIGNED',

@@ -11,7 +11,7 @@
  */
 class AutoSpecsOption extends CActiveRecord
 {
-	const CACHE_KEY_LIST = 'AUTO_SPECS_OPTION_LIST__';
+	const CACHE_KEY_LIST = 'AUTO_SPECS_OPTION_LIST___';
 
 	public static function model($className = __CLASS__) 
 	{ 

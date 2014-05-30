@@ -4,7 +4,7 @@ class ImportCommand extends CConsoleCommand
 
 	public function init() 
 	{
-		ini_set('max_execution_time', 3600*5);
+		ini_set('max_execution_time', 3600*12);
 		return parent::init();
 	}
 
@@ -249,7 +249,8 @@ class ImportCommand extends CConsoleCommand
 	{
 		$limit = 1000;
 		
-		$from = 16973;
+		$from = Yii::app()->db->createCommand('SELECT MAX(completion_id) FROM auto_completion_specs_temp')->queryScalar();
+		
 		AutoCompletionCompetitorsTemp::model()->deleteAllByAttributes(array('completion_id'=>$from));
 		AutoCompletionSpecsTemp::model()->deleteAllByAttributes(array('completion_id'=>$from));		
 		
@@ -346,12 +347,23 @@ class ImportCommand extends CConsoleCommand
 					'gal\.'=>'gal.', 
 					'doors'=>'doors',
 					'mpg'=>'mpg',
+					'seconds'=>'seconds',
 				);
 				
 				$isMatch = false;
 				
-				if (in_array($spec->id, array(97))) {
+				if ($spec->id == 169) {
 					$isMatch = true;
+					$type = AutoSpecs::TYPE_FLOAT;
+					$append = '"';	
+				}
+				if (in_array($spec->id, array(120))) {
+					$isMatch = true;
+					$type = AutoSpecs::TYPE_SELECT;
+				}
+				if (in_array($spec->id, array(113, 234))) {
+					$isMatch = true;
+					$type = AutoSpecs::TYPE_STRING;
 				}
 				
 				if (!$isMatch) {
@@ -428,14 +440,12 @@ class ImportCommand extends CConsoleCommand
 			} 		
 		}
 		
-		/*
 		AutoCompletion::deleteSpecsAttributes();
 		$specs = AutoSpecs::model()->findAll();
 		foreach ($specs as $spec) {
 			$spec->addField();
 			echo "added filed $spec->alias \n";
 		}
-		*/
 		
 		$t = time()-$time;
 		
@@ -457,7 +467,8 @@ class ImportCommand extends CConsoleCommand
 			$criteria = new CDbCriteria();
 			$criteria->limit = $limit;		
 			$criteria->offset = $offset;	
-			//$criteria->addCondition('id > 3598');	
+			$criteria->order = 'id';	
+			//$criteria->addCondition('id >= 16974');	
 			
 			$completions = AutoCompletion::model()->findAll($criteria);
 			if (empty($completions))
@@ -478,9 +489,9 @@ class ImportCommand extends CConsoleCommand
 					} else {
 					
 						if ($specData['type'] == AutoSpecs::TYPE_INT) {
-							$value = (int) str_replace(array('$', ',', '"'. "'", 'lbs.', 'mph', 'cu.ft.', 'gal.', 'doors', 'passengers', 'mpg'), '', $value);
+							$value = (int) str_replace(array('$', ',', '"'. "'", 'lbs.', 'mph', 'cu.ft.', 'gal.', 'doors', 'passengers', 'mpg', 'seconds'), '', $value);
 						} else if ($specData['type'] == AutoSpecs::TYPE_FLOAT) {
-							$value = (float) str_replace(array('$', ',', '"'. "'", 'lbs.', 'mph', 'cu.ft.', 'gal.', 'doors', 'passengers', 'mpg'), '', $value);
+							$value = (float) str_replace(array('$', ',', '"'. "'", 'lbs.', 'mph', 'cu.ft.', 'gal.', 'doors', 'passengers', 'mpg','seconds'), '', $value);
 						} else if ($specData['type'] == AutoSpecs::TYPE_SELECT) {
 							$value = AutoSpecsOption::getIdByValueAndSpecsId($specData['id'], $value);
 						}
@@ -511,6 +522,7 @@ class ImportCommand extends CConsoleCommand
 	/*
 	* Восстановление кодов
 	*/	
+	/*
 	public function actionCode()
 	{
 		$limit = 1000;
@@ -527,7 +539,7 @@ class ImportCommand extends CConsoleCommand
 			}
 		}
 	}
-	
+	*/
 
 }
 ?>
