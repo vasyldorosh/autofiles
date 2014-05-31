@@ -3,7 +3,9 @@
 class AutoModelYear extends CActiveRecord
 {
 	const CACHE_KEY_PHOTOS = 'AUTO_MODEL_YEAR_PHOTOS_';
-
+	
+	public $post_competitors = array();
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -32,6 +34,7 @@ class AutoModelYear extends CActiveRecord
 		return array(
 			array('year, model_id', 'required'),
             array('id, year', 'numerical', 'integerOnly' => true,),					
+            array('post_competitors', 'safe',),					
 		);
 	}
 	
@@ -43,6 +46,7 @@ class AutoModelYear extends CActiveRecord
 		return array(
             'Model' => array(self::BELONGS_TO, 'AutoModel', 'model_id', 'together'=>true,),
 			'galleryPhotos' => array(self::HAS_MANY, 'AutoModelYearPhoto', 'year_id', 'order' => '`rank` ASC',),
+			'Competitors' => array(self::HAS_MANY, 'AutoModelYearCompetitor', 'model_year_id'),
         );
 	}	
 	
@@ -57,8 +61,30 @@ class AutoModelYear extends CActiveRecord
 			'year' => Yii::t('admin', 'Year'),
 			'image_preview' => Yii::t('admin', 'Image'),
 			'model_id' => Yii::t('admin', 'Model'),
+			'post_competitors' => Yii::t('admin', 'Competitors'),
 		);
 	}
+	
+	/**
+	 * Выполняем ряд обязательных действий после сохранения модели
+	 * @return boolean -- результат выполнения действия
+	 */
+	protected function afterSave()
+	{
+		if ($this->scenario == 'updateAdmin') {
+			AutoModelYearCompetitor::model()->deleteAllByAttributes(array('model_year_id'=>$this->id));
+		}
+		
+		foreach ($this->post_competitors as $competitor_id) {
+			$item = new AutoModelYearCompetitor;
+			$item->model_year_id = $this->id;
+			$item->competitor_id = $competitor_id;
+			$item->save();
+		}	
+			
+		return parent::afterSave();
+	}		
+	
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -120,4 +146,43 @@ class AutoModelYear extends CActiveRecord
 	
 		return CHtml::listData(self::model()->findAll($criteria), 'id', 'year');		
 	}
+	
+	public static function getAll() 
+	{
+		$key = 'MODEL_YEAR_ALL';
+		$data = Yii::app()->cache->get($key);
+		if (empty($data)) {
+			$data=array();
+			$criteria=new CDbCriteria;
+			$criteria->with = array('Model');
+			$items = self::model()->findAll($criteria);
+			foreach ($items as $item) {
+				$data[$item->id] = $item->Model->title . ' ' . $item->year;
+			} 
+			
+			Yii::app()->cache->set($key, $data, 3600);
+		}
+		
+		return $data;
+	}
+	
+
+	public function getDataCompetitors()
+	{
+		if (Yii::app()->request->isPostRequest) {
+			return $this->post_competitors;
+		} else {
+			if ($this->isNewRecord) {
+				return array();
+			} else {
+				$ids = array();
+				foreach ($this->Competitors as $competitor) {
+					$ids[] =  $competitor->competitor_id;
+				}
+				
+				return $ids;
+			}
+		}
+	}
+	
 }

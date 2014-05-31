@@ -1,6 +1,6 @@
 <?php
 
-class AutoCompletionCompetitorsTemp extends CActiveRecord
+class AutoModelYearCompetitor extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -17,7 +17,7 @@ class AutoCompletionCompetitorsTemp extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'auto_completion_competitors_temp';
+		return 'auto_model_year_competitor';
 	}
 
 	/**
@@ -28,19 +28,8 @@ class AutoCompletionCompetitorsTemp extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('completion_id, competitor_id', 'required'),
+			array('model_year_id, competitor_id', 'required'),
 		);
 	}
-	
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		return array(
-            'Completion' => array(self::BELONGS_TO, 'AutoCompletion', 'completion_id', 'together'=>true,),
-            'Competitor' => array(self::BELONGS_TO, 'AutoCompletion', 'competitor_id', 'together'=>true,),
-        );
-	}	
 
 }

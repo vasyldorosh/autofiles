@@ -541,5 +541,76 @@ class ImportCommand extends CConsoleCommand
 	}
 	*/
 
+	/*
+	* Конкуренты моделей по годах
+	*/	
+	public function actionCompetitor()
+	{
+		/*
+		$limit = 1000;
+		$k = 0;
+		for ($offset=0; $offset<200000; $offset+=1000) {
+			$criteria = new CDbCriteria();
+			$criteria->limit = $limit;		
+			$criteria->offset = $offset;	
+	
+			$completionCompetitors = AutoCompletionCompetitorsTemp::model()->findAll($criteria);
+			if (empty($completionCompetitors)) {
+				die();
+			}
+			
+			foreach ($completionCompetitors as $completionCompetitor) {
+				$attributes = array(
+					'model_year_id' => $completionCompetitor->Completion->model_year_id,
+					'competitor_id' => $completionCompetitor->Competitor->model_year_id
+				);
+				
+				$m = AutoModelYearCompetitor::model()->findByAttributes($attributes);
+				if (empty($m)) {
+					$autoModelYearCompetitor = new AutoModelYearCompetitor;
+					$autoModelYearCompetitor->attributes = $attributes;
+					$autoModelYearCompetitor->save();
+				}
+				
+				echo "$k \n";	
+				$k++;				
+				
+			}
+		}
+		*/
+		
+		$limit = 1000;
+		$k = 0;
+		for ($offset=0; $offset<200000; $offset+=1000) {
+			$criteria = new CDbCriteria();
+			$criteria->limit = $limit;		
+			$criteria->offset = $offset;	
+	
+			$modelYearCompetitors = AutoModelYearCompetitor::model()->findAll($criteria);
+			if (empty($modelYearCompetitors)) {
+				die();
+			}
+			
+			foreach ($modelYearCompetitors as $modelYearCompetitor) {
+				$attributes = array(
+					'model_year_id' => $modelYearCompetitor->competitor_id,
+					'competitor_id' => $modelYearCompetitor->model_year_id,
+				);
+				
+				$m = AutoModelYearCompetitor::model()->findByAttributes($attributes);
+				if (empty($m)) {
+					$autoModelYearCompetitor = new AutoModelYearCompetitor;
+					$autoModelYearCompetitor->attributes = $attributes;
+					$autoModelYearCompetitor->save();
+				}
+				
+				echo "$k \n";	
+				$k++;				
+				
+			}
+		}		
+		
+	}
+
 }
 ?>

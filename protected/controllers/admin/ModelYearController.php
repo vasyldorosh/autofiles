@@ -39,6 +39,7 @@ class ModelYearController extends BackendController
 		Access::is('modelYear.update', 403);
 	
         $model = $this->loadModelYear($id);
+        $model->scenario = 'updateAdmin';
 
         if (isset($_POST['AutoModelYear'])) {
 			$model->attributes = $_POST['AutoModelYear'];

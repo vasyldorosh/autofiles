@@ -102,8 +102,8 @@ return array(
 	'Remember Me' => 'Remember Me',
 	'Incorrect login or/and password' => 'Incorrect login or/and password',
 	'Specs Groups' => 'Specs Groups',
-	'' => '',
-	'' => '',
+	'Competitors' => 'Competitors',
+	'Not found' => 'Not found',
 	'' => '',
 	
 	
