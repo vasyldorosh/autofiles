@@ -14,6 +14,7 @@ class Chosen extends CInputWidget
 
     /** @var bool Multiple or single item should be selected */
     public $multiple = false;
+    public $itemUrl = '';
 
     /** @var string|null If is set will override default label "Select Some Options" */
     public $placeholderMultiple;
@@ -74,6 +75,10 @@ class Chosen extends CInputWidget
             elseif ($this->multiple)
                 $this->htmlOptions['multiple'] = true;
         }
+		
+		$this->htmlOptions['itemUrl'] = $this->itemUrl;
+		
+		
         if (!isset($this->htmlOptions['data-placeholder'])) {
             if ($this->multiple) {
                 if (isset($this->placeholderMultiple))
@@ -93,6 +98,8 @@ class Chosen extends CInputWidget
             $this->settings['no_results_text'] = Yii::t('Chosen.main', "No results match");
         if (!$this->multiple)
             $this->settings['allow_single_deselect'] = $this->allowSingleDeselect;
+			
+		$this->settings['itemUrl'] = $this->itemUrl;	
 
         if (isset($this->maxSelectedOptions)) $this->settings['max_selected_options'] = $this->maxSelectedOptions;
         if ($this->disableSearch !== false) $this->settings['disable_search'] = $this->disableSearch;

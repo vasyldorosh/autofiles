@@ -12,7 +12,7 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  SelectParser = (function() {
+	SelectParser = (function() {
     function SelectParser() {
       this.options_index = 0;
       this.parsed = [];
@@ -590,9 +590,11 @@
         _this.input_focus(evt);
       });
       if (this.is_multiple) {
-        return this.search_choices.bind('click.chosen', function(evt) {
+        /*
+		return this.search_choices.bind('click.chosen', function(evt) {
           _this.choices_click(evt);
         });
+		*/
       } else {
         return this.container.bind('click.chosen', function(evt) {
           evt.preventDefault();
@@ -683,13 +685,13 @@
       return this.search_field_scale();
     };
 
-    Chosen.prototype.activate_field = function() {
+	Chosen.prototype.activate_field = function() {
       this.container.addClass("chosen-container-active");
       this.active_field = true;
       this.search_field.val(this.search_field.val());
       return this.search_field.focus();
     };
-
+	
     Chosen.prototype.test_active_click = function(evt) {
       if (this.container.is($(evt.target).closest('.chosen-container'))) {
         return this.active_field = true;
@@ -846,7 +848,7 @@
         _this = this;
       choice = $('<li />', {
         "class": "search-choice"
-      }).html("<span>" + item.html + "</span>");
+      }).html("<span><a style='z-index:10000;' href='"+_this.options.itemUrl + item.value + "' target='_blank'>" + item.html + "</a></span>");
       if (item.disabled) {
         choice.addClass('search-choice-disabled');
       } else {
