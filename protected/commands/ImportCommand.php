@@ -546,7 +546,6 @@ class ImportCommand extends CConsoleCommand
 	*/	
 	public function actionCompetitor()
 	{
-		/*
 		$limit = 1000;
 		$k = 0;
 		for ($offset=0; $offset<200000; $offset+=1000) {
@@ -577,7 +576,7 @@ class ImportCommand extends CConsoleCommand
 				
 			}
 		}
-		*/
+
 		
 		$limit = 1000;
 		$k = 0;

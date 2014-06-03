@@ -33,6 +33,7 @@ class AutoMake extends CActiveRecord
 		return array(
 			array('title', 'required'),
 			array('alias', 'unique'),
+			array('is_active, is_deleted', 'numerical', 'integerOnly' => true),
 			array(
 				'file', 
 				'file', 
@@ -143,6 +144,8 @@ class AutoMake extends CActiveRecord
 			'file' => Yii::t('admin', 'Image'),
 			'alias' => Yii::t('admin', 'Alias'),
 			'image_preview' => Yii::t('admin', 'Image'),
+			'is_active' => Yii::t('admin', 'Published'),
+			'is_deleted' => Yii::t('admin', 'Deleted'),
 		);
 	}
 
@@ -158,6 +161,8 @@ class AutoMake extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
+		$criteria->compare('is_deleted',$this->is_deleted);
+		$criteria->compare('is_active',$this->is_active);
 		$criteria->compare('title',$this->title, true);
 
 		return new CActiveDataProvider($this, array(

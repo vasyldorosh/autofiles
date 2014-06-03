@@ -29,6 +29,11 @@ return array(
 
 	// application components
 	'components'=>array(
+		'assetManager' => array(
+			'class' => 'CAssetManager',
+			'forceCopy' => YII_DEBUG,
+		),	
+	
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,

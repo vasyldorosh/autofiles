@@ -102,19 +102,35 @@ body {
 					array('label' => Yii::t('admin', 'Admins'), 'url' => Yii::app()->createUrl('admin/admin/index'), 'visible'=>Access::is('admin')),
 					array('label' => Yii::t('admin', 'Users'), 'url' => Yii::app()->createUrl('admin/user/index'), 'visible'=>Access::is('user')),
 					array('label' => Yii::t('admin', 'Roles'), 'url' => Yii::app()->createUrl('admin/role'), 'visible'=>Access::is('role')),
-				)),
-		
+				)),	
 				array('label' => Yii::t('admin', 'Body Style'), 'url' => Yii::app()->createUrl('admin/bodyStyle'), 'visible'=>(Access::is('bodyStyle'))),
-				array('label' => Yii::t('admin', 'Makes'), 'url' => Yii::app()->createUrl('admin/make'), 'visible'=>(Access::is('make'))),
-				array('label' => Yii::t('admin', 'Models'), 'url' => Yii::app()->createUrl('admin/model'), 'visible'=>(Access::is('model'))),
-				array('label' => Yii::t('admin', 'Models by Year'), 'url' => Yii::app()->createUrl('admin/modelYear'), 'visible'=>(Access::is('modelYear'))),
-				array('label' => Yii::t('admin', 'Completions'), 'url' => Yii::app()->createUrl('admin/completion'), 'visible'=>(Access::is('completion'))),
-		
+				
+				
+				array('label' => Yii::t('admin', 'Makes'), 'visible'=>(Access::is('make')), 'items' => array(
+					array('label' => Yii::t('admin', 'Makes'), 'url' => Yii::app()->createUrl('admin/make'), 'visible'=>(Access::is('make'))),
+					array('label' => Yii::t('admin', 'Basket'), 'url' => Yii::app()->createUrl('admin/make/basket'), 'visible'=>Access::is('make.basket')),
+				)),		
+
+				array('label' => Yii::t('admin', 'Models'), 'visible'=>(Access::is('model')), 'items' => array(
+					array('label' => Yii::t('admin', 'Models'), 'url' => Yii::app()->createUrl('admin/model'), 'visible'=>(Access::is('model'))),
+					array('label' => Yii::t('admin', 'Basket'), 'url' => Yii::app()->createUrl('admin/model/basket'), 'visible'=>Access::is('model.basket')),
+				)),				
+				
+				array('label' => Yii::t('admin', 'Models by Year'), 'visible'=>(Access::is('modelYear')), 'items' => array(
+					array('label' => Yii::t('admin', 'Models by Year'), 'url' => Yii::app()->createUrl('admin/modelYear'), 'visible'=>(Access::is('modelYear'))),
+					array('label' => Yii::t('admin', 'Basket'), 'url' => Yii::app()->createUrl('admin/modelYear/basket'), 'visible'=>Access::is('modelYear.basket')),
+				)),				
+				
+				array('label' => Yii::t('admin', 'Completions'), 'visible'=>(Access::is('completion')), 'items' => array(
+					array('label' => Yii::t('admin', 'Completions'), 'url' => Yii::app()->createUrl('admin/completion'), 'visible'=>(Access::is('completion'))),
+					array('label' => Yii::t('admin', 'Basket'), 'url' => Yii::app()->createUrl('admin/completion/basket'), 'visible'=>Access::is('completion.basket')),
+				)),				
+					
 				array('label' => Yii::t('admin', 'Specs'), 'visible'=>(Access::is('specs') || Access::is('specsGroup')), 'items' => array(
 					array('label' => Yii::t('admin', 'Specs'), 'url' => Yii::app()->createUrl('admin/specs'), 'visible'=>Access::is('specs')),
 					array('label' => Yii::t('admin', 'Specs Group'), 'url' => Yii::app()->createUrl('admin/specsGroup'), 'visible'=>Access::is('specsGroup')),
 				)),		
-		
+				array('label' => Yii::t('admin', 'Settings'), 'url' => Yii::app()->createUrl('admin/settings'), 'visible'=>(Access::is('settings'))),
 	        ),
         ),
         array(

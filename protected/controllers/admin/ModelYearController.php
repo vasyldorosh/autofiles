@@ -2,11 +2,42 @@
 
 class ModelYearController extends BackendController
 {
+
+	public function actions()
+	{
+		return array(
+			'toggle' => array(
+				'class'=>'bootstrap.actions.TbToggleAction',
+				'modelName' => 'AutoModelYear',
+			),
+			'active' => array(
+				'class'=>'application.actions.MultipleCheckboxAction',
+				'modelName' => 'AutoModelYear',
+				'attributeName' => 'is_active',
+				'accessAlias' => 'modelYear.update',
+			),
+			'trash' => array(
+				'class'=>'application.actions.MultipleCheckboxAction',
+				'modelName' => 'AutoModelYear',
+				'attributeName' => 'is_deleted',
+				'accessAlias' => 'modelYear.delete',
+			),
+			'delete' => array(
+				'class'=>'application.actions.MultipleDeleteAction',
+				'modelName' => 'AutoModelYear',
+				'accessAlias' => 'modelYear.delete',
+			),
+		);
+	}
+
     public function actionIndex()
     {
 		Access::is('modelYear', 403);
+		
+		$model = new AutoModelYear();
+		$model->unsetAttributes();
+		$model->is_deleted = 0;		
 	
-        $model = new AutoModelYear();
         if (isset($_GET['AutoModelYear'])) {
             $model->attributes = $_GET['AutoModelYear'];
         }
@@ -16,6 +47,24 @@ class ModelYearController extends BackendController
 			'pageSize' => Yii::app()->request->getParam('pageSize', Yii::app()->params->defaultPerPage),
         ));
     }
+	
+    public function actionBasket()
+    {
+		Access::is('modelYear.basket', 403);
+	
+        $model = new AutoModelYear();
+		$model->unsetAttributes();
+		$model->is_deleted = 1;
+        
+		if (isset($_GET['AutoModelYear'])) {
+            $model->attributes = $_GET['AutoModelYear'];
+        }
+
+        $this->render("basket", array(
+            'model' => $model,
+			'pageSize' => Yii::app()->request->getParam('pageSize', Yii::app()->params->defaultPerPage),
+        ));
+    }	
 
 	public function actionCreate() {
 		Access::is('modelYear.create', 403);

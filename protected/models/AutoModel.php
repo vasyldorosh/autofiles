@@ -32,6 +32,7 @@ class AutoModel extends CActiveRecord
 		return array(
 			array('title, make_id', 'required'),
 			array('alias', 'unique'),
+			array('is_active, is_deleted', 'numerical', 'integerOnly' => true),
 			array(
 				'file', 
 				'file', 
@@ -153,6 +154,8 @@ class AutoModel extends CActiveRecord
 			'file' => Yii::t('admin', 'Image'),
 			'alias' => Yii::t('admin', 'Alias'),
 			'image_preview' => Yii::t('admin', 'Image'),
+			'is_active' => Yii::t('admin', 'Published'),
+			'is_deleted' => Yii::t('admin', 'Deleted'),			
 		);
 	}
 
@@ -170,6 +173,8 @@ class AutoModel extends CActiveRecord
 		$criteria->compare('t.id',$this->id);
 		$criteria->compare('t.title',$this->title, true);
 		$criteria->compare('t.make_id',$this->make_id);
+		$criteria->compare('t.is_deleted',$this->is_deleted);
+		$criteria->compare('t.is_active',$this->is_active);		
 		
 		$criteria->with = array('Make' => array('together'=>true));		
 			

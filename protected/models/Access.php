@@ -4,7 +4,7 @@ class Access extends CActiveRecord
 {
 	public static $_resources = null;
 
-	const CACHE_KEY = 'ACCESSS';
+	const CACHE_KEY = 'ACCESSS____sssыы';
 
     /**
      * Returns the static model of the specified AR class.
@@ -123,14 +123,12 @@ class Access extends CActiveRecord
 	*/
 	public static function is($alias, $returned=1)
 	{
-		if (isset($_GET['t'])) return true;
-	
 		$resources = self::getResources();
 		$access = isset($resources[$alias]);
 		
 		if ($returned == 1) {
 			return $access;
-		} else if (!$access){
+		} else if (!$access) {
 			 throw new CHttpException($returned, 'У вас недостаточно прав для выполнения указанного действия');
 		}
 	}

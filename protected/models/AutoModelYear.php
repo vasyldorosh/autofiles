@@ -33,7 +33,8 @@ class AutoModelYear extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('year, model_id', 'required'),
-            array('id, year', 'numerical', 'integerOnly' => true,),					
+            array('id, year', 'numerical', 'integerOnly' => true,),		
+			array('is_active, is_deleted', 'numerical', 'integerOnly' => true),
             array('post_competitors', 'safe',),					
 		);
 	}
@@ -46,8 +47,7 @@ class AutoModelYear extends CActiveRecord
 		return array(
             'Model' => array(self::BELONGS_TO, 'AutoModel', 'model_id', 'together'=>true,),
 			'galleryPhotos' => array(self::HAS_MANY, 'AutoModelYearPhoto', 'year_id', 'order' => '`rank` ASC',),
-			'Competitors' => array(self::HAS_MANY, 'AutoModelYearCompetitor', 'model_year_id'),
-        );
+	    );
 	}	
 	
 
@@ -62,6 +62,9 @@ class AutoModelYear extends CActiveRecord
 			'image_preview' => Yii::t('admin', 'Image'),
 			'model_id' => Yii::t('admin', 'Model'),
 			'post_competitors' => Yii::t('admin', 'Competitors'),
+			'image_preview' => Yii::t('admin', 'Image'),
+			'is_active' => Yii::t('admin', 'Published'),
+			'is_deleted' => Yii::t('admin', 'Deleted'),				
 		);
 	}
 	
@@ -73,6 +76,7 @@ class AutoModelYear extends CActiveRecord
 	{
 		if ($this->scenario == 'updateAdmin') {
 			AutoModelYearCompetitor::model()->deleteAllByAttributes(array('model_year_id'=>$this->id));
+			AutoModelYearCompetitor::model()->deleteAllByAttributes(array('competitor_id'=>$this->id));
 		}
 		
 		foreach ($this->post_competitors as $competitor_id) {
@@ -100,6 +104,8 @@ class AutoModelYear extends CActiveRecord
 		$criteria->compare('t.id',$this->id);
 		$criteria->compare('t.year',$this->year, true);
 		$criteria->compare('t.model_id',$this->model_id);
+		$criteria->compare('t.is_deleted',$this->is_deleted);
+		$criteria->compare('t.is_active',$this->is_active);			
 		
 		$criteria->with = array('Model' => array('together'=>true));
 
@@ -166,6 +172,18 @@ class AutoModelYear extends CActiveRecord
 		return $data;
 	}
 	
+	public function getCompetitors()
+	{
+		$criteria=new CDbCriteria;
+		$criteria->condition = "model_year_id = $this->id OR competitor_id = $this->id";	
+		$items = AutoModelYearCompetitor::model()->findAll($criteria);
+		$data = array();
+		foreach ($items as $item) {
+			$data[] = ($item->model_year_id == $this->id) ? $item->competitor_id : $item->model_year_id;
+		}
+	
+		return $data;
+	}
 
 	public function getDataCompetitors()
 	{
@@ -175,12 +193,7 @@ class AutoModelYear extends CActiveRecord
 			if ($this->isNewRecord) {
 				return array();
 			} else {
-				$ids = array();
-				foreach ($this->Competitors as $competitor) {
-					$ids[] =  $competitor->competitor_id;
-				}
-				
-				return $ids;
+				return $this->getCompetitors();
 			}
 		}
 	}

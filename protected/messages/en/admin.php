@@ -104,7 +104,8 @@ return array(
 	'Specs Groups' => 'Specs Groups',
 	'Competitors' => 'Competitors',
 	'Not found' => 'Not found',
-	'' => '',
+	'Settings' => 'Settings',
+	'Seo' => 'Seo',
 	
 	
 );

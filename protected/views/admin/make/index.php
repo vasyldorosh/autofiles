@@ -30,6 +30,128 @@
     <div class="grid">
         <?php 
 		
+		
+		$actionButtons = array();
+		if (Access::is('make.update')) {
+			$actionButtons[] = 	array(
+				'id' => 'btn_activate',
+				'buttonType' => 'button',
+				'type' => 'success',
+				'size' => 'small',
+				'label' => Yii::t('admin', 'Show'),
+				'click' => 'js:function(values){	
+					var ids = new Array();
+					values.each(function(idx){
+						 ids.push($(this).val())	
+					});	
+					$.ajax({
+						type: "POST",
+						url: "/admin/make/active/?value=1",
+						data: {"ids":ids},
+						dataType:"json",
+						success: function(response){
+							if(response.status == 1){
+							   $.fn.yiiGridView.update("list-grid");
+							}else{
+								alert(response.error);
+							}
+						}
+					});		
+				}',
+			);
+			$actionButtons[] = 	array(
+				'id' => 'btn_deactivate',
+				'buttonType' => 'button',
+				'type' => 'warning',
+				'size' => 'small',
+				'label' => Yii::t('admin', 'Hide'),
+				'click' => 'js:function(values){	
+					var ids = new Array();
+					values.each(function(idx){
+						 ids.push($(this).val())	
+					});	
+					$.ajax({
+						type: "POST",
+						url: "/admin/make/active/?value=0",
+						data: {"ids":ids},
+						dataType:"json",
+						success: function(response){
+							if(response.status == 1){
+							   $.fn.yiiGridView.update("list-grid");
+							}else{
+								alert(response.error);
+							}
+						}
+					});		
+				}',
+			);
+			
+			$actionButtons[] = 	array(
+				'id' => 'btn_copy',
+				'buttonType' => 'button',
+				'type' => 'info',
+				'size' => 'small',
+				'label' => Yii::t('admin', 'Copy'),
+				'click' => 'js:function(values){	
+					var ids = new Array();
+					values.each(function(idx){
+						 ids.push($(this).val())	
+					});	
+					$.ajax({
+						type: "POST",
+						url: "/admin/make/copy",
+						data: {"ids":ids},
+						dataType:"json",
+						success: function(response){
+							if(response.status == 1){
+							   $.fn.yiiGridView.update("list-grid");
+							}else{
+								alert(response.error);
+							}
+						}
+					});				
+				}',
+			);
+		}
+		
+		if (Access::is('make.delete')) {
+			$actionButtons[] = array(
+						'id' => 'btn_delete',
+						'buttonType' => 'button',
+						'type' => 'danger',
+						'size' => 'small',
+						'label' => Yii::t('admin', 'Delete'),
+						'click' => 'js:function(values){
+							var ids = new Array();
+							values.each(function(idx){
+								 ids.push($(this).val())	
+							});	
+							$.ajax({
+								type: "POST",
+								url: "/admin/make/trash/?value=1",
+								data: {"ids":ids},
+								dataType:"json",
+								success: function(response){
+									if(response.status == 1){
+									   $.fn.yiiGridView.update("list-grid");
+									}else{
+										alert(response.error);
+									}
+								}
+							});								
+						}',
+					);
+		}
+		$bulkActions = array();
+		if (!empty($actionButtons)) {
+			$bulkActions = array(
+				'actionButtons' => $actionButtons,
+				'checkBoxColumnConfig' => array(
+					'name' => 'id'
+				),
+			);
+		}		
+		
 		$columns = array(
 				array(
 					'name'=>'id',
@@ -48,27 +170,56 @@
 					),	
 					'filter' => false,
 				),				
-                'title',
+                'title',				
             );
+			
+		if (Access::is('make.update')) {
+			$columns[] = array(
+					'class' => 'bootstrap.widgets.TbToggleColumn',
+					'name' => 'is_active',
+					'filter' => HtmlHelper::getYesNoFilter(),
+					'htmlOptions' => array(
+						'width' => 80, 
+						'style' => 'text-align: center;', 
+					),						
+				);
+		}	
 			
 		if (Access::is('make.update') || Access::is('make.delete')) {
 			$template = array();
-			if (Access::is('make.update')) $template[] = '{update}';
-			if (Access::is('make.delete')) $template[] = '{delete}';
+			$buttons = array();
+			
+			if (Access::is('make.update')) {
+				$template[] = '{update}';
+				$buttons['update'] = array(
+                    'url'=>'Yii::app()->createUrl("admin/make/update", array("id"=>$data->id))',
+                );
+			}
+			
+			if (Access::is('make.delete')) {
+				$template[] = '{delete}';
+				$buttons['delete'] = array(
+                    'url'=>'Yii::app()->createUrl("admin/make/trash", array("ids"=>array($data->id), "value"=>1))',
+                );				
+			}
 			
 			$columns[] = array(
 				'htmlOptions' => array('nowrap'=>'nowrap', 'style' => 'text-align: center;'),
                  'class'=>'bootstrap.widgets.TbButtonColumn',
                  'template' => implode('', $template),
+                 'buttons' => $buttons,
             );
+		
 		}
 		
-		$this->widget('bootstrap.widgets.TbGridView', array(
+		$this->widget('bootstrap.widgets.TbExtendedGridView', array(
             'dataProvider' => $model->search(),
+			'ajaxUrl'=> $this->createUrl('/admin/make/index'),
             'filter' => $model,
             'type' => 'striped bordered condensed',
             'columns' => $columns,
 			'id' => 'list-grid',
+			'bulkActions' => $bulkActions,
 			'pager' => array(
 				  'class' => 'bootstrap.widgets.TbPager',
 				  'displayFirstAndLast' => true,
