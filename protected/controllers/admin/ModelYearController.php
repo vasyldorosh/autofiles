@@ -75,7 +75,7 @@ class ModelYearController extends BackendController
 			$model->attributes = $_POST['AutoModelYear'];
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Model by Year successfully added'));
-				$this->redirect('/admin/modelYear');
+				$this->afterSaveRedirect($model);
 			}
         }		
 
@@ -95,7 +95,7 @@ class ModelYearController extends BackendController
 
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Model by Year successfully edited'));
-				$this->redirect('/admin/modelYear');
+				$this->afterSaveRedirect($model);
 			}
         }
 

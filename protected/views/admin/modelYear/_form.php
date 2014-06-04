@@ -9,14 +9,14 @@
 		),		
     ))?>
 
-
+	<?php if (!$model->isNewRecord):?>
 	<div class="control-group">
 			<label class="control-label required" for="Contractor_post_competitors"><?php echo $model->getAttributeLabel('post_competitors')?></label>
 			<div class="controls">
 			<?php $this->widget('ext.chosen.Chosen',array(
 				'model' => $model, 
 				'attribute' => 'post_competitors', 
-				'data' => AutoModelYear::getAll(),
+				'data' => AutoModelYear::getAllByYear($model->year),
 				'multiple' => true,
 				'itemUrl' => '/admin/modelYear/update?id=',
 				'noResults' => Yii::t('admin', 'Not found'),
@@ -27,31 +27,14 @@
 			));?>
 			</div>
 	</div>	
+	<?php endif;?>
 
 	<?php echo $form->dropDownListRow($model, 'model_id', AutoModel::getAllWithMake(),array('empty'=>''))?>
 		
 	<?php echo $form->textFieldRow($model, 'year')?>
 
 	
-	<div class="form-actions">
-		<?php $this->widget('bootstrap.widgets.TbButton', array(
-		'buttonType'=>'submit',
-		'htmlOptions'=>array('name'=>'yt0'),
-		'type'=>'success',
-		'label'=>$model->isNewRecord ? Yii::t('admin', 'Add') : Yii::t('admin', 'Save'))); ?>
-
-		<?php $this->widget('bootstrap.widgets.TbButton', array(
-		'type'=>'primary',
-		'buttonType'=>'submit',
-		'htmlOptions'=>array('name'=>'apply', 'class'=>'btn-apply'),
-		'label'=>Yii::t('admin', 'Apply'))); ?>
-
-		<?php $this->widget('bootstrap.widgets.TbButton', array(
-		'buttonType'=>'reset',
-		'htmlOptions'=>array('name'=>'yt1', 'class'=>'btn-cancel'),
-		'label'=>Yii::t('admin', 'Cancel'))); ?>
-	</div>	
-	
+	<?php $this->renderPartial('application.views.admin._form_actions', array('model'=>$model))?>
 	
     <?php $this->endWidget()?>
 

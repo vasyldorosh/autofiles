@@ -5,7 +5,7 @@ class AutoModelYear extends CActiveRecord
 	const CACHE_KEY_PHOTOS = 'AUTO_MODEL_YEAR_PHOTOS_';
 	
 	public $post_competitors = array();
-	
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -74,12 +74,35 @@ class AutoModelYear extends CActiveRecord
 	 */
 	protected function afterSave()
 	{
+		$deletedCompetitors = array();
+	
 		if ($this->scenario == 'updateAdmin') {
-			AutoModelYearCompetitor::model()->deleteAllByAttributes(array('model_year_id'=>$this->id));
-			AutoModelYearCompetitor::model()->deleteAllByAttributes(array('competitor_id'=>$this->id));
+			$this->post_competitors = (array)$this->post_competitors;
+		
+			$sqlParts[] = "model_year_id=$this->id";
+			$sqlParts[] = "competitor_id=$this->id";
+			
+			$competitors = $this->getCompetitors();
+			foreach ($competitors as $id) {
+				if (!in_array($id, $this->post_competitors)) {
+					$deletedCompetitors[] = $id;
+				}
+			}
+						
+			foreach ($this->post_competitors as $competitor_id) {
+				foreach ($deletedCompetitors as $deleted_id) {
+					$sqlParts[] = "((model_year_id=$deleted_id AND competitor_id=$competitor_id) OR (model_year_id=$competitor_id AND competitor_id=$deleted_id))";
+				}
+			}
+			
+			$sql = 'DELETE FROM auto_model_year_competitor WHERE ' . implode(' OR ', $sqlParts);
+			Yii::app()->db->createCommand($sql)->execute();
 		}
 		
 		foreach ($this->post_competitors as $competitor_id) {
+			if ($this->id == $competitor_id)
+				continue;
+				
 			$item = new AutoModelYearCompetitor;
 			$item->model_year_id = $this->id;
 			$item->competitor_id = $competitor_id;
@@ -169,6 +192,21 @@ class AutoModelYear extends CActiveRecord
 			Yii::app()->cache->set($key, $data, 3600);
 		}
 		
+		return $data;
+	}
+	
+	public static function getAllByYear($year) 
+	{
+		$year = (int)$year;
+		$data = array();
+		$criteria=new CDbCriteria;
+		$criteria->compare('t.year', $year);
+		$criteria->with = array('Model', 'Model.Make');
+		$items = self::model()->findAll($criteria);
+		foreach ($items as $item) {
+			$data[$item->id] = $item->Model->Make->title . ' ' . $item->Model->title . ' ' . $item->year;
+		}
+
 		return $data;
 	}
 	

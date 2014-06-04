@@ -31,4 +31,32 @@ class BackendController extends CController
 				
 		return parent::init();
 	}
+	
+	/**
+     * Редирект после сохранения модели в зависимости от входных параметров (на эту же страницу,
+     * на пред страницу или просто на список моделей)
+     */
+    protected function afterSaveRedirect($model = null) 
+    {
+    	$apply = Yii::app()->getRequest()->getParam('apply', null);
+        if ($apply !== null && !is_null($model)) {
+        	
+            $redirectData = array('update', 'id' => $model->id);
+
+            if (Yii::app()->request->getParam('from', false)) {
+                $redirectData += array('from' => Yii::app()->request->getParam('from'));
+            }
+
+        } else if (Yii::app()->request->getParam('from', false)) {
+        	
+            $redirectData = base64_decode(Yii::app()->request->getParam('from')) . '&from='.Yii::app()->request->getParam('from');
+            
+        } else {
+        	
+            $redirectData = array('index',);
+            
+        }
+        $this->redirect($redirectData);
+    }	
+	
 }

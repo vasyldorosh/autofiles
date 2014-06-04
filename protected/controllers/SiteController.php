@@ -24,6 +24,16 @@ class SiteController extends Controller
 			else
 				$this->render('error', $error);
 		}
+	}
+
+	public function actionT()
+	{
+		$items = AutoModel::model()->findAll();
+		foreach ($items as $item) {
+			$item->title = str_replace($item->Make->title,'', $item->title);
+			$item->save(false);
+			echo $item->id . ' '. $item->title . '<br/>';
+		}
 	}	
 	
 }

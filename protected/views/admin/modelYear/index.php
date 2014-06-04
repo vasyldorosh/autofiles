@@ -50,7 +50,7 @@
 				),					
 				array(
 					'name' => 'model_id',
-					'value' => '$data->Model?$data->Model->title:"-"',	
+					'value' => '$data->Model->Make->title . " " . $data->Model->title',	
 					'filter' => AutoModel::getAllWithMake(),
 				),				
 				array(
