@@ -6,7 +6,7 @@
 			'enctype' => 'multipart/form-data',
 		),		
     ))?>
-    <div class="form-actions">
+
 		<?php echo $form->textFieldRow($model, 'title', array('class'=>'span6'))?>
 		
 		<?php echo $form->textFieldRow($model, 'alias', array('class'=>'span6'))?>
@@ -97,9 +97,8 @@
 		</div>	
 	</div>		
 		
-        <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType' => 'submit', 'label' => $model->isNewRecord ? Yii::t('admin', 'Add') : Yii::t('admin', 'Save')))?>
-		
-	</div>
+	<?php $this->renderPartial('application.views.admin._form_actions', array('model'=>$model))?>
+	
     <?php $this->endWidget()?>
 </div>
 

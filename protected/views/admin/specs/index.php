@@ -38,7 +38,13 @@
 						'width' => 40, 
 					),					
 				),
-				'title',
+				array(
+					'class'=>'ELinkUpdateColumn',
+					'name' => 'title',
+					'htmlOptions' => array(
+						'access' => 'specs.update', 
+					),	
+				),
 				array(
 					'name' => 'group_id',
 					'value' => '$data->Group?$data->Group->title:"-"',	

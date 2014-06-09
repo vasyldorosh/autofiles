@@ -26,7 +26,7 @@ class SpecsController extends BackendController
 			$model->attributes = $_POST['AutoSpecs'];
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Specs successfully added'));
-				$this->redirect('/admin/specs');
+				$this->afterSaveRedirect($model);
 			}
         }		
 
@@ -46,7 +46,7 @@ class SpecsController extends BackendController
 
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Specs successfully edited'));
-				$this->redirect('/admin/specs');
+				$this->afterSaveRedirect($model);
 			}
         }
 

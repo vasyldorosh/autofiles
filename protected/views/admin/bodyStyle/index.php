@@ -48,7 +48,13 @@
 					),
 					'filter' => false,
 				),				
-                'title',
+				array(
+					'class'=>'ELinkUpdateColumn',
+					'name' => 'title',
+					'htmlOptions' => array(
+						'access' => 'bodyStyle.update', 
+					),	
+				),	
             );
 			
 		if (Access::is('bodyStyle.update') || Access::is('bodyStyle.delete')) {

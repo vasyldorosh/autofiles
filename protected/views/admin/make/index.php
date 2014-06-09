@@ -170,7 +170,14 @@
 					),	
 					'filter' => false,
 				),				
-                'title',				
+				array(
+					'class'=>'ELinkUpdateColumn',
+					'name' => 'title',
+					'htmlOptions' => array(
+						'access' => 'make.update', 
+					),	
+					'type' => 'raw',
+				),					
             );
 			
 		if (Access::is('make.update')) {

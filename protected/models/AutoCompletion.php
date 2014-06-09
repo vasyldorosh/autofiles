@@ -36,6 +36,7 @@ class AutoCompletion extends CActiveRecord
 			array('title, model_year_id', 'required'),
 			array('model_id, code', 'safe'),
 			array('year', 'numerical', 'integerOnly' => true),
+			array('is_active, is_deleted', 'numerical', 'integerOnly' => true),
 		);
 		
 		$specs = AutoSpecs::getAll();
@@ -115,6 +116,8 @@ class AutoCompletion extends CActiveRecord
 			'model_id' => Yii::t('admin', 'Model'),
 			'model_year_id' => Yii::t('admin', 'Model'),
 			'year' => Yii::t('admin', 'Year'),
+			'is_active' => Yii::t('admin', 'Published'),
+			'is_deleted' => Yii::t('admin', 'Deleted'),				
 		);
 		
 		$specs = AutoSpecs::getAll();
@@ -132,11 +135,12 @@ class AutoCompletion extends CActiveRecord
 	public function search()
 	{
 		$criteria=new CDbCriteria;
-		//$criteria->select = "t.id, t.title, t.model_year_id";
-
+		
 		$criteria->compare('t.id',$this->id);
 		$criteria->compare('t.title',$this->title, true);
-		$criteria->compare('Model.id',$this->model_year_id);
+		$criteria->compare('t.is_deleted',$this->is_deleted);
+		$criteria->compare('t.is_active',$this->is_active);			
+		$criteria->compare('Model.id',$this->model_year_id);			
 		
 		$criteria->with = array(
 			'ModelYear',

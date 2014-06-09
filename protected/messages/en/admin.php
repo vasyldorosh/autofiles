@@ -106,6 +106,21 @@ return array(
 	'Not found' => 'Not found',
 	'Settings' => 'Settings',
 	'Seo' => 'Seo',
+	'Basket Completions' => 'Basket Trims',
+	'Move Completions' => 'Move Trims',
+	'Copy Completions' => 'Copy Trims',
+	'' => '',
+	'' => '',
+	'' => '',
+	'' => '',
+	'' => '',
+	'' => '',
+	'' => '',
+	'' => '',
+	'' => '',
+	'' => '',
+	'' => '',
+	'' => '',
 	
 	
 );

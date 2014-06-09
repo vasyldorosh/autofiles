@@ -26,7 +26,7 @@ class SpecsGroupController extends BackendController
 			$model->attributes = $_POST['AutoSpecsGroup'];
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Specs Group successfully added'));
-				$this->redirect('/admin/specsGroup');
+				$this->afterSaveRedirect($model);
 			}
         }		
 
@@ -45,7 +45,7 @@ class SpecsGroupController extends BackendController
 
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Specs Group successfully edited'));
-				$this->redirect('/admin/specsGroup');
+				$this->afterSaveRedirect($model);
 			}
         }
 

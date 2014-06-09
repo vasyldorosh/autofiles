@@ -77,7 +77,7 @@ class MakeController extends BackendController
 			$model->file = CUploadedFile::getInstance($model, 'file');
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Make successfully added'));
-				$this->redirect('/admin/make');
+				$this->afterSaveRedirect($model);
 			}
         }		
 
@@ -97,7 +97,7 @@ class MakeController extends BackendController
 
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Make successfully edited'));
-				$this->redirect('/admin/make');
+				$this->afterSaveRedirect($model);
 			}
         }
 

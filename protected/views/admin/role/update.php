@@ -32,7 +32,7 @@
 			)
 		));?>
 		
-	<?php $this->widget('bootstrap.widgets.TbButton', array('buttonType' => 'submit', 'label' => Yii::t('admin', 'Save')))?>
+	<?php $this->renderPartial('application.views.admin._form_actions', array('model'=>$model))?>
 
 	<?php $this->endWidget()?>		
 	

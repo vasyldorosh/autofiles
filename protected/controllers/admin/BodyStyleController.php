@@ -27,7 +27,7 @@ class BodyStyleController extends BackendController
 			$model->file = CUploadedFile::getInstance($model, 'file');
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Body style successfully added'));
-				$this->redirect('/admin/bodyStyle');
+				$this->afterSaveRedirect($model);
 			}
         }		
 
@@ -47,7 +47,7 @@ class BodyStyleController extends BackendController
 
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Body style successfully edited'));
-				$this->redirect('/admin/bodyStyle');
+				$this->afterSaveRedirect($model);
 			}
         }
 

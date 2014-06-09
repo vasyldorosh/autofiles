@@ -49,12 +49,14 @@ $this->pageTitle = Yii::app()->name.' - ' . Yii::t('admin', 'Admins');
 						'width' => 60, 
 					),					
 				),		
-                array(
+				array(
+					'class'=>'ELinkUpdateColumn',
 					'name' => 'full_name',
-					'value' => 'CHtml::link($data->full_name, Yii::app()->createUrl("admin/admin/update", array("id"=>$data->id)))',
+					'htmlOptions' => array(
+						'access' => 'admin.update', 
+					),	
 					'filter' => false,
-					'type' => 'raw',
-				),			
+				),					
                 array('name' => 'email'),
                 array(
 					'name' => 'birth_date',

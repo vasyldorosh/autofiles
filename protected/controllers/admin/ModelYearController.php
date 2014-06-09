@@ -104,6 +104,66 @@ class ModelYearController extends BackendController
         ));
     }
 
+    public function actionCopy() {
+		if (Yii::app()->getRequest()->isPostRequest && Yii::app()->getRequest()->isAjaxRequest) {			
+			$response = array();	
+			if (Access::is('modelYear.update')) {
+		
+				$model_id = (int)Yii::app()->request->getParam('model_id');	
+				if ($model_id) {				
+					$models = AutoModelYear::model()->findAllByPk(Yii::app()->request->getParam('ids'));
+					foreach ($models as $model) {
+						$clone = new AutoModelYear;
+						$clone->attributes = $model->attributes;
+						$clone->model_id = $model_id;
+						$clone->id = null;
+						$clone->save();
+					}
+					$response['status'] = 1;
+				} else {
+					$response['status'] = 0;
+					$response['error'] = Yii::t('admin', 'Error - Select Model!');					
+				}
+			} else {
+				$response['status'] = 0;
+				$response['error'] = Yii::t('admin', 'Have No Rights');			
+			}
+			
+			echo json_encode($response);
+				
+		} else
+			throw new CHttpException(Yii::t('admin', 'Invalid request'));
+    }	
+
+    public function actionMove() {
+		if (Yii::app()->getRequest()->isPostRequest && Yii::app()->getRequest()->isAjaxRequest) {			
+			$response = array();	
+			if (Access::is('modelYear.update')) {
+					
+				$model_id = (int)Yii::app()->request->getParam('model_id');	
+				if ($model_id) {
+					$models = AutoModelYear::model()->findAllByPk(Yii::app()->request->getParam('ids'));
+					foreach ($models as $model) {
+						$model->model_id = $model_id;
+						$model->save();
+					}
+					$response['status'] = 1;
+				} else {
+					$response['status'] = 0;
+					$response['error'] = Yii::t('admin', 'Error - Select Model!');					
+				}
+			} else {
+				$response['status'] = 0;
+				$response['error'] = Yii::t('admin', 'Have No Rights');			
+			}
+			
+			echo json_encode($response);
+				
+		} else
+			throw new CHttpException(Yii::t('admin', 'Invalid request'));
+    }	
+	
+	
 
     /**
      * @param $id integer
@@ -118,13 +178,6 @@ class ModelYearController extends BackendController
 		else 
 			throw new CHttpException(404, 'Page not found');
     }
-
-    public function actionDelete($id) {
-		$model = $this->loadModelYear($id);
-		$model->delete();
-		Yii::app()->admin->setFlash('success', Yii::t('admin', 'Model by Year successfully deleted'));
-		$this->redirect('/admin/modelYear');
-	}
     
 	public function actionGetByModel() {
 		$id = (int)Yii::app()->getRequest()->getParam('id', 0);

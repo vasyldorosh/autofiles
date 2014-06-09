@@ -75,7 +75,7 @@ class ModelController extends BackendController
 			$model->file = CUploadedFile::getInstance($model, 'file');
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Model successfully added'));
-				$this->redirect('/admin/model');
+				$this->afterSaveRedirect($model);
 			}
         }		
 		
@@ -95,7 +95,7 @@ class ModelController extends BackendController
 
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Model successfully edited'));
-				$this->redirect('/admin/model');
+				$this->afterSaveRedirect($model);
 			}
         }
 

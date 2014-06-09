@@ -41,7 +41,13 @@
 					'width' => 60, 
 				),					
 			),
-            'title',
+			array(
+				'class'=>'ELinkUpdateColumn',
+				'name' => 'title',
+				'htmlOptions' => array(
+					'access' => 'role.update', 
+				),	
+			),	
         );
 		
 		if (Access::is('role.update') || Access::is('role.delete')) {

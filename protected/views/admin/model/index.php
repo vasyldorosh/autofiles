@@ -189,7 +189,13 @@
 					'value' => '$data->Make?$data->Make->title:"-"',	
 					'filter' => AutoMake::getAll(),
 				),				
-                'title',
+				array(
+					'class'=>'ELinkUpdateColumn',
+					'name' => 'title',
+					'htmlOptions' => array(
+						'access' => 'model.update', 
+					),	
+				),	
             );
 			
 		if (Access::is('model.update')) {

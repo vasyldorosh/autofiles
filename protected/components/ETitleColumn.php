@@ -1,6 +1,6 @@
 <?php
 /**
- * EImageColumn class file.
+ * ETitleColumn class file.
  *
  * This column assumes that the filename is saved as a path to the
  * image that is to be rendered. If no pathPrefix is given, it 
@@ -8,7 +8,7 @@
  * 
  * Example Usage:
  *
-	Yii::import('application.components.EImageColumn');
+	Yii::import('application.components.ETitleColumn');
   $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'photo-grid',
 	'dataProvider'=>$model->search(),
@@ -16,14 +16,10 @@
 	'columns'=>array(
 		'id',
 		array(
-			'class'=>'EImageColumn',
-			'name' => 'filename',
+			'class'=>'ETitleColumn',
+			'name' => 'title',
 			'htmlOptions' => array('style' => 'width: 150px;'),
 			),
-		'album.title',
-		'album.category.title',
-		'title',
-		'filename',
 		array(
 			'class'=>'CButtonColumn',
 		),
@@ -41,7 +37,7 @@ Yii::import('zii.widgets.grid.CGridColumn');
  * CImageColumn represents a grid view column that displays an image, and optional, a link
  *
  */
-class EImageColumn extends CGridColumn
+class ETitleColumn extends CGridColumn
 {
 	public $name;
 
@@ -57,11 +53,8 @@ class EImageColumn extends CGridColumn
 
 	// alt attribute for the <image> tag
 	public $alt = '';
-
-	// optional: link
-	public $link = false;
-
-	public $filter = false;
+	
+	public $filter = true;
 
 	public function init()
 	{

@@ -90,6 +90,8 @@ class AutoModelYear extends CActiveRecord
 			}
 						
 			foreach ($this->post_competitors as $competitor_id) {
+				$competitor_id = (int) $competitor_id;
+				if (!$competitor_id) continue;
 				foreach ($deletedCompetitors as $deleted_id) {
 					$sqlParts[] = "((model_year_id=$deleted_id AND competitor_id=$competitor_id) OR (model_year_id=$competitor_id AND competitor_id=$deleted_id))";
 				}
@@ -234,6 +236,11 @@ class AutoModelYear extends CActiveRecord
 				return $this->getCompetitors();
 			}
 		}
+	}
+	
+	public function getTitle()
+	{
+		return $this->Model->Make->title . " " . $this->Model->title;
 	}
 	
 }

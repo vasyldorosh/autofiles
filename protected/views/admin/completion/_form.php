@@ -6,7 +6,7 @@
 			'enctype' => 'multipart/form-data',
 		),		
     ))?>
-    <div class="form-actions">
+
 		<fieldset>
 			<legend><?=Yii::t('admin', 'General')?></legend>	
 			<?php echo $form->dropDownListRow($model, 'model_id', AutoModel::getAllWithMake(),array('empty'=>''))?>
@@ -39,8 +39,9 @@
 		</fieldset>		
 		<?php endforeach;?>
 		
-        <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType' => 'submit', 'label' => $model->isNewRecord ? Yii::t('admin', 'Add') : Yii::t('admin', 'Save')))?>
-    </div>
+	
+		<?php $this->renderPartial('application.views.admin._form_actions', array('model'=>$model))?>
+	
     <?php $this->endWidget()?>
 </div>
 

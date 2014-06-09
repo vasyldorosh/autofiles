@@ -27,7 +27,7 @@ class RoleController extends BackendController
 			$model->attributes = $_POST['AdminRole'];
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Role successfully added'));
-				$this->redirect('/admin/role');
+				$this->afterSaveRedirect($model);
 			}
         }		
 
@@ -45,7 +45,7 @@ class RoleController extends BackendController
 			$model->attributes = $_POST['AdminRole'];
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Role successfully edited'));
-				$this->redirect('/admin/role');
+				$this->afterSaveRedirect($model);
 			}
         }
 
