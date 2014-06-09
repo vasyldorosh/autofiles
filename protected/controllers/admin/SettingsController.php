@@ -17,7 +17,6 @@ class SettingsController extends BackendController
         }
 
         $this->render("index", array(
-            'model' => $model,
             'values' => SiteConfig::getInstance()->getData(),
 	    ));
     }
