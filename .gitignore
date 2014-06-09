@@ -2,6 +2,7 @@
 /assets
 /photos
 /protected/config/db.php
+/protected/config/site.conf
 /test
 test.php
 *.txt
