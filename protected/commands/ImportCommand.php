@@ -610,6 +610,28 @@ class ImportCommand extends CConsoleCommand
 		}		
 		
 	}
-
+	
+	public function actionTest()
+	{
+		AutoSpecsOption::model()->deleteAllByAttributes(array('specs_id'=>120));
+		$sql = "SELECT DISTINCT value AS v FROM auto_completion_specs_temp WHERE specs_id=120 ORDER BY v";
+		$items = Yii::app()->db->createCommand($sql)->queryAll();
+		$data = array();
+		foreach ($items as $item) {
+			$option = $this->getOption(array('value'=>$item['v'], 'specs_id'=>120));
+			$data[$option->value] = $option->id;
+		}
+		
+		$sql = "SELECT * FROM auto_completion_specs_temp WHERE specs_id=120";
+		$items = Yii::app()->db->createCommand($sql)->queryAll();
+		foreach ($items as $item) {
+			$completion = AutoCompletion::model()->findByPk($item['completion_id']);
+			$completion->specs_engine = $data[$item['value']];
+			$completion->save(false);
+			echo $completion->id . "\n";
+		}
+		
+	}
+		
 }
 ?>

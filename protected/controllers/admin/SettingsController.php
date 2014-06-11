@@ -16,7 +16,7 @@ class SettingsController extends BackendController
 			Yii::app()->admin->setFlash('success', Yii::t('admin', 'Successfully saved'));
         }
 
-        $this->render("application.views.admin.settings.index", array(
+        $this->render("index", array(
             'values' => SiteConfig::getInstance()->getData(),
 	    ));
     }
