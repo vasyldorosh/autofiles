@@ -34,7 +34,7 @@ class ParsingWorldcarfansAlbumPhoto extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, url', 'required'),
+			array('title, url, almum_id', 'required'),
 			array('url', 'safe'),
 			array('url', 'logoValidate', 'on'=>'insert'),
 		);
