@@ -32,8 +32,6 @@ class WorldcarfansCommand extends CConsoleCommand
 				
 				echo  $album->id . "\n";
 			}
-			
-			if ($i==1) die();
 		}
 	}
 	
