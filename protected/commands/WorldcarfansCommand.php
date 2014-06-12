@@ -23,7 +23,7 @@ class WorldcarfansCommand extends CConsoleCommand
 			
 			foreach ($html->find('#postsarea a.medialistitem') as $key=>$a) {
 
-				if (method_exists($a, 'find') && $data=$a->find('.data', 0) && property_exists($data, 'plaintext'))
+				if (method_exists($a, 'find') && $data=$a->find('.data', 0) && property_exists($data, 'plaintext')) {
 					$photoCountText = $data->plaintext;	
 					$title = str_replace(trim($photoCountText), '', trim($a->plaintext));
 						
