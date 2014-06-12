@@ -65,6 +65,7 @@ class WorldcarfansCommand extends CConsoleCommand
 				die();
 			
 			foreach ($albums as $key=>$album) {
+				echo $album->id . "\n";
 				$content = Yii::app()->cache->get($album->url);
 				if ($content == false) {
 					$content = CUrlHelper::getPage($album->url, '', '');
@@ -80,13 +81,8 @@ class WorldcarfansCommand extends CConsoleCommand
 						'title' => $matches[2][$key],
 					));
 						
-					echo  $photo->id . "\n";				
-				}				
-				
-				print_r($matches);
-				die();
-						
-				echo $album->id . "\n";
+					echo  "\t" . $photo->id . "\n";				
+				}								
 			}
 		}
 	}	
