@@ -52,7 +52,9 @@ class ParsingWorldcarfansAlbum extends CActiveRecord
 	public function afterSave()
 	{	
 		if ($this->isNewRecord) {
-			file_put_contents($this->_fullFilePath(), file_get_contents($this->logo_url));
+			$content = @file_get_contents($this->logo_url);
+			if ($content);
+				file_put_contents($this->_fullFilePath(), $content);
 		}	
 		
 		return parent::afterSave();
