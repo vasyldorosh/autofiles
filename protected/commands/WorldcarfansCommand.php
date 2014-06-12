@@ -18,9 +18,9 @@ class WorldcarfansCommand extends CConsoleCommand
 		$countPage = (int) end($data);		
 		
 		for ($i=1; $i<=$countPage;$i++) {	
-			
 			$url = "http://www.worldcarfans.com/photos/{$i}";
 			$content = CUrlHelper::getPage($url, '', '');
+			$html = str_get_html($content);	
 	
 			foreach ($html->find('#postsarea a.medialistitem') as $key=>$a) {
 					
@@ -56,7 +56,6 @@ class WorldcarfansCommand extends CConsoleCommand
 	private function getParsingWorldcarfansAlbum($attributes, $logo_url) 
 	{
 		$model = ParsingWorldcarfansAlbum::model()->findByAttributes($attributes);
-		print_r($attributes);
 		if (empty($model)) {
 			$model = new ParsingWorldcarfansAlbum;
 			$model->attributes = $attributes;
