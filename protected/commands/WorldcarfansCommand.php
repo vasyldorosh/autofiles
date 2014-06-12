@@ -9,34 +9,42 @@ class WorldcarfansCommand extends CConsoleCommand
 
 	public function actionPhoto()
 	{
+		
 		$url = 'http://www.worldcarfans.com/photos';
 		$content = CUrlHelper::getPage($url, '', '');
-		
-		$html = str_get_html($content);	
-		$data = explode('of', $html->find('#postsarea .navs', 0)->plaintext);
-		$countPage = (int) end($data);		
+		preg_match('/<div class="navs"><a href="photos\/2" class="nextarrow" style="float:right;"><\/a>Page 1 of (.*?)<\/div>/', $content, $m);
+		$countPage = isset($m[1]) ? $m[1] : 63;	
 		
 		for ($i=1; $i<=$countPage;$i++) {	
-			$url = "http://www.worldcarfans.com/photos/{$i}";
-			$content = CUrlHelper::getPage($url, '', '');
-			$html = str_get_html($content);	
+			$url = "http://www.worldcarfans.com/photos/20";
+			$content = Yii::app()->cache->get($url);
+			if ($content == false) {
+				$content = CUrlHelper::getPage($url, '', '');
+				Yii::app()->cache->get($url, $content, 60*60*24);
+			}			
 			
-			foreach ($html->find('#postsarea a.medialistitem') as $key=>$a) {
 
-				if (method_exists($a, 'find') && $data=$a->find('.data', 0) && property_exists($data, 'plaintext')) {
-					$photoCountText = $data->plaintext;	
-					$title = str_replace(trim($photoCountText), '', trim($a->plaintext));
-						
-					$album = $this->getParsingWorldcarfansAlbum(array(
-						'url' => trim($a->href),
-						'title' => $title,
-					), $a->find('img', 0)->src);
+			$content = str_replace(array("\n", "\t", "\r", "                    ", "                "), "", $content);
+			file_put_contents('xxx.txt', $content);
+			$expl = explode('<div id="postsarea">', $content);
+			$content = end($expl);
+			preg_match_all('/<a href="(.*?)" class="medialistitem"><img src="(.*?)" \/>(.*?)<div class="data">(.*?)photos<\/div>/', $content, $matches);
+			
+			foreach ($matches[0] as $key=>$value) {
+				$expl = explode('<a href="', $matches[1][$key]);
+				$url = trim(end($expl));		
+				
+				$expl = explode('<div class="', $matches[3][$key]);
+				$title = trim($expl[0]);		
+				
+				$album = $this->getParsingWorldcarfansAlbum(array(
+					'url' => $url,
+					'title' => $title,
+				), $matches[2][$key]);
 					
-					echo  $album->id . "\n";
-				} else {
-					echo "error {$key} \n";
-				}
+				echo  $album->id . "\n";				
 			}
+			
 		}
 	}
 	
@@ -62,9 +70,22 @@ class WorldcarfansCommand extends CConsoleCommand
 					$content = CUrlHelper::getPage($album->url, '', '');
 					Yii::app()->cache->get($album->url, $content, 60*60*24);
 				}
+				$content = str_replace(array("\n", "\t", "\r", "        ", "        ", "    "), "", $content);
+				file_put_contents('xxx.txt', $content);
+				preg_match_all('/<li><a class="thumb" href="(.*?)" title="(.*?)" name="image"><img src="(.*?)" alt="(.*?)" height="80" width="80" \/><\/a><div class="caption">(.*?)<\/div><\/li>/', $content, $matches);
 				
-				//<a class="thumb" href="" title="" name="image"><img src="" alt="" height="" width="" /></a>
-			
+				foreach ($matches[0] as $key=>$value) {
+					$photo = $this->getParsingWorldcarfansAlbumPhoto(array(
+						'url' => $matches[1][$key],
+						'title' => $matches[2][$key],
+					));
+						
+					echo  $photo->id . "\n";				
+				}				
+				
+				print_r($matches);
+				die();
+						
 				echo $album->id . "\n";
 			}
 		}
@@ -90,7 +111,17 @@ class WorldcarfansCommand extends CConsoleCommand
 				
 			$model->model_year_id = $model_year_id;	
 			$model->save();				
+		}
 			
+		return $model;
+	}
+	
+	private function getParsingWorldcarfansAlbumPhoto($attributes) 
+	{
+		$model = ParsingWorldcarfansAlbumPhoto::model()->findByAttributes($attributes);
+		if (empty($model)) {
+			$model = new ParsingWorldcarfansAlbumPhoto;
+			$model->attributes = $attributes;
 			$model->save();
 		}
 			
