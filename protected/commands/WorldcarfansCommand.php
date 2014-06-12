@@ -56,6 +56,7 @@ class WorldcarfansCommand extends CConsoleCommand
 	private function getParsingWorldcarfansAlbum($attributes, $logo_url) 
 	{
 		$model = ParsingWorldcarfansAlbum::model()->findByAttributes($attributes);
+		print_r($attributes);
 		if (empty($model)) {
 			$model = new ParsingWorldcarfansAlbum;
 			$model->attributes = $attributes;
