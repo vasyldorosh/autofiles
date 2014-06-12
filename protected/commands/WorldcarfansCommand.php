@@ -18,8 +18,7 @@ class WorldcarfansCommand extends CConsoleCommand
 		$countPage = (int) end($data);		
 		
 		for ($i=1; $i<=$countPage;$i++) {	
-			if ($i == 2) die();
-		
+			
 			$url = "http://www.worldcarfans.com/photos/{$i}";
 			$content = CUrlHelper::getPage($url, '', '');
 	
