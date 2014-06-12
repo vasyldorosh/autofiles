@@ -28,12 +28,17 @@ class SiteController extends Controller
 
 	public function actionT()
 	{
-		$items = AutoModel::model()->findAll();
-		foreach ($items as $item) {
-			$item->title = str_replace($item->Make->title,'', $item->title);
-			$item->save(false);
-			echo $item->id . ' '. $item->title . '<br/>';
-		}
+		// This import is better to be included in your main
+		// config file. For those newbies to the framework, 
+		// please recall that this is a path alias, you should 
+		// write exactly where it is
+		Yii::import('application.components.yii-aws.components.*');
+
+		$s3 = new A2S3();
+		$response = $s3->listBuckets(); // we are going to list the buckets
+
+		// just for the sake of the example
+		print_r($response);
 	}	
 	
 }
