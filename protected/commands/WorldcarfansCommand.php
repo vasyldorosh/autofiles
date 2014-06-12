@@ -73,7 +73,7 @@ class WorldcarfansCommand extends CConsoleCommand {
                 foreach ($matches[0] as $key => $value) {
                     $photo = $this->getParsingWorldcarfansAlbumPhoto(array(
                         'url' => $matches[1][$key],
-                        'almum_id' => $album->id,
+                        'album_id' => $album->id,
                         'title' => $matches[2][$key],
                     ));
 
