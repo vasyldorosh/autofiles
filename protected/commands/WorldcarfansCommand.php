@@ -11,29 +11,28 @@ class WorldcarfansCommand extends CConsoleCommand
 	public function actionPhoto()
 	{
 		$url = 'http://www.worldcarfans.com/photos';
-		$content = Yii::app()->cache->get($url);
-		if ($content == false) {
-			$content = CUrlHelper::getPage($url, '', '');
-			Yii::app()->cache->get($url, $content, 60*60);
-		}
-		//$content = str_replace(array("\n", "\t", "\r", "                    ", "                "), "", $content);
-		
-		//preg_match_all('/<a href="(.*?)" class="medialistitem"><img src="(.*?)">(.*?)<div class="data">(.*?)<\/div><\/a>/', $content, $matches);
-		//file_put_contents('xxx.txt', $content);
-		//print_r($matches);
+		$content = CUrlHelper::getPage($url, '', '');
 		
 		$html = str_get_html($content);	
-		foreach ($html->find('#postsarea a.medialistitem') as $key=>$a) {
-				
-			$album = $this->getParsingWorldcarfansAlbum(array(
-				'url' => trim($a->href),
-				'title' => trim($a->plaintext),
-			), $a->find('img', 0)->src);
-			
-			echo  $album->id . "\n";
-			if ($key == 4) continue;
-		}
+		$data = explode('of', $html->find('#postsarea .navs', 0)->plaintext);
+		$countPage = (int) end($data);		
 		
+		for ($i=1; $i<=$countPage;$i++) {	
+			if ($i == 2) die();
+		
+			$url = "http://www.worldcarfans.com/photos/{$i}";
+			$content = CUrlHelper::getPage($url, '', '');
+	
+			foreach ($html->find('#postsarea a.medialistitem') as $key=>$a) {
+					
+				$album = $this->getParsingWorldcarfansAlbum(array(
+					'url' => trim($a->href),
+					'title' => trim($a->plaintext),
+				), $a->find('img', 0)->src);
+				
+				echo  $album->id . "\n";
+			}
+		}
 		die();
 		
 		$criteria=new CDbCriteria;
