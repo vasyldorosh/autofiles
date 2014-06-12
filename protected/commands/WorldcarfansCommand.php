@@ -10,7 +10,7 @@ class WorldcarfansCommand extends CConsoleCommand
 	public function actionPhoto()
 	{
 		
-		$url = 'http://www.worldcarfans.com/photos';
+		$url = 'http://www.worldcarfans.com/'.$i;
 		$content = CUrlHelper::getPage($url, '', '');
 		preg_match('/<div class="navs"><a href="photos\/2" class="nextarrow" style="float:right;"><\/a>Page 1 of (.*?)<\/div>/', $content, $m);
 		$countPage = isset($m[1]) ? $m[1] : 63;	
