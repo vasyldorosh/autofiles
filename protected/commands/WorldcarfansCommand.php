@@ -23,8 +23,8 @@ class WorldcarfansCommand extends CConsoleCommand
 			
 			foreach ($html->find('#postsarea a.medialistitem') as $key=>$a) {
 
-				try {
-					$photoCountText = $a->find('.data', 0)->plaintext;	
+				if (method_exists($a, 'find') && $data=$a->find('.data', 0) && property_exists($data, 'plaintext'))
+					$photoCountText = $data->plaintext;	
 					$title = str_replace(trim($photoCountText), '', trim($a->plaintext));
 						
 					$album = $this->getParsingWorldcarfansAlbum(array(
@@ -33,8 +33,8 @@ class WorldcarfansCommand extends CConsoleCommand
 					), $a->find('img', 0)->src);
 					
 					echo  $album->id . "\n";
-				} catch (Exception $e) {
-					echo 'Caught exception: ',  $e->getMessage(), "\n";
+				} else {
+					echo "error {$key} \n";
 				}
 			}
 		}
@@ -63,7 +63,7 @@ class WorldcarfansCommand extends CConsoleCommand
 					Yii::app()->cache->get($album->url, $content, 60*60*24);
 				}
 				
-				
+				//<a class="thumb" href="" title="" name="image"><img src="" alt="" height="" width="" /></a>
 			
 				echo $album->id . "\n";
 			}
