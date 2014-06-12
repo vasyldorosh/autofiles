@@ -21,7 +21,6 @@ class WorldcarfansCommand extends CConsoleCommand {
                 Yii::app()->cache->get($url, $content, 60 * 60 * 24);
             }
 
-
             $content = str_replace(array("\n", "\t", "\r", "                    ", "                "), "", $content);
             file_put_contents('xxx.txt', $content);
             $expl = explode('<div id="postsarea">', $content);
