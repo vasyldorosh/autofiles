@@ -20,20 +20,55 @@ class WorldcarfansCommand extends CConsoleCommand
 			$url = "http://www.worldcarfans.com/photos/{$i}";
 			$content = CUrlHelper::getPage($url, '', '');
 			$html = str_get_html($content);	
-	
+			
 			foreach ($html->find('#postsarea a.medialistitem') as $key=>$a) {
-				$photoCountText = $a->find('.data', 0)->plaintext;	
-				$title = str_replace(trim($photoCountText), '', trim($a->plaintext));
+
+				try {
+					$photoCountText = $a->find('.data', 0)->plaintext;	
+					$title = str_replace(trim($photoCountText), '', trim($a->plaintext));
+						
+					$album = $this->getParsingWorldcarfansAlbum(array(
+						'url' => trim($a->href),
+						'title' => $title,
+					), $a->find('img', 0)->src);
 					
-				$album = $this->getParsingWorldcarfansAlbum(array(
-					'url' => trim($a->href),
-					'title' => $title,
-				), $a->find('img', 0)->src);
-				
-				echo  $album->id . "\n";
+					echo  $album->id . "\n";
+				} catch (Exception $e) {
+					echo 'Caught exception: ',  $e->getMessage(), "\n";
+				}
 			}
 		}
 	}
+	
+	public function actionP()
+	{
+		$limit = 100;
+		
+		$to = Yii::app()->db->createCommand('SELECT MAX(id) FROM parsing_worldcarfans_album')->queryScalar();
+		
+		for ($offset=0; $offset<=$to; $offset+=$limit) {
+		
+			$criteria = new CDbCriteria();
+			$criteria->limit = $limit;		
+			$criteria->offset = $offset;	
+			
+			$albums = ParsingWorldcarfansAlbum::model()->findAll($criteria);
+			if (empty($albums))
+				die();
+			
+			foreach ($albums as $key=>$album) {
+				$content = Yii::app()->cache->get($album->url);
+				if ($content == false) {
+					$content = CUrlHelper::getPage($album->url, '', '');
+					Yii::app()->cache->get($album->url, $content, 60*60*24);
+				}
+				
+				
+			
+				echo $album->id . "\n";
+			}
+		}
+	}	
 	
 	private function getParsingWorldcarfansAlbum($attributes, $logo_url) 
 	{
