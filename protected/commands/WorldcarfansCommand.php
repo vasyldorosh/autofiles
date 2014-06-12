@@ -23,7 +23,16 @@ class WorldcarfansCommand extends CConsoleCommand
 		//print_r($matches);
 		
 		$html = str_get_html($content);	
-		print_r($html->find('#postsarea .navs a'));
+		foreach ($html->find('#postsarea a.medialistitem') as $key=>$a) {
+				
+			$album = $this->getParsingWorldcarfansAlbum(array(
+				'url' => trim($a->href),
+				'title' => trim($a->plaintext),
+			), $a->find('img', 0)->src);
+			
+			echo  $album->id . "\n";
+			if ($key == 4) continue;
+		}
 		
 		die();
 		
@@ -44,6 +53,19 @@ class WorldcarfansCommand extends CConsoleCommand
 		} 
 		
 		//print_r($data);
+	}
+	
+	private function getParsingWorldcarfansAlbum($attributes, $logo_url) 
+	{
+		$model = ParsingWorldcarfansAlbum::model()->findByAttributes($attributes);
+		if (empty($model)) {
+			$model = new ParsingWorldcarfansAlbum;
+			$model->attributes = $attributes;
+			$model->logo_url = $logo_url;
+			$model->save();
+		}
+		
+		return $model;
 	}
 
 }	
