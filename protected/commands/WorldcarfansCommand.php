@@ -22,7 +22,6 @@ class WorldcarfansCommand extends CConsoleCommand {
             }
 
             $content = str_replace(array("\n", "\t", "\r", "                    ", "                "), "", $content);
-            file_put_contents('xxx.txt', $content);
             $expl = explode('<div id="postsarea">', $content);
             $content = end($expl);
             preg_match_all('/<a href="(.*?)" class="medialistitem"><img src="(.*?)" \/>(.*?)<div class="data">(.*?)photos<\/div>/', $content, $matches);
@@ -67,7 +66,6 @@ class WorldcarfansCommand extends CConsoleCommand {
                     Yii::app()->cache->get($album->url, $content, 60 * 60 * 24);
                 }
                 $content = str_replace(array("\n", "\t", "\r", "        ", "        ", "    "), "", $content);
-                file_put_contents('xxx.txt', $content);
                 preg_match_all('/<li><a class="thumb" href="(.*?)" title="(.*?)" name="image"><img src="(.*?)" alt="(.*?)" height="80" width="80" \/><\/a><div class="caption">(.*?)<\/div><\/li>/', $content, $matches);
 
                 foreach ($matches[0] as $key => $value) {
