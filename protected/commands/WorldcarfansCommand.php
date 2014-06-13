@@ -53,7 +53,7 @@ class WorldcarfansCommand extends CConsoleCommand {
             $criteria = new CDbCriteria();
             $criteria->limit = $limit;
             $criteria->offset = $offset;
-            $criteria->addColumnCondition('id > 1198');
+            $criteria->addCondition('id > 1198');
             
             $albums = ParsingWorldcarfansAlbum::model()->findAll($criteria);
             if (empty($albums))
