@@ -73,7 +73,7 @@ class WorldcarfansController extends BackendController
 		Access::is('parsing', 403);
 		ParsingWorldcarfansAlbum::moveToModelYear();
 		Yii::app()->admin->setFlash('success', Yii::t('admin', 'Photos successfully moved'));
-		$this->afterSaveRedirect($model);		
+		$this->redirect(array('index'));		
 	}	
 	
 	
