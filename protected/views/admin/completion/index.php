@@ -343,7 +343,6 @@ $('#AutoCompletion_model_id').change(function(e) {
 	$.post('/admin/modelYear/getByModel', {'id': $(this).val()} , function(response) {
 		$.each(response.items, function(value, lable){
 			$('.js-model_year_id').append('<option value="'+value+'">'+lable+'</option>');
-			alert('<option value="'+value+'">'+lable+'</option>')
 		});
 	}, 'json');
 });

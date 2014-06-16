@@ -34,9 +34,19 @@ class ParsingWorldcarfansAlbum extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('title, url', 'required'),
-			array('logo_url', 'safe'),
+			array('logo_url, is_new, model_year_id', 'safe'),
 		);
 	}
+	
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		return array(
+            'ModelYear' => array(self::BELONGS_TO, 'AutoModelYear', 'model_year_id', 'together'=>true,),
+        );
+	}	
 	
    protected function beforeSave() 
    {
@@ -68,7 +78,14 @@ class ParsingWorldcarfansAlbum extends CActiveRecord
     public function beforeDelete() 
 	{
 		@unlink($this->_fullFilePath());
-
+	
+		$criteria = new CDbCriteria();
+		$criteria->compare('album_id', $this->id);
+		$photos = ParsingWorldcarfansAlbumPhoto::model()->findAll($criteria);
+		foreach ($photos as $photo) {
+			$photo->delete();
+		}
+		
         return parent::beforeDelete();
     }	
 	
@@ -81,10 +98,9 @@ class ParsingWorldcarfansAlbum extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'title' => Yii::t('admin', 'Title'),
-			'alias' => Yii::t('admin', 'Alias'),
 			'image_preview' => Yii::t('admin', 'Image'),
-			'is_active' => Yii::t('admin', 'Published'),
-			'is_deleted' => Yii::t('admin', 'Deleted'),
+			'create_time' => Yii::t('admin', 'Time Parsing'),
+			'model_year_id' => Yii::t('admin', 'Model By Year'),
 		);
 	}
 
@@ -100,7 +116,9 @@ class ParsingWorldcarfansAlbum extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
+		$criteria->compare('is_new',$this->is_new);
 		$criteria->compare('title',$this->title, true);
+		$criteria->with = array('ModelYear');
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -115,5 +133,32 @@ class ParsingWorldcarfansAlbum extends CActiveRecord
 		return CHtml::listData(self::model()->findAll(), 'id', 'title');
 	}	
 	
+	public static function moveToModelYear()
+	{
+		$criteria=new CDbCriteria;
+		$criteria->addCondition('model_year_id	> 0');
+		$criteria->compare('is_new',1);		
+		
+		$albums = self::model()->findAll($criteria);
+		foreach ($albums as $album) {
+		
+			$criteria = new CDbCriteria();
+			$criteria->compare('is_new',1);	
+			$criteria->compare('album_id', $album->id);
+			$photos = ParsingWorldcarfansAlbumPhoto::model()->findAll($criteria);
+			foreach ($photos as $photo) {
+				$photo->is_new = 0;
+				$photo->save(false);
+				
+				$modelYearPhoto = new AutoModelYearPhoto;
+				$modelYearPhoto->year_id = $album->model_year_id;
+				$modelYearPhoto->file_url = $photo->getFullFilePath();
+				$modelYearPhoto->save();
+			}		
+		
+			$album->is_new = 0;
+			$album->save(false);
+		}
+	}
 
 }

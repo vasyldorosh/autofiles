@@ -54,7 +54,7 @@ class AutoModelYearPhoto extends CActiveRecord
 			array(
 				'file', 
 				'file', 
-				'types'=>'jpg,png,gif,jpeg,JPG,PNG,GIF,JPEG',
+				'types'=>'jpg,png,gif,jpeg',
 				'allowEmpty'=>true
 			),			
             // The following rule is used by search().
@@ -160,10 +160,28 @@ class AutoModelYearPhoto extends CActiveRecord
 	private function _deleteImage()
     {
         if ($this->image_ext) {
-			Yii::app()->file->set($this->image_directory)->delete();
-        }
+			$files = $this->bfglob(Yii::getPathOfAlias('webroot') . '/photos/model_year/', "*{$this->file_name}", 0, 10);			
+			foreach ($files as $file) {
+				@unlink($file);
+			}
+		}
     }	
-
+	
+	function bfglob($path, $pattern = '*', $flags = 0, $depth = 0) {
+        $matches = array();
+        $folders = array(rtrim($path, DIRECTORY_SEPARATOR));
+ 
+        while($folder = array_shift($folders)) {
+            $matches = array_merge($matches, glob($folder.DIRECTORY_SEPARATOR.$pattern, $flags));
+            if($depth != 0) {
+                $moreFolders = glob($folder.DIRECTORY_SEPARATOR.'*', GLOB_ONLYDIR);
+                $depth   = ($depth < -1) ? -1: $depth + count($moreFolders) - 2;
+                $folders = array_merge($folders, $moreFolders);
+            }
+        }
+        return $matches;
+    }
+ 
     public function getImage_directory($mkdir=false) {
         if (!$mkdir) {
 			return Yii::app()->basePath . '/../photos/model_year/' . $this->year_id . '/';

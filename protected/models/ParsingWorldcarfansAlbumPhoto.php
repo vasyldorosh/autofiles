@@ -62,20 +62,20 @@ class ParsingWorldcarfansAlbumPhoto extends CActiveRecord
 	public function afterSave()
 	{	
 		if ($this->isNewRecord) {
-			file_put_contents($this->_fullFilePath(), $this->_logo_content);
+			file_put_contents($this->getFullFilePath(), $this->_logo_content);
 		}	
 		
 		return parent::afterSave();
 	}
 	
-	private function _fullFilePath()
+	public function getFullFilePath()
 	{
 		return str_replace('protected/', '', Yii::getPathOfAlias('webroot') . self::LOGO_PATH . $this->id . self::LOGO_EXT) ;
 	}
 
     public function beforeDelete() 
 	{
-		@unlink($this->_fullFilePath());
+		@unlink($this->getFullFilePath());
 
         return parent::beforeDelete();
     }	

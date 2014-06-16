@@ -129,9 +129,16 @@ body {
 				array('label' => Yii::t('admin', 'Specs'), 'visible'=>(Access::is('specs') || Access::is('specsGroup')), 'items' => array(
 					array('label' => Yii::t('admin', 'Specs'), 'url' => Yii::app()->createUrl('admin/specs'), 'visible'=>Access::is('specs')),
 					array('label' => Yii::t('admin', 'Specs Group'), 'url' => Yii::app()->createUrl('admin/specsGroup'), 'visible'=>Access::is('specsGroup')),
-				)),		
+				)),	
+				
 				array('label' => Yii::t('admin', 'Settings'), 'url' => Yii::app()->createUrl('admin/settings'), 'visible'=>(Access::is('settings'))),
-	        ),
+				array('label' => Yii::t('admin', 'Parsing'), 'url' => Yii::app()->createUrl('admin/parsing'), 'visible'=>(Access::is('parsing')), 'items' => array(
+					array('label' => Yii::t('admin', 'Worldcarfans Photos'), 'url' => Yii::app()->createUrl('admin/parsing/worldcarfans')),
+				)),
+	        
+				
+			
+			),
         ),
         array(
             'class'=>'bootstrap.widgets.TbMenu',
