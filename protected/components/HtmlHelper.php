@@ -40,4 +40,13 @@ class HtmlHelper
 			return false;
 		}
 	}
+	
+	public static function worldcarfansTitle($data)
+	{
+		if ($data->is_new == 0) {
+			return $data->title;
+		} else {
+			return CHtml::link($data->title, '#', array('rel'=>$data->id, 'class'=>'js-worldcarfans-link'));
+		}
+	}
 }

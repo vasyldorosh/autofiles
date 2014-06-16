@@ -49,8 +49,6 @@ $this->pageTitle = Yii::app()->name.' - ' . Yii::t('admin', 'Parsing Albums');
 					checkedIds = ids;
 					
 					$("#errors-action-models").hide();
-					$("#btn_models_copy").hide();
-					$("#btn_models_move").show();
 					$("#modalWorldcarfans").modal("show");	
 					$("#js-modal-title").text("'.Yii::t('admin', 'Move Albums').'");	
 				}',
@@ -105,7 +103,11 @@ $this->pageTitle = Yii::app()->name.' - ' . Yii::t('admin', 'Parsing Albums');
 						'width' => 60, 
 					),					
 				),	
-				'title',
+				array(
+					'name'=>'title',
+					'value'=>'HtmlHelper::worldcarfansTitle($data)',
+					'type' => 'raw',
+				),				
 				array(
 					'name' => 'model_year_id',
 					'value' => '$data->ModelYear?$data->ModelYear->Model->Make->title ." ". $data->ModelYear->Model->title . " ". $data->ModelYear->year:"-"',	
@@ -188,9 +190,7 @@ EOD
 <div class="modal-footer">
     
 	<a onclick="moveCompletions();return false;" class="btn btn-primary" id="btn_models_move" href="#"><?=Yii::t('admin', 'Move')?></a>
-	
-	<a onclick="copyCompletions();return false;" class="btn btn-info" id="btn_models_copy" href="#"><?=Yii::t('admin', 'Copy')?></a>
-	
+		
 	<a onclick="$('#modalWorldcarfans').modal('hide');return false;" class="btn" href="#" style="display: inline-block;"><?=Yii::t('admin', 'Cancel')?></a>
 	
 </div> 
@@ -226,4 +226,17 @@ $('#ParsingWorldcarfansAlbum_model_id').change(function(e) {
 		});
 	}, 'json');
 });
+
+$('body').on('click', '.js-worldcarfans-link', function(e){
+	e.preventDefault();
+	var ids = new Array();
+	ids.push($(this).attr('rel'))	
+
+	checkedIds = ids;
+					
+	$("#errors-action-models").hide();
+	$("#modalWorldcarfans").modal("show");	
+	$("#js-modal-title").text("<?=Yii::t('admin', 'Move Albums')?>");
+})
+
 </script>
