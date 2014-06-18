@@ -8,3 +8,5 @@ test.php
 *.txt
 robots.txt
 /nbproject/private/
+/protected/conponents/yii-aws
+/amazon
