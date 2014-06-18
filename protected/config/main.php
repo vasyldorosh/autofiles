@@ -50,7 +50,7 @@ return array(
 				//'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				//'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 				
-				'<makeAlias:[a-z-0-9_]{1,255}>/<modelAlias:[a-z-]{1,255}>' => 'site/model',
+				'<makeAlias:[a-z-0-9_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'site/model',
 				'<alias:[a-z-0-9_]{1,255}>' => 'site/make',
 			),
 		),
