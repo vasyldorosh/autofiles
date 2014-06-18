@@ -3,6 +3,8 @@
 class AutoSpecs extends CActiveRecord
 {	
 	const CACHE_KEY_LIST = 'AUTO_SPECS_LIST__';
+	const CACHE_KEY_LIST_TYPE = 'AUTO_SPECS_LIST_TYPE_';
+	const CACHE_KEY_LIST_ALIAS = 'AUTO_SPECS_LIST_ALIAS_';
 
 	const TYPE_STRING = 0;
 	const TYPE_INT = 1;
@@ -166,6 +168,8 @@ class AutoSpecs extends CActiveRecord
 	private function clearCache()
 	{
 		Yii::app()->cache->delete(self::CACHE_KEY_LIST);
+		Yii::app()->cache->delete(self::CACHE_KEY_LIST_TYPE);
+		Yii::app()->cache->delete(self::CACHE_KEY_LIST_ALIAS);
 		Yii::app()->cache->delete(AutoSpecsOption::CACHE_KEY_LIST . $this->id);
 	}
 	
@@ -265,6 +269,30 @@ class AutoSpecs extends CActiveRecord
 		if (empty($data)) {
 			$data = (array)self::model()->findAll();
 			Yii::app()->cache->set(self::CACHE_KEY_LIST, $data, 60*60*24*31);
+		}
+		
+		return $data;
+	}	
+	
+	public static function getAllType()
+	{
+		$data = Yii::app()->cache->get(self::CACHE_KEY_LIST_TYPE);
+		if (empty($data)) {
+			$criteria=new CDbCriteria;
+			$data = CHtml::listData(self::model()->findAll($criteria), 'id', 'type');
+			Yii::app()->cache->set(self::CACHE_KEY_LIST_TYPE, $data, 60*60*24*31);
+		}
+		
+		return $data;
+	}	
+	
+	public static function getAllAlias()
+	{
+		$data = Yii::app()->cache->get(self::CACHE_KEY_LIST_ALIAS);
+		if (empty($data)) {
+			$criteria=new CDbCriteria;
+			$data = CHtml::listData(self::model()->findAll($criteria), 'alias', 'id');
+			Yii::app()->cache->set(self::CACHE_KEY_LIST_ALIAS, $data, 60*60*24*31);
 		}
 		
 		return $data;

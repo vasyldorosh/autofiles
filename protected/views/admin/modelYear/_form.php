@@ -32,7 +32,8 @@
 	<?php echo $form->dropDownListRow($model, 'model_id', AutoModel::getAllWithMake(),array('empty'=>''))?>
 		
 	<?php echo $form->textFieldRow($model, 'year')?>
-
+	
+	<?php echo $form->textAreaRow($model, 'description', array('class'=>'ckeditor'))?>
 	
 	<?php $this->renderPartial('application.views.admin._form_actions', array('model'=>$model))?>
 	

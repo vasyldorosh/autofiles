@@ -36,6 +36,7 @@ class AutoModelYear extends CActiveRecord
             array('id, year', 'numerical', 'integerOnly' => true,),		
 			array('is_active, is_deleted', 'numerical', 'integerOnly' => true),
             array('post_competitors', 'safe',),					
+            array('description', 'safe',),					
 		);
 	}
 	
@@ -64,7 +65,8 @@ class AutoModelYear extends CActiveRecord
 			'post_competitors' => Yii::t('admin', 'Competitors'),
 			'image_preview' => Yii::t('admin', 'Image'),
 			'is_active' => Yii::t('admin', 'Published'),
-			'is_deleted' => Yii::t('admin', 'Deleted'),				
+			'is_deleted' => Yii::t('admin', 'Deleted'),	
+			'description' => Yii::t('admin', 'Description'),
 		);
 	}
 	
@@ -111,9 +113,17 @@ class AutoModelYear extends CActiveRecord
 			$item->save();
 		}	
 			
+		$this->_clearCache();	
+			
 		return parent::afterSave();
 	}		
 	
+	public function afterDelete()
+	{
+		$this->_clearCache();
+		
+		return parent::afterDelete();
+	}	
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -241,6 +251,32 @@ class AutoModelYear extends CActiveRecord
 	public function getTitle()
 	{
 		return $this->Model->Make->title . " " . $this->Model->title;
+	}
+	
+	private function _clearCache()
+	{
+		Yii::app()->cache->clear(Tags::TAG_MODEL_YEAR);
+	}	
+	
+	public static function getYears($model_id) 
+	{
+		$key = Tags::TAG_MODEL_YEAR . 'YEARS_'.$model_id;	
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false || true) {
+			$criteria=new CDbCriteria;
+
+			$criteria->compare('model_id',$model_id);
+			$criteria->compare('is_deleted',0);
+			$criteria->compare('is_active',1);		
+			$criteria->order = 'year DESC';		
+		
+			$data = CHtml::listData(AutoModelYear::model()->findAll($criteria), 'id', 'year');
+			//d($data);
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR));
+		}
+		
+		return $data;			
 	}
 	
 }

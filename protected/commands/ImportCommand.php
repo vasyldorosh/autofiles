@@ -632,6 +632,21 @@ class ImportCommand extends CConsoleCommand
 		}
 		
 	}
+
+	public function actionAlias()
+	{
+		$makes = AutoMake::model()->findAll();
+		foreach ($makes as $make) {
+			$make->save();
+			echo "MAKE $make->id \n";
+		}
+		
+		$models = AutoModel::model()->findAll();
+		foreach ($models as $model) {
+			$model->save();
+			echo "MODEL $model->id \n";
+		}
+	}	
 		
 }
 ?>

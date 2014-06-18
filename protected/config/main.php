@@ -1,5 +1,4 @@
 <?php
-
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
@@ -7,7 +6,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'Auto',
+	'name'=>'AutoFiles',
 
 	// preloading 'log' component
 	'preload'=>array(
@@ -23,10 +22,6 @@ return array(
         'application.extensions.*'
 	),
 
-	'modules'=>array(
-
-	),
-
 	// application components
 	'components'=>array(
 		'assetManager' => array(
@@ -34,20 +29,6 @@ return array(
 			'forceCopy' => YII_DEBUG,
 		),	
 	
-		'user'=>array(
-			// enable cookie-based authentication
-			'allowAutoLogin'=>true,
-            'class' => 'WebUser',
-		),
-		'admin'=>array(
-			// enable cookie-based authentication
-			'allowAutoLogin'=>true,
-            'class' => 'WebAdmin',
-		),
-        'bootstrap' => array(
-            'class' => 'ext.bootstrap.components.Bootstrap',
-            'responsiveCss' => true,
-        ),
         /*'ckeditor' => array(
             'class' => 'application.extensions.ckeditor.TheCKEditorWidget',
         ),*/
@@ -64,15 +45,16 @@ return array(
 			'urlFormat'=>'path',
 			'showScriptName' => false,
 			'rules'=>array(	
-				'admin' => 'admin/index/index',
-				'admin/login' => 'admin/index/login',
-				'admin/<controller:\w+>/<action:\w+>' => 'admin/<controller>/<action>',
-	
-				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
-				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
-				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+				
+				//'<controller:\w+>/<id:\d+>'=>'<controller>/view',
+				//'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
+				//'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+				
+				'<makeAlias:[a-z-]{1,255}>/<modelAlias:[a-z-]{1,255}>' => 'site/model',
+				'<alias:[a-z-]{1,255}>' => 'site/make',
 			),
 		),
+	
 		
 		'db'=> require(dirname(__FILE__).'/db.php'),
 
@@ -80,6 +62,23 @@ return array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
 		),
+		
+        'cache' => array(
+            //'class' => 'application.components.MemCacheI',
+			'class'=>'system.caching.CMemCache',
+            'servers' => array(
+                array(
+                    'host' => '127.0.0.1',
+                    'port' => 11211,
+                    'weight' => 60,
+                ),
+            ),
+			'behaviors' => array(
+                'clear' => array(
+                    'class' => 'application.components.TaggingBehavior',
+                ),
+            ),
+        ),		
 		
 		/*
 		'log'=>array(
@@ -103,25 +102,7 @@ return array(
 			  ),			  
 			),
 		  ),		
-		
-		
-        'cache' => array(
-            //'class' => 'application.components.MemCacheI',
-			'class'=>'system.caching.CMemCache',
-            'servers' => array(
-                array(
-                    'host' => '127.0.0.1',
-                    'port' => 11211,
-                    'weight' => 60,
-                ),
-            ),
-			'behaviors' => array(
-                'clear' => array(
-                    'class' => 'ext.TaggingBehavior',
-                ),
-            ),
-        ),
-		
+				
         'file' => array(
             'class'=>'application.extensions.file.CFile',
         ),		

@@ -2,6 +2,8 @@
 
 class AutoMake extends CActiveRecord
 {
+	const CACHE_KEY_LIST_FRONT = 'MAKES_LIST_FRONT______';
+	
 	public $file; 
 
 
@@ -39,11 +41,35 @@ class AutoMake extends CActiveRecord
 				'file', 
 				'types'=>'jpg,png,gif,jpeg',
 				'allowEmpty'=>true
-			),			
+			),	
+			array('description', 'safe',),	
 		);
 	}
 	
-   protected function beforeSave() {
+	/**
+	 * Выполняем ряд действий перед валидацией модели
+	 * @return boolean -- результат выполнения операции
+	 */
+	protected function beforeValidate()
+	{
+		//создаем алиас к тайтлу
+		$this->buildAlias();
+		return parent::beforeValidate();
+	}
+	
+	/**
+	 * Создаем алиас к тайтлу
+	 */
+	private function buildAlias()
+	{
+		if (empty($this->alias) && !empty($this->title)) { 
+			$this->alias = $this->title;
+		}
+		
+		$this->alias = TextHelper::urlSafe($this->alias);
+	}	
+	
+	protected function beforeSave() {
 
 		if (!empty($this->file)) {
 			if (!$this->isNewRecord)
@@ -62,14 +88,17 @@ class AutoMake extends CActiveRecord
 			$this->file->saveAs($this->getImage_directory(true) . 'origin.'.$this->image_ext);
 		}	
 		
+		$this->_clearCache();
+		
 		return parent::afterSave();
 	}
 
-    public function beforeDelete() 
+    public function afterDelete() 
 	{
 		$this->_deleteImage();
-
-        return parent::beforeDelete();
+		$this->_clearCache();	
+			
+        return parent::afterDelete();
     }	
 	
     private function _deleteImage() 
@@ -146,6 +175,7 @@ class AutoMake extends CActiveRecord
 			'image_preview' => Yii::t('admin', 'Image'),
 			'is_active' => Yii::t('admin', 'Published'),
 			'is_deleted' => Yii::t('admin', 'Deleted'),
+			'description' => Yii::t('admin', 'Description'),
 		);
 	}
 
@@ -176,7 +206,33 @@ class AutoMake extends CActiveRecord
 	public static function getAll()
 	{
 		return CHtml::listData(self::model()->findAll(), 'id', 'title');
-	}	
+	}
+
+	public static function getAllFront()
+	{
+		$data = Yii::app()->cache->get(self::CACHE_KEY_LIST_FRONT);
+		
+		if ($data == false || true) {
+			$criteria=new CDbCriteria;
+			$criteria->compare('is_active', 1);	
+			$criteria->compare('is_deleted', 0);	
+			$criteria->order = 'title';	
+			$data = CHtml::listData(self::model()->findAll(), 'urlFront', 'title');
+			Yii::app()->cache->set(self::CACHE_KEY_LIST_FRONT, $data, 60*60*24*30, new Tags(Tags::TAG_MAKE));
+		}
+		
+		return $data;
+	}
+
 	
+	private function _clearCache()
+	{
+		Yii::app()->cache->clear(Tags::TAG_MAKE);
+	}
+	
+	public function getUrlFront()
+	{
+		return '/'.$this->alias . '/';
+	}
 
 }

@@ -38,9 +38,33 @@ class AutoModel extends CActiveRecord
 				'file', 
 				'types'=>'jpg,png,gif,jpeg',
 				'allowEmpty'=>true
-			),	
+			),
+			array('description', 'safe',),					
 		);
 	}
+	
+	/**
+	 * Выполняем ряд действий перед валидацией модели
+	 * @return boolean -- результат выполнения операции
+	 */
+	protected function beforeValidate()
+	{
+		//создаем алиас к тайтлу
+		$this->buildAlias();
+		return parent::beforeValidate();
+	}
+	
+	/**
+	 * Создаем алиас к тайтлу
+	 */
+	private function buildAlias()
+	{
+		if (empty($this->alias) && !empty($this->title)) { 
+			$this->alias = $this->title;
+		}
+		
+		$this->alias = TextHelper::urlSafe($this->alias);
+	}	
 	
 	/**
 	 * @return array relational rules.
@@ -155,7 +179,8 @@ class AutoModel extends CActiveRecord
 			'alias' => Yii::t('admin', 'Alias'),
 			'image_preview' => Yii::t('admin', 'Image'),
 			'is_active' => Yii::t('admin', 'Published'),
-			'is_deleted' => Yii::t('admin', 'Deleted'),			
+			'is_deleted' => Yii::t('admin', 'Deleted'),	
+			'description' => Yii::t('admin', 'Description'),
 		);
 	}
 
@@ -191,6 +216,65 @@ class AutoModel extends CActiveRecord
 	public static function getAllWithMake()
 	{
 		return CHtml::listData(self::model()->with(array('Make'))->findAll(), 'id', 'title', 'Make.title');
+	}
+
+	public function getUrlFront()
+	{
+		return '/'.$this->Make->urlFront . '/' . $this->alias . '/';
 	}	
+	
+
+	public function getMinMaxMsrp()
+	{
+		$key = Tags::TAG_COMPLETION . 'MINMAXMSRP_'.$this->id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false || true) {
+			$sql = "SELECT 
+						MAX(c.specs_msrp) AS mmax,  
+						MIN(c.specs_msrp) AS mmin 
+					FROM auto_completion AS c
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					WHERE 
+						c.is_active = 1 AND 
+						c.is_deleted = 0 AND
+						y.is_active = 1 AND
+						y.is_deleted = 0 AND
+						y.model_id = {$this->id}
+					";
+					
+			$data = Yii::app()->db->createCommand($sql)->queryRow();	
+			Yii::app()->cache->set($key, $data, 60*60*24*31, new Tags(Tags::TAG_COMPLETION));
+		}
+		
+		return $data;
+	}	
+	
+	public function getLastCompletion()
+	{
+		$key = Tags::TAG_COMPLETION . 'LAST_'.$this->id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false || true) {
+			$sql = "SELECT 
+						c.*,
+						y.year AS year
+					FROM auto_completion AS c
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					WHERE 
+						c.is_active = 1 AND 
+						c.is_deleted = 0 AND
+						y.is_active = 1 AND
+						y.is_deleted = 0 AND
+						y.model_id = {$this->id}
+					ORDER BY year DESC
+					";
+					
+			$data = Yii::app()->db->createCommand($sql)->queryRow();
+			Yii::app()->cache->set($key, $data, 60*60*24*31, new Tags(Tags::TAG_COMPLETION, Tags::TAG_MODEL_YEAR));
+		}
+		
+		return $data;
+	}
 
 }

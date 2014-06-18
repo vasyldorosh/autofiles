@@ -1,38 +1,62 @@
-<?php /* @var $this Controller */ ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!doctype html>
+<html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="language" content="en" />
-    <link rel="shortcut icon" href="/site/img/favicon.ico" />
-
+	<meta charset="utf-8">
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
-    <style type="text/css">
-        body {
-            background: #ffffff;
-        }
-
-        #page {
-            padding: 10px;
-            border: 0px solid #dddddd;
-			min-height:800px;
-        }
-        .page-header h3,.page-header h2,.page-header h1 {
-            font-size:17px;
-            line-height: 20px;
-            margin: 0;
-        }
-    </style>
-
+	 <meta name="keywords" content="<?php echo CHtml::encode($this->meta_keywords); ?>" />
+	 <meta name="description" content="<?php echo CHtml::encode($this->meta_description); ?>" />	
+	
+	<meta name="viewport" content="initial-scale=1"/>
+	<link rel="stylesheet" media="screen" href="/css/screen.css" >
+	<!--[if IE]><script src="/js/html5shiv.js"></script><![endif]-->
 </head>
+<body class="l">
+<!-- BEGIN HEADER -->
+<header>
+	<a href="/" class="logo" title="Cars technical information"><span>Auto</span>Files</a>
+	<div class="search">
+		<input type="text" placeholder="Search">
+		<button type="submit" class="btn btn_search"></button>
+	</div>
+	<!--
+	<a href="#" class="sign-in">Sign in</a>
+	<a href="#" class="join">Join</a>
+	-->
+</header>
+<!-- BEGIN NAV -->
+<menu>
+	<ul class="menu-list">
+		<li class="is-active"><a href="/">Home</a></li>
+		<!--
+		<li><a href="#">All cars</a></li>
+		<li><a href="#">Cars specs</a></li>
+		<li><a href="#">Store</a></li>
+		<li><a href="#">Tires</a></li>
+		<li><a href="#">Media</a></li>
+		-->
 
-<body>
+	</ul>
+</menu>
 
-<div class="container" id="page">
-	<?php echo $content; ?>
-	<div class="clear"></div>
-</div>
+<?php echo $content;?>
 
+
+<!-- BEGIN FOOTER -->
+<footer>
+	<section class="footer__info">
+		<a href="#">RSS</a>
+		<a href="#">About us</a>
+		<a href="#">Support</a>
+	</section>
+	<section class="footer__copyright">
+		&copy <?=date('Y')?> AutoFiles. All Rights Reserved.
+	</section>
+</footer>
+
+</body>
+</html>
+
+<?php if ($_SERVER['SERVER_NAME'] == 'autofiles.com'):?>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -41,8 +65,15 @@
 
   ga('create', 'UA-2389032-30', 'autofiles.com');
   ga('send', 'pageview');
-
 </script>
+<?php endif;?>
+
+<?php if (YII_DEBUG):?>
+<div style="position:fixed;right:0;top:0;color:green;margin-right:5px;z-index:10000;">
+  <?php $stat = Yii::app()->db->getStats();?>
+  <?=$stat[0]?> / <?=round($stat[1],5)?>
+</div> 
+<?php endif;?>
 
 </body>
 </html>

@@ -166,4 +166,23 @@ class AutoCompletion extends CActiveRecord
 			}
 		}
 	}
+	
+	public function afterSave()
+	{
+		$this->_clearCache();
+		
+		return parent::afterSave();
+	}
+	
+	public function afterDelete()
+	{
+		$this->_clearCache();
+		
+		return parent::afterDelete();
+	}
+	
+	private function _clearCache()
+	{
+		Yii::app()->cache->clear(Tags::TAG_COMPLETION);
+	}
 }

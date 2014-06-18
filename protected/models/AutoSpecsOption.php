@@ -93,5 +93,25 @@ class AutoSpecsOption extends CActiveRecord
 		}
 	}
 	
+	public static function getV($specs, $value) 
+	{
+		$dataSpecsAlias = AutoSpecs::getAllAlias();
+		if (isset($dataSpecsAlias[$specs])) {
+			$dataSpecsType = AutoSpecs::getAllType();
+			if (isset($dataSpecsType[$dataSpecsAlias[$specs]]) && $dataSpecsType[$dataSpecsAlias[$specs]] == AutoSpecs::TYPE_SELECT) {
+				$options = self::getAllBySpecs($dataSpecsAlias[$specs]);
+				if (isset($options[$value])) {
+					return $options[$value];
+				} else {
+					$value;
+				}
+			} else {
+				return $value;
+			}
+		} else {
+			return $value;
+		}
+	}
+	
 	
 }

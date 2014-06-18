@@ -29,8 +29,21 @@ return array(
         ),
 		'db'=> require(dirname(__FILE__).'/db.php'),
 		
-		'cache'=>array(
-            'class'=>'system.caching.CFileCache', // используем кэш на файлах
+        'cache' => array(
+            //'class' => 'application.components.MemCacheI',
+			'class'=>'system.caching.CMemCache',
+            'servers' => array(
+                array(
+                    'host' => '127.0.0.1',
+                    'port' => 11211,
+                    'weight' => 60,
+                ),
+            ),
+			'behaviors' => array(
+                'clear' => array(
+                    'class' => 'application.components.TaggingBehavior',
+                ),
+            ),
         ),
 		
         'file' => array(

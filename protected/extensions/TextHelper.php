@@ -76,6 +76,7 @@ class TextHelper {
     public static function translit($string, $reverse = false)
     {
         $table = array(
+            '_' => '-',
             'А' => 'A',
             'Б' => 'B',
             'В' => 'V',
