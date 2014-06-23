@@ -244,7 +244,7 @@ class AutoModel extends CActiveRecord
 					";
 					
 			$data = Yii::app()->db->createCommand($sql)->queryRow();	
-			Yii::app()->cache->set($key, $data, 60*10, new Tags(Tags::TAG_COMPLETION));
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_COMPLETION));
 		}
 		
 		return $data;
@@ -271,7 +271,7 @@ class AutoModel extends CActiveRecord
 					";
 					
 			$data = Yii::app()->db->createCommand($sql)->queryRow();
-			Yii::app()->cache->set($key, $data, 60*10, new Tags(Tags::TAG_COMPLETION, Tags::TAG_MODEL_YEAR));
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_COMPLETION, Tags::TAG_MODEL_YEAR));
 		}
 		
 		return $data;
@@ -288,7 +288,7 @@ class AutoModel extends CActiveRecord
 			$criteria->order = 'year DESC';					
 			$data = AutoModelYear::model()->find($criteria);					
 			
-			Yii::app()->cache->set($key, $data, 60*10, new Tags(Tags::TAG_MODEL_YEAR));
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR));
 		}
 
 		return $data;	

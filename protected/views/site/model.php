@@ -7,11 +7,12 @@
 				<?=$model->description?>
 			</p>
 			
-			<?php $completion = $model->getLastCompletion()?>
+			<?php $lastModelYear = $model->getLastYear();?>
+			<?php $completion = $model->getLastCompletion();?>
 			
 			<h3><?=$completion['year']?> <?=$model->Make->title?> <?=$model->title?></h3>
 			<div class="model__specs">
-				<div class="model__specs-image"><img src="<?=$model->getThumb(150, 88, 'crop')?>"></div>
+				<div class="model__specs-image"><img src="<?=$lastModelYear->getThumb(150, 88, 'crop')?>"></div>
 				<table class="model__specs-table">
 					<tbody><tr>
 						<td>MSRP $<?=number_format($completion['specs_msrp'], 0, '', ',');?></td>
@@ -65,7 +66,7 @@
 				</tbody></table>
 			</div>
 			<div>
-			<?php foreach ($modelByYears as $modelByYear):?>
+			<?php foreach ($modelByYears as $modelByYear): if ($lastModelYear->year == $modelByYear['year']) {continue;}?>
 				<a href="#" class="model__block"><span><?=$modelByYear['year']?></span><img src="<?=$modelByYear->getThumb(140, 112, 'crop')?>"></a>
 			<?php endforeach;?>	
 			</div>

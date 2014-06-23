@@ -80,7 +80,7 @@ class ModelYearGalleryController extends CController
                 /** @var $p AutoModelYearPhoto */
                 $p = AutoModelYearPhoto::model()->findByPk($k);
                 $p->rank = $orders[$i];
-                $p->save();
+                $p->save(false);
                 $i++;
             }
             if ($_POST['ajax'] == true) {

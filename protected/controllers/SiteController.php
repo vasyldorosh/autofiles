@@ -2,7 +2,6 @@
 
 class SiteController extends Controller
 {
-
 	/**
 	 * This is the default 'index' action that is invoked
 	 * when an action is not explicitly requested by users.
@@ -107,12 +106,6 @@ class SiteController extends Controller
 			else
 				$this->render('error', $error);
 		}
-	}
-
-	public function actionTt()
-	{
-		$model = AutoModelYear::model()->findByPk(1);
-		d($model->photos, 0);
 	}	
 	
 	public function actionT()

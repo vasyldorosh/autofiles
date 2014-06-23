@@ -2,7 +2,7 @@
 
 class AutoMake extends CActiveRecord
 {
-	const CACHE_KEY_LIST_FRONT = 'MAKES_LIST_FRONT1';
+	const CACHE_KEY_LIST_FRONT = 'MAKES_LIST_FRONT_1';
 	
 	public $file; 
 
@@ -212,13 +212,13 @@ class AutoMake extends CActiveRecord
 	{
 		$data = Yii::app()->cache->get(self::CACHE_KEY_LIST_FRONT);
 			
-		if ($data == false || true) {
+		if ($data == false) {
 			$criteria=new CDbCriteria;
 			$criteria->compare('is_active', 1);	
 			$criteria->compare('is_deleted', 0);	
 			$criteria->order = 'title';	
-			$data = CHtml::listData(self::model()->findAll(), 'urlFront', 'title');
-			Yii::app()->cache->set(self::CACHE_KEY_LIST_FRONT, $data, 60*60, new Tags(Tags::TAG_MAKE));
+			$data = CHtml::listData(self::model()->findAll($criteria), 'urlFront', 'title');
+			Yii::app()->cache->set(self::CACHE_KEY_LIST_FRONT, $data, 0, new Tags(Tags::TAG_MAKE));
 		}
 		
 		return $data;
