@@ -151,7 +151,7 @@ class ImportCommand extends CConsoleCommand
 			$content = CUrlHelper::getPage($url, '', '');
 			preg_match_all('/<a href="http:\/\/o.aolcdn.com\/commerce\/images\/(.*?)_Large.jpg">/', $content, $matches);
 			
-			echo $keyYear  . " ".date("H:i:m")."\n" ;
+			echo $keyYear  . "\n" ;
 			
 			if (isset($matches[1])) {
 				foreach ($matches[1] as $file) {
@@ -160,7 +160,7 @@ class ImportCommand extends CConsoleCommand
 					$photo->file_url = $file_url;
 					$photo->year_id = $autoModelYear->id;
 					$photo->save();
-					echo "\t" . $photo->id . " ".date("H:i:m")."\n" ;
+					echo "\t" . $photo->id . "\n" ;
 				}
 			}
 		}
