@@ -154,7 +154,7 @@ class ImportCommand extends CConsoleCommand
 			$content = CUrlHelper::getPage($url, '', '');
 			preg_match_all('/<a href="http:\/\/o.aolcdn.com\/commerce\/images\/(.*?)_Large.jpg">/', $content, $matches);
 			
-			echo $keyYear  . "\n" ;
+			echo $autoModelYear->id  . "\n" ;
 			
 			if (isset($matches[1])) {
 				foreach ($matches[1] as $file) {

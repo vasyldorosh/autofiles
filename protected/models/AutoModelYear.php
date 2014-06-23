@@ -157,7 +157,7 @@ class AutoModelYear extends CActiveRecord
 	{
 		$key = self::CACHE_KEY_PHOTOS . $this->id;
 		$cache = Yii::app()->cache->get($key);
-		if (empty($cache) && !is_array($cache) || true) {
+		if (!is_array($cache)) {
 			$cache = $this->galleryPhotos;
 			Yii::app()->cache->set($key, $cache, 60*60*24);
 		}
@@ -264,7 +264,7 @@ class AutoModelYear extends CActiveRecord
 		$key = Tags::TAG_MODEL_YEAR . 'YEARS_'.$model_id;	
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data == false || true) {
+		if ($data == false) {
 			$criteria=new CDbCriteria;
 
 			$criteria->compare('model_id',$model_id);
@@ -274,7 +274,7 @@ class AutoModelYear extends CActiveRecord
 		
 			$data = CHtml::listData(AutoModelYear::model()->findAll($criteria), 'id', 'year');
 			//d($data);
-			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR));
+			Yii::app()->cache->set($key, $data, 60*10, new Tags(Tags::TAG_MODEL_YEAR));
 		}
 		
 		return $data;			

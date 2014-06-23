@@ -109,6 +109,12 @@ class SiteController extends Controller
 		}
 	}
 
+	public function actionTt()
+	{
+		$model = AutoModelYear::model()->findByPk(1);
+		d($model->photos, 0);
+	}	
+	
 	public function actionT()
 	{
 		// This import is better to be included in your main

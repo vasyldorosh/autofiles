@@ -229,7 +229,7 @@ class AutoModel extends CActiveRecord
 		$key = Tags::TAG_COMPLETION . 'MINMAXMSRP_'.$this->id;
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data == false || true) {
+		if ($data == false) {
 			$sql = "SELECT 
 						MAX(c.specs_msrp) AS mmax,  
 						MIN(c.specs_msrp) AS mmin 
@@ -244,7 +244,7 @@ class AutoModel extends CActiveRecord
 					";
 					
 			$data = Yii::app()->db->createCommand($sql)->queryRow();	
-			Yii::app()->cache->set($key, $data, 60*60*24*31, new Tags(Tags::TAG_COMPLETION));
+			Yii::app()->cache->set($key, $data, 60*10, new Tags(Tags::TAG_COMPLETION));
 		}
 		
 		return $data;
@@ -282,7 +282,7 @@ class AutoModel extends CActiveRecord
 		$key = Tags::TAG_MODEL_YEAR . 'LASTYEAR_'.$this->id;
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data == false || true) {
+		if ($data == false) {
 			$criteria=new CDbCriteria;
 			$criteria->compare('model_id', $this->id);
 			$criteria->order = 'year DESC';					
@@ -290,9 +290,7 @@ class AutoModel extends CActiveRecord
 			
 			Yii::app()->cache->set($key, $data, 60*10, new Tags(Tags::TAG_MODEL_YEAR));
 		}
-		
-		
-		
+
 		return $data;	
 	}	
 
