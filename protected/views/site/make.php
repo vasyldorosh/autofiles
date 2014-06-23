@@ -12,7 +12,13 @@
 			<ul class="make__vehicle">
 			<?php foreach ($models as $model):?>
 				<li>
-					<div class="make__vehicle-image"><a href="/<?=$make['alias']?>/<?=$model['alias']?>/"><img src="<?=$model->getThumb(150, 88, 'crop')?>"></a></div>
+					<?php $lastYear = $model->getLastYear();?>
+					
+					<div class="make__vehicle-image"><a href="/<?=$make['alias']?>/<?=$model['alias']?>/">
+					<?php if (!empty($lastYear)):?>
+						<img src="<?=$lastYear->getThumb(150, 88, 'crop')?>"> 
+					<?php endif;?>
+				</a></div>
 					<h3><a href="/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$make['title']?> <?=$model->title?></a></h3>
 					<ul class="make__vehicle-specs">
 						<?php $priceData = $model->getMinMaxMsrp();?>

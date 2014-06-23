@@ -157,7 +157,7 @@ class AutoModelYear extends CActiveRecord
 	{
 		$key = self::CACHE_KEY_PHOTOS . $this->id;
 		$cache = Yii::app()->cache->get($key);
-		if (empty($cache) && !is_array($cache)) {
+		if (empty($cache) && !is_array($cache) || true) {
 			$cache = $this->galleryPhotos;
 			Yii::app()->cache->set($key, $cache, 60*60*24);
 		}
@@ -168,6 +168,7 @@ class AutoModelYear extends CActiveRecord
 	public function getThumb($width=null, $height=null, $mode='origin')
 	{
 		$photos = $this->photos;
+		
 		if (isset($photos[0]) && $photos[0] instanceof AutoModelYearPhoto && method_exists($photos[0], 'getThumb')) {
 			return $photos[0]->getThumb($width, $height, $mode);
 		} else {

@@ -560,7 +560,7 @@ class ImportCommand extends CConsoleCommand
 			$criteria = new CDbCriteria();
 			$criteria->limit = $limit;		
 			$criteria->offset = $offset;	
-	
+			
 			$completionCompetitors = AutoCompletionCompetitorsTemp::model()->findAll($criteria);
 			if (empty($completionCompetitors)) {
 				die();
