@@ -11,19 +11,20 @@ return array(
 	// preloading 'log' component
 	'preload'=>array(
         'log',
-        'bootstrap',
     ),
 
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
-		'application.components.admin.*',
         'application.extensions.*'
 	),
 
 	// application components
 	'components'=>array(
+
+		'cache'=> require(dirname(__FILE__).'/cache.php'),
+	
 		'assetManager' => array(
 			'class' => 'CAssetManager',
 			'forceCopy' => YII_DEBUG,
@@ -62,23 +63,6 @@ return array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
 		),
-		
-        'cache' => array(
-            //'class' => 'application.components.MemCacheI',
-			'class'=>'system.caching.CMemCache',
-            'servers' => array(
-                array(
-                    'host' => '127.0.0.1',
-                    'port' => 11211,
-                    'weight' => 60,
-                ),
-            ),
-			'behaviors' => array(
-                'clear' => array(
-                    'class' => 'application.components.TaggingBehavior',
-                ),
-            ),
-        ),		
 		
 		/*
 		'log'=>array(

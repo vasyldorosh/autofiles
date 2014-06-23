@@ -1,8 +1,8 @@
 <?php
 function d($var,$d=true) {CVarDumper::dump($var,30,true); if($d)die;}
 // change the following paths if necessary
-//$yii=dirname(__FILE__).'/../yii-1.1.13.e9e4a0/framework/yii.php';
-$yii=dirname(__FILE__).'/yii/framework/yii.php';
+$yii=dirname(__FILE__).'/yii/framework/yiilite.php';
+//$yii=('C://server/OpenServer/domains/framework_1.1.14/yii.php');
 
 $c = strpos($_SERVER['REQUEST_URI'], 'admin') ?'admin.php':'main.php';
 

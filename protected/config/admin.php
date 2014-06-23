@@ -25,6 +25,9 @@ return array(
 
 	// application components
 	'components'=>array(
+	
+        'cache'=> require(dirname(__FILE__).'/cache.php'),
+	
 		'assetManager' => array(
 			'class' => 'CAssetManager',
 			'forceCopy' => YII_DEBUG,
@@ -69,25 +72,7 @@ return array(
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
-		),
-		
-        'cache' => array(
-            //'class' => 'application.components.MemCacheI',
-			'class'=>'system.caching.CMemCache',
-            'servers' => array(
-                array(
-                    'host' => '127.0.0.1',
-                    'port' => 11211,
-                    'weight' => 60,
-                ),
-            ),
-			'behaviors' => array(
-                'clear' => array(
-                    'class' => 'application.components.TaggingBehavior',
-                ),
-            ),
-        ),		
-		
+		),		
 		/*
 		'log'=>array(
 			'class'=>'CLogRouter',

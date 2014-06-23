@@ -12,11 +12,9 @@ class SiteController extends Controller
 		$this->pageTitle = SiteConfig::getInstance()->getValue('seo_home_title');
 		$this->meta_keywords = SiteConfig::getInstance()->getValue('seo_home_meta_keywords');
 		$this->meta_description = SiteConfig::getInstance()->getValue('seo_home_meta_description');
-			
-		$years = AutoModelYear::getYears(1);
-			
-			
+		
 		$this->render('index', array(
+			
 		));
 	}
 	
