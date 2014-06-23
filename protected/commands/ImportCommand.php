@@ -142,14 +142,16 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionModelYearPhoto()
 	{
-		$autoModels = (array)AutoModelYear::model()->findAll();
+		$criteria = new CDbCriteria();
+		$criteria->addCondition('id > 266');		
+		$autoModels = (array)AutoModelYear::model()->findAll($criteria);
 		foreach ($autoModels as $keyYear=>$autoModelYear) {
 			$url = "http://autos.aol.com".$autoModelYear->url."photos/";
 			
 			$content = CUrlHelper::getPage($url, '', '');
 			preg_match_all('/<a href="http:\/\/o.aolcdn.com\/commerce\/images\/(.*?)_Large.jpg">/', $content, $matches);
 			
-			echo $keyYear . "\n";
+			echo $keyYear  . " ".date("H:i:m")."\n" ;
 			
 			if (isset($matches[1])) {
 				foreach ($matches[1] as $file) {
@@ -158,7 +160,7 @@ class ImportCommand extends CConsoleCommand
 					$photo->file_url = $file_url;
 					$photo->year_id = $autoModelYear->id;
 					$photo->save();
-					echo "\t" . $photo->id . "\n";
+					echo "\t" . $photo->id . " ".date("H:i:m")."\n" ;
 				}
 			}
 		}
