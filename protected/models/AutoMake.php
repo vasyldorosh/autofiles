@@ -212,7 +212,7 @@ class AutoMake extends CActiveRecord
 	{
 		$data = Yii::app()->cache->get(self::CACHE_KEY_LIST_FRONT);
 			
-		if ($data == false) {
+		if ($data == false || true) {
 			$criteria=new CDbCriteria;
 			$criteria->compare('is_active', 1);	
 			$criteria->compare('is_deleted', 0);	

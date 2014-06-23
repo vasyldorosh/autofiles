@@ -51,8 +51,8 @@ return array(
 				//'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				//'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 				
-				'<makeAlias:[a-z-0-9_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'site/model',
-				'<alias:[a-z-0-9_]{1,255}>' => 'site/make',
+				'<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'site/model',
+				'<alias:[a-z0-9-_]{1,255}>' => 'site/make',
 			),
 		),
 	
