@@ -142,8 +142,10 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionModelYearPhoto()
 	{
-		$from = Yii::app()->db->createCommand('SELECT MAX(year_id) FROM auto_model_year_photo')->queryScalar();
-		AutoModelYearPhoto::model()->deleteAllByAttributes(array('year_id'=>$from));	
+		//$from = Yii::app()->db->createCommand('SELECT MAX(year_id) FROM auto_model_year_photo')->queryScalar();
+		//AutoModelYearPhoto::model()->deleteAllByAttributes(array('year_id'=>$from));	
+		$from = 0;
+	
 	
 		$criteria = new CDbCriteria();
 		$criteria->addCondition("id > {$from}");		
