@@ -151,6 +151,7 @@ class AutoModelYearPhoto extends CActiveRecord
 	private function _clearCache()
 	{
 		Yii::app()->cache->delete(AutoModelYear::CACHE_KEY_PHOTOS . $this->year_id);
+		Yii::app()->cache->clear(Tags::TAG_MODEL_YEAR_PHOTO);
 	}
 	
 	public function beforeDelete()

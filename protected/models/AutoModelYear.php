@@ -2,7 +2,13 @@
 
 class AutoModelYear extends CActiveRecord
 {
+	const PHOTO_DIR = '/photos/model_year_item/';
 	const CACHE_KEY_PHOTOS = 'AUTO_MODEL_YEAR_PHOTOS_';
+	
+    public $file;
+    public $file_url;
+	
+	public $image_ext = 'jpg';	
 	
 	public $post_competitors = array();
 
@@ -36,7 +42,14 @@ class AutoModelYear extends CActiveRecord
             array('id, year', 'numerical', 'integerOnly' => true,),		
 			array('is_active, is_deleted', 'numerical', 'integerOnly' => true),
             array('post_competitors', 'safe',),					
-            array('description', 'safe',),					
+            array('description', 'safe',),		
+            array('file', 'length', 'max' => 128),
+			array(
+				'file', 
+				'file', 
+				'types'=>'jpg,png,gif,jpeg',
+				'allowEmpty'=>true
+			),				
 		);
 	}
 	
@@ -67,6 +80,7 @@ class AutoModelYear extends CActiveRecord
 			'is_active' => Yii::t('admin', 'Published'),
 			'is_deleted' => Yii::t('admin', 'Deleted'),	
 			'description' => Yii::t('admin', 'Description'),
+			'file' => 'File Name',			
 		);
 	}
 	
@@ -113,6 +127,21 @@ class AutoModelYear extends CActiveRecord
 			$item->save();
 		}	
 			
+		if (!empty($this->file)) {
+			$this->file_name = "{$this->Model->Make->alias}-{$this->Model->alias}-{$this->id}.jpg";
+			$this->file->saveAs($this->getImage_directory(true) . $this->file_name);
+			$this->updateByPk($this->id, array('file_name'=>$this->file_name));
+		}
+		
+		if (!empty($this->file_url)) {
+			$this->file_name = "{$this->Model->Make->alias}-{$this->Model->alias}-{$this->id}.jpg";
+			$imageContent = @file_get_contents($this->file_url);
+			if (!empty($imageContent)) {
+				file_put_contents($this->getImage_directory(true) . $this->file_name, $imageContent);
+				$this->updateByPk($this->id, array('file_name'=>$this->file_name));
+			}
+		}			
+						
 		$this->_clearCache();	
 			
 		return parent::afterSave();
@@ -120,10 +149,81 @@ class AutoModelYear extends CActiveRecord
 	
 	public function afterDelete()
 	{
+		$this->_deleteImage();
 		$this->_clearCache();
 		
 		return parent::afterDelete();
+	}
+
+	private function _deleteImage()
+    {
+        if ($this->image_ext) {
+			$files = $this->bfglob(Yii::getPathOfAlias('webroot') . self::PHOTO_DIR, "*{$this->file_name}", 0, 10);			
+			foreach ($files as $file) {
+				@unlink($file);
+			}
+		}
+    }	
+	
+	function bfglob($path, $pattern = '*', $flags = 0, $depth = 0) {
+        $matches = array();
+        $folders = array(rtrim($path, DIRECTORY_SEPARATOR));
+ 
+        while($folder = array_shift($folders)) {
+            $matches = array_merge($matches, glob($folder.DIRECTORY_SEPARATOR.$pattern, $flags));
+            if($depth != 0) {
+                $moreFolders = glob($folder.DIRECTORY_SEPARATOR.'*', GLOB_ONLYDIR);
+                $depth   = ($depth < -1) ? -1: $depth + count($moreFolders) - 2;
+                $folders = array_merge($folders, $moreFolders);
+            }
+        }
+        return $matches;
+    }	
+	
+	
+    public function getImage_directory($mkdir=false) {
+		return Yii::app()->basePath . '/..'. self::PHOTO_DIR;
+    }
+
+    public function getPreview()
+    {
+        return $this->getThumb(135, 100, 'resize');
+    }	
+	
+	public function getThumb($width=null, $height=null, $mode='origin')
+	{
+		$dir = $this->getImage_directory();
+		$originFile = $dir . $this->file_name;
+		
+		if (!is_file($originFile)) {
+			return "http://www.placehold.it/{$width}x{$height}/EFEFEF/AAAAAA";
+		}
+		
+		if ($mode == 'origin') {
+			return self::PHOTO_DIR . $this->file_name;
+		}
+		
+		$subdir = $mode . $width .'x'.$height;
+		$subdirPath = $dir . $subdir;
+		$subdirPathFile =$subdirPath . '/' . $this->file_name;
+		if (file_exists($subdirPath) == false) {
+			mkdir($subdirPath);
+			chmod($subdirPath, 0777);
+		}		
+		
+		if ($mode == 'resize') {
+			Yii::app()->iwi->load($originFile)
+							   ->resize($width, $height)
+							   ->save($subdirPathFile);
+		} else {
+			Yii::app()->iwi->load($originFile)
+							   ->crop($width, $height)
+							   ->save($subdirPathFile);
+		}
+		
+		return self::PHOTO_DIR .$subdir.'/'. $this->file_name;
 	}	
+		
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -163,22 +263,6 @@ class AutoModelYear extends CActiveRecord
 		}
 		
 		return $cache;
-	}
-	
-	public function getThumb($width=null, $height=null, $mode='origin')
-	{
-		$photos = $this->photos;
-		
-		if (isset($photos[0]) && $photos[0] instanceof AutoModelYearPhoto && method_exists($photos[0], 'getThumb')) {
-			return $photos[0]->getThumb($width, $height, $mode);
-		} else {
-			return "http://www.placehold.it/{$width}x{$height}/EFEFEF/AAAAAA";
-		}
-	}	
-	
-	public function getImage_preview()
-	{
-		return $this->getThumb(100, 60, 'crop');
 	}	
 	
 	public static function getAllByModel($model_id) 

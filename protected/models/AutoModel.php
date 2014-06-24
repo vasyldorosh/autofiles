@@ -220,7 +220,7 @@ class AutoModel extends CActiveRecord
 
 	public function getUrlFront()
 	{
-		return '/'.$this->Make->urlFront . '/' . $this->alias . '/';
+		return $this->Make->urlFront . $this->alias . '/';
 	}	
 	
 

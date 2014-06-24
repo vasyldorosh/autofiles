@@ -33,8 +33,14 @@
 		
 	<?php echo $form->textFieldRow($model, 'year')?>
 	
-	<?php echo $form->textAreaRow($model, 'description', array('class'=>'ckeditor'))?>
+		<?php echo $form->fileFieldRow($model, 'file')?>
+		
+		<?php if (!$model->isNewRecord):?>
+			<img id="image_preview" src="<?=$model->getThumb(100, 60, 'crop')?>"/>
+		<?php endif;?>
 	
+	<?php echo $form->textAreaRow($model, 'description', array('class'=>'ckeditor'))?>		
+		
 	<?php $this->renderPartial('application.views.admin._form_actions', array('model'=>$model))?>
 	
     <?php $this->endWidget()?>

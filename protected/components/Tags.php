@@ -4,6 +4,7 @@ class Tags implements ICacheDependency {
 	const TAG_MAKE = 'TAG_MAKE_';
 	const TAG_MODEL = 'TAG_MODEL_';
 	const TAG_MODEL_YEAR = 'TAG_MODEL_YEAR_';
+	const TAG_MODEL_YEAR_PHOTO = 'TAG_MODEL_YEAR_';
 	const TAG_COMPLETION = 'TAG_COMPLETION_';
 	
 	protected $timestamp;

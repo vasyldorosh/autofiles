@@ -73,6 +73,7 @@ class ModelYearController extends BackendController
 
         if (isset($_POST['AutoModelYear'])) {
 			$model->attributes = $_POST['AutoModelYear'];
+			$model->file = CUploadedFile::getInstance($model, 'file');
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Model by Year successfully added'));
 				$this->afterSaveRedirect($model);
@@ -92,6 +93,7 @@ class ModelYearController extends BackendController
 
         if (isset($_POST['AutoModelYear'])) {
 			$model->attributes = $_POST['AutoModelYear'];
+			$model->file = CUploadedFile::getInstance($model, 'file');
 
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Model by Year successfully edited'));

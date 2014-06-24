@@ -4,41 +4,36 @@
 		<section class="make">
 			<h2 class="section-name"><?=$make['title']?> vehicles</h2>
 			<div class="make__logo">
-				<img src="<?=$make->getThumb(151, 80, 'crop')?>">
+				<img src="<?=$make['photo']?>">
 			</div>
 			<div class="make__history">
 				<?=$make['description']?>
 			</div>
 			<ul class="make__vehicle">
-			<?php foreach ($models as $model):?>
+			<?php foreach ($dataModels as $dataModel):?>
 				<li>
-					<?php $lastYear = $model->getLastYear();?>
-					
-					<div class="make__vehicle-image"><a href="/<?=$make['alias']?>/<?=$model['alias']?>/">
-					<?php if (!empty($lastYear)):?>
-						<img src="<?=$lastYear->getThumb(150, 88, 'crop')?>"> 
+				<div class="make__vehicle-image"><a href="<?=$dataModel['url']?>">
+					<?php if (isset($dataModel['photo'])):?>
+						<img src="<?=$dataModel['photo']?>"> 
 					<?php endif;?>
 				</a></div>
-					<h3><a href="/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$make['title']?> <?=$model->title?></a></h3>
+					<h3><a href="<?=$dataModel['url']?>"><?=$make['title']?> <?=$dataModel['title']?></a></h3>
 					<ul class="make__vehicle-specs">
-						<?php $priceData = $model->getMinMaxMsrp();?>
-						<?php $lastCompletion = $model->getLastCompletion();?>
-						<li>MSRP $<?=number_format($priceData['mmin'], 0, '', ',');?>
-							<?php if ($priceData['mmin'] != $priceData['mmax']):?>
-								- $<?=number_format($priceData['mmax'], 0, '', ',');?>
+						<li>MSRP $<?=number_format($dataModel['price']['min'], 0, '', ',');?>
+							<?php if ($dataModel['price']['min'] != $dataModel['price']['max']):?>
+								- $<?=number_format($dataModel['price']['max'], 0, '', ',');?>
 							<?php endif;?>
 						</li>
-						<li>Engine: <?=AutoSpecsOption::getV('engine', $lastCompletion['specs_engine'])?></li>
-						<?php if (!empty($lastCompletion['specs_fuel_economy__city']) && !empty($lastCompletion['specs_fuel_economy__highway'])):?>
-							<li>MPG: <?=AutoSpecsOption::getV('fuel_economy__city', $lastCompletion['specs_fuel_economy__city'])?> / <?=AutoSpecsOption::getV('fuel_economy__highway', $lastCompletion['specs_fuel_economy__highway'])?></li>
+						<li>Engine: <?=$dataModel['completion']['engine']?></li>
+						<?php if (!empty($dataModel['completion']['fuel_economy_city']) && !empty($dataModel['completion']['fuel_economy_highway'])):?>
+							<li>MPG: <?=$dataModel['completion']['fuel_economy_city']?> / <?=$dataModel['completion']['fuel_economy_highway']?></li>
 						<?php endif;?>
-						<?php if (!empty($lastCompletion['specs_standard_seating'])):?>
-							<li>Seating Capacity: <?=AutoSpecsOption::getV('standard_seating', $lastCompletion['specs_standard_seating'])?></li>
+						<?php if (!empty($dataModel['completion']['standard_seating'])):?>
+							<li>Seating Capacity: <?=$dataModel['completion']['standard_seating']?></li>
 						<?php endif;?>
 					</ul>
 					<ul class="make__vehicle-years">
-					<?php $years = AutoModelYear::getYears($model['id'])?>
-					<?php foreach ($years as $year):?>	
+					<?php foreach ($dataModel['years'] as $year):?>	
 						<li><a href="#"><?=$year?></a></li>
 					<?php endforeach; ?>
 					</ul>
