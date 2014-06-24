@@ -203,7 +203,7 @@ class ImportCommand extends CConsoleCommand
 					$data = explode('"', $matches[1][$k]);
 					$modelYear->file_url = $data[0];
 					$modelYear->file_name = "{$modelYear->Model->Make->alias}-{$modelYear->Model->alias}-{$modelYear->year}.jpg";
-					$modelYear->save();
+					var_dump($modelYear->save());
 					echo "$i \t" . $modelYear->id . " " .$modelYear->file_url. "\n";
 				}
 				
@@ -218,7 +218,7 @@ class ImportCommand extends CConsoleCommand
 					$data = explode('"', $matchesTwo[1][$k]);
 					$modelYear->file_url = $data[0];
 					$modelYear->file_name = "{$modelYear->Model->Make->alias}-{$modelYear->Model->alias}-{$modelYear->year}.jpg";
-					$modelYear->save();
+					var_dump($modelYear->save());
 					echo "$i \t" . $modelYear->id . " " .$modelYear->file_url. "\n";
 				}
 				
