@@ -67,7 +67,7 @@
 			</div>
 			<div>
 			<?php foreach ($modelByYears as $modelByYear): if ($lastModelYear->year == $modelByYear['year']) {continue;}?>
-				<a href="#" class="model__block"><span><?=$modelByYear['year']?></span><img src="<?=$modelByYear->getThumb(140, null, 'resize')?>"></a>
+				<a href="#" class="model__block"><span><?=$modelByYear['year']?></span><img src="<?=$modelByYear->getThumb(150, null, 'resize')?>"></a>
 			<?php endforeach;?>	
 			</div>
 		</section>
