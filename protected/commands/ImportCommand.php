@@ -204,7 +204,7 @@ class ImportCommand extends CConsoleCommand
 					$modelYear->file_url = $data[0];
 					$modelYear->file_name = "{$modelYear->Model->Make->alias}-{$modelYear->Model->alias}-{$modelYear->year}.jpg";
 					var_dump($modelYear->save());
-					echo "$i \t" . $modelYear->id . " " .$modelYear->file_url. "\n";
+					echo "$i \t" . $modelYear->id . " " .$modelYear->file_name. "\n";
 				}
 				
 				$i++;
@@ -219,7 +219,7 @@ class ImportCommand extends CConsoleCommand
 					$modelYear->file_url = $data[0];
 					$modelYear->file_name = "{$modelYear->Model->Make->alias}-{$modelYear->Model->alias}-{$modelYear->year}.jpg";
 					var_dump($modelYear->save());
-					echo "$i \t" . $modelYear->id . " " .$modelYear->file_url. "\n";
+					echo "$i \t" . $modelYear->id . " " .$modelYear->file_name. "\n";
 				}
 				
 				$i++;
