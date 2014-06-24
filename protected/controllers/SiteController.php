@@ -109,6 +109,20 @@ class SiteController extends Controller
 		));
 	}
 	
+	public function actionPpp()
+	{
+		$sql = "SELECT id, model_id, year, url FROM  auto_model_year WHERE file_name ='' ORDER BY id DESC LIMIT 500";
+		$rows = Yii::app()->db->createCommand($sql)->queryAll();
+		$urls = array();
+		foreach ($rows as $row) {
+			$s = "-".$row['year'];
+			$url = str_replace(array("cars-", $s), array("",""), $row['url']);
+			$url = 'http://autos.aol.com'.$url;
+			echo $row['id'] . '<br/>';
+		}
+	}
+	
+	
 	public function actionModel($makeAlias, $modelAlias)
 	{
 		$make = $this->getMake($makeAlias);
