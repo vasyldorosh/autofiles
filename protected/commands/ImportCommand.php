@@ -171,10 +171,8 @@ class ImportCommand extends CConsoleCommand
 
 	public function actionModelYearP()
 	{
-		$lines = file(Yii::getPathOfAlias('webroot') . '/../t.txt');
-		$criteria = new CDbCriteria();
-		$criteria->addInCondition('id', $lines);
-		$rows = AutoModelYear::model()->findAll($criteria);
+		$sql = "SELECT model_id, year, url FROM  auto_model_year WHERE file_name ='' ORDER BY id DESC LIMIT 500";
+		$rows = Yii::app()->db->createCommand($sql)->queryAll();
 		$i = 0;
 		$urls = array();
 		foreach ($rows as $row) {
@@ -195,7 +193,7 @@ class ImportCommand extends CConsoleCommand
 			
 			preg_match_all('/<divclass="mkencl"><divclass="img"><imgsrc="(.*?)"width="150"height="93"style="padding-top:12px"alt="(.*?)"\/><\/div><divclass="data"><ul><liclass="sub_title"><ahref="(.*?)">(.*?)<\/a><\/li><liclass="info">/', $content, $matches);
 			preg_match_all('/<divclass="img"><imgsrc="(.*?)"width="150"height="113"alt="(.*?)"\/><\/div><divclass="data"><ul><liclass="sub_title"><ahref="(.*?)">(.*?)<\/a><\/li><liclass="info">/', $content, $matchesTwo);
-			//file_put_contents('x.txt', $content);		
+			//file_put_contents('x.txt', $content);
 			
 			foreach ($matches[3] as $k=>$url) {
 				$criteria = new CDbCriteria();
@@ -224,8 +222,6 @@ class ImportCommand extends CConsoleCommand
 				
 				$i++;
 			}  
-			
-			//die();
 		}
 	}		
 
