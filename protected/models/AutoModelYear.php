@@ -128,9 +128,11 @@ class AutoModelYear extends CActiveRecord
 		}	
 			
 		if (!empty($this->file)) {
+			/*
 			if (!$this->isNewRecord) {
 				$this->_deleteImage();
 			}		
+			*/
 		
 			$this->file_name = "{$this->Model->Make->alias}-{$this->Model->alias}-{$this->year}.jpg";
 			$this->file->saveAs($this->getImage_directory(true) . $this->file_name);
@@ -145,7 +147,11 @@ class AutoModelYear extends CActiveRecord
 			*/
 		
 			$this->file_name = "{$this->Model->Make->alias}-{$this->Model->alias}-{$this->year}.jpg";
-			$this->updateByPk($this->id, array('file_name'=>$this->file_name));
+			//$this->updateByPk($this->id, array('file_name'=>$this->file_name));
+			
+			if (is_file($this->getImage_directory(true) . $this->file_name)) {
+				$this->updateByPk($this->id, array('file_name'=>$this->file_name));
+			}
 			
 			/*
 			$imageContent = CUrlHelper::getPage($this->file_url, '', '');	
@@ -155,6 +161,7 @@ class AutoModelYear extends CActiveRecord
 				$this->updateByPk($this->id, array('file_name'=>$this->file_name));
 			}
 			*/
+			
 		}			
 						
 		$this->_clearCache();	
