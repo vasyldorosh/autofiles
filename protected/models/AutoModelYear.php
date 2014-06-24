@@ -137,6 +137,8 @@ class AutoModelYear extends CActiveRecord
 			$this->file_name = "{$this->Model->Make->alias}-{$this->Model->alias}-{$this->year}.jpg";
 			$imageContent = CUrlHelper::getPage($this->file_url, '', '');	
 			
+			var_dump($imageContent);
+			
 			if (!empty($imageContent)) {
 				file_put_contents($this->getImage_directory(true) . $this->file_name, $imageContent);
 				$this->updateByPk($this->id, array('file_name'=>$this->file_name));
