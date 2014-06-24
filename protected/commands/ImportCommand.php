@@ -202,7 +202,7 @@ class ImportCommand extends CConsoleCommand
 				if (!empty($modelYear)) {
 					$data = explode('"', $matches[1][$k]);
 					$modelYear->file_url = $data[0];
-					$modelYear->save();
+					var_dump($modelYear->save());
 					echo "$i \t" . $modelYear->id . " " .$modelYear->file_url. "\n";
 				}
 				
@@ -216,7 +216,7 @@ class ImportCommand extends CConsoleCommand
 				if (!empty($modelYear)) {
 					$data = explode('"', $matchesTwo[1][$k]);
 					$modelYear->file_url = $data[0];
-					$modelYear->save();
+					var_dump($modelYear->save());
 					echo "$i \t" . $modelYear->id . " " .$modelYear->file_url. "\n";
 				}
 				
