@@ -174,10 +174,16 @@ class ImportCommand extends CConsoleCommand
 		$sql = "SELECT DISTINCT CONCAT(model_id, '_', year) AS ccc, model_id, year, url FROM  auto_model_year";
 		$rows = Yii::app()->db->createCommand($sql)->queryAll();
 		$i = 0;
+		$urls = array();
 		foreach ($rows as $row) {
 			$s = "-".$row['year'];
 			$url = str_replace(array("cars-", $s), array("",""), $row['url']);
 			$url = 'http://autos.aol.com'.$url;
+			$urls[$url] = $urls;
+		}
+		
+		foreach ($urls as $url) {
+			
 			$content = Yii::app()->cache->get($url);
 			$content = str_replace(array(" ", "\n", "\t", "\r"), array("","","",""), $content);
 			if ($content == false) {
