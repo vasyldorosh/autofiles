@@ -34,7 +34,7 @@ class SiteController extends Controller
 					'id' => $model->id,
 					'title' => $model->title,
 					'description' => $model->description,
-					'photo' => $model->getThumb(151, 80, 'crop'),
+					'photo' => $model->getThumb(150, null, 'resize'),
 				);
 			}
 			
@@ -87,7 +87,7 @@ class SiteController extends Controller
 				
 				if (!empty($lastYear)) {
 					$row['lastYear'] = $lastYear->year;
-					$row['photo'] = $lastYear->getThumb(150, 88, 'crop');
+					$row['photo'] = $lastYear->getThumb(150, null, 'resize');
 				}
 				
 				$dataModels[] = $row;
