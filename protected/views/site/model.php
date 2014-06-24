@@ -12,7 +12,7 @@
 			
 			<h3><?=$completion['year']?> <?=$model->Make->title?> <?=$model->title?></h3>
 			<div class="model__specs">
-				<div class="model__specs-image"><img src="<?=$lastModelYear->getThumb(150, 88, 'crop')?>"></div>
+				<div class="model__specs-image"><img src="<?=$lastModelYear->getThumb(150, null, 'resize')?>"></div>
 				<table class="model__specs-table">
 					<tbody><tr>
 						<td>MSRP $<?=number_format($completion['specs_msrp'], 0, '', ',');?></td>
