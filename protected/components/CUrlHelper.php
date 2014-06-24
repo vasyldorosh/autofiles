@@ -30,6 +30,8 @@ class CUrlHelper
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 
 		$result = curl_exec($ch);
+		$error = curl_error($ch);
+		print_r($error);
 		curl_close($ch);
 
 		return $result;
