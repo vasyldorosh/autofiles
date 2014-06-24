@@ -179,7 +179,7 @@ class ImportCommand extends CConsoleCommand
 			$s = "-".$row['year'];
 			$url = str_replace(array("cars-", $s), array("",""), $row['url']);
 			$url = 'http://autos.aol.com'.$url;
-			$urls[$url] = $urls;
+			$urls[$url] = $url;
 		}
 		
 		foreach ($urls as $url) {
