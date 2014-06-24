@@ -171,7 +171,7 @@ class ImportCommand extends CConsoleCommand
 
 	public function actionModelYearP()
 	{
-		$sql = "SELECT DISTINCT CONCAT(model_id, '_', year) AS ccc, model_id, year, url FROM  auto_model_year";
+		$sql = "SELECT DISTINCT CONCAT(model_id, '_', year) AS ccc, model_id, year, url FROM  auto_model_year WHERE file_name =''";
 		$rows = Yii::app()->db->createCommand($sql)->queryAll();
 		$i = 0;
 		$urls = array();
