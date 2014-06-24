@@ -95,9 +95,10 @@
 			<a href="#">Find Local Dealers</a>
 		</section>
 		<section class="right-block">
-			<h2 class="section-name">Car specs and dimensions</h2>
+			<h2 class="section-name"><?=$make['title']?> <?=$model['title']?> specs and dimensions</h2>
 			<ul class="right-block__specs-list">
 				<li class="speed"><a href="#">0-60 times</a></li>
+				<!--
 				<li class="engine"><a href="#">Engine specs</a></li>
 				<li class="horsepower"><a href="#">Horsepower</a></li>
 				<li class="gas"><a href="#">Gas mileage</a></li>
@@ -107,6 +108,7 @@
 				<li class="clearance"><a href="#">Clearance</a></li>
 				<li class="weight"><a href="#">Curb weight</a></li>
 				<li class="cargo"><a href="#">Cargo space</a></li>
+				-->
 			</ul>
 		</section>
 		<section class="right-block">

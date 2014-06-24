@@ -17,7 +17,7 @@ class SiteController extends Controller
 		));
 	}
 	
-	public function actionMake($alias)
+	private function getMake($alias)
 	{
 		$key = Tags::TAG_MAKE . '_ITEM_'.$alias;
 		$make = Yii::app()->cache->get($key);
@@ -39,7 +39,14 @@ class SiteController extends Controller
 			}
 			
 			Yii::app()->cache->set($key, $make, 60*60*24*31, new Tags(Tags::TAG_MAKE));
-		}
+		}	
+		
+		return $make;
+	}
+	
+	public function actionMake($alias)
+	{
+		$make = $this->getMake($alias);
 		
 		if (empty($make)) {
 			 throw new CHttpException(404,'Page cannot be found.');
@@ -104,6 +111,8 @@ class SiteController extends Controller
 	
 	public function actionModel($makeAlias, $modelAlias)
 	{
+		$make = $this->getMake($makeAlias);
+	
 		$criteria = new CDbCriteria();
 		$criteria->compare('t.is_active', 1);
 		$criteria->compare('t.is_deleted', 0);
@@ -137,10 +146,12 @@ class SiteController extends Controller
 		$criteria->compare('t.is_active', 1);
 		$criteria->compare('t.is_deleted', 0);
 		$criteria->compare('t.make_id', $model['make_id']);
+		$criteria->order = 'title';
 		
 		$models = AutoModel::model()->findAll($criteria);
 		
 		$this->render('model', array(
+			'make' => $make,
 			'models' => $models,
 			'model' => $model,
 			'modelByYears' => $modelByYears,
