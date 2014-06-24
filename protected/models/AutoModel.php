@@ -287,7 +287,7 @@ class AutoModel extends CActiveRecord
 	
 	public function getLastYear()
 	{
-		$key = Tags::TAG_MODEL_YEAR . 'LASTYEAR_'.$this->id;
+		$key = Tags::TAG_MODEL_YEAR . 'LAST_YEAR_'.$this->id;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data == false) {
@@ -296,7 +296,7 @@ class AutoModel extends CActiveRecord
 			$criteria->order = 'year DESC';					
 			$data = AutoModelYear::model()->find($criteria);					
 			
-			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR));
+			Yii::app()->cache->set($key, $data, 60*60*24*31, new Tags(Tags::TAG_MODEL_YEAR));
 		}
 
 		return $data;	
