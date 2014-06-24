@@ -95,15 +95,23 @@ class AutoModel extends CActiveRecord
 			$this->file->saveAs($this->getImage_directory(true) . 'origin.'.$this->image_ext);
 		}	
 		
+		$this->_clearCache();
+		
 		return parent::afterSave();
 	}
 
-    public function beforeDelete() 
+    public function afterDelete() 
 	{
 		$this->_deleteImage();
-
-        return parent::beforeDelete();
+		$this->_clearCache();
+		
+        return parent::afterDelete();
     }	
+	
+	private function _clearCache()
+	{
+		Yii::app()->cache->clear(Tags::TAG_MAKE);
+	}	
 	
     private function _deleteImage() 
 	{

@@ -224,7 +224,6 @@ class AutoMake extends CActiveRecord
 		return $data;
 	}
 
-	
 	private function _clearCache()
 	{
 		Yii::app()->cache->clear(Tags::TAG_MAKE);
