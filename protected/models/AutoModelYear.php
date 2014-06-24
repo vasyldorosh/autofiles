@@ -128,13 +128,13 @@ class AutoModelYear extends CActiveRecord
 		}	
 			
 		if (!empty($this->file)) {
-			$this->file_name = "{$this->Model->Make->alias}-{$this->Model->alias}-{$this->id}.jpg";
+			$this->file_name = "{$this->Model->Make->alias}-{$this->Model->alias}-{$this->year}.jpg";
 			$this->file->saveAs($this->getImage_directory(true) . $this->file_name);
 			$this->updateByPk($this->id, array('file_name'=>$this->file_name));
 		}
 		
 		if (!empty($this->file_url)) {
-			$this->file_name = "{$this->Model->Make->alias}-{$this->Model->alias}-{$this->id}.jpg";
+			$this->file_name = "{$this->Model->Make->alias}-{$this->Model->alias}-{$this->year}.jpg";
 			$imageContent = @file_get_contents($this->file_url);
 			if (!empty($imageContent)) {
 				file_put_contents($this->getImage_directory(true) . $this->file_name, $imageContent);
@@ -187,7 +187,7 @@ class AutoModelYear extends CActiveRecord
 
     public function getPreview()
     {
-        return $this->getThumb(135, 100, 'resize');
+        return $this->getThumb(150, null, 'resize');
     }	
 	
 	public function getThumb($width=null, $height=null, $mode='origin')
@@ -203,7 +203,7 @@ class AutoModelYear extends CActiveRecord
 			return self::PHOTO_DIR . $this->file_name;
 		}
 		
-		$subdir = $mode . $width .'x'.$height;
+		$subdir = $width;
 		$subdirPath = $dir . $subdir;
 		$subdirPathFile =$subdirPath . '/' . $this->file_name;
 		if (file_exists($subdirPath) == false) {
