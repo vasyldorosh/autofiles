@@ -124,9 +124,9 @@
 		
 	</div>
 	<div class="l-col2">
-		<div class="banner-ver">
-			<a href="#"><img src="/img/banner1.jpg"></a>
-		</div>
+		
+		<?php $this->widget('application.widgets.BannerWidget', array('action' => 'home')); ?>
+		
 		<section class="right-block">
 			<h2 class="section-name"><?=$make['title']?> specs and dimensions</h2>
 			<ul class="right-block__specs-list">

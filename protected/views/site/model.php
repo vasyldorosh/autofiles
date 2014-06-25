@@ -85,15 +85,18 @@
 		
 	</div>
 	<div class="l-col2">
-		<div class="banner-ver">
-			<a href="#"><img src="img/banner1.jpg"></a>
-		</div>
+		
+		<?php $this->widget('application.widgets.BannerWidget', array('action' => 'home')); ?>
+		
+		<?/*?>
 		<section class="right-block">
 			<h2 class="section-name">Find an Acura dealer near you</h2>
 			<p class="find-dealer">Shop for cars in your area.<br>
 			ZIP code: <input type="text" class="zipcode"><button type="submit" class="btn btn_zipcode">Search Used</button></p>
 			<a href="#">Find Local Dealers</a>
 		</section>
+		<?*/?>
+		
 		<section class="right-block">
 			<h2 class="section-name"><?=$make['title']?> <?=$model['title']?> specs and dimensions</h2>
 			<ul class="right-block__specs-list">
@@ -111,6 +114,8 @@
 				-->
 			</ul>
 		</section>
+		
+		<?/*?>
 		<section class="right-block">
 			<h2 class="section-name">Acura wallpapers</h2>
 			<ul class="right-block__wallpaper-list">
@@ -127,5 +132,7 @@
 				<li><a href="#">2015 Nissan Pulsar</a></li>
 			</ul>
 		</section>
+		<?*/?>
+		
 	</div>
 </main>
