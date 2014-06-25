@@ -5,6 +5,7 @@
 /protected/config/site.conf
 /test
 test.php
+index.php
 *.txt
 robots.txt
 /nbproject/private/
