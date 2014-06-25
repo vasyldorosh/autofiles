@@ -180,7 +180,26 @@ class ImportCommand extends CConsoleCommand
 			$url = str_replace(array("cars-", $s), array("",""), $row['url']);
 			$url = 'http://autos.aol.com'.$url;
 			$urls[$url] = $url;
+			
+			
+				$criteria = new CDbCriteria();
+				$criteria->compare('id', $row['id']);				
+				$modelYear = AutoModelYear::model()->find($criteria);	
+				if (!empty($modelYear)) {
+					$data = explode('"', $matches[1][$k]);
+					$modelYear->file_url = $data[0];
+					$modelYear->file_name = "{$modelYear->Model->Make->alias}-{$modelYear->Model->alias}-{$modelYear->year}.jpg";
+					$modelYear->save(false);
+					
+					if (is_file($modelYear->image_directory . $modelYear->file_name)) {
+						$sql = "UPDATE  `test_autof_db`.`auto_model_year` SET  `file_name` =  '{$modelYear->file_name}' WHERE  `auto_model_year`.`id` ={$modelYear->id}; \n";
+						echo $sql;
+					}
+ 					
+				}			
+			
 		}
+		die();
 		
 		foreach ($urls as $url) {
 			
