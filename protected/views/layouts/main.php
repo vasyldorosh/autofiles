@@ -65,6 +65,7 @@
 
   ga('create', 'UA-2389032-30', 'autofiles.com');
   ga('send', 'pageview');
+
 </script>
 <?php endif;?>
 
