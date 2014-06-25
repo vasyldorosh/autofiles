@@ -204,6 +204,8 @@ class ImportCommand extends CConsoleCommand
 					$modelYear->file_url = $data[0];
 					$modelYear->file_name = "{$modelYear->Model->Make->alias}-{$modelYear->Model->alias}-{$modelYear->year}.jpg";
 					$modelYear->save(false);
+					
+					var_dump(is_file($modelYear->image_directory . $modelYear->file_name));
 					echo "$i \t" . $modelYear->id . " " .$modelYear->file_name. "\n";
 					
 					AutoModelYear::model()->updateByPk($modelYear->id, array('file_name'=>$modelYear->file_name));
@@ -222,6 +224,7 @@ class ImportCommand extends CConsoleCommand
 					$modelYear->file_name = "{$modelYear->Model->Make->alias}-{$modelYear->Model->alias}-{$modelYear->year}.jpg";
 					$modelYear->save(false);
 					AutoModelYear::model()->updateByPk($modelYear->id, array('file_name'=>$modelYear->file_name));
+					var_dump(is_file($modelYear->image_directory . $modelYear->file_name));
 					echo "$i \t" . $modelYear->id . " " .$modelYear->file_name. "\n";
 				}
 				
