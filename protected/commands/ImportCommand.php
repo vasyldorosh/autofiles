@@ -186,8 +186,8 @@ class ImportCommand extends CConsoleCommand
 				$criteria->compare('id', $row['id']);				
 				$modelYear = AutoModelYear::model()->find($criteria);	
 				if (!empty($modelYear)) {
-					$data = explode('"', $matches[1][$k]);
-					$modelYear->file_url = $data[0];
+					//$data = explode('"', $matches[1][$k]);
+					//$modelYear->file_url = $data[0];
 					$modelYear->file_name = "{$modelYear->Model->Make->alias}-{$modelYear->Model->alias}-{$modelYear->year}.jpg";
 					$modelYear->save(false);
 					
