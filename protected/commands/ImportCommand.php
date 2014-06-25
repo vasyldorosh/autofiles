@@ -205,12 +205,11 @@ class ImportCommand extends CConsoleCommand
 					$modelYear->file_name = "{$modelYear->Model->Make->alias}-{$modelYear->Model->alias}-{$modelYear->year}.jpg";
 					$modelYear->save(false);
 					
-					
-					echo "$i \t" . $modelYear->id . " " .$modelYear->file_name. "\n";
-					
+						
 					if (is_file($modelYear->image_directory . $modelYear->file_name)) {
 						$sql = "UPDATE  auto_model_year SET  file_name =  '{$modelYear->file_name}' WHERE  id = {$modelYear->id}";
-						var_dump(Yii::app()->db->createCommand($sql)->execute());
+						Yii::app()->db->createCommand($sql)->execute();
+						echo $sql . "\n";
 					}
  					
 				}
@@ -228,11 +227,10 @@ class ImportCommand extends CConsoleCommand
 					$modelYear->file_name = "{$modelYear->Model->Make->alias}-{$modelYear->Model->alias}-{$modelYear->year}.jpg";
 					$modelYear->save(false);
 						
-					echo "$i \t" . $modelYear->id . " " .$modelYear->file_name. "\n";	
-						
 					if (is_file($modelYear->image_directory . $modelYear->file_name)) {
 						$sql = "UPDATE  auto_model_year SET  file_name =  '{$modelYear->file_name}' WHERE  id = {$modelYear->id}";
-						var_dump(Yii::app()->db->createCommand($sql)->execute());
+						Yii::app()->db->createCommand($sql)->execute();
+						echo $sql . "\n";
 					}					
 					
 				}
