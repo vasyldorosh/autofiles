@@ -171,7 +171,7 @@ class ImportCommand extends CConsoleCommand
 
 	public function actionModelYearP()
 	{
-		$sql = "SELECT model_id, year, url FROM  auto_model_year WHERE file_name ='' ORDER BY id DESC LIMIT 500";
+		$sql = "SELECT * `auto_model_year` WHERE  `file_name` =  '' LIMIT 500";
 		$rows = Yii::app()->db->createCommand($sql)->queryAll();
 		$i = 0;
 		$urls = array();
