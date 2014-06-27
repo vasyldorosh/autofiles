@@ -17,3 +17,9 @@ php_value short_open_tag 1
     RewriteRule . index.php
 
 </IfModule>
+<Limit GET POST>
+	require valid-user
+</Limit>
+AuthType Basic
+AuthName "/www/test.autofiles.com"
+AuthUserFile /var/www/autof/data/etc/4603905.passwd
