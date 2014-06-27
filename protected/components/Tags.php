@@ -1,11 +1,11 @@
 <?php
 class Tags implements ICacheDependency {
 	
-	const TAG_MAKE = '_TAG_MAKE_';
-	const TAG_MODEL = '_TAG_MODEL_';
-	const TAG_MODEL_YEAR = '_TAG_MODEL_YEAR_';
-	const TAG_MODEL_YEAR_PHOTO = '_TAG_MODEL_YEAR_';
-	const TAG_COMPLETION = '_TAG_COMPLETION_';
+	const TAG_MAKE = '__TAG_MAKE_';
+	const TAG_MODEL = '__TAG_MODEL_';
+	const TAG_MODEL_YEAR = '__TAG_MODEL_YEAR_';
+	const TAG_MODEL_YEAR_PHOTO = '__TAG_MODEL_YEAR_';
+	const TAG_COMPLETION = '__TAG_COMPLETION_';
 	
 	protected $timestamp;
 	protected $tags;

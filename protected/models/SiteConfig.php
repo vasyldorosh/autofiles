@@ -7,7 +7,7 @@
 
 class SiteConfig {
     /* Имя файла-хранилища */
-    const FILE_NAME = 's.conf';
+    const FILE_NAME = 'site.conf';
 
     protected $_data = null;
     protected static $_instance = null;
