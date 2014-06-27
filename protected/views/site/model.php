@@ -9,7 +9,10 @@
 			
 			<h3><?=$completion['year']?> <?=$make['title']?> <?=$model['title']?></h3>
 			
-			<?php $this->renderPartial('_model_specs', array('completion'=>$completion))?>
+			<div class="model__specs">
+				<div class="model__specs-image"><img src="<?=$lastModelYear['photo']?>"></div>
+				<?php $this->renderPartial('_model_specs', array('completion'=>$completion))?>
+			</div>		
 			
 			<div>
 			<?php foreach ($modelByYears as $modelByYear): if ($lastModelYear['year'] == $modelByYear['year']) {continue;}?>

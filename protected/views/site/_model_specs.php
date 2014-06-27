@@ -1,5 +1,3 @@
-<div class="model__specs">
-				<div class="model__specs-image"><img src="<?=$lastModelYear['photo']?>"></div>
 				<table class="model__specs-table">
 					<tbody><tr>
 						<td>MSRP <?=HtmlHelper::price($completion['specs_msrp'], 0, '', ',');?></td>
@@ -51,4 +49,3 @@
 						<?php endif;?>							
 					</tr>
 				</tbody></table>
-			</div>
