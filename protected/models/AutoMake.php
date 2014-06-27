@@ -236,7 +236,7 @@ class AutoMake extends CActiveRecord
 	
 	public static function getModels($make_id)
 	{
-		$key = Tags::TAG_MODEL . '_LIST_'.$make_id;
+		$key = Tags::TAG_MODEL . '__LIST__'.$make_id;
 		$dataModels = Yii::app()->cache->get($key);
 		if ($dataModels == false) {
 			$criteria = new CDbCriteria();
@@ -277,7 +277,7 @@ class AutoMake extends CActiveRecord
 					$row['photo'] = $lastYear['photo'];
 				}
 				
-				$dataModels[] = $row;
+				$dataModels[$row['id']] = $row;
 			}
 			
 			Yii::app()->cache->set($key, $dataModels, 60*60*24*31, new Tags(Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));

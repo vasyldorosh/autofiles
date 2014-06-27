@@ -12,3 +12,4 @@ robots.txt
 /nbproject/private/
 /protected/conponents/yii-aws
 /amazon
+.htaccess
