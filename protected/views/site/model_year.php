@@ -6,8 +6,9 @@
 			<div class="model-year__box">
 				<div class="model-year__box-left">
 					<div class="model-year__image">
-						<img src="<?=$modelYear['photo']?>">
+						<img alt="Photo <?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?>" src="<?=$modelYear['photo']?>">
 					</div>
+					
 					<!--
 					<ul class="model-year__links">
 						<li><a href="#">Photos</a></li>
@@ -18,18 +19,26 @@
 					
 				</div>
 				<div class="model-year__box-right">
+				
+					<?php $this->renderPartial('_model_specs', array('completion'=>$lastCompletion))?>
+				
 					<h3><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> trim levels</h3>
 					<?php if (!empty($completions)):?>
 					<table>
 						<tbody>
-						<?php foreach ($completions as $completion):?>
-						<tr>
+						<?php foreach ($completions as $key=>$completion):?>
+						<tr <?=($key>4)?'class="js-completion-hide"':''?>>
 							<td class="model-year__trim-levels"><?=$modelYear['year']?> <?=$model['title']?> <?=$completion['title']?>, Engine: <?=AutoSpecsOption::getV('engine', $completion['specs_engine']);?></td>
 							<td class="model-year__cost">MSRP $<?=$completion['specs_msrp']?></td>
 						</tr>
 						<?php endforeach;?>
 					</tbody>
 					</table>
+					<?php if (sizeof($completions) > 5):?>
+					<a href="#" id="link-completions-show-more">show more</a>
+					<?php endif;?>
+					
+					
 					<!--
 					<ul class="model-year__links">
 						<li><a href="#">Compare trims</a></li>
@@ -43,7 +52,7 @@
 
 					<ul class="model-year__years">
 						<?php foreach ($modelYears as $item):?>
-							<li <?=($modelYear['year']==$item['year'])?'class="is-active"':''?>><a href="<?=$model['url']?><?=$item['year']?>/"><?=$item['year']?></a></li>
+							<li <?=($modelYear['year']==$item['year'])?'class="is-active"':''?>><a title="<?=$item['year']?> <?=$make['title']?> <?=$model['title']?>" href="<?=$model['url']?><?=$item['year']?>/"><?=$item['year']?></a></li>
 						<?php endforeach;?>
 					</ul>
 				</div>
@@ -211,7 +220,7 @@
 		</section>
 		-->
 	
-		<?php if (!empty($competitors) && false):?>
+		<?php if (!empty($competitors)):?>
 		<section class="make make_competitors">
 			<h2 class="section-name section-name_regular"><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> competitors</h2>
 			<ul class="make__vehicle">
@@ -242,7 +251,7 @@
 		<?php endif;?>
 	
 		<section class="all-models">
-			<h2 class="section-name section-name_regular">All <?=$modelYear['year']?> <?=$make['title']?> models</h2>
+			<h2 class="section-name section-name_regular">Other <?=$modelYear['year']?> <?=$make['title']?> models</h2>
 			<div class="model__block-box model__block-box_all-models">
 			<?php foreach ($models as $item):?>
 				<div class="model__block model__block_all-models">
@@ -379,11 +388,14 @@
 		
 		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
 		
-		<?php if (!empty($carSpecsAndDimensions) && false):?>
+		<?php if (!empty($carSpecsAndDimensions)):?>
 		<section class="right-block">
 			<h2 class="section-name"><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> specs and dimensions</h2>
 			<table class="right-block__specs-list">
-				<tbody><tr>
+				<tbody>
+				
+				<?php if (!empty($carSpecsAndDimensions['0_60_times']['mmin'])):?>
+				<tr>
 					<td><a class="speed" href="#">0-60 times</a></td>
 					<td class="spec-value">
 					<?php if ($carSpecsAndDimensions['0_60_times']['mmin'] != $carSpecsAndDimensions['0_60_times']['mmax']):?>
@@ -394,6 +406,7 @@
 					sec
 					</td>
 				</tr>
+				<?php endif;?>
 				
 				<?php if (!empty($carSpecsAndDimensions['engine'])):?>
 				<tr>
@@ -416,6 +429,7 @@
 				</tr>
 				<?php endif;?>
 				
+				<?php if (!empty($carSpecsAndDimensions['towing_capacity']['mmin'])):?>
 				<tr>
 					<td><a class="towing" href="#">Towing capacity</a></td>
 					<td class="spec-value">
@@ -426,7 +440,9 @@
 					<?php endif;?>					
 					lbs</td>
 				</tr>
+				<?php endif;?>	
 				
+				<?php if (!empty($carSpecsAndDimensions['length']['mmin'])):?>
 				<tr>
 					<td><a class="length" href="#">Length</a></td>
 					<td class="spec-value">
@@ -437,7 +453,9 @@
 					<?php endif;?>					
 					”</td>
 				</tr>
+				<?php endif;?>	
 				
+				<?php if (!empty($carSpecsAndDimensions['wheelbase']['mmin'])):?>
 				<tr>
 					<td><a class="wheelbase" href="#">Wheelbase</a></td>
 					<td class="spec-value">
@@ -448,6 +466,9 @@
 					<?php endif;?>						
 					”</td>
 				</tr>
+				<?php endif;?>	
+				
+				<?php if (!empty($carSpecsAndDimensions['clearance']['mmin'])):?>
 				<tr>
 					<td><a class="clearance" href="#">Clearance</a></td>
 					<td class="spec-value">
@@ -458,6 +479,9 @@
 					<?php endif;?>						
 					”</td>
 				</tr>
+				<?php endif;?>
+				
+				<?php if (!empty($carSpecsAndDimensions['curb_weight']['mmin'])):?>
 				<tr>
 					<td><a class="weight" href="#">Curb weight</a></td>
 					<td class="spec-value">
@@ -468,6 +492,9 @@
 					<?php endif;?>	
 					lbs</td>
 				</tr>
+				<?php endif;?>
+				
+				<?php if (!empty($carSpecsAndDimensions['cargo_space']['mmin'])):?>
 				<tr>
 					<td><a class="cargo" href="#">Cargo space</a></td>
 					<td class="spec-value">
@@ -478,6 +505,8 @@
 					<?php endif;?>	
 					cu.ft</td>
 				</tr>
+				<?php endif;?>
+				
 			</tbody></table>
 		</section>
 		<?php endif;?>
@@ -504,3 +533,19 @@
 		
 	</div>
 </div>
+
+<style>
+.js-completion-hide {display: none;}
+</style>
+
+<script>
+$('#link-completions-show-more').click(function(e){
+	if ($(this).text() == 'show more') {
+		$('.js-completion-hide').show();
+		$(this).text('show less');
+	} else {
+		$('.js-completion-hide').hide();
+		$(this).text('show more');	
+	}
+})
+</script>

@@ -391,7 +391,7 @@ class AutoModelYear extends CActiveRecord
 	
 	public static function getModelsByMakeAndYear($make_id, $year)
 	{
-		$key = Tags::TAG_MODEL_YEAR . '_LIST_BY_MAKE_YEAR__'.$make_id . '_' . $year;
+		$key = Tags::TAG_MODEL_YEAR . '__LIST_BY_MAKE_YEAR___'.$make_id . '_' . $year;
 		$data = Yii::app()->cache->get($key);
 		if ($data == false) {
 			$data = array();
@@ -432,7 +432,7 @@ class AutoModelYear extends CActiveRecord
 					*/
 				);
 
-				$data[] = $row;						
+				$data[$item['id']] = $row;						
 			}
 			
 			Yii::app()->cache->set($key, $data, 60*60*24*31, new Tags(Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
@@ -440,6 +440,76 @@ class AutoModelYear extends CActiveRecord
 		
 		return $data;
 	}	
+	
+	public static function getOtherMakeYear($models, $model_year_id)
+	{
+		$model_year_id = (int) $model_year_id;
+		$indexes = array();
+		foreach ($models as $item) {
+			$indexes[] =  $item['id'];
+		}		
+		$size = sizeof($indexes);
+		
+		$data = array();
+		$dataIds = array();
+		
+		//d($indexes, 0);
+		
+		foreach ($indexes as $key=>$id) {
+			if ($model_year_id == $id) {
+				
+				if (isset($indexes[$key-1])) {
+					$data[$indexes[$key-1]] = $models[$indexes[$key-1]];					
+					$dataIds[$indexes[$key-1]] = $indexes[$key-1];					
+				} else if (isset($indexes[$size-1])) {
+					$data[$indexes[$size-1]] = $models[$indexes[$size-1]];
+					$dataIds[$indexes[$size-1]] = $indexes[$size-1];
+				}
+			
+				if (isset($indexes[$key-2])) {
+					$data[$indexes[$key-2]] = $models[$indexes[$key-2]];
+					$dataIds[$indexes[$key-2]] = $indexes[$key-2];
+				} else if (isset($indexes[$size-2])) {
+					$data[$indexes[$size-2]] = $models[$indexes[$size-2]];
+					$dataIds[$indexes[$size-2]] = $indexes[$size-2];
+				}
+				
+				if (isset($indexes[$key+1])) {
+					$data[$indexes[$key+1]] = $models[$indexes[$key+1]];
+					$dataIds[$indexes[$key+1]] = $indexes[$key+1];
+				} else if (isset($indexes[$key-1])) {
+					$data[$indexes[$key-1]] = $models[$indexes[$key-1]];					
+					$dataIds[$indexes[$key-1]] = $indexes[$key-1];					
+				}
+				
+				if (isset($indexes[$key+2])) {
+					$data[$indexes[$key+2]] = $models[$indexes[$key+2]];
+					$dataIds[$indexes[$key+2]] = $indexes[$key+2];
+				} else if (isset($indexes[$key-2])) {
+					$data[$indexes[$key-2]] = $models[$indexes[$key-2]];					
+					$dataIds[$indexes[$key-2]] = $indexes[$key-2];					
+				}
+				
+				if (isset($indexes[$key+3])) {
+					$data[$indexes[$key+3]] = $models[$indexes[$key+3]];
+					$dataIds[$indexes[$key+3]] = $indexes[$key+3];
+				} else if (isset($indexes[$key-3])) {
+					$data[$indexes[$key-3]] = $models[$indexes[$key-3]];					
+					$dataIds[$indexes[$key-3]] = $indexes[$key-3];					
+				}
+				
+				if (sizeof($dataIds) < 5) {
+					if (isset($indexes[$key-4])) {
+						$data[$indexes[$key-4]] = $models[$indexes[$key-4]];					
+						$dataIds[$indexes[$key-4]] = $indexes[$key-4];					
+					}					
+				}
+				
+			}
+		}
+		
+		return $data;
+	}
 	
 	public static function getMinMaxSpecs($specs, $model_year_id)
 	{

@@ -277,7 +277,7 @@ class AutoMake extends CActiveRecord
 					$row['photo'] = $lastYear['photo'];
 				}
 				
-				$dataModels[$row['id']] = $row;
+				$dataModels[] = $row;
 			}
 			
 			Yii::app()->cache->set($key, $dataModels, 60*60*24*31, new Tags(Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
