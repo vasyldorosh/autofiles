@@ -540,6 +540,7 @@
 
 <script>
 $('#link-completions-show-more').click(function(e){
+	e.preventDefault();
 	if ($(this).text() == 'show more') {
 		$('.js-completion-hide').show();
 		$(this).text('show less');
