@@ -391,7 +391,7 @@ class AutoModelYear extends CActiveRecord
 	
 	public static function getModelsByMakeAndYear($make_id, $year)
 	{
-		$key = Tags::TAG_MODEL_YEAR . '_LIST_BY_MAKE_YEAR__'.$make_id . '_' . $model_id . '_' . $year;
+		$key = Tags::TAG_MODEL_YEAR . '_LIST_BY_MAKE_YEAR__'.$make_id . '_' . $year;
 		$data = Yii::app()->cache->get($key);
 		if ($data == false) {
 			$data = array();
