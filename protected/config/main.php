@@ -48,6 +48,7 @@ return array(
 			'showScriptName' => false,
 			'rules'=>array(	
 				'site/<action:\w+>'=>'site/<action>',
+				'<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>/<year:[0-9]{4}>' => 'site/modelYear',
 				'<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'site/model',
 				'<alias:[a-z0-9-_]{1,255}>' => 'site/make',
 			),

@@ -2,20 +2,17 @@
 	<div class="l-col1">
 		<!-- section 1 -->
 		<section class="model">
-			<h2 class="section-name"><?=$model->Make->title?> <?=$model->title?> vehicles</h2>
+			<h2 class="section-name"><?=$make['title']?> <?=$model['title']?> vehicles</h2>
 			<p class="model__about">
-				<?=$model->description?>
+				<?=$model['description']?>
 			</p>
 			
-			<?php $lastModelYear = $model->getLastYear();?>
-			<?php $completion = $model->getLastCompletion();?>
-			
-			<h3><?=$completion['year']?> <?=$model->Make->title?> <?=$model->title?></h3>
+			<h3><?=$completion['year']?> <?=$make['title']?> <?=$model['title']?></h3>
 			<div class="model__specs">
-				<div class="model__specs-image"><img src="<?=$lastModelYear->getThumb(150, null, 'resize')?>"></div>
+				<div class="model__specs-image"><img src="<?=$lastModelYear['photo']?>"></div>
 				<table class="model__specs-table">
 					<tbody><tr>
-						<td>MSRP $<?=number_format($completion['specs_msrp'], 0, '', ',');?></td>
+						<td>MSRP <?=HtmlHelper::price($completion['specs_msrp'], 0, '', ',');?></td>
 					
 						<?php if (!empty($completion['specs_fuel_tank'])):?>
 							<td>Fuel Tank <?=$completion['specs_fuel_tank']?> gal</td>
@@ -66,17 +63,17 @@
 				</tbody></table>
 			</div>
 			<div>
-			<?php foreach ($modelByYears as $modelByYear): if ($lastModelYear->year == $modelByYear['year']) {continue;}?>
-				<a href="#" class="model__block"><span><?=$modelByYear['year']?></span><img src="<?=$modelByYear->getThumb(150, null, 'resize')?>"></a>
+			<?php foreach ($modelByYears as $modelByYear): if ($lastModelYear['year'] == $modelByYear['year']) {continue;}?>
+				<a href="<?=$model['url']?><?=$modelByYear['year']?>/" class="model__block"><span><?=$modelByYear['year']?></span><img src="<?=$modelByYear['photo']?>"></a>
 			<?php endforeach;?>	
 			</div>
 		</section>
 		<!-- section 2 -->
 		<section class="all-models">
-			<h2 class="section-name">All <?=$model->Make->title?> models</h2>
-			<p><strong><?=$model->Make->title?>:</strong>
+			<h2 class="section-name">All <?=$make['title']?> models</h2>
+			<p><strong><?=$make['title']?>:</strong>
 			<?php foreach ($models as $item):?>
-				<a href="/<?=$model->Make->alias?>/<?=$item['alias']?>/"><?=$item['title']?></a>,
+				<a href="<?=$item['url']?>"><?=$item['title']?></a>,
 			<?php endforeach;?>
 			</p>
 		</section>
@@ -86,7 +83,7 @@
 	</div>
 	<div class="l-col2">
 		
-		<?php $this->widget('application.widgets.BannerWidget', array('action' => 'home')); ?>
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
 		
 		<?/*?>
 		<section class="right-block">

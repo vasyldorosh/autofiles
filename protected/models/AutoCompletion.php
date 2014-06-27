@@ -185,4 +185,32 @@ class AutoCompletion extends CActiveRecord
 	{
 		Yii::app()->cache->clear(Tags::TAG_COMPLETION);
 	}
+	
+	
+	public static function getItemsByYear($model_year_id) 
+	{
+		$model_year_id = (int) $model_year_id;
+		
+		$key = Tags::TAG_COMPLETION . '_MODEL_BY_YEAR_'.$model_year_id;	
+		$data = Yii::app()->cache->get($key);
+
+		if ($data == false) {
+			$data = array();
+			$criteria=new CDbCriteria;
+
+			$criteria->compare('model_year_id',$model_year_id);
+			$criteria->compare('is_deleted',0);
+			$criteria->compare('is_active',1);			
+		
+		
+			$items = self::model()->findAll($criteria);
+			foreach ($items as $item) {
+				$data[] = $item->attributes;
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_COMPLETION));
+		}
+		
+		return $data;			
+	}	
 }

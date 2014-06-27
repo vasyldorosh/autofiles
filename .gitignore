@@ -3,6 +3,7 @@
 /photos
 /protected/config/db.php
 /protected/config/site.conf
+/protected/config/s.conf
 /test
 test.php
 index.php

@@ -49,4 +49,9 @@ class HtmlHelper
 			return CHtml::link($data->title, '#', array('rel'=>$data->id, 'class'=>'js-worldcarfans-link'));
 		}
 	}
+	
+	public static function price($value)
+	{
+		return '$' . number_format($value, 0, '', ',');
+	}
 }

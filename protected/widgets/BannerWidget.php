@@ -17,19 +17,14 @@ class BannerWidget extends CWidget{
      * Действие по-умолчанию
      * @var string
      */
-    public $action;
+    public $banner;
  
 	/**
      * Роутер
      */
     public function run()
     {
-        $this->{sprintf('action%s', $this->action)}();
-    }
-
-    public function actionHome() 
-	{
-		$this->render(self::TEMPLATE_PATH . '.home', array(
+		$this->render(self::TEMPLATE_PATH . '.'.$this->banner, array(
 		
 		));
     }

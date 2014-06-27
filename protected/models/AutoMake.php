@@ -233,5 +233,86 @@ class AutoMake extends CActiveRecord
 	{
 		return '/'.$this->alias . '/';
 	}
+	
+	public static function getModels($make_id)
+	{
+		$key = Tags::TAG_MODEL . '_LIST_'.$make_id;
+		$dataModels = Yii::app()->cache->get($key);
+		if ($dataModels == false) {
+			$criteria = new CDbCriteria();
+			$criteria->compare('t.is_active', 1);
+			$criteria->compare('t.is_deleted', 0);
+			$criteria->compare('t.make_id', $make_id);
+			$criteria->compare('Make.is_active', 1);
+			$criteria->compare('Make.is_deleted', 0);
+			$criteria->with = array('Make' => array('together'=>true));
+			
+			$models = AutoModel::model()->findAll($criteria);
+
+			foreach ($models as $model) {
+				$price = $model->getMinMaxMsrp();
+				$lastCompletion = AutoModel::getLastCompletion($model['id']);
+				$years = AutoModel::getYears($model['id']);
+				$lastYear = AutoModel::getLastYear($model['id']);
+				
+				$row = array(
+					'id' => $model->id,
+					'title' => $model->title,
+					'url' => $model->urlFront,
+					'price' => array(
+						'min' => $price['mmin'],
+						'max' => $price['mmax'],
+					),
+					'completion' => array(
+						'engine' => AutoSpecsOption::getV('engine', $lastCompletion['specs_engine']),
+						'fuel_economy_city' => AutoSpecsOption::getV('fuel_economy__city', $lastCompletion['specs_fuel_economy__city']),
+						'fuel_economy_highway' => AutoSpecsOption::getV('fuel_economy__highway', $lastCompletion['specs_fuel_economy__highway']),
+						'standard_seating' => AutoSpecsOption::getV('standard_seating', $lastCompletion['specs_standard_seating']),
+					),
+					'years' => $years,
+				);
+				
+				if (!empty($lastYear)) {
+					$row['lastYear'] = $lastYear['year'];
+					$row['photo'] = $lastYear['photo'];
+				}
+				
+				$dataModels[] = $row;
+			}
+			
+			Yii::app()->cache->set($key, $dataModels, 60*60*24*31, new Tags(Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		return $dataModels;
+	}	
+	
+	public static function getMakeByAlias($alias)
+	{
+		$key = Tags::TAG_MAKE . '__ITEM__'.$alias;
+		$make = Yii::app()->cache->get($key);
+		if ($make == false) {
+			$make = array();
+			$criteria = new CDbCriteria();
+			$criteria->compare('t.is_active', 1);
+			$criteria->compare('t.is_deleted', 0);
+			$criteria->compare('t.alias', $alias);
+			$model = AutoMake::model()->find($criteria);
+			
+			if (!empty($model)) {
+				$make = array(
+					'id' => $model->id,
+					'url' => $model->urlFront,
+					'alias' => $model->alias,
+					'title' => $model->title,
+					'description' => $model->description,
+					'photo' => $model->getThumb(150, null, 'resize'),
+				);
+			}
+			
+			Yii::app()->cache->set($key, $make, 60*60*24*31, new Tags(Tags::TAG_MAKE));
+		}	
+		
+		return $make;
+	}	
 
 }

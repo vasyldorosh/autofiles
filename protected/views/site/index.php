@@ -338,7 +338,7 @@
 	</div>
 	<div class="l-col2">
 		
-		<?php $this->widget('application.widgets.BannerWidget', array('action' => 'home')); ?>
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
 		
 		<section class="right-block">
 			<h2 class="section-name">Car specs and dimensions</h2>

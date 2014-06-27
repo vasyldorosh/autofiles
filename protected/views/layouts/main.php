@@ -23,8 +23,8 @@
 	<a href="#" class="join">Join</a>
 	-->
 </header>
-<!-- BEGIN NAV -->
-<menu>
+
+<nav>
 	<ul class="menu-list">
 		<li class="is-active"><a href="/">Home</a></li>
 		<!--
@@ -36,10 +36,21 @@
 		-->
 
 	</ul>
-</menu>
+</nav>
+
+<ul class="breadcrumb">
+	<?php foreach ($this->breadcrumbs as $url=>$title):?>
+		<li>
+			<?php if ($url != '#'):?>
+				<a href="<?=$url?>"><?=$title?></a><span>→</span>
+			<?php else:?>
+				<a href="#"><?=$title?></a>
+			<?php endif;?>
+		</li>
+	<?php endforeach;?>
+</ul>
 
 <?php echo $content;?>
-
 
 <!-- BEGIN FOOTER -->
 <footer>
