@@ -167,4 +167,18 @@ class SiteController extends Controller
 		print_r($response);
 	}	
 	
+	public function actionPhoto()
+	{
+		$dir = Yii::getPathOfAlias('webroot') . '/photos/model_year_item/';
+		$list = scandir($dir);
+		foreach ($list as $file) {
+			if (is_file($dir.$file)) {
+				$image_info = getimagesize($dir.$file);
+				if (!is_array($image_info) OR count($image_info) < 3) {
+					echo $file . '<br/>';
+				}
+			}
+		}	
+	}	
+	
 }
