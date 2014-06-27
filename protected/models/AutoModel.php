@@ -252,15 +252,15 @@ class AutoModel extends CActiveRecord
 					";
 					
 			$data = Yii::app()->db->createCommand($sql)->queryRow();	
-			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_COMPLETION));
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
 		}
 		
 		return $data;
 	}	
 	
-	public function getLastCompletion()
+	public static function getLastCompletion($model_id)
 	{
-		$key = Tags::TAG_COMPLETION . 'LAST_'.$this->id;
+		$key = Tags::TAG_COMPLETION . 'LAST_'.$model_id;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data == false) {
@@ -274,7 +274,7 @@ class AutoModel extends CActiveRecord
 						c.is_deleted = 0 AND
 						y.is_active = 1 AND
 						y.is_deleted = 0 AND
-						y.model_id = {$this->id}
+						y.model_id = {$model_id}
 					ORDER BY year DESC
 					";
 					
@@ -285,21 +285,89 @@ class AutoModel extends CActiveRecord
 		return $data;
 	}
 	
-	public function getLastYear()
+	public static function getLastYear($model_id)
 	{
-		$key = Tags::TAG_MODEL_YEAR . 'LAST_YEAR_'.$this->id;
+		$key = Tags::TAG_MODEL_YEAR . '_LAST_YEAR_'.$model_id;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data == false) {
+			$data = array();
 			$criteria=new CDbCriteria;
-			$criteria->compare('model_id', $this->id);
+			$criteria->compare('model_id', $model_id);
 			$criteria->order = 'year DESC';					
-			$data = AutoModelYear::model()->find($criteria);					
+			$item = AutoModelYear::model()->find($criteria);					
+			
+			if ($item)
+				$data = array(
+					'year' => $item->year,
+					'photo' => $item->getThumb(150, null, 'resize'),
+				);
 			
 			Yii::app()->cache->set($key, $data, 60*60*24*31, new Tags(Tags::TAG_MODEL_YEAR));
 		}
 
 		return $data;	
+	}	
+
+	public static function getYears($model_id)
+	{
+		$key = Tags::TAG_MODEL_YEAR . '_YEARS_'.$model_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false) {
+			$data = array();
+
+			$criteria = new CDbCriteria();
+			$criteria->compare('t.is_active', 1);
+			$criteria->compare('t.is_deleted', 0);
+			$criteria->compare('t.model_id', $model_id);
+			
+			$modelByYears = AutoModelYear::model()->findAll($criteria);			
+			foreach ($modelByYears as $item) {
+				$data[] = array(
+					'year' => $item->year,
+					'photo' => $item->getThumb(150, null, 'resize'),
+				);			
+			}
+			
+			Yii::app()->cache->set($key, $data, 60*60*24*31, new Tags(Tags::TAG_MODEL_YEAR));
+		}
+
+		return $data;	
+	}	
+	
+	public static function getModelByMakeAndAlias($make_id, $alias)
+	{
+		$key = Tags::TAG_MODEL . '_ITEM_'.$make_id . '_' . $alias;
+		$model = Yii::app()->cache->get($key);
+		if ($model == false) {
+			$model = array();
+
+			$criteria = new CDbCriteria();
+			$criteria->compare('t.is_active', 1);
+			$criteria->compare('t.is_deleted', 0);
+			$criteria->compare('t.alias', $alias);
+			$criteria->compare('Make.id', $make_id);
+			$criteria->compare('Make.is_active', 1);
+			$criteria->compare('Make.is_deleted', 0);
+			$criteria->with = array('Make');
+			
+			$item = AutoModel::model()->find($criteria);			
+			
+			if (!empty($item)) {
+				$model = array(
+					'id' => $item->id,
+					'url' => $item->urlFront,
+					'title' => $item->title,
+					'description' => $item->description,
+					'photo' => $item->getThumb(150, null, 'resize'),
+				);
+			}
+			
+			Yii::app()->cache->set($key, $model, 60*60*24*31, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL));
+		}	
+		
+		return $model;
 	}	
 
 }

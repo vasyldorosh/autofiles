@@ -19,9 +19,9 @@
 				</a></div>
 					<h3><a href="<?=$dataModel['url']?>"><?=$make['title']?> <?=$dataModel['title']?></a></h3>
 					<ul class="make__vehicle-specs">
-						<li>MSRP $<?=number_format($dataModel['price']['min'], 0, '', ',');?>
+						<li>MSRP <?=HtmlHelper::price($dataModel['price']['min']);?>
 							<?php if ($dataModel['price']['min'] != $dataModel['price']['max']):?>
-								- $<?=number_format($dataModel['price']['max'], 0, '', ',');?>
+								- <?=HtmlHelper::price($dataModel['price']['max']);?>
 							<?php endif;?>
 						</li>
 						<li>Engine: <?=$dataModel['completion']['engine']?></li>
@@ -33,8 +33,8 @@
 						<?php endif;?>
 					</ul>
 					<ul class="make__vehicle-years">
-					<?php foreach ($dataModel['years'] as $year):?>	
-						<li><a href="#"><?=$year?></a></li>
+					<?php foreach ($dataModel['years'] as $item):?>	
+						<li><a href="<?=$dataModel['url']?><?=$item['year']?>/"><?=$item['year']?></a></li>
 					<?php endforeach; ?>
 					</ul>
 				</li>
@@ -125,7 +125,7 @@
 	</div>
 	<div class="l-col2">
 		
-		<?php $this->widget('application.widgets.BannerWidget', array('action' => 'home')); ?>
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
 		
 		<section class="right-block">
 			<h2 class="section-name"><?=$make['title']?> specs and dimensions</h2>

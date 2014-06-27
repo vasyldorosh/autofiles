@@ -209,7 +209,7 @@ class AutoModelYear extends CActiveRecord
 	{
 		$dir = $this->getImage_directory();
 		$originFile = $dir . $this->file_name;
-		
+
 		if (!is_file($originFile)) {
 			return "http://www.placehold.it/{$width}x{$height}/EFEFEF/AAAAAA";
 		}
@@ -221,6 +221,7 @@ class AutoModelYear extends CActiveRecord
 		$subdir = $width;
 		$subdirPath = $dir . $subdir;
 		$subdirPathFile =$subdirPath . '/' . $this->file_name;
+
 		if (file_exists($subdirPath) == false) {
 			mkdir($subdirPath);
 			chmod($subdirPath, 0777);
@@ -357,25 +358,243 @@ class AutoModelYear extends CActiveRecord
 	{
 		Yii::app()->cache->clear(Tags::TAG_MODEL_YEAR);
 	}	
-	
-	public static function getYears($model_id) 
+
+	public static function getYearByMakeAndModelAndAlias($make_id, $model_id, $year)
 	{
-		$key = Tags::TAG_MODEL_YEAR . 'YEARS_'.$model_id;	
+		$key = Tags::TAG_MODEL_YEAR . '_ITEM_'.$make_id . '_' . $model_id . '_' . $year;
+		$modelYear = Yii::app()->cache->get($key);
+		if ($modelYear == false) {
+			$modelYear = array();
+
+			$criteria = new CDbCriteria();
+			$criteria->compare('t.is_active', 1);
+			$criteria->compare('t.is_deleted', 0);
+			$criteria->compare('t.model_id', $model_id);
+			$criteria->compare('t.year', $year);
+			
+			$item = AutoModelYear::model()->find($criteria);			
+			
+			if (!empty($item)) {
+				$modelYear = array(
+					'id' => $item->id,
+					'year' => $item->year,
+					'description' => $item->description,
+					'photo' => $item->getThumb(270, null, 'resize'),
+				);
+			}
+			
+			Yii::app()->cache->set($key, $modelYear, 60*60*24*31, new Tags(Tags::TAG_MODEL_YEAR));
+		}	
+		
+		return $modelYear;
+	}	
+	
+	public static function getModelsByMakeAndYear($make_id, $year)
+	{
+		$key = Tags::TAG_MODEL_YEAR . '_LIST_BY_MAKE_YEAR__'.$make_id . '_' . $model_id . '_' . $year;
+		$data = Yii::app()->cache->get($key);
+		if ($data == false) {
+			$data = array();
+
+			$criteria = new CDbCriteria();
+			$criteria->compare('t.is_active', 1);
+			$criteria->compare('t.is_deleted', 0);
+			$criteria->compare('t.year', $year);
+			$criteria->compare('Model.is_active', 1);
+			$criteria->compare('Model.is_deleted', 0);			
+			$criteria->compare('Model.make_id', $make_id);
+			$criteria->with = array('Model');
+			
+			$items = AutoModelYear::model()->findAll($criteria);			
+			
+			foreach ($items as $item) {
+
+				$price = self::getMinMaxSpecs('msrp', $item->id);
+				//$lastCompletion = self::getLastCompletion($item->id);
+			
+				$row = array(
+					'id' => $item->id,
+					'year' => $item->year,
+					'model' => $item->Model->title,
+					'model_alias' => $item->Model->alias,
+					'photo' => $item->getThumb(150, null, 'resize'),
+					'price' => array(
+						'min' => $price['mmin'],
+						'max' => $price['mmax'],
+					),
+					/*
+					'completion' => array(
+						'engine' => AutoSpecsOption::getV('engine', $lastCompletion['specs_engine']),
+						'fuel_economy_city' => AutoSpecsOption::getV('fuel_economy__city', $lastCompletion['specs_fuel_economy__city']),
+						'fuel_economy_highway' => AutoSpecsOption::getV('fuel_economy__highway', $lastCompletion['specs_fuel_economy__highway']),
+						'standard_seating' => AutoSpecsOption::getV('standard_seating', $lastCompletion['specs_standard_seating']),
+					),
+					*/
+				);
+
+				$data[] = $row;						
+			}
+			
+			Yii::app()->cache->set($key, $data, 60*60*24*31, new Tags(Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}	
+		
+		return $data;
+	}	
+	
+	public static function getMinMaxSpecs($specs, $model_year_id)
+	{
+		$model_year_id = (int) $model_year_id;
+	
+		$key = Tags::TAG_COMPLETION . '_SPECS_MIN_MAX_' . $specs . '_' . $model_year_id;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data == false) {
-			$criteria=new CDbCriteria;
-
-			$criteria->compare('model_id',$model_id);
-			$criteria->compare('is_deleted',0);
-			$criteria->compare('is_active',1);		
-			$criteria->order = 'year DESC';		
-		
-			$data = CHtml::listData(AutoModelYear::model()->findAll($criteria), 'id', 'year');
-			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR));
+			$sql = "SELECT 
+						MAX(c.specs_{$specs}) AS mmax,  
+						MIN(c.specs_{$specs}) AS mmin 
+					FROM auto_completion AS c
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					WHERE 
+						c.is_active = 1 AND 
+						c.is_deleted = 0 AND
+						y.is_active = 1 AND
+						y.is_deleted = 0 AND
+						c.model_year_id = {$model_year_id}
+					";
+					
+			$data = Yii::app()->db->createCommand($sql)->queryRow();	
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
 		}
 		
-		return $data;			
-	}
+		return $data;
+	}	
+	
+	public static function getLastCompletion($model_year_id)
+	{
+		$model_year_id = (int) $model_year_id;
+		
+		$key = Tags::TAG_COMPLETION . 'YEAR_LAST_'.$model_year_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false) {
+			$sql = "SELECT 
+						c.*,
+						y.year AS year
+					FROM auto_completion AS c
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					WHERE 
+						c.is_active = 1 AND 
+						c.is_deleted = 0 AND
+						y.is_active = 1 AND
+						y.is_deleted = 0 AND
+						c.model_year_id = {$model_year_id}
+					ORDER BY year DESC
+					";
+					
+			$data = Yii::app()->db->createCommand($sql)->queryRow();
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_COMPLETION));
+		}
+		
+		return $data;
+	}	
+	
+	public static function getFrontCompetitors($model_year_id)
+	{
+		$model_year_id = (int) $model_year_id;
+		
+		$key = Tags::TAG_MODEL_YEAR . '__COMPETITORS__'.$model_year_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false && !is_array($data)) {
+			$data = array();
+			$sql = "SELECT 
+						*
+					FROM auto_model_year_competitor AS c
+					WHERE 
+						c.model_year_id	 = {$model_year_id} OR 
+						c.competitor_id = {$model_year_id}
+					";
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();		
+			$ids = array();
+			foreach ($rows as $row) {
+				$ids[] = ($model_year_id==$row['model_year_id']) ? $row['competitor_id'] : $row['model_year_id'];
+			}
+			
+			if (!empty($ids)) {
+				$criteria = new CDbCriteria();
+				$criteria->compare('t.is_active', 1);
+				$criteria->compare('t.is_deleted', 0);
+				$criteria->addInCondition('t.id', $ids);
+				$criteria->compare('Model.is_active', 1);
+				$criteria->compare('Model.is_deleted', 0);	
+				$criteria->compare('Make.is_active', 1);
+				$criteria->compare('Make.is_deleted', 0);					
+				$criteria->with = array('Model', 'Model.Make');
+				
+				$items = AutoModelYear::model()->findAll($criteria);	
+					
+				foreach ($items as $item) {
+					$price = self::getMinMaxSpecs('msrp', $item->id);
+					$lastCompletion = self::getLastCompletion($item->id);
+				
+					$row = array(
+						'photo' => $item->getThumb(150, null, 'resize'),
+						'year' => $item->year,
+						'model' => $item->Model->title,
+						'model_alias' => $item->Model->alias,
+						'make' => $item->Model->Make->title,
+						'make_alias' => $item->Model->Make->alias,
+						'price' => array(
+							'min' => $price['mmin'],
+							'max' => $price['mmax'],
+						),	
+						'completion' => array(
+							'engine' => AutoSpecsOption::getV('engine', $lastCompletion['specs_engine']),
+							'fuel_economy_city' => AutoSpecsOption::getV('fuel_economy__city', $lastCompletion['specs_fuel_economy__city']),
+							'fuel_economy_highway' => AutoSpecsOption::getV('fuel_economy__highway', $lastCompletion['specs_fuel_economy__highway']),
+							'standard_seating' => AutoSpecsOption::getV('standard_seating', $lastCompletion['specs_standard_seating']),
+						),						
+					);
+					
+					$data[] = $row;
+				}	
+			}
+
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		return $data;
+	}	
+	
+	public static function getCarSpecsAndDimensions($model_year_id)
+	{
+		$model_year_id = (int) $model_year_id;
+		
+		$key = Tags::TAG_MODEL_YEAR . '_CAR_SPECS_AND_DIMENSIONS_'.$model_year_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false) {
+			$lastCompletion = self::getLastCompletion($model_year_id);
+			$data['0_60_times'] = self::getMinMaxSpecs('0_60mph__0_100kmh_s_', $model_year_id);
+			$data['engine'] = AutoSpecsOption::getV('engine', $lastCompletion['specs_engine']);
+			$data['horsepower'] = AutoSpecsOption::getV('engine', $lastCompletion['specs_horsepower']);
+			$data['wheelbase'] = self::getMinMaxSpecs('wheelbase', $model_year_id);
+			$data['towing_capacity'] = self::getMinMaxSpecs('maximum_trailer_weight', $model_year_id);
+			$data['length'] = self::getMinMaxSpecs('exterior_length', $model_year_id);
+			$data['clearance'] = self::getMinMaxSpecs('ground_clearance', $model_year_id);
+			$data['cargo_space'] = self::getMinMaxSpecs('luggage_volume', $model_year_id);
+			$data['curb_weight'] = self::getMinMaxSpecs('curb_weight', $model_year_id);
+			
+			$v1 = AutoSpecsOption::getV('fuel_economy__city', $lastCompletion['specs_fuel_economy__city']);
+			$v2 = AutoSpecsOption::getV('fuel_economy__highway', $lastCompletion['specs_fuel_economy__highway']);
+			if (!empty($v1) && !empty($v2)) {
+				$data['gas_mileage'] = $v1 . '/' . $v2;
+			}
+		
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_COMPLETION));
+		}
+		
+		return $data;
+	}	
 	
 }
