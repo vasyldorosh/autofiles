@@ -7,10 +7,11 @@
 				<?=$model['description']?>
 			</p>
 			
-			<h3><?=$completion['year']?> <?=$make['title']?> <?=$model['title']?></h3>
+			<h3><a title="<?=$completion['year']?> <?=$make['title']?> <?=$model['title']?>" href="<?=$model['url']?><?=$completion['year']?>/"><?=$completion['year']?> <?=$make['title']?> <?=$model['title']?></a></h3>
 			
 			<div class="model__specs">
-				<div class="model__specs-image"><img src="<?=$lastModelYear['photo']?>"></div>
+				<div class="model__specs-image">
+				<a href="<?=$model['url']?><?=$completion['year']?>/"><img alt="Photo <?=$completion['year']?> <?=$make['title']?> <?=$model['title']?>" src="<?=$lastModelYear['photo']?>"></a></div>
 				<?php $this->renderPartial('_model_specs', array('completion'=>$completion))?>
 			</div>		
 			
