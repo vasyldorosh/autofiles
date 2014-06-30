@@ -100,7 +100,7 @@ class AutoSpecs extends CActiveRecord
 	public function afterSave()
 	{
 		if ($this->isNewRecord) {
-			//$this->addField();
+			$this->addField();
 		} else {
 			//$this->updateField();
 		}

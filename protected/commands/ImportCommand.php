@@ -43,6 +43,8 @@ class ImportCommand extends CConsoleCommand
 			
 				$autoMake->alias = $alias;
 				$autoMake->title = $matches[2][$key];
+				$autoMake->is_active = 0;
+				$autoMake->is_deleted = 0;
 				$autoMake->save();
 			}
 		}
@@ -91,6 +93,8 @@ class ImportCommand extends CConsoleCommand
 						$autoModel->alias = $alias;
 						$autoModel->make_id = $autoMake->id;
 						$autoModel->title = $matches[3][$key];
+						$autoModel->is_active = 0;
+						$autoModel->is_deleted = 0;						
 						$autoModel->save();
 						
 						echo "\t" . $autoModel->id . ' - ' . $autoModel->title . "\n";
@@ -103,9 +107,13 @@ class ImportCommand extends CConsoleCommand
 		
 	}	
 	
-	
 	public function actionModelYear()
 	{
+		$this->actionMake();
+		$this->actionModel();
+		$parseYear = date('Y')+1;
+		$parsedModelYearIds = array();
+		
 		$autoModels = (array)AutoModel::model()->findAll();
 		foreach ($autoModels as $keyModel=>$autoModel) {
 			
@@ -119,34 +127,43 @@ class ImportCommand extends CConsoleCommand
 				
 			if (isset($matches[3])) {
 				foreach ($matches[3] as $key=>$year) {
+					if ($parseYear != $year) continue;
+				
 					$autoModelYear = AutoModelYear::model()->findByAttributes(array(
 						'model_id'=>$autoModel->id, 
 						'year'=>$year
 					));
 						
-					if (empty($autoModelYear))
-						$autoModelYear = new AutoModelYear;
-						
+					if (!empty($autoModelYear)) continue;
+											
+					$autoModelYear = new AutoModelYear;
 					$autoModelYear->url = $matchesUrl[1][$key];
 					$autoModelYear->model_id = $autoModel->id;
 					$autoModelYear->year = $year;
+					$autoModelYear->is_active = 0;
+					$autoModelYear->is_deleted = 0;						
 					$autoModelYear->save();	
+					$parsedModelYearIds[] = $autoModelYear->id;
 
 					echo "\t" . $autoModelYear->id . ' - ' . $autoModelYear->year . "\n";
 				}
+			}			
+		}
+		if (!empty($parsedModelYearIds)) {
+			$this->actionModelYearPhoto($parsedModelYearIds);
+			$completionIds = $this->actionCompletion($parsedModelYearIds);
+			if (!empty($completionIds)) {
+				$this->actionCompletionDetails($completionIds);
+				$this->actionCompletionData($completionIds);
+				$this->actionCompetitor();
 			}
-			
-			
 		}
 	}	
 	
-	public function actionModelYearPhoto()
+	public function actionModelYearPhoto($ids)
 	{
-		$from = Yii::app()->db->createCommand('SELECT MAX(year_id) FROM auto_model_year_photo')->queryScalar();
-		AutoModelYearPhoto::model()->deleteAllByAttributes(array('year_id'=>$from));	
-		
 		$criteria = new CDbCriteria();
-		$criteria->addCondition("id > {$from}");		
+		$criteria->addInCondition('id', $ids);		
 		$autoModels = (array)AutoModelYear::model()->findAll($criteria);
 		foreach ($autoModels as $keyYear=>$autoModelYear) {
 			$url = "http://autos.aol.com".$autoModelYear->url."photos/";
@@ -163,98 +180,11 @@ class ImportCommand extends CConsoleCommand
 					$photo->file_url = $file_url;
 					$photo->year_id = $autoModelYear->id;
 					$photo->save();
-					echo "\t" . $photo->id . "\n" ;
+					echo "\t Photo" . $photo->id . "\n" ;
 				}
 			}
 		}
-	}		
-
-	public function actionModelYearP()
-	{
-		$sql = "SELECT * FROM `auto_model_year` WHERE  `file_name` =  '' ORDER BY id DESC LIMIT 500";
-		$rows = Yii::app()->db->createCommand($sql)->queryAll();
-		$i = 0;
-		$urls = array();
-		foreach ($rows as $row) {
-			$s = "-".$row['year'];
-			$url = str_replace(array("cars-", $s), array("",""), $row['url']);
-			$url = 'http://autos.aol.com'.$url;
-			$urls[$url] = $url;
-			
-			
-				$criteria = new CDbCriteria();
-				$criteria->compare('id', $row['id']);				
-				$modelYear = AutoModelYear::model()->find($criteria);	
-				if (!empty($modelYear)) {
-					//$data = explode('"', $matches[1][$k]);
-					//$modelYear->file_url = $data[0];
-					$modelYear->file_name = "{$modelYear->Model->Make->alias}-{$modelYear->Model->alias}-{$modelYear->year}.jpg";
-					$modelYear->save(false);
-					
-					if (is_file($modelYear->image_directory . $modelYear->file_name)) {
-						$sql = "UPDATE  `test_autof_db`.`auto_model_year` SET  `file_name` =  '{$modelYear->file_name}' WHERE  `auto_model_year`.`id` ={$modelYear->id}; \n";
-						echo $sql;
-					}
- 					
-				}			
-			
-		}
-		die();
-		
-		foreach ($urls as $url) {
-			
-			$content = Yii::app()->cache->get($url);
-			$content = str_replace(array(" ", "\n", "\t", "\r"), array("","","",""), $content);
-			if ($content == false) {
-				$content = CUrlHelper::getPage($url, '', '');	
-				Yii::app()->cache->set($url, $content, 60*60*24);
-			}
-			
-			preg_match_all('/<divclass="mkencl"><divclass="img"><imgsrc="(.*?)"width="150"height="93"style="padding-top:12px"alt="(.*?)"\/><\/div><divclass="data"><ul><liclass="sub_title"><ahref="(.*?)">(.*?)<\/a><\/li><liclass="info">/', $content, $matches);
-			preg_match_all('/<divclass="img"><imgsrc="(.*?)"width="150"height="113"alt="(.*?)"\/><\/div><divclass="data"><ul><liclass="sub_title"><ahref="(.*?)">(.*?)<\/a><\/li><liclass="info">/', $content, $matchesTwo);
-			//file_put_contents('x.txt', $content);
-			
-			foreach ($matches[3] as $k=>$url) {
-				$criteria = new CDbCriteria();
-				$criteria->compare('url', $url);				
-				$modelYear = AutoModelYear::model()->find($criteria);	
-				if (!empty($modelYear)) {
-					$data = explode('"', $matches[1][$k]);
-					$modelYear->file_url = $data[0];
-					$modelYear->file_name = "{$modelYear->Model->Make->alias}-{$modelYear->Model->alias}-{$modelYear->year}.jpg";
-					$modelYear->save(false);
-					
-					if (is_file($modelYear->image_directory . $modelYear->file_name)) {
-						$sql = "UPDATE  `test_autof_db`.`auto_model_year` SET  `file_name` =  '{$modelYear->file_name}' WHERE  `auto_model_year`.`id` ={$modelYear->id}; \n";
-						echo $sql;
-					}
- 					
-				}
-				
-				$i++;
-			}  
-			
-			foreach ($matchesTwo[3] as $k=>$url) {
-				$criteria = new CDbCriteria();
-				$criteria->compare('url', $url);				
-				$modelYear = AutoModelYear::model()->find($criteria);	
-				if (!empty($modelYear)) {
-					$data = explode('"', $matchesTwo[1][$k]);
-					$modelYear->file_url = $data[0];
-					$modelYear->file_name = "{$modelYear->Model->Make->alias}-{$modelYear->Model->alias}-{$modelYear->year}.jpg";
-					$modelYear->save(false);
-						
-					if (is_file($modelYear->image_directory . $modelYear->file_name)) {
-						$sql = "UPDATE  `test_autof_db`.`auto_model_year` SET  `file_name` =  '{$modelYear->file_name}' WHERE  `auto_model_year`.`id` ={$modelYear->id}; \n";
-						echo $sql;
-					}					
-					
-				}
-				
-				$i++;
-			}  
-		}
-	}		
+	}				
 
 	private function getSpecsGroup($attributes)
 	{
@@ -311,12 +241,14 @@ class ImportCommand extends CConsoleCommand
 	/*
 	* Парсинг кодов комплектации
 	*/	
-	public function actionCompletion()
+	public function actionCompletion($ids)
 	{
+		$completionIds = array();
+		
 		$criteria = new CDbCriteria();
-		$criteria->addCondition('id > 4788');
+		$criteria->addInCondition('id', $ids);
 	
-		$autoModels = (array)AutoModelYear::model()->findAll($criteria);
+		$autoModels = AutoModelYear::model()->findAll($criteria);
 		foreach ($autoModels as $keyYear=>$autoModelYear) {
 			echo $autoModelYear->id . ' - ' . $autoModelYear->year . "\n";
 			$url = "http://autos.aol.com{$autoModelYear->url}equipment/";
@@ -332,7 +264,8 @@ class ImportCommand extends CConsoleCommand
 
 			foreach ($matchOptopns[1] as $key=>$code) {
 				$completion = $this->getCompletion(array('model_year_id'=>$autoModelYear->id,'code'=>$code, 'title'=>$matchOptopns[2][$key]));
-				echo "\t" . $completion->id . ' - ' . $completion->title . "\n";
+				echo "\t  Complation " . $completion->id . ' - ' . $completion->title . "\n";
+				$completionIds[] = $completion->id;
 			}
 		}
 	}	
@@ -340,25 +273,14 @@ class ImportCommand extends CConsoleCommand
 	/*
 	* Парсинг страницы комплектации
 	*/	
-	public function actionCompletionDetails()
+	public function actionCompletionDetails($ids)
 	{
-		$limit = 1000;
-		
-		$from = Yii::app()->db->createCommand('SELECT MAX(completion_id) FROM auto_completion_specs_temp')->queryScalar();
-		
-		AutoCompletionCompetitorsTemp::model()->deleteAllByAttributes(array('completion_id'=>$from));
-		AutoCompletionSpecsTemp::model()->deleteAllByAttributes(array('completion_id'=>$from));		
-		
-		for ($offset=0; $offset<30000; $offset+=1000) {
-		
 			$criteria = new CDbCriteria();
 			$criteria->limit = $limit;		
 			$criteria->offset = $offset;	
-			$criteria->addCondition("id >= $from");	//
+			$criteria->addInCondition('id', $ids);	//
 			
 			$completions = AutoCompletion::model()->findAll($criteria);
-			if (empty($completions))
-				die();
 			
 			foreach ($completions as $key=>$completion) {
 				$url = "http://autos.aol.com/cars-compare?cur_page=details&v1={$completion->code}&v2=&v3=&v4=&v5=&v6=&v7=&v8=&v9=";
@@ -397,18 +319,18 @@ class ImportCommand extends CConsoleCommand
 								$competitorsTemp = new AutoCompletionCompetitorsTemp;
 								$competitorsTemp->completion_id = $completion->id;
 								$competitorsTemp->competitor_id = $competitorCompletion->id;
+								$competitorsTemp->is_parsed = 1;
 								$competitorsTemp->save();
 								$competitorCount++;
 							} else {
-								file_put_contents('Completion_404.txt', $competitor_code . "\n", true);
+								//file_put_contents('Completion_404.txt', $competitor_code . "\n", true);
 							}	
 						}
 					}	
 				}
 				
-				echo $completion->id . ' ' . $competitorCount . ' ' . date('H:i:s') . "\n";
+				echo "\t Completion parsed" . $completion->id . ' ' . $competitorCount . ' ' . date('H:i:s') . "\n";
 			}
-		}
 	}
 	
 	/*
@@ -535,39 +457,19 @@ class ImportCommand extends CConsoleCommand
 			} 		
 		}
 		
-		AutoCompletion::deleteSpecsAttributes();
-		$specs = AutoSpecs::model()->findAll();
-		foreach ($specs as $spec) {
-			$spec->addField();
-			echo "added filed $spec->alias \n";
-		}
-		
 		$t = time()-$time;
-		
 		echo $t;
-		
 	}
 	
 	/*
 	* Заполняем поля таблицы комплектации значениямы
 	*/
-	public function actionCompletionData()
+	public function actionCompletionData($ids)
 	{
-		$limit = 1000;
-		
-		$specsData = AutoSpecs::getAllWithAttributes();
-		
-		for ($offset=0; $offset<30000; $offset+=$limit) {
-		
 			$criteria = new CDbCriteria();
-			$criteria->limit = $limit;		
-			$criteria->offset = $offset;	
-			$criteria->order = 'id';	
-			//$criteria->addCondition('id >= 16974');	
+			$criteria->addInCondition('id', $ids);	
 			
 			$completions = AutoCompletion::model()->findAll($criteria);
-			if (empty($completions))
-				die();
 			
 			foreach ($completions as $key=>$completion) {
 				$criteria = new CDbCriteria();
@@ -611,30 +513,7 @@ class ImportCommand extends CConsoleCommand
 				echo $completion->id . ' ' . date('H:i:s') . "\n";
 			}
 			unset($completions);
-		}
 	}
-
-	/*
-	* Восстановление кодов
-	*/	
-	/*
-	public function actionCode()
-	{
-		$limit = 1000;
-		
-		for ($offset=0; $offset<30000; $offset+=1000) {
-			$sql = "SELECT id, code FROM auto_completion_temp LIMIT $offset, $limit";
-			$rows = Yii::app()->db->createCommand($sql)->queryAll();
-			if (empty($rows)) die();
-			foreach ($rows as $row) {
-				$completion = AutoCompletion::model()->findByPk($row['id']);
-				$completion->code = $row['code'];
-				$completion->save(false);
-				echo $completion->id . ' ' . $completion->code . "\n";
-			}
-		}
-	}
-	*/
 
 	/*
 	* Конкуренты моделей по годах
@@ -647,6 +526,7 @@ class ImportCommand extends CConsoleCommand
 			$criteria = new CDbCriteria();
 			$criteria->limit = $limit;		
 			$criteria->offset = $offset;	
+			$criteria->compare('is_parsed', 1);	
 			
 			$completionCompetitors = AutoCompletionCompetitorsTemp::model()->findAll($criteria);
 			if (empty($completionCompetitors)) {
@@ -654,6 +534,9 @@ class ImportCommand extends CConsoleCommand
 			}
 			
 			foreach ($completionCompetitors as $completionCompetitor) {
+				$completionCompetitor->is_parsed = 0;
+				$completionCompetitor->save();
+			
 				$attributes = array(
 					'model_year_id' => $completionCompetitor->Completion->model_year_id,
 					'competitor_id' => $completionCompetitor->Competitor->model_year_id
@@ -706,42 +589,5 @@ class ImportCommand extends CConsoleCommand
 		
 	}
 	
-	public function actionTest()
-	{
-		AutoSpecsOption::model()->deleteAllByAttributes(array('specs_id'=>120));
-		$sql = "SELECT DISTINCT value AS v FROM auto_completion_specs_temp WHERE specs_id=120 ORDER BY v";
-		$items = Yii::app()->db->createCommand($sql)->queryAll();
-		$data = array();
-		foreach ($items as $item) {
-			$option = $this->getOption(array('value'=>$item['v'], 'specs_id'=>120));
-			$data[$option->value] = $option->id;
-		}
-		
-		$sql = "SELECT * FROM auto_completion_specs_temp WHERE specs_id=120";
-		$items = Yii::app()->db->createCommand($sql)->queryAll();
-		foreach ($items as $item) {
-			$completion = AutoCompletion::model()->findByPk($item['completion_id']);
-			$completion->specs_engine = $data[$item['value']];
-			$completion->save(false);
-			echo $completion->id . "\n";
-		}
-		
-	}
-
-	public function actionAlias()
-	{
-		$makes = AutoMake::model()->findAll();
-		foreach ($makes as $make) {
-			$make->save();
-			echo "MAKE $make->id \n";
-		}
-		
-		$models = AutoModel::model()->findAll();
-		foreach ($models as $model) {
-			$model->save();
-			echo "MODEL $model->id \n";
-		}
-	}	
-		
 }
 ?>

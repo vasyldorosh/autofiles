@@ -95,9 +95,9 @@ class SiteController extends Controller
 			 throw new CHttpException(404,'Page cannot be found.');
 		}		
 	
-		$this->pageTitle = str_replace(array('[make]', '[model]', '[year]'), array($model['title'], $make['title'], $modelYear['year']), SiteConfig::getInstance()->getValue('seo_model_year_title'));
-		$this->meta_keywords = str_replace(array('[make]', '[model]', '[year]'), array($model['title'], $make['title'], $modelYear['year']), SiteConfig::getInstance()->getValue('seo_model_year_meta_keywords'));
-		$this->meta_description = str_replace(array('[make]', '[model]', '[year]'), array($model['title'], $make['title'], $modelYear['year']), SiteConfig::getInstance()->getValue('seo_model_year_meta_description'));		
+		$this->pageTitle = str_replace(array('[make]', '[model]', '[year]'), array($make['title'], $model['title'], $modelYear['year']), SiteConfig::getInstance()->getValue('seo_model_year_title'));
+		$this->meta_keywords = str_replace(array('[make]', '[model]', '[year]'), array($make['title'], $model['title'], $modelYear['year']), SiteConfig::getInstance()->getValue('seo_model_year_meta_keywords'));
+		$this->meta_description = str_replace(array('[make]', '[model]', '[year]'), array($make['title'], $model['title'], $modelYear['year']), SiteConfig::getInstance()->getValue('seo_model_year_meta_description'));		
 			
 		$this->breadcrumbs = array(
 			'/' => 'Home',
@@ -154,17 +154,7 @@ class SiteController extends Controller
 	
 	public function actionT()
 	{
-		// This import is better to be included in your main
-		// config file. For those newbies to the framework, 
-		// please recall that this is a path alias, you should 
-		// write exactly where it is
-		Yii::import('application.components.yii-aws.components.*');
-
-		$s3 = new A2S3();
-		$response = $s3->listBuckets(); // we are going to list the buckets
-
-		// just for the sake of the example
-		print_r($response);
+		echo '&Timestamp=['.date('YYYY-MM-DDThh:mm:ssZ').']';
 	}	
 	
 	public function actionPhoto()
