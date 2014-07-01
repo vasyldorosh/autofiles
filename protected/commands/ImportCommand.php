@@ -43,7 +43,7 @@ class ImportCommand extends CConsoleCommand
 				$autoMake = new AutoMake;
 				$autoMake->alias = $alias;
 				$autoMake->title = $matches[2][$key];
-				$autoMake->is_active = 0;
+				$autoMake->is_active = 1;
 				$autoMake->is_deleted = 0;
 				$autoMake->save();
 			
@@ -85,7 +85,6 @@ class ImportCommand extends CConsoleCommand
 					
 						$autoModel = AutoModel::model()->findByAttributes(array(
 							'alias'=>$alias, 
-							'title'=>$matches[3][$key], 
 							'make_id'=>$autoMake->id
 						));
 						
@@ -95,7 +94,7 @@ class ImportCommand extends CConsoleCommand
 						$autoModel->alias = $alias;
 						$autoModel->make_id = $autoMake->id;
 						$autoModel->title = $matches[3][$key];
-						$autoModel->is_active = 0;
+						$autoModel->is_active = 1;
 						$autoModel->is_deleted = 0;						
 						$autoModel->save();
 						
@@ -118,16 +117,34 @@ class ImportCommand extends CConsoleCommand
 		
 		$autoModels = (array)AutoModel::model()->findAll();
 		foreach ($autoModels as $keyModel=>$autoModel) {
-			
-			echo $autoModel->id . ' - ' . $autoModel->title . "\n";
-			
 			$url = "http://autos.aol.com/{$autoModel->Make->alias}-{$autoModel->alias}/";
+			
 			$content = CUrlHelper::getPage($url, '', '');
 			preg_match_all('/<li class="sub_title"><a href="\/cars-(.*?)-(.*?)-(.*?)\/">(.*?)<\/a><\/li>/', $content, $matches);
-			
 			preg_match_all('/<li class="sub_title"><a href="(.*?)">(.*?)<\/a><\/li>/', $content, $matchesUrl);
 				
 			if (isset($matches[3])) {
+					
+				$content = str_replace(array(" ", "\n", "\t", "\r"), array("","","",""), $content);
+				if ($content == false) {
+					$content = CUrlHelper::getPage($url, '', '');	
+					Yii::app()->cache->set($url, $content, 60*60*24);
+				}
+				//file_put_contents('1111.txt', $content);
+				preg_match_all('/<divclass="mkencl"><divclass="img"><imgsrc="(.*?)"width="150"height="113"alt="(.*?)"\/><\/div>/', $content, $matchesImages);
+				preg_match_all('/<divclass="mkencl"><divclass="img"><imgsrc="(.*?)"width="150"height="93"style="padding-top:12px"alt="(.*?)"\/><\/div>/', $content, $matchesImagesTwo);
+				$avatars = array();	
+				
+				foreach ($matchesImages[1] as $k=>$url) {
+					$data = explode('"', $url);
+					$avatars[$matchesImages[2][$k]] = $data[0];
+				} 				
+				
+				foreach ($matchesImagesTwo[1] as $k=>$url) {
+					$data = explode('"', $url);
+					$avatars[$matchesImagesTwo[2][$k]] = $data[0];
+				} 
+
 				foreach ($matches[3] as $key=>$year) {
 					if ($parseYear != $year) continue;
 				
@@ -135,35 +152,50 @@ class ImportCommand extends CConsoleCommand
 						'model_id'=>$autoModel->id, 
 						'year'=>$year
 					));
-						
 					if (!empty($autoModelYear)) continue;
-											
+					
+					$avaKey = trim($year) . trim($autoModel->Make->title) . trim($autoModel->title);
+					
 					$autoModelYear = new AutoModelYear;
+					
+					if (isset($avatars[$avaKey])) {
+						$autoModelYear->file_url = $avatars[$avaKey];
+						$autoModelYear->file_name = "{$autoModel->Make->title}-{$autoModel->title}-{$year}.jpg";
+					} else {
+						//print_r($matchesImages[2]);
+						//print_r($matchesImagesTwo[2]);
+						//print_r($avatars);
+						//print($avaKey);
+						//die();
+					}
+					
 					$autoModelYear->url = $matchesUrl[1][$key];
 					$autoModelYear->model_id = $autoModel->id;
 					$autoModelYear->year = $year;
-					$autoModelYear->is_active = 0;
+					$autoModelYear->is_active = 1;
 					$autoModelYear->is_deleted = 0;						
 					$autoModelYear->save();	
 					$parsedModelYearIds[] = $autoModelYear->id;
 
-					echo "ModelYear $autoModelYear->id - $autoModel->title - $autoModelYear->year . \n";
+					echo "ModelYear $autoModelYear->id - $autoModel->title - $autoModelYear->year \n";
 				}
 			}			
-		}
-		
-		
-		/*
+		}		
+		//$parsedModelYearIds = range(4946, 5006);
+
 		if (!empty($parsedModelYearIds)) {
 			$this->actionModelYearPhoto($parsedModelYearIds);
 			$completionIds = $this->actionCompletion($parsedModelYearIds);
+			//$completionIds = range(27524, 27249);
+			
 			if (!empty($completionIds)) {
 				$this->actionCompletionDetails($completionIds);
+				$this->actionSpecs();
 				$this->actionCompletionData($completionIds);
 				$this->actionCompetitor();
 			}
 		}
-		*/
+
 		
 	}	
 	
@@ -178,7 +210,7 @@ class ImportCommand extends CConsoleCommand
 			$content = CUrlHelper::getPage($url, '', '');
 			preg_match_all('/<a href="http:\/\/o.aolcdn.com\/commerce\/images\/(.*?)_Large.jpg">/', $content, $matches);
 			
-			echo $autoModelYear->id  . "\n" ;
+			echo "Model Year photos " . $autoModelYear->id  . "\n" ;
 			
 			if (isset($matches[1])) {
 				foreach ($matches[1] as $file) {
@@ -239,6 +271,7 @@ class ImportCommand extends CConsoleCommand
 		if (empty($completion)) {
 			$completion = new AutoCompletion;
 			$completion->attributes = $attributes;
+			$completion->is_active = 1;
 			$completion->save(false);
 		} 
 
@@ -283,8 +316,6 @@ class ImportCommand extends CConsoleCommand
 	private function actionCompletionDetails($ids)
 	{
 			$criteria = new CDbCriteria();
-			$criteria->limit = $limit;		
-			$criteria->offset = $offset;	
 			$criteria->addInCondition('id', $ids);	//
 			
 			$completions = AutoCompletion::model()->findAll($criteria);
@@ -329,14 +360,12 @@ class ImportCommand extends CConsoleCommand
 								$competitorsTemp->is_parsed = 1;
 								$competitorsTemp->save();
 								$competitorCount++;
-							} else {
-								//file_put_contents('Completion_404.txt', $competitor_code . "\n", true);
 							}	
 						}
 					}	
 				}
 				
-				echo "\t Completion parsed" . $completion->id . ' ' . $competitorCount . ' ' . date('H:i:s') . "\n";
+				echo "Completion parsed " . $completion->id . ' ' . $competitorCount . "\n";
 			}
 	}
 	
@@ -346,8 +375,34 @@ class ImportCommand extends CConsoleCommand
 	*/
 	private function actionSpecs()
 	{
-		$time = time();
+		$criteria = new CDbCriteria();
+		$criteria->compare('type', AutoSpecs::TYPE_SELECT);	//
+		$specs = AutoSpecs::model()->findAll($criteria);		
 		
+		foreach ($specs as $spec) {
+			$sql = "SELECT DISTINCT value as value FROM `auto_completion_specs_temp` WHERE specs_id={$spec->id} ORDER BY value";
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();	
+			
+			echo "Proces specs $spec->id: \n";
+			
+			foreach ($rows as $row) {
+				$criteria = new CDbCriteria();
+				$criteria->compare('specs_id', $spec->id);			
+				$criteria->compare('value', $row['value']);	
+						
+				$option = AutoSpecsOption::model()->find($criteria);
+				if (empty($option)) {
+					$option = new AutoSpecsOption;
+					$option->specs_id = $spec->id;
+					$option->value = $row['value'];
+					$option->save();
+					echo "\t add option $option->id: \n";
+				}
+			}
+		}
+		
+		/*
+		$time = time();
 		AutoSpecsOption::model()->deleteAll();
 		$specs = AutoSpecs::model()->findAll();
 		$countSelect = 0;
@@ -466,6 +521,7 @@ class ImportCommand extends CConsoleCommand
 		
 		$t = time()-$time;
 		echo $t;
+		*/
 	}
 	
 	/*
@@ -503,21 +559,14 @@ class ImportCommand extends CConsoleCommand
 						
 					$attr = AutoCompletion::PREFIX_SPECS . $specData['alias'];
 					if ($completion->hasAttribute($attr) && !empty($value))
-						$completion->$attr = $value;
-							
-					//echo $completion->id . ' ' . $specData['id'] ." $completionSpec->value \t $value $attr \n"; 							
-					//echo "------------------------------------------------------- \n"; 							
+						$completion->$attr = $value;				
 			
 				}
 				unset($completionSpecs);
 
-				if(!$completion->save()) {
-					foreach ($completion->errors as $key=>$error) {
-						echo "\t" . $completion->$key . "\t" . $error[0] . "\n";
-					}
-				}
+				$completion->save();
 						
-				echo $completion->id . ' ' . date('H:i:s') . "\n";
+				echo 'Completion Data ' . $completion->id . "\n";
 			}
 			unset($completions);
 	}
@@ -527,74 +576,29 @@ class ImportCommand extends CConsoleCommand
 	*/	
 	private function actionCompetitor()
 	{
-		$limit = 1000;
-		$k = 0;
-		for ($offset=0; $offset<200000; $offset+=1000) {
-			$criteria = new CDbCriteria();
-			$criteria->limit = $limit;		
-			$criteria->offset = $offset;	
-			$criteria->compare('is_parsed', 1);	
+		$criteria = new CDbCriteria();
+		$criteria->compare('is_parsed', 1);	
 			
-			$completionCompetitors = AutoCompletionCompetitorsTemp::model()->findAll($criteria);
-			if (empty($completionCompetitors)) {
-				die();
-			}
-			
-			foreach ($completionCompetitors as $completionCompetitor) {
-				$completionCompetitor->is_parsed = 0;
-				$completionCompetitor->save();
-			
-				$attributes = array(
-					'model_year_id' => $completionCompetitor->Completion->model_year_id,
-					'competitor_id' => $completionCompetitor->Competitor->model_year_id
-				);
-				
-				$m = AutoModelYearCompetitor::model()->findByAttributes($attributes);
-				if (empty($m)) {
-					$autoModelYearCompetitor = new AutoModelYearCompetitor;
-					$autoModelYearCompetitor->attributes = $attributes;
-					$autoModelYearCompetitor->save();
-				}
-				
-				echo "$k \n";	
-				$k++;				
-				
-			}
-		}
+		$completionCompetitors = AutoCompletionCompetitorsTemp::model()->findAll($criteria);
 
-		
-		$limit = 1000;
-		$k = 0;
-		for ($offset=0; $offset<200000; $offset+=1000) {
-			$criteria = new CDbCriteria();
-			$criteria->limit = $limit;		
-			$criteria->offset = $offset;	
-	
-			$modelYearCompetitors = AutoModelYearCompetitor::model()->findAll($criteria);
-			if (empty($modelYearCompetitors)) {
-				die();
-			}
+		foreach ($completionCompetitors as $completionCompetitor) {
+			$completionCompetitor->is_parsed = 0;
+			$completionCompetitor->save();
 			
-			foreach ($modelYearCompetitors as $modelYearCompetitor) {
-				$attributes = array(
-					'model_year_id' => $modelYearCompetitor->competitor_id,
-					'competitor_id' => $modelYearCompetitor->model_year_id,
-				);
+			$attributes = array(
+				'model_year_id' => $completionCompetitor->Completion->model_year_id,
+				'competitor_id' => $completionCompetitor->Competitor->model_year_id
+			);
 				
-				$m = AutoModelYearCompetitor::model()->findByAttributes($attributes);
-				if (empty($m)) {
-					$autoModelYearCompetitor = new AutoModelYearCompetitor;
-					$autoModelYearCompetitor->attributes = $attributes;
-					$autoModelYearCompetitor->save();
-				}
-				
-				echo "$k \n";	
-				$k++;				
-				
+			$m = AutoModelYearCompetitor::model()->findByAttributes($attributes);
+			if (empty($m)) {
+				$autoModelYearCompetitor = new AutoModelYearCompetitor;
+				$autoModelYearCompetitor->attributes = $attributes;
+				$autoModelYearCompetitor->save();
 			}
-		}		
-		
-	}
-	
+				
+			echo "Add Competitors \n";				
+		}
+	}	
 }
 ?>
