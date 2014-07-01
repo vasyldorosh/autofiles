@@ -110,8 +110,11 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionCatalog()
 	{
-		$this->actionMake();
-		$this->actionModel();
+		date_default_timezone_set('America/Los_Angeles');
+		
+		//$this->actionMake();
+		//$this->actionModel();
+		
 		$parseYear = date('Y')+1;
 		$parsedModelYearIds = array();
 		
