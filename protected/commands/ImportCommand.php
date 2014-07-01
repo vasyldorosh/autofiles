@@ -112,6 +112,7 @@ class ImportCommand extends CConsoleCommand
 	{
 		date_default_timezone_set('America/Los_Angeles');
 		
+		/*
 		$this->actionMake();
 		$this->actionModel();
 		
@@ -183,13 +184,17 @@ class ImportCommand extends CConsoleCommand
 					echo "ModelYear $autoModelYear->id - $autoModel->title - $autoModelYear->year \n";
 				}
 			}			
-		}		
+		}	
+		*/
 		//$parsedModelYearIds = range(4946, 5006);
 
+		/*
 		if (!empty($parsedModelYearIds)) {
 			$this->actionModelYearPhoto($parsedModelYearIds);
 			$completionIds = $this->actionCompletion($parsedModelYearIds);
-			//$completionIds = range(27524, 27249);
+		*/	
+			
+			$completionIds = range(27249, 27541);
 			
 			if (!empty($completionIds)) {
 				$this->actionCompletionDetails($completionIds);
@@ -197,7 +202,7 @@ class ImportCommand extends CConsoleCommand
 				$this->actionCompletionData($completionIds);
 				$this->actionCompetitor();
 			}
-		}
+		//}
 
 		
 	}	
@@ -311,6 +316,8 @@ class ImportCommand extends CConsoleCommand
 				$completionIds[] = $completion->id;
 			}
 		}
+		
+		return $completionIds;
 	}	
 	
 	/*
