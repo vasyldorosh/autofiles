@@ -6,7 +6,7 @@
 /protected/config/s.conf
 /test
 test.php
-index.php
+/index.php
 *.txt
 robots.txt
 /nbproject/private/
