@@ -21,15 +21,13 @@ $this->pageTitle = Yii::app()->name.' - ' . Yii::t('admin', 'Parsing Albums');
 	?> 	
 	
     <div class="button">
-		<?php if (Access::is('admin.create')):?>
 			<? $this->widget("bootstrap.widgets.TbButtonGroup", array(
 				'type' => 'success',
 				'buttons' => array(
 					array('label' => Yii::t('admin', 'Move photos to Model by Year'), 'url' => Yii::app()->createUrl("admin/parsing/worldcarfans/modelYear"), 'icon' => 'file white'),
 				),
 			))?>
-		<?php endif;?>
-        <div class="btn clear-filter"><?=Yii::t('admin', 'Clear Search')?></div>
+		<div class="btn clear-filter"><?=Yii::t('admin', 'Clear Search')?></div>
     </div>
     <div class="grid">
         <?php

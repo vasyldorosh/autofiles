@@ -6,9 +6,12 @@ class IndexController extends CController
 		
 		if (Yii::app()->admin->isGuest) {
 			$this->redirect('/admin/login');
-		} else {
-			$this->redirect('/admin/admin/index');
-		}
+		} 
+		
+		$this->layout='//admin/layouts/main';
+		$this->render('index', array(
+
+		));		
 	}
 	
     public function actionLogin() {

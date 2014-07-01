@@ -28,7 +28,7 @@ class ImportCommand extends CConsoleCommand
 		}
 	}
 
-	public function actionMake()
+	private function actionMake()
 	{
 		$url = 'http://autos.aol.com/new-cars/';
 		$content = CUrlHelper::getPage($url, '', '');
@@ -38,19 +38,21 @@ class ImportCommand extends CConsoleCommand
 			foreach ($matches[1] as $key => $alias) {
 			
 				$autoMake = AutoMake::model()->findByAttributes(array('alias'=>$alias));
-				if (empty($autoMake))
-					$autoMake = new AutoMake;			
-			
+				if (!empty($autoMake)) continue;
+						
+				$autoMake = new AutoMake;
 				$autoMake->alias = $alias;
 				$autoMake->title = $matches[2][$key];
 				$autoMake->is_active = 0;
 				$autoMake->is_deleted = 0;
 				$autoMake->save();
+			
+				echo "Make $autoMake->id - $autoMake->title \n";
 			}
 		}
 	}	
 	
-	public function actionModel()
+	private function actionModel()
 	{
 		$autoMakes = (array)AutoMake::model()->findAll();
 		$counterKey = 'model_count_pagesdddddііі';
@@ -87,9 +89,9 @@ class ImportCommand extends CConsoleCommand
 							'make_id'=>$autoMake->id
 						));
 						
-						if (empty($autoModel))
-							$autoModel = new AutoModel;
-						
+						if (!empty($autoModel)) continue;
+							
+						$autoModel = new AutoModel;
 						$autoModel->alias = $alias;
 						$autoModel->make_id = $autoMake->id;
 						$autoModel->title = $matches[3][$key];
@@ -97,7 +99,7 @@ class ImportCommand extends CConsoleCommand
 						$autoModel->is_deleted = 0;						
 						$autoModel->save();
 						
-						echo "\t" . $autoModel->id . ' - ' . $autoModel->title . "\n";
+						echo "Model $autoModel->id - $autoModel->title \n";
 					}
 				}
 			}
@@ -107,7 +109,7 @@ class ImportCommand extends CConsoleCommand
 		
 	}	
 	
-	public function actionModelYear()
+	public function actionCatalog()
 	{
 		$this->actionMake();
 		$this->actionModel();
@@ -145,10 +147,13 @@ class ImportCommand extends CConsoleCommand
 					$autoModelYear->save();	
 					$parsedModelYearIds[] = $autoModelYear->id;
 
-					echo "\t" . $autoModelYear->id . ' - ' . $autoModelYear->year . "\n";
+					echo "ModelYear $autoModelYear->id - $autoModel->title - $autoModelYear->year . \n";
 				}
 			}			
 		}
+		
+		
+		/*
 		if (!empty($parsedModelYearIds)) {
 			$this->actionModelYearPhoto($parsedModelYearIds);
 			$completionIds = $this->actionCompletion($parsedModelYearIds);
@@ -158,9 +163,11 @@ class ImportCommand extends CConsoleCommand
 				$this->actionCompetitor();
 			}
 		}
+		*/
+		
 	}	
 	
-	public function actionModelYearPhoto($ids)
+	private function actionModelYearPhoto($ids)
 	{
 		$criteria = new CDbCriteria();
 		$criteria->addInCondition('id', $ids);		
@@ -241,7 +248,7 @@ class ImportCommand extends CConsoleCommand
 	/*
 	* Парсинг кодов комплектации
 	*/	
-	public function actionCompletion($ids)
+	private function actionCompletion($ids)
 	{
 		$completionIds = array();
 		
@@ -273,7 +280,7 @@ class ImportCommand extends CConsoleCommand
 	/*
 	* Парсинг страницы комплектации
 	*/	
-	public function actionCompletionDetails($ids)
+	private function actionCompletionDetails($ids)
 	{
 			$criteria = new CDbCriteria();
 			$criteria->limit = $limit;		
@@ -337,7 +344,7 @@ class ImportCommand extends CConsoleCommand
 	* Формируем тип полей характеристик
 	* Добавляем сформирование поля в таблицу комплектаций
 	*/
-	public function actionSpecs()
+	private function actionSpecs()
 	{
 		$time = time();
 		
@@ -464,7 +471,7 @@ class ImportCommand extends CConsoleCommand
 	/*
 	* Заполняем поля таблицы комплектации значениямы
 	*/
-	public function actionCompletionData($ids)
+	private function actionCompletionData($ids)
 	{
 			$criteria = new CDbCriteria();
 			$criteria->addInCondition('id', $ids);	
@@ -518,7 +525,7 @@ class ImportCommand extends CConsoleCommand
 	/*
 	* Конкуренты моделей по годах
 	*/	
-	public function actionCompetitor()
+	private function actionCompetitor()
 	{
 		$limit = 1000;
 		$k = 0;
