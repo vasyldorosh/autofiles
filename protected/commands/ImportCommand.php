@@ -112,8 +112,8 @@ class ImportCommand extends CConsoleCommand
 	{
 		date_default_timezone_set('America/Los_Angeles');
 		
-		//$this->actionMake();
-		//$this->actionModel();
+		$this->actionMake();
+		$this->actionModel();
 		
 		$parseYear = date('Y')+1;
 		$parsedModelYearIds = array();
