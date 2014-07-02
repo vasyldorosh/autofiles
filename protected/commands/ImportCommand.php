@@ -200,7 +200,7 @@ class ImportCommand extends CConsoleCommand
 			if (!empty($completionIds)) {
 				//$this->actionCompletionDetails($completionIds);
 				//$this->actionSpecs();
-				$this->actionCompletionData($completionIds);
+				//$this->actionCompletionData($completionIds);
 				$this->actionCompetitor();
 			}
 		//}
