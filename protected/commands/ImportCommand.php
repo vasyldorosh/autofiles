@@ -110,9 +110,9 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionCatalog()
 	{
+		/*
 		date_default_timezone_set('America/Los_Angeles');
 		
-		/*
 		$this->actionMake();
 		$this->actionModel();
 		
@@ -186,24 +186,20 @@ class ImportCommand extends CConsoleCommand
 			}			
 		}	
 		*/
+		
 		//$parsedModelYearIds = range(4946, 5006);
 
-		/*
-		if (!empty($parsedModelYearIds)) {
-			$this->actionModelYearPhoto($parsedModelYearIds);
-			$completionIds = $this->actionCompletion($parsedModelYearIds);
-		*/	
+		//if (!empty($parsedModelYearIds)) {
+			//$this->actionModelYearPhoto($parsedModelYearIds);
+			//$completionIds = $this->actionCompletion($parsedModelYearIds);
 			
-			$completionIds = range(1, 2);
+			$completionIds = range(27249, 27541);
 			
 			if (!empty($completionIds)) {
 				$this->actionCompletionDetails($completionIds);
-				
-				/*
-				$this->actionSpecs();
-				$this->actionCompletionData($completionIds);
-				$this->actionCompetitor();
-				*/
+				//$this->actionSpecs();
+				//$this->actionCompletionData($completionIds);
+				//$this->actionCompetitor();
 			}
 		//}
 
@@ -336,19 +332,13 @@ class ImportCommand extends CConsoleCommand
 			foreach ($completions as $key=>$completion) {
 				$url = "http://autos.aol.com/cars-compare?cur_page=details&v1={$completion->code}&v2=&v3=&v4=&v5=&v6=&v7=&v8=&v9=";
 				
-				$content = Yii::app()->cache->get($url);
-				if ($content == false) {
-					$content = CUrlHelper::getPage($url, '', '');	
-					Yii::app()->cache->set($url, $content, 60*60*24);
-				}
-				
 				$content = CUrlHelper::getPage($url, '', '');
 				
 				$html = str_get_html($content);	
-
 				$specsGroup = null;
-				foreach ($html->find('#data_table tr') as $tr) {						
-		
+				foreach ($html->find('#data_table tr') as $tr) {
+						
+					
 					if ($tr->class == 'header') {
 						$specsGroup = $this->getSpecsGroup(array('title'=>trim(str_replace('Compare ', '', $tr->find('td', 0)->plaintext))));
 					} else if (!empty($specsGroup)) {
