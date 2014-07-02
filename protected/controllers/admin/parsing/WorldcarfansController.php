@@ -37,17 +37,12 @@ class WorldcarfansController extends BackendController
 			if (Access::is('parsing')) {
 					
 				$model_year_id = (int)Yii::app()->request->getParam('model_year_id');	
-				if ($model_year_id) {
-					$models = ParsingWorldcarfansAlbum::model()->findAllByPk(Yii::app()->request->getParam('ids'));
-					foreach ($models as $model) {
-						$model->model_year_id = $model_year_id;
-						$model->save();
-					}
-					$response['status'] = 1;
-				} else {
-					$response['status'] = 0;
-					$response['error'] = Yii::t('admin', 'Error - Select Year!');					
+				$models = ParsingWorldcarfansAlbum::model()->findAllByPk(Yii::app()->request->getParam('ids'));
+				foreach ($models as $model) {
+					$model->model_year_id = $model_year_id;
+					$model->save();
 				}
+				$response['status'] = 1;
 			} else {
 				$response['status'] = 0;
 				$response['error'] = Yii::t('admin', 'Have No Rights');			
