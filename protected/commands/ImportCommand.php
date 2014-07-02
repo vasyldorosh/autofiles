@@ -345,13 +345,10 @@ class ImportCommand extends CConsoleCommand
 				$content = CUrlHelper::getPage($url, '', '');
 				
 				$html = str_get_html($content);	
-				
-				var_dump($html);
-				die();
-				
+
 				$specsGroup = null;
 				foreach ($html->find('#data_table tr') as $tr) {						
-					
+		
 					if ($tr->class == 'header') {
 						$specsGroup = $this->getSpecsGroup(array('title'=>trim(str_replace('Compare ', '', $tr->find('td', 0)->plaintext))));
 					} else if (!empty($specsGroup)) {
