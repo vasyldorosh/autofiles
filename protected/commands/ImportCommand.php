@@ -102,10 +102,7 @@ class ImportCommand extends CConsoleCommand
 					}
 				}
 			}
-			
-			
-		}	
-		
+		}			
 	}	
 	
 	public function actionCatalog()

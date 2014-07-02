@@ -321,6 +321,7 @@ class AutoModel extends CActiveRecord
 			$criteria->compare('t.is_active', 1);
 			$criteria->compare('t.is_deleted', 0);
 			$criteria->compare('t.model_id', $model_id);
+			$criteria->order = 't.year DESC';
 			
 			$modelByYears = AutoModelYear::model()->findAll($criteria);			
 			foreach ($modelByYears as $item) {
