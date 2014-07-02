@@ -85,6 +85,17 @@ class AutoModelYear extends CActiveRecord
 			'file' => 'File Name',			
 		);
 	}
+
+		
+	protected function beforeSave()	
+	{
+		if ($this->is_delete_photo) {
+			$this->_deleteImage();
+			$this->file_name = '';
+		}
+		
+		return parent::beforeSave()	;
+	}
 	
 	/**
 	 * Выполняем ряд обязательных действий после сохранения модели
@@ -127,11 +138,6 @@ class AutoModelYear extends CActiveRecord
 			$item->model_year_id = $this->id;
 			$item->competitor_id = $competitor_id;
 			$item->save();
-		}	
-			
-		if ($this->is_delete_photo) {
-			$this->_deleteImage();
-			$this->file_name = '';
 		}	
 			
 		if (!empty($this->file)) {
