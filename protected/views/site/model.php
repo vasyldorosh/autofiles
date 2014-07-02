@@ -31,8 +31,6 @@
 			</p>
 		</section>
 		
-		<?php $this->widget('application.widgets.CatalogWidget', array('action' => 'makes')); ?>
-		
 	</div>
 	<div class="l-col2">
 		

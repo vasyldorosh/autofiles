@@ -201,7 +201,7 @@ class ImportCommand extends CConsoleCommand
 				//$this->actionCompletionDetails($completionIds);
 				//$this->actionSpecs();
 				$this->actionCompletionData($completionIds);
-				//$this->actionCompetitor();
+				$this->actionCompetitor();
 			}
 		//}
 
