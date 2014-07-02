@@ -563,6 +563,8 @@ class ImportCommand extends CConsoleCommand
 			
 			$completions = AutoCompletion::model()->findAll($criteria);
 			
+			echo sizeof($completions);
+			
 			foreach ($completions as $key=>$completion) {
 				$criteria = new CDbCriteria();
 				$criteria->compare('completion_id', $completion->id);				
