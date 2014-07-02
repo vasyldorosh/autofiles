@@ -110,7 +110,6 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionCatalog()
 	{
-		/*
 		date_default_timezone_set('America/Los_Angeles');
 		
 		$this->actionMake();
@@ -187,25 +186,22 @@ class ImportCommand extends CConsoleCommand
 				}
 			}			
 		}	
-		*/
 		
 		//$parsedModelYearIds = range(4946, 5006);
 
-		//if (!empty($parsedModelYearIds)) {
-			//$this->actionModelYearPhoto($parsedModelYearIds);
-			//$completionIds = $this->actionCompletion($parsedModelYearIds);
+		if (!empty($parsedModelYearIds)) {
+			$this->actionModelYearPhoto($parsedModelYearIds);
+			$completionIds = $this->actionCompletion($parsedModelYearIds);
 			
-			$completionIds = range(27250, 28000);
+			//$completionIds = range(27250, 28000);
 			
 			if (!empty($completionIds)) {
-				//$this->actionCompletionDetails($completionIds);
-				//$this->actionSpecs();
+				$this->actionCompletionDetails($completionIds);
+				$this->actionSpecs();
 				$this->actionCompletionData($completionIds);
 				$this->actionCompetitor();
 			}
-		//}
-
-		
+		}
 	}	
 	
 	private function actionModelYearPhoto($ids)
@@ -562,9 +558,7 @@ class ImportCommand extends CConsoleCommand
 			$criteria->addInCondition('id', $ids);	
 			
 			$completions = AutoCompletion::model()->findAll($criteria);
-			
-			echo sizeof($completions);
-			
+
 			foreach ($completions as $key=>$completion) {
 				$criteria = new CDbCriteria();
 				$criteria->compare('completion_id', $completion->id);				
