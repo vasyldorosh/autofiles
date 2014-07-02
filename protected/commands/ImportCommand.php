@@ -556,6 +556,8 @@ class ImportCommand extends CConsoleCommand
 	*/
 	private function actionCompletionData($ids)
 	{
+			$specsData = AutoSpecs::getAllWithAttributes();
+	
 			$criteria = new CDbCriteria();
 			$criteria->addInCondition('id', $ids);	
 			

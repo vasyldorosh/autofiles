@@ -7,6 +7,7 @@ class AutoModelYear extends CActiveRecord
 	
     public $file;
     public $file_url;
+    public $is_delete_photo;
 	
 	public $image_ext = 'jpg';	
 	
@@ -40,7 +41,7 @@ class AutoModelYear extends CActiveRecord
 		return array(
 			array('year, model_id', 'required'),
             array('id, year', 'numerical', 'integerOnly' => true,),		
-			array('is_active, is_deleted', 'numerical', 'integerOnly' => true),
+			array('is_active, is_deleted, is_delete_photo', 'numerical', 'integerOnly' => true),
             array('post_competitors', 'safe',),					
             array('description', 'safe',),		
             array('file', 'length', 'max' => 128),
@@ -79,6 +80,7 @@ class AutoModelYear extends CActiveRecord
 			'image_preview' => Yii::t('admin', 'Image'),
 			'is_active' => Yii::t('admin', 'Published'),
 			'is_deleted' => Yii::t('admin', 'Deleted'),	
+			'is_delete_photo' => Yii::t('admin', 'Delete Photo'),	
 			'description' => Yii::t('admin', 'Description'),
 			'file' => 'File Name',			
 		);
@@ -127,6 +129,11 @@ class AutoModelYear extends CActiveRecord
 			$item->save();
 		}	
 			
+		if ($this->is_delete_photo) {
+			$this->_deleteImage();
+			$this->file_name = '';
+		}	
+			
 		if (!empty($this->file)) {
 			if (!$this->isNewRecord) {
 				$this->_deleteImage();
@@ -165,7 +172,7 @@ class AutoModelYear extends CActiveRecord
 
 	private function _deleteImage()
     {
-        if ($this->image_ext) {
+        if (!empty($this->file_name)) {
 			$files = $this->bfglob(Yii::getPathOfAlias('webroot') . self::PHOTO_DIR, "*{$this->file_name}", 0, 10);			
 			foreach ($files as $file) {
 				@unlink($file);
