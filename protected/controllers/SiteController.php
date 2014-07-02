@@ -166,6 +166,7 @@ class SiteController extends Controller
 				$image_info = getimagesize($dir.$file);
 				if (!is_array($image_info) OR count($image_info) < 3) {
 					echo $file . '<br/>';
+					unlink($dir.$file);
 				}
 			}
 		}	
