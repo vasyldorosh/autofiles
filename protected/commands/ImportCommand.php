@@ -194,13 +194,16 @@ class ImportCommand extends CConsoleCommand
 			$completionIds = $this->actionCompletion($parsedModelYearIds);
 		*/	
 			
-			$completionIds = range(27249, 27541);
+			$completionIds = range(1, 2);
 			
 			if (!empty($completionIds)) {
 				$this->actionCompletionDetails($completionIds);
+				
+				/*
 				$this->actionSpecs();
 				$this->actionCompletionData($completionIds);
 				$this->actionCompetitor();
+				*/
 			}
 		//}
 
@@ -333,12 +336,21 @@ class ImportCommand extends CConsoleCommand
 			foreach ($completions as $key=>$completion) {
 				$url = "http://autos.aol.com/cars-compare?cur_page=details&v1={$completion->code}&v2=&v3=&v4=&v5=&v6=&v7=&v8=&v9=";
 				
+				$content = Yii::app()->cache->get($url);
+				if ($content == false) {
+					$content = CUrlHelper::getPage($url, '', '');	
+					Yii::app()->cache->set($url, $content, 60*60*24);
+				}
+				
 				$content = CUrlHelper::getPage($url, '', '');
 				
 				$html = str_get_html($content);	
+				
+				var_dump($html);
+				die();
+				
 				$specsGroup = null;
-				foreach ($html->find('#data_table tr') as $tr) {
-						
+				foreach ($html->find('#data_table tr') as $tr) {						
 					
 					if ($tr->class == 'header') {
 						$specsGroup = $this->getSpecsGroup(array('title'=>trim(str_replace('Compare ', '', $tr->find('td', 0)->plaintext))));
