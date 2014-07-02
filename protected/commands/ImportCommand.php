@@ -123,17 +123,19 @@ class ImportCommand extends CConsoleCommand
 		foreach ($autoModels as $keyModel=>$autoModel) {
 			$url = "http://autos.aol.com/{$autoModel->Make->alias}-{$autoModel->alias}/";
 			
-			$content = CUrlHelper::getPage($url, '', '');
+			$content = Yii::app()->cache->get($url);
+			if ($content == false) {
+				$content = CUrlHelper::getPage($url, '', '');	
+				Yii::app()->cache->set($url, $content, 60*60*24);
+			}			
+			
 			preg_match_all('/<li class="sub_title"><a href="\/cars-(.*?)-(.*?)-(.*?)\/">(.*?)<\/a><\/li>/', $content, $matches);
 			preg_match_all('/<li class="sub_title"><a href="(.*?)">(.*?)<\/a><\/li>/', $content, $matchesUrl);
 				
 			if (isset($matches[3])) {
 					
 				$content = str_replace(array(" ", "\n", "\t", "\r"), array("","","",""), $content);
-				if ($content == false) {
-					$content = CUrlHelper::getPage($url, '', '');	
-					Yii::app()->cache->set($url, $content, 60*60*24);
-				}
+
 				//file_put_contents('1111.txt', $content);
 				preg_match_all('/<divclass="mkencl"><divclass="img"><imgsrc="(.*?)"width="150"height="113"alt="(.*?)"\/><\/div>/', $content, $matchesImages);
 				preg_match_all('/<divclass="mkencl"><divclass="img"><imgsrc="(.*?)"width="150"height="93"style="padding-top:12px"alt="(.*?)"\/><\/div>/', $content, $matchesImagesTwo);
@@ -193,13 +195,13 @@ class ImportCommand extends CConsoleCommand
 			//$this->actionModelYearPhoto($parsedModelYearIds);
 			//$completionIds = $this->actionCompletion($parsedModelYearIds);
 			
-			$completionIds = range(27249, 27541);
+			$completionIds = range(27250, 28000);
 			
 			if (!empty($completionIds)) {
 				$this->actionCompletionDetails($completionIds);
-				//$this->actionSpecs();
-				//$this->actionCompletionData($completionIds);
-				//$this->actionCompetitor();
+				$this->actionSpecs();
+				$this->actionCompletionData($completionIds);
+				$this->actionCompetitor();
 			}
 		//}
 
@@ -330,37 +332,53 @@ class ImportCommand extends CConsoleCommand
 			$completions = AutoCompletion::model()->findAll($criteria);
 			
 			foreach ($completions as $key=>$completion) {
+				AutoCompletionSpecsTemp::model()->deleteAllByAttributes(array('completion_id'=>$completion->id));
 				$url = "http://autos.aol.com/cars-compare?cur_page=details&v1={$completion->code}&v2=&v3=&v4=&v5=&v6=&v7=&v8=&v9=";
 				
-				$content = CUrlHelper::getPage($url, '', '');
+				$content = Yii::app()->cache->get($url);
+				if ($content == false) {
+					$content = CUrlHelper::getPage($url, '', '');	
+					Yii::app()->cache->set($url, $content, 60*60*24);
+				}	
+				$content = str_replace(array("\n", "\t", "\r"), "", $content);
 				
-				$html = str_get_html($content);	
-				$specsGroup = null;
-				foreach ($html->find('#data_table tr') as $tr) {
-						
+				preg_match_all('/<table id="data_table" cellpadding="0" cellspacing="0" class="fixed_wrap">(.*?)<\/table>/', $content, $matchTable);
+				
+				$headerTrs = explode('<tr class="header">', $matchTable[1][0]);
+				
+				$dataSpecsGroup = array();
+				foreach ($headerTrs as $trKey=>$headerTr) {
+					if ($trKey < 2) continue;
+					preg_match_all('/<td class="anchor label"><span><em>Compare<\/em>(.*?)<\/span><\/td>/', $headerTr, $matchGroup);
+					preg_match_all('/<tr(.*?)class="data(.*?)"><td class="anchor label"><span>(.*?)<\/span><\/td><td class="anchor right_bor(.*?)">(.*?)<\/td>/', $headerTr, $matchSpecs);
 					
-					if ($tr->class == 'header') {
-						$specsGroup = $this->getSpecsGroup(array('title'=>trim(str_replace('Compare ', '', $tr->find('td', 0)->plaintext))));
-					} else if (!empty($specsGroup)) {
-						$specs = $this->getSpecs(array('title'=>trim($tr->find('td', 0)->plaintext), 'group_id'=>$specsGroup->id));
-			
+					$specsGroupTitle = trim($matchGroup[1][0]);
+					$specsGroup = $this->getSpecsGroup(array('title'=>$specsGroupTitle));
+						
+					foreach ($matchSpecs[3] as $specsKey=>$matchSpecTitle) {
+						$specsTitle = trim(strip_tags($matchSpecTitle));
+						$specs = $this->getSpecs(array('title'=>$specsTitle, 'group_id'=>$specsGroup->id));
+						$tempValue = strip_tags($matchSpecs[5][$specsKey]);
+						
+						$dataSpecsGroup[$specsGroup->title][$specs->title] = $tempValue;
+						
 						$completionSpecs = new AutoCompletionSpecsTemp;
 						$completionSpecs->attributes = array(
 							'completion_id' => $completion->id,
 							'specs_id' => $specs->id,
-							'value' => trim($tr->find('td', 1)->plaintext),
+							'value' => $tempValue,
 						);
 						
-						$completionSpecs->save();
-					}
-
+						$completionSpecs->save();										
+					}	
 				}
-				
+
 				$competitorCount = 0;
 				if (substr_count($content, "Competitors for") == 1) {
-					preg_match_all('/<a href="(.*?)" name="(.*?)" class="addVeh">/', $content, $matches);	
-					if (isset($matches[2]) && !empty($matches[2])) {
-						foreach ($matches[2] as $competitor_code) {
+					preg_match_all('/<a href="#top-chooser" class="addVeh add" name="(.*?)">Add to Compare<\/a>/', $content, $matches);	
+					
+					if (isset($matches[1]) && !empty($matches[1])) {
+						foreach ($matches[1] as $competitor_code) {
 							$competitorCompletion = AutoCompletion::model()->findByAttributes(array('code'=>$competitor_code));
 							if (!empty($competitorCompletion)) {
 								$competitorsTemp = new AutoCompletionCompetitorsTemp;
