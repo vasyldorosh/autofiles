@@ -198,8 +198,8 @@ class ImportCommand extends CConsoleCommand
 			$completionIds = range(27250, 28000);
 			
 			if (!empty($completionIds)) {
-				$this->actionCompletionDetails($completionIds);
-				$this->actionSpecs();
+				//$this->actionCompletionDetails($completionIds);
+				//$this->actionSpecs();
 				$this->actionCompletionData($completionIds);
 				$this->actionCompetitor();
 			}
