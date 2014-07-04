@@ -6,9 +6,9 @@
  */
 
 class SiteConfig {
-    /* Имя файла-хранилища */
-    const FILE_NAME = 'site.conf';
-
+	
+	const CACHE_KEY = '_SETTINGS_';
+	
     protected $_data = null;
     protected static $_instance = null;
 
@@ -50,45 +50,16 @@ class SiteConfig {
         return $defaultValue;
     }
 
-    public function setValue($name, $value) {
-        $this->_data[$name] = $value;
-    }
-
-    private function _init() {
+	private function _init() {
         if (is_null($this->_data)) {
-            if ($this->_loadFromFile()) {
-                return true;
-            }
-            
-        }
-        //throw new CException('Ошибка при загрузке конфига приложения');
+			$data = Yii::app()->cache->get(self::CACHE_KEY);
+			if ($data == false) {
+				$data = CHtml::listData(SiteConfigModel::model()->findAll(), 'key', 'value');
+				Yii::app()->cache->get(self::CACHE_KEY, $data, 60*60*24);
+			}
+			
+			$this->_data = $data;		
+		}
     }
-
-    private function _loadFromFile() {
-        $filePath = $this->_getFilePath();
-        if (file_exists($filePath) && $content = file_get_contents($filePath)) {
-            $unserializedContent = unserialize($content);
-            if ($unserializedContent) {
-            	
-                $this->_data = $unserializedContent;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private function _getFilePath() {
-        $path = YiiBase::getPathOfAlias('application.config');
-        $filePath = $path .DIRECTORY_SEPARATOR. self::FILE_NAME;
-        return $filePath;
-    }
-
-    private function _saveToFile() {
-        $filePath = $this->_getFilePath();
-        return file_put_contents($filePath, serialize($this->_data));
-    }
-
-    public function save() {
-        $this->_saveToFile();
-    }
+	
 }

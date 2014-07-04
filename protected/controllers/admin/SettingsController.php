@@ -9,10 +9,7 @@ class SettingsController extends BackendController
 		$config = Yii::app()->getRequest()->getParam('Config', null);
 		
 		if (!empty($config)) {
-            foreach ($config as $key => $value) {
-                SiteConfig::getInstance()->setValue($key, $value);
-            }
-            SiteConfig::getInstance()->save();
+			SiteConfigModel::model()->saveData($config);
 			Yii::app()->admin->setFlash('success', Yii::t('admin', 'Successfully saved'));
         }
 
