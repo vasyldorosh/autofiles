@@ -539,6 +539,9 @@ class AutoModelYear extends CActiveRecord
 					";
 					
 			$data = Yii::app()->db->createCommand($sql)->queryRow();	
+			$data['mmax'] = (float) $data['mmax'];
+			$data['mmin'] = (float) $data['mmin'];			
+			
 			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
 		}
 		

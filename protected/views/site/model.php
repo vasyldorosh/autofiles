@@ -48,7 +48,7 @@
 		<section class="right-block">
 			<h2 class="section-name"><?=$make['title']?> <?=$model['title']?> specs and dimensions</h2>
 			<ul class="right-block__specs-list">
-				<li class="speed"><a href="#">0-60 times</a></li>
+				<li class="speed"><a href="/0-60-times<?=$model['url']?>">0-60 times</a></li>
 				<!--
 				<li class="engine"><a href="#">Engine specs</a></li>
 				<li class="horsepower"><a href="#">Horsepower</a></li>

@@ -213,4 +213,111 @@ class AutoCompletion extends CActiveRecord
 		
 		return $data;			
 	}	
+	
+	public static function getFastest($limit=6)
+	{
+		$key = Tags::TAG_COMPLETION . '_FASTEST_' . $limit;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false) {
+			$sql = "SELECT 
+						MAX(specs_0_60mph__0_100kmh_s_) AS speed,
+						c.id AS id,
+						c.specs_1_4_mile_time AS mile_time,
+						c.specs_1_4_mile_speed AS mile_speed,
+						c.specs_horsepower AS horsepower,
+						c.specs_torque AS torque,
+						c.specs_engine AS engine,
+						y.year AS year,
+						y.id AS year_id,
+						m.title AS model_title,
+						m.alias AS model_alias,
+						k.title AS make_title,
+						k.alias AS make_alias
+					FROM auto_completion AS c
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					LEFT JOIN auto_model AS m ON y.model_id = m.id
+					LEFT JOIN auto_make AS k ON m.make_id = k.id
+					WHERE 
+						c.is_active = 1 AND 
+						c.is_deleted = 0 AND
+						c.specs_0_60mph__0_100kmh_s_ IS NOT NULL AND
+						y.is_active = 1 AND
+						y.is_deleted = 0 AND
+						m.is_active = 1 AND
+						m.is_deleted = 0 AND
+						k.is_active = 1 AND
+						k.is_deleted = 0
+					GROUP BY c.model_year_id
+					ORDER BY speed ASC
+					LIMIT {$limit}
+					";
+					
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();	
+			$data = array();
+			
+			$ids = array();
+			foreach ($rows as $row) {
+				$ids[] = $row['year_id'];
+			}
+			
+			$criteria = new CDbCriteria;
+			$criteria->addInCondition('id',$ids);			
+			$criteria->index = 'id';			
+			$modelYears = AutoModelYear::model()->findAll($criteria);
+
+			foreach ($rows as $row) {
+
+				$expl = explode('@', $row['horsepower']);
+				$row['horsepower'] = $expl[0];
+				
+				$expl = explode('@', $row['torque']);
+				$row['torque'] = $expl[0];
+				$row['photo'] = $modelYears[$row['year_id']]->getThumb(150, null, 'resize');
+				$row['engine'] = AutoSpecsOption::getV('engine', $row['engine']);
+				
+				$data[] = $row;
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		return $data;		
+	}
+	
+	
+	public static function getMakeTimes($make_id)
+	{
+		$key = Tags::TAG_COMPLETION . '_MAKE_TIMES_' . $make_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false || true) {
+			$data = array();
+			$models = AutoMake::getModels($make_id);
+			foreach ($models as $model) {
+				$data[$model['id']]['title'] = $model['title'];
+				$data[$model['id']]['0_60_times'] = AutoModel::getMinMaxSpecs('0_60mph__0_100kmh_s_', $model['id']);
+				$data[$model['id']]['mile_time']['max'] = AutoModel::getMaxSpecs('1_4_mile_time', $model['id']);				
+				$data[$model['id']]['mile_speed']['max'] = AutoModel::getMaxSpecs('1_4_mile_speed', $model['id']);
+				$data[$model['id']]['mile_time']['min'] = AutoModel::getMinSpecs('1_4_mile_time', $model['id']);				
+				$data[$model['id']]['mile_speed']['min'] = AutoModel::getMinSpecs('1_4_mile_speed', $model['id']);
+			}
+				
+			usort ($data, "cmp");	
+				
+			//d($data);
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		return $data;		
+	}
+	
 }
+
+
+	function cmp ($a, $b)
+	{
+		if ($a['0_60_times']['mmin'] == $b['0_60_times']['mmin']) return 0;
+		return ($a['0_60_times']['mmin'] < $b['0_60_times']['mmin']) ? -1 : 1;
+	}	

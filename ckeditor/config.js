@@ -44,7 +44,8 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'about' }
 	];	
 	
-	
+	config.allowedContent = true;
+	config.extraAllowedContent = 'h2[class]';
 };
 
 

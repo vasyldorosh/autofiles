@@ -42,6 +42,30 @@
 					), 
 					true
 				)),
+                array(
+					'label'=>Yii::t('admin', '0-60 times'),
+					'content' => $this->renderPartial('_0_60_times_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+                array(
+					'label'=>Yii::t('admin', '0-60 times Make'),
+					'content' => $this->renderPartial('_0_60_times_make_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+                array(
+					'label'=>Yii::t('admin', '0-60 times Model'),
+					'content' => $this->renderPartial('_0_60_times_model_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
 			)
 		));?>
 

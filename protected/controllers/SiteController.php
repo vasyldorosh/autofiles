@@ -53,9 +53,9 @@ class SiteController extends Controller
 			 throw new CHttpException(404,'Page cannot be found.');
 		}
 		
-		$this->pageTitle = str_replace(array('[make]', '[model]'), array($model['title'], $make['title']), SiteConfig::getInstance()->getValue('seo_model_title'));
-		$this->meta_keywords = str_replace(array('[make]', '[model]'), array($model['title'], $make['title']), SiteConfig::getInstance()->getValue('seo_model_meta_keywords'));
-		$this->meta_description = str_replace(array('[make]', '[model]'), array($model['title'], $make['title']), SiteConfig::getInstance()->getValue('seo_model_meta_description'));		
+		$this->pageTitle = str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('seo_model_title'));
+		$this->meta_keywords = str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('seo_model_meta_keywords'));
+		$this->meta_description = str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('seo_model_meta_description'));		
 			
 		$this->breadcrumbs = array(
 			'/' => 'Home',

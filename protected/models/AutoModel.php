@@ -339,7 +339,7 @@ class AutoModel extends CActiveRecord
 	
 	public static function getModelByMakeAndAlias($make_id, $alias)
 	{
-		$key = Tags::TAG_MODEL . '_ITEM_'.$make_id . '_' . $alias;
+		$key = Tags::TAG_MODEL . '__ITEM__'.$make_id . '__' . $alias;
 		$model = Yii::app()->cache->get($key);
 		if ($model == false) {
 			$model = array();
@@ -360,6 +360,7 @@ class AutoModel extends CActiveRecord
 					'id' => $item->id,
 					'url' => $item->urlFront,
 					'title' => $item->title,
+					'alias' => $item->alias,
 					'description' => $item->description,
 					'photo' => $item->getThumb(150, null, 'resize'),
 				);
@@ -370,5 +371,91 @@ class AutoModel extends CActiveRecord
 		
 		return $model;
 	}	
+	
+	public static function getMinMaxSpecs($specs, $model_id)
+	{
+		$model_id = (int) $model_id;
+	
+		$key = Tags::TAG_COMPLETION . '_MODEL_SPECS_MIN_MAX_' . $specs . '_' . $model_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false) {
+			$sql = "SELECT 
+						MAX(c.specs_{$specs}) AS mmax,  
+						MIN(c.specs_{$specs}) AS mmin 
+					FROM auto_completion AS c
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					WHERE 
+						c.is_active = 1 AND 
+						c.is_deleted = 0 AND
+						y.is_active = 1 AND
+						y.is_deleted = 0 AND
+						y.model_id = {$model_id}
+					";
+					
+			$data = Yii::app()->db->createCommand($sql)->queryRow();	
+			$data['mmax'] = (float) $data['mmax'];
+			$data['mmin'] = (float) $data['mmin'];
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		return $data;
+	}		
 
+	public static function getMaxSpecs($specs, $model_id)
+	{
+		$model_id = (int) $model_id;
+	
+		$key = Tags::TAG_COMPLETION . '_MODEL_SPECS_MAX_' . $specs . '_' . $model_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false) {
+			$sql = "SELECT 
+						MAX(c.specs_{$specs}) AS mmax
+					FROM auto_completion AS c
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					WHERE 
+						c.is_active = 1 AND 
+						c.is_deleted = 0 AND
+						y.is_active = 1 AND
+						y.is_deleted = 0 AND
+						y.model_id = {$model_id}
+					";
+					
+			$data = Yii::app()->db->createCommand($sql)->queryRow();	
+			$data = (float) $data['mmax'];
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		return $data;
+	}		
+
+	public static function getMinSpecs($specs, $model_id)
+	{
+		$model_id = (int) $model_id;
+	
+		$key = Tags::TAG_COMPLETION . '_MODEL_SPECS_MIN_' . $specs . '_' . $model_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false) {
+			$sql = "SELECT 
+						MIN(c.specs_{$specs}) AS mmin 
+					FROM auto_completion AS c
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					WHERE 
+						c.is_active = 1 AND 
+						c.is_deleted = 0 AND
+						y.is_active = 1 AND
+						y.is_deleted = 0 AND
+						y.model_id = {$model_id}
+					";
+					
+			$data = Yii::app()->db->createCommand($sql)->queryRow();	
+			$data = (float) $data['mmin'];
+
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		return $data;
+	}		
 }
