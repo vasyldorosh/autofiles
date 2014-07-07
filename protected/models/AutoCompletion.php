@@ -394,6 +394,22 @@ class AutoCompletion extends CActiveRecord
 		return $data;		
 	}
 	
+	public static function getItemsByYearOrderTime($model_year_id)
+	{
+		$model_year_id = (int) $model_year_id;
+	
+		$key = Tags::TAG_COMPLETION . '_ITEMS_BY_YEAR_ORDER_TIME_' . $model_year_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false) {	
+			$data = self::getItemsByYear($model_year_id);
+			usort ($data, "cmpCompletionTimes");			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_COMPLETION));
+		}
+	
+		return $data;
+	}
+	
 }
 
 	

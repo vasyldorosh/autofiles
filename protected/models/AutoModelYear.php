@@ -662,7 +662,7 @@ class AutoModelYear extends CActiveRecord
 		$key = Tags::TAG_MODEL_YEAR . '_COMPETITORS_'.$model_year_id;
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data == false && !is_array($data) || true) {
+		if ($data == false && !is_array($data)) {
 			$data = array();
 			$sql = "SELECT 
 						*

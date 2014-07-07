@@ -120,6 +120,7 @@ class SiteController extends Controller
 		$models = AutoModelYear::getOtherMakeYear($models, $modelYear['id']);
 		
 		$competitors = AutoModelYear::getFrontCompetitors($modelYear['id']);
+		$completionsTime = AutoCompletion::getItemsByYearOrderTime($modelYear['id']);
 		$carSpecsAndDimensions = AutoModelYear::getCarSpecsAndDimensions($modelYear['id']);
 		$lastCompletion = AutoModelYear::getLastCompletion($modelYear['id']);
 		
@@ -131,6 +132,7 @@ class SiteController extends Controller
 			'modelYear' => $modelYear,
 			'modelYears' => AutoModel::getYears($model['id']),
 			'completions' => $completions,
+			'completionsTime' => $completionsTime,
 			'models' => $models,
 			'competitors' => $competitors,
 			'carSpecsAndDimensions' => $carSpecsAndDimensions,

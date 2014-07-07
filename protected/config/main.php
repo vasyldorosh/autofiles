@@ -3,6 +3,10 @@ function cmpArrayTimes ($a, $b) {
 	if ($a['0_60_times']['mmin'] == $b['0_60_times']['mmin']) return 0;
 		return ($a['0_60_times']['mmin'] < $b['0_60_times']['mmin']) ? -1 : 1;
 }
+function cmpCompletionTimes ($a, $b) {
+	if ($a['specs_0_60mph__0_100kmh_s_'] == $b['specs_0_60mph__0_100kmh_s_']) return 0;
+		return ($a['specs_0_60mph__0_100kmh_s_'] < $b['specs_0_60mph__0_100kmh_s_']) ? -1 : 1;
+}
 function cmpArrayYears ($a, $b) {
 	if ($a['year'] == $b['year']) return 0;
 		return ($a['year'] > $b['year']) ? -1 : 1;
