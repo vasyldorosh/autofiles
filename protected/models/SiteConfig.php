@@ -55,7 +55,7 @@ class SiteConfig {
 			$data = Yii::app()->cache->get(self::CACHE_KEY);
 			if ($data == false) {
 				$data = CHtml::listData(SiteConfigModel::model()->findAll(), 'key', 'value');
-				Yii::app()->cache->get(self::CACHE_KEY, $data, 60*60*24);
+				Yii::app()->cache->set(self::CACHE_KEY, $data, 60*60*24);
 			}
 			
 			$this->_data = $data;		

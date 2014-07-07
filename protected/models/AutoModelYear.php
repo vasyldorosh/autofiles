@@ -548,6 +548,64 @@ class AutoModelYear extends CActiveRecord
 		return $data;
 	}	
 	
+	public static function getMinSpecs($specs, $model_year_id)
+	{
+		$model_year_id = (int) $model_year_id;
+	
+		$key = Tags::TAG_COMPLETION . '_SPECS_MIN_' . $specs . '_' . $model_year_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false) {
+			$sql = "SELECT 
+						MIN(c.specs_{$specs}) AS mmin 
+					FROM auto_completion AS c
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					WHERE 
+						c.is_active = 1 AND 
+						c.is_deleted = 0 AND
+						y.is_active = 1 AND
+						y.is_deleted = 0 AND
+						c.model_year_id = {$model_year_id}
+					";
+					
+			$data = Yii::app()->db->createCommand($sql)->queryRow();	
+			$data = (float) $data['mmin'];			
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		return $data;
+	}	
+	
+	public static function getMaxSpecs($specs, $model_year_id)
+	{
+		$model_year_id = (int) $model_year_id;
+	
+		$key = Tags::TAG_COMPLETION . '_SPECS_MAX_' . $specs . '_' . $model_year_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false) {
+			$sql = "SELECT 
+						MAX(c.specs_{$specs}) AS mmax
+					FROM auto_completion AS c
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					WHERE 
+						c.is_active = 1 AND 
+						c.is_deleted = 0 AND
+						y.is_active = 1 AND
+						y.is_deleted = 0 AND
+						c.model_year_id = {$model_year_id}
+					";
+					
+			$data = Yii::app()->db->createCommand($sql)->queryRow();	
+			$data = (float) $data['mmax'];			
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		return $data;
+	}	
+	
 	public static function getLastCompletion($model_year_id)
 	{
 		$model_year_id = (int) $model_year_id;
@@ -581,7 +639,7 @@ class AutoModelYear extends CActiveRecord
 	{
 		$model_year_id = (int) $model_year_id;
 		
-		$key = Tags::TAG_MODEL_YEAR . '__COMPETITORS__'.$model_year_id;
+		$key = Tags::TAG_MODEL_YEAR . '_COMPETITORS_'.$model_year_id;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data == false && !is_array($data)) {
@@ -617,6 +675,7 @@ class AutoModelYear extends CActiveRecord
 					$lastCompletion = self::getLastCompletion($item->id);
 				
 					$row = array(
+						'id' => $item->id,
 						'photo' => $item->getThumb(150, null, 'resize'),
 						'year' => $item->year,
 						'model' => $item->Model->title,

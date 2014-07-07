@@ -216,7 +216,7 @@ class AutoCompletion extends CActiveRecord
 	
 	public static function getFastest($limit=6)
 	{
-		$key = Tags::TAG_COMPLETION . '_FASTEST_' . $limit;
+		$key = Tags::TAG_COMPLETION . '__FASTEST__' . $limit;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data == false) {
@@ -248,7 +248,7 @@ class AutoCompletion extends CActiveRecord
 						m.is_deleted = 0 AND
 						k.is_active = 1 AND
 						k.is_deleted = 0
-					GROUP BY c.model_year_id
+					GROUP BY y.model_id
 					ORDER BY speed ASC
 					LIMIT {$limit}
 					";
@@ -288,36 +288,112 @@ class AutoCompletion extends CActiveRecord
 	
 	public static function getMakeTimes($make_id)
 	{
-		$key = Tags::TAG_COMPLETION . '_MAKE_TIMES_' . $make_id;
+		$key = Tags::TAG_COMPLETION . '_MAKE__TIMES_' . $make_id;
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data == false || true) {
+		if ($data == false) {
 			$data = array();
 			$models = AutoMake::getModels($make_id);
 			foreach ($models as $model) {
+				$times = AutoModel::getMinMaxSpecs('0_60mph__0_100kmh_s_', $model['id']);
+				if ($times['mmin'] == 0) {
+					continue;
+				}
+			
 				$data[$model['id']]['title'] = $model['title'];
-				$data[$model['id']]['0_60_times'] = AutoModel::getMinMaxSpecs('0_60mph__0_100kmh_s_', $model['id']);
+				$data[$model['id']]['alias'] = $model['alias'];
+				$data[$model['id']]['url'] = $model['url'];
+				$data[$model['id']]['0_60_times'] = $times;
 				$data[$model['id']]['mile_time']['max'] = AutoModel::getMaxSpecs('1_4_mile_time', $model['id']);				
 				$data[$model['id']]['mile_speed']['max'] = AutoModel::getMaxSpecs('1_4_mile_speed', $model['id']);
 				$data[$model['id']]['mile_time']['min'] = AutoModel::getMinSpecs('1_4_mile_time', $model['id']);				
 				$data[$model['id']]['mile_speed']['min'] = AutoModel::getMinSpecs('1_4_mile_speed', $model['id']);
 			}
 				
-			usort ($data, "cmp");	
-				
+			usort ($data, "cmpArrayTimes");	
 			//d($data);
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		return $data;		
+	}
+
+	public static function getAccelerationAcrossYears($model_id)
+	{
+		$key = Tags::TAG_COMPLETION . '_MODEL_ACCELERATION_ACROSS_YEARS_' . $model_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false) {
+			$data = array();
+			$years = AutoModel::getYears($model_id);
 			
+			//d($years);
+			
+			foreach ($years as $year) {
+				$times = AutoModelYear::getMinMaxSpecs('0_60mph__0_100kmh_s_', $year['id']);
+				
+				if ($times['mmin'] == 0) {
+					continue;
+				}
+			
+				$data[$year['id']]['year'] = $year['year'];
+				$data[$year['id']]['0_60_times'] = $times;
+				$data[$year['id']]['mile_time']['max'] = AutoModelYear::getMaxSpecs('1_4_mile_time', $year['id']);				
+				$data[$year['id']]['mile_speed']['max'] = AutoModelYear::getMaxSpecs('1_4_mile_speed', $year['id']);
+				$data[$year['id']]['mile_time']['min'] = AutoModelYear::getMinSpecs('1_4_mile_time', $year['id']);				
+				$data[$year['id']]['mile_speed']['min'] = AutoModelYear::getMinSpecs('1_4_mile_speed', $year['id']);
+			}
+				
+			usort ($data, "cmpArrayYears");	
+					
+			//d($data, 0);
+				
 			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
 		}
 		
 		return $data;		
 	}
 	
+	public static function getCompetitorsAcceleration($model_id)
+	{
+		$key = Tags::TAG_COMPLETION . '_MODEL_COMPETITORS_ACCELERATION_' . $model_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false) {
+			$data = array();
+			
+			$lastModelYear = AutoModel::getLastYear($model_id);
+			$competitors = AutoModelYear::getFrontCompetitors($lastModelYear['id']);
+			
+			foreach ($competitors as $competitor) {
+				$times = AutoModelYear::getMinMaxSpecs('0_60mph__0_100kmh_s_', $competitor['id']);
+				
+				if ($times['mmin'] == 0) {
+					continue;
+				}
+			
+				$data[$competitor['id']]['year'] = $competitor['year'];
+				$data[$competitor['id']]['model'] = $competitor['model'];
+				$data[$competitor['id']]['model_alias'] = $competitor['model_alias'];
+				$data[$competitor['id']]['make'] = $competitor['make'];
+				$data[$competitor['id']]['make_alias'] = $competitor['make_alias'];
+				$data[$competitor['id']]['0_60_times'] = $times;
+				$data[$competitor['id']]['mile_time']['max'] = AutoModelYear::getMaxSpecs('1_4_mile_time', $competitor['id']);				
+				$data[$competitor['id']]['mile_speed']['max'] = AutoModelYear::getMaxSpecs('1_4_mile_speed', $competitor['id']);
+				$data[$competitor['id']]['mile_time']['min'] = AutoModelYear::getMinSpecs('1_4_mile_time', $competitor['id']);				
+				$data[$competitor['id']]['mile_speed']['min'] = AutoModelYear::getMinSpecs('1_4_mile_speed', $competitor['id']);
+			}
+				
+			usort ($data, "cmpArrayTimes");	
+				
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		//d($data);
+		
+		return $data;		
+	}
+	
 }
 
-
-	function cmp ($a, $b)
-	{
-		if ($a['0_60_times']['mmin'] == $b['0_60_times']['mmin']) return 0;
-		return ($a['0_60_times']['mmin'] < $b['0_60_times']['mmin']) ? -1 : 1;
-	}	
+	

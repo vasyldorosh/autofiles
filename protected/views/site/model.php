@@ -26,7 +26,7 @@
 			<h2 class="section-name">All <?=$make['title']?> models</h2>
 			<p><strong><?=$make['title']?>:</strong>
 			<?php foreach ($models as $item):?>
-				<a href="<?=$item['url']?>"><?=$item['title']?></a>,
+				<a title="<?=$make['title']?> <?=$item['title']?>" href="<?=$item['url']?>"><?=$item['title']?></a>,
 			<?php endforeach;?>
 			</p>
 		</section>

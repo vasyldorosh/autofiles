@@ -4,7 +4,7 @@
 		<section class="make">
 			<h2 class="section-name"><?=$make['title']?> 0-60 times</h2>
 			<div class="make__history">
-				<?=$make['description']?>
+				<?=$description?>
 			</div>
 
 		</section>
@@ -12,18 +12,29 @@
 		<section class="table-container">
 			<h2 class="section-name">All <?=$make['title']?> models 0-60 times</h2>
 			<table>
-			<?php foreach ($models as $model):?>
+			<?php foreach ($models as $item):?>
 				<tr>
-					<td><?=$make['title']?> <?=$model['title']?> 0-60</td>
+					<td><a href="/0-60-times<?=$item['url']?>"> <?=$make['title']?> <?=$item['title']?> 0-60</a></td>
 					<td>
-					<?php if ($model['0_60_times']['mmax'] == $model['0_60_times']['mmin']):?>
-						<?=$model['0_60_times']['mmin']?>
+					<?php if ($item['0_60_times']['mmax'] == $item['0_60_times']['mmin']):?>
+						<?=$item['0_60_times']['mmin']?>
 					<?php else:?>
-						<?=$model['0_60_times']['mmin']?> - <?=$model['0_60_times']['mmax']?>
+						<?=$item['0_60_times']['mmin']?> - <?=$item['0_60_times']['mmax']?>
 					<?php endif;?>	
 						sec
 					</td>
-					<td>1/4 mile <?=$model['mile_time']['min']?> @ <?=$model['mile_speed']['min']?> - <?=$model['mile_time']['max']?> @ <?=$model['mile_speed']['max']?></td>
+					<td>
+						1/4 mile
+						<?php if ($item['mile_time']['min'] == 0):?>
+							-
+						<?php else:?>
+							<?php if ($item['mile_time']['min'] == $item['mile_time']['max']):?>
+								<?=$item['mile_time']['min']?> @ <?=$item['mile_speed']['min']?> mph
+							<?php else:?>
+								<?=$item['mile_time']['min']?> @ <?=$item['mile_speed']['min']?> - <?=$item['mile_time']['max']?> @ <?=$item['mile_speed']['max']?> mph
+							<?php endif;?>	
+						<?php endif;?>
+					</td>
 				</tr>
 			<?php endforeach;?>
 			</table>

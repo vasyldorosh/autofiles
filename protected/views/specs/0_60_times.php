@@ -13,7 +13,7 @@
 			<h2 class="section-name">Browse by make and check your car's 0-60 times</h2>	
 			<ul>
 				<?php $key=1;foreach ($makes as $makeUrl=>$makeTitle):?>
-					<li><a href="/0-60-times<?=$makeUrl?>"><?=$makeTitle?></a></li>
+					<li><a title="<?=$makeTitle?> 0-60 times" href="/0-60-times<?=$makeUrl?>"><?=$makeTitle?></a></li>
 					<?php if ($key%7 ==0):?>
 					</ul><ul>
 					<?php endif;?>
@@ -26,8 +26,8 @@
 			<ul class="make__vehicle">
 			<?php foreach ($fastests as $fastest):?>
 				<li>
-					<div class="make__vehicle-image"><a href="/0-60-times/<?=$fastest['make_alias']?>/<?=$fastest['model_alias']?>/"><img src="<?=$fastest['photo']?>"></a></div>
-					<h3><a href="/0-60-times/<?=$fastest['make_alias']?>/<?=$fastest['model_alias']?>/"><?=$fastest['year']?> <?=$fastest['make_title']?> <?=$fastest['model_title']?></a><span class="acceleration-time">0-60 <?=$fastest['speed']?> sec.</span></h3>
+					<div class="make__vehicle-image"><a title="<?=$fastest['make_title']?> <?=$fastest['model_title']?> 0-60 times" href="/0-60-times/<?=$fastest['make_alias']?>/<?=$fastest['model_alias']?>/"><img src="<?=$fastest['photo']?>"></a></div>
+					<h3><a title="<?=$fastest['make_title']?> <?=$fastest['model_title']?> 0-60 times" href="/0-60-times/<?=$fastest['make_alias']?>/<?=$fastest['model_alias']?>/"><?=$fastest['year']?> <?=$fastest['make_title']?> <?=$fastest['model_title']?></a><span class="acceleration-time">0-60 <?=$fastest['speed']?> sec.</span></h3>
 					<ul class="make__vehicle-specs">
 						<li>1/4 mile <?=$fastest['mile_time']?> @ <?=$fastest['mile_speed']?> mph</li>
 						<li>engine <?=$fastest['engine']?></li>

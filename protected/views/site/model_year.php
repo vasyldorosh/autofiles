@@ -61,6 +61,12 @@
 		
 		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 		
+		<section class="make">
+			<div class="make__history">
+				<?php $this->widget('application.widgets.CommonWidget', array('action'=>'spoiler', 'data'=>array('text'=>$modelYear['description'], 'class'=>'description'))); ?>
+			</div>
+		</section>
+		
 		<!--
 		<section class="parts">
 			<h2 class="section-name">Automotive Parts &amp; Accessories</h2>

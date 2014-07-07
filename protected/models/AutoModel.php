@@ -287,18 +287,21 @@ class AutoModel extends CActiveRecord
 	
 	public static function getLastYear($model_id)
 	{
-		$key = Tags::TAG_MODEL_YEAR . '_LAST_YEAR_'.$model_id;
+		$key = Tags::TAG_MODEL_YEAR . '__LAST_YEAR__'.$model_id;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data == false) {
 			$data = array();
 			$criteria=new CDbCriteria;
 			$criteria->compare('model_id', $model_id);
+			$criteria->compare('is_active', 1);
+			$criteria->compare('is_deleted', 0);
 			$criteria->order = 'year DESC';					
 			$item = AutoModelYear::model()->find($criteria);					
 			
 			if ($item)
 				$data = array(
+					'id' => $item->id,
 					'year' => $item->year,
 					'photo' => $item->getThumb(150, null, 'resize'),
 				);
@@ -311,7 +314,7 @@ class AutoModel extends CActiveRecord
 
 	public static function getYears($model_id)
 	{
-		$key = Tags::TAG_MODEL_YEAR . '_YEARS_'.$model_id;
+		$key = Tags::TAG_MODEL_YEAR . '__YEARS__'.$model_id;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data == false) {
@@ -326,6 +329,7 @@ class AutoModel extends CActiveRecord
 			$modelByYears = AutoModelYear::model()->findAll($criteria);			
 			foreach ($modelByYears as $item) {
 				$data[] = array(
+					'id' => $item->id,
 					'year' => $item->year,
 					'photo' => $item->getThumb(150, null, 'resize'),
 				);			

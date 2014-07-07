@@ -1,4 +1,13 @@
 <?php
+function cmpArrayTimes ($a, $b) {
+	if ($a['0_60_times']['mmin'] == $b['0_60_times']['mmin']) return 0;
+		return ($a['0_60_times']['mmin'] < $b['0_60_times']['mmin']) ? -1 : 1;
+}
+function cmpArrayYears ($a, $b) {
+	if ($a['year'] == $b['year']) return 0;
+		return ($a['year'] > $b['year']) ? -1 : 1;
+}
+
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 

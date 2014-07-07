@@ -56,6 +56,7 @@ class SpecsController extends Controller
 		$this->render('0_60_times_make', array(
 			'make' => $make,
 			'models' => $models,
+			'description' => str_replace('[make]', $make['title'], SiteConfig::getInstance()->getValue('0_60_times_make_description')),
 		));
 	}
 	
@@ -76,7 +77,10 @@ class SpecsController extends Controller
 		$this->meta_keywords = str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('seo_0_60_times_model_meta_keywords'));
 		$this->meta_description = str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('seo_0_60_times_model_meta_description'));		
 		
-	
+		$models = AutoCompletion::getAccelerationAcrossYears($model['id']);	
+		$competitors = AutoCompletion::getCompetitorsAcceleration($model['id']);	
+		//d($competitors);	
+			
 		$this->breadcrumbs = array(
 			'/' => 'Home',
 			'/0-60-times.html' => '0-60 times',
@@ -89,6 +93,9 @@ class SpecsController extends Controller
 		$this->render('0_60_times_model', array(
 			'make' => $make,
 			'model' => $model,
+			'models' => $models,
+			'competitors' => $competitors,
+			'description' => str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('0_60_times_model_description')),
 		));
 	}
 	
