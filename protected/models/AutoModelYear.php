@@ -317,10 +317,15 @@ class AutoModelYear extends CActiveRecord
 	public static function getAllByYear($year) 
 	{
 		$year = (int)$year;
+		
+		$years[] = $year-1;
+		$years[] = $year+1;
+		$years[] = $year;
+		
 		$data = array();
 		$criteria=new CDbCriteria;
-		$criteria->compare('t.year', $year);
-		$criteria->order = 'Make.title';
+		$criteria->addInCondition('t.year', $years);
+		$criteria->order = 'Make.title, Model.title, t.year DESC';
 		$criteria->with = array('Model', 'Model.Make');
 		$items = self::model()->findAll($criteria);
 		foreach ($items as $item) {
