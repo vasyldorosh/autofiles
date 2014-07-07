@@ -247,15 +247,8 @@ class AutoModelYear extends CActiveRecord
 	}	
 		
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('t.id',$this->id);
@@ -264,6 +257,27 @@ class AutoModelYear extends CActiveRecord
 		$criteria->compare('t.is_deleted',$this->is_deleted);
 		$criteria->compare('t.is_active',$this->is_active);			
 		
+		$criteria->with = array('Model' => array('together'=>true));
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+			'pagination'=>array(
+				'pageSize'=>Yii::app()->request->getParam('pageSize', Yii::app()->params->defaultPerPage),
+			),			
+		));
+	}
+	
+	public function searchEmaptyCompetitors()
+	{
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('t.id',$this->id);
+		$criteria->compare('t.year',$this->year, true);
+		$criteria->compare('t.model_id',$this->model_id);
+		$criteria->compare('t.is_deleted',$this->is_deleted);
+		$criteria->compare('t.is_active',$this->is_active);			
+		$criteria->addNotInCondition('t.id', self::getIdsIsCompetitors());		
+					
 		$criteria->with = array('Model' => array('together'=>true));
 
 		return new CActiveDataProvider($this, array(
@@ -740,5 +754,30 @@ class AutoModelYear extends CActiveRecord
 		
 		return $data;
 	}	
+	
+	public static function getIdsIsCompetitors()
+	{
+		$key = Tags::TAG_MODEL_YEAR . '_IDS_IS_COMPETITORS_';	
+		$data = Yii::app()->cache->get($key);
+		if ($data == false) {
+			$data = array();
+			
+			$sql = "SELECT DISTINCT model_year_id AS value FROM auto_model_year_competitor";
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();
+			foreach ($rows as $row) {
+				$data[$row['value']] = $row['value'];
+			}
+			
+			$sql = "SELECT DISTINCT competitor_id AS value FROM auto_model_year_competitor";
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();
+			foreach ($rows as $row) {
+				$data[$row['value']] = $row['value'];
+			}
+
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR));
+		}
+		
+		return $data;
+	}
 	
 }

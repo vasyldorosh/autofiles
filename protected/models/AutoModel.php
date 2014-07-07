@@ -192,15 +192,8 @@ class AutoModel extends CActiveRecord
 		);
 	}
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('t.id',$this->id);
@@ -210,8 +203,6 @@ class AutoModel extends CActiveRecord
 		$criteria->compare('t.is_active',$this->is_active);		
 		
 		$criteria->with = array('Make' => array('together'=>true));		
-			
-		
 		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -220,6 +211,7 @@ class AutoModel extends CActiveRecord
 			),			
 		));
 	}
+
 	
 	public static function getAllWithMake()
 	{
