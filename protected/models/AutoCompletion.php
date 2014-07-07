@@ -299,7 +299,9 @@ class AutoCompletion extends CActiveRecord
 				if ($times['mmin'] == 0) {
 					continue;
 				}
-			
+					
+				d($model);	
+					
 				$data[$model['id']]['title'] = $model['title'];
 				$data[$model['id']]['alias'] = $model['alias'];
 				$data[$model['id']]['url'] = $model['url'];

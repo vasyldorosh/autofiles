@@ -236,7 +236,7 @@ class AutoMake extends CActiveRecord
 	
 	public static function getModels($make_id)
 	{
-		$key = Tags::TAG_MODEL . '__LIST__'.$make_id;
+		$key = Tags::TAG_MODEL . '_LIST_MODELS_'.$make_id;
 		$dataModels = Yii::app()->cache->get($key);
 		if ($dataModels == false) {
 			$criteria = new CDbCriteria();
@@ -258,6 +258,7 @@ class AutoMake extends CActiveRecord
 				$row = array(
 					'id' => $model->id,
 					'title' => $model->title,
+					'alias' => $model->alias,
 					'url' => $model->urlFront,
 					'price' => array(
 						'min' => $price['mmin'],
