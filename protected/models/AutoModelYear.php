@@ -320,6 +320,7 @@ class AutoModelYear extends CActiveRecord
 		$data = array();
 		$criteria=new CDbCriteria;
 		$criteria->compare('t.year', $year);
+		$criteria->order = 'Make.title';
 		$criteria->with = array('Model', 'Model.Make');
 		$items = self::model()->findAll($criteria);
 		foreach ($items as $item) {
@@ -656,13 +657,7 @@ class AutoModelYear extends CActiveRecord
 			foreach ($rows as $row) {
 				$ids[] = ($model_year_id==$row['model_year_id']) ? $row['competitor_id'] : $row['model_year_id'];
 			}
-			
-			if (isset($_GET['t'])) {
-				echo "model_year_id= $model_year_id";
-				echo 'Competitors ids: ';
-				d($ids, 0);
-			}			
-			
+
 			if (!empty($ids)) {
 				$criteria = new CDbCriteria();
 				$criteria->compare('t.is_active', 1);

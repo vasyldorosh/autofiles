@@ -359,17 +359,12 @@ class AutoCompletion extends CActiveRecord
 		$key = Tags::TAG_COMPLETION . '_MODEL_COMPETITORS_ACCELERATION_' . $model_id;
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data == false || true) {
+		if ($data == false) {
 			$data = array();
 			
 			$lastModelYear = AutoModel::getLastYear($model_id);
 			$competitors = AutoModelYear::getFrontCompetitors($lastModelYear['id']);
-			
-			if (isset($_GET['t'])) {
-				d($lastModelYear, 0);
-				d($competitors, 0);
-			}
-			
+
 			foreach ($competitors as $competitor) {
 				$times = AutoModelYear::getMinMaxSpecs('0_60mph__0_100kmh_s_', $competitor['id']);
 				
