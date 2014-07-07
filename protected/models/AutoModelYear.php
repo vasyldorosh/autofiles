@@ -642,7 +642,7 @@ class AutoModelYear extends CActiveRecord
 		$key = Tags::TAG_MODEL_YEAR . '_COMPETITORS_'.$model_year_id;
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data == false && !is_array($data)) {
+		if ($data == false && !is_array($data) || true) {
 			$data = array();
 			$sql = "SELECT 
 						*
@@ -656,6 +656,11 @@ class AutoModelYear extends CActiveRecord
 			foreach ($rows as $row) {
 				$ids[] = ($model_year_id==$row['model_year_id']) ? $row['competitor_id'] : $row['model_year_id'];
 			}
+			
+			if (isset($_GET['t'])) {
+				echo 'Competitors ids: ';
+				d($ids, 0);
+			}			
 			
 			if (!empty($ids)) {
 				$criteria = new CDbCriteria();
