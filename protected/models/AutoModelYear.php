@@ -658,6 +658,7 @@ class AutoModelYear extends CActiveRecord
 			}
 			
 			if (isset($_GET['t'])) {
+				echo "model_year_id= $model_year_id";
 				echo 'Competitors ids: ';
 				d($ids, 0);
 			}			
