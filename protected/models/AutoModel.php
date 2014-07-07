@@ -287,6 +287,8 @@ class AutoModel extends CActiveRecord
 	
 	public static function getLastYear($model_id)
 	{
+		$model_id = (int) $model_id;
+	
 		$key = Tags::TAG_MODEL_YEAR . '__LAST_YEAR__'.$model_id;
 		$data = Yii::app()->cache->get($key);
 		

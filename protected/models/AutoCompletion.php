@@ -365,6 +365,11 @@ class AutoCompletion extends CActiveRecord
 			$lastModelYear = AutoModel::getLastYear($model_id);
 			$competitors = AutoModelYear::getFrontCompetitors($lastModelYear['id']);
 			
+			if (isset($_GET['t'])) {
+				d($lastModelYear, 0);
+				d($competitors, 0);
+			}
+			
 			foreach ($competitors as $competitor) {
 				$times = AutoModelYear::getMinMaxSpecs('0_60mph__0_100kmh_s_', $competitor['id']);
 				
