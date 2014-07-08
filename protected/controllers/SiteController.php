@@ -77,7 +77,6 @@ class SiteController extends Controller
 			'completion' => AutoModel::getLastCompletion($model['id']),
 			'modelByYears' => $modelByYears,
 			'models' => $models,
-			'completionsTime' => $completionsTime,
 		));
 	}
 	
