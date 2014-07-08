@@ -66,7 +66,9 @@ class SiteController extends Controller
 		$lastModelYear = AutoModel::getLastYear($model['id']);
 		$modelByYears = AutoModel::getYears($model['id']);
 		$models = AutoMake::getModels($make['id']);
-		//d($models);		
+		$completionsTime = AutoCompletion::getItemsByYearOrderTime($lastModelYear['id']);
+		
+		//d($completionsTime);		
 				
 		$this->render('model', array(
 			'make' => $make,
@@ -75,6 +77,7 @@ class SiteController extends Controller
 			'completion' => AutoModel::getLastCompletion($model['id']),
 			'modelByYears' => $modelByYears,
 			'models' => $models,
+			'completionsTime' => $completionsTime,
 		));
 	}
 	
@@ -120,7 +123,8 @@ class SiteController extends Controller
 		$models = AutoModelYear::getOtherMakeYear($models, $modelYear['id']);
 		
 		$competitors = AutoModelYear::getFrontCompetitors($modelYear['id']);
-		$completionsTime = AutoCompletion::getItemsByYearOrderTime($modelYear['id']);
+		//d($competitors);
+		
 		$carSpecsAndDimensions = AutoModelYear::getCarSpecsAndDimensions($modelYear['id']);
 		$lastCompletion = AutoModelYear::getLastCompletion($modelYear['id']);
 		
@@ -132,7 +136,6 @@ class SiteController extends Controller
 			'modelYear' => $modelYear,
 			'modelYears' => AutoModel::getYears($model['id']),
 			'completions' => $completions,
-			'completionsTime' => $completionsTime,
 			'models' => $models,
 			'competitors' => $competitors,
 			'carSpecsAndDimensions' => $carSpecsAndDimensions,
@@ -156,7 +159,11 @@ class SiteController extends Controller
 	
 	public function actionT()
 	{
-		echo '&Timestamp=['.date('YYYY-MM-DDThh:mm:ssZ').']';
+		$models = AutoModel::model()->findAll();
+		foreach ($models as $model) {
+			$model->title = trim($model->title);
+			$model->save(false);
+		}
 	}	
 	
 	public function actionPhoto()

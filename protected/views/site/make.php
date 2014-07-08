@@ -4,7 +4,7 @@
 		<section class="make">
 			<h2 class="section-name"><?=$make['title']?> vehicles</h2>
 			<div class="make__logo">
-				<img src="<?=$make['photo']?>">
+				<img src="<?=$make['photo']?>" alt="<?=$make['title']?> Logo">
 			</div>
 			<div class="make__history">
 				<?=$make['description']?>
@@ -12,7 +12,7 @@
 			<ul class="make__vehicle">
 			<?php foreach ($dataModels as $dataModel):?>
 				<li>
-				<div class="make__vehicle-image"><a href="<?=$dataModel['url']?>">
+				<div class="make__vehicle-image"><a title="<?=$make['title']?> <?=$dataModel['title']?>" href="<?=$dataModel['url']?>">
 					<?php if (isset($dataModel['photo'])):?>
 						<img src="<?=$dataModel['photo']?>"> 
 					<?php endif;?>

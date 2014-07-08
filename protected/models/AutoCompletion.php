@@ -201,8 +201,7 @@ class AutoCompletion extends CActiveRecord
 			$criteria->compare('model_year_id',$model_year_id);
 			$criteria->compare('is_deleted',0);
 			$criteria->compare('is_active',1);			
-		
-		
+				
 			$items = self::model()->findAll($criteria);
 			foreach ($items as $item) {
 				$data[] = $item->attributes;
@@ -398,11 +397,17 @@ class AutoCompletion extends CActiveRecord
 	{
 		$model_year_id = (int) $model_year_id;
 	
-		$key = Tags::TAG_COMPLETION . '_ITEMS_BY_YEAR_ORDER_TIME_' . $model_year_id;
+		$key = Tags::TAG_COMPLETION . '__ITEMS_BY_YEAR_ORDER_TIME__' . $model_year_id;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data == false) {	
-			$data = self::getItemsByYear($model_year_id);
+			$items = self::getItemsByYear($model_year_id);
+			$data = array();
+			foreach ($items as $item) {
+				if ((float)$item['specs_0_60mph__0_100kmh_s_'] == 0) {continue;}
+				$data[] = $item;
+			}
+			
 			usort ($data, "cmpCompletionTimes");			
 			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_COMPLETION));
 		}

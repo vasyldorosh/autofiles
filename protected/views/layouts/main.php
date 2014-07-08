@@ -63,6 +63,20 @@
 	</section>
 	<section class="footer__copyright">
 		&copy <?=date('Y')?> AutoFiles. All Rights Reserved.
+
+		<?php if ($_SERVER['SERVER_NAME'] == 'autofiles.com'):?>		
+			<script type="text/javascript"><!--
+			document.write("<img src='//counter.yadro.ru/hit?t26.10;r"+
+			escape(document.referrer)+((typeof(screen)=="undefined")?"":
+			";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+			screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+			";"+Math.random()+
+			"' alt='' title='LiveInternet: показано число посетителей за"+
+			" сегодня' "+
+			"border='0' width='1' height='1'>")
+			//--></script>
+		<?php endif;?>		
+		
 	</section>
 </footer>
 

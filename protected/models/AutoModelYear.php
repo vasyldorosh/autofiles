@@ -662,7 +662,7 @@ class AutoModelYear extends CActiveRecord
 		$key = Tags::TAG_MODEL_YEAR . '_COMPETITORS_'.$model_year_id;
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data == false && !is_array($data)) {
+		if ($data == false && !is_array($data) || true) {
 			$data = array();
 			$sql = "SELECT 
 						*
@@ -687,9 +687,98 @@ class AutoModelYear extends CActiveRecord
 				$criteria->compare('Make.is_active', 1);
 				$criteria->compare('Make.is_deleted', 0);					
 				$criteria->with = array('Model', 'Model.Make');
+				$criteria->order = 't.id';
 				
 				$items = AutoModelYear::model()->findAll($criteria);	
-					
+				
+				/*
+				$countItems = sizeof($items);	
+				$rangeItems = array();	
+				$rangeIds = array();
+				foreach ($items as $item_id=>$item) {
+					$rangeIds[] = $item->id;
+				}
+				
+				$match = false;
+				foreach ($items as $index=>$item) {
+					if ($item->id > $model_year_id) {
+						$match = true;
+						
+						if (isset($rangeIds[$index-3]))
+							$rangeItems[]= $rangeIds[$index-3];
+						else
+							$rangeItems[]= $rangeIds[$countItems-1];
+							
+						if (isset($rangeIds[$index-2]))
+							$rangeItems[]= $rangeIds[$index-2];
+						else
+							$rangeItems[]= $rangeIds[$countItems-2];
+							
+						if (isset($rangeIds[$index-1]))
+							$rangeItems[]= $rangeIds[$index-1];
+						else
+							$rangeItems[]= $rangeIds[$countItems-3];
+							
+						$rangeItems[]= $rangeIds[$index];
+						
+						if (isset($rangeIds[$index+1]))  
+							$rangeItems[]= $rangeIds[$index+1];
+						else if ($rangeIds[$countItems-1])
+							$rangeItems[]= $rangeIds[$countItems-1];
+												
+						if (isset($rangeIds[$index+2]))  
+							$rangeItems[]= $rangeIds[$index+2];
+						else if ($rangeIds[$countItems-2])
+							$rangeItems[]= $rangeIds[$countItems-2];
+						
+						
+						break;
+					}	
+				}
+				
+				if (!$match) {
+					foreach ($items as $index=>$item) {
+						if ($item->id < $model_year_id) {
+							$match = true;
+							
+							if (isset($rangeIds[$index-3]))
+								$rangeItems[]= $rangeIds[$index-3];
+							else
+								$rangeItems[]= $rangeIds[$countItems-1];
+								
+							if (isset($rangeIds[$index-2]))
+								$rangeItems[]= $rangeIds[$index-2];
+							else
+								$rangeItems[]= $rangeIds[$countItems-2];
+								
+							if (isset($rangeIds[$index-1]))
+								$rangeItems[]= $rangeIds[$index-1];
+							else
+								$rangeItems[]= $rangeIds[$countItems-3];
+								
+							$rangeItems[]= $rangeIds[$index];
+							
+							if (isset($rangeIds[$index+1]))  
+								$rangeItems[]= $rangeIds[$index+1];
+							else if ($rangeIds[$countItems-1])
+								$rangeItems[]= $rangeIds[$countItems-1];
+													
+							if (isset($rangeIds[$index+2]))  
+								$rangeItems[]= $rangeIds[$index+2];
+							else if ($rangeIds[$countItems-2])
+								$rangeItems[]= $rangeIds[$countItems-2];
+							
+							
+							break;
+						}	
+					}				
+				}
+				
+				d($model_year_id, 0);
+				d($rangeIds, 0);				
+				d($rangeItems);				
+				*/
+				
 				foreach ($items as $item) {
 					$price = self::getMinMaxSpecs('msrp', $item->id);
 					$lastCompletion = self::getLastCompletion($item->id);
