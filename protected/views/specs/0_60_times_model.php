@@ -13,6 +13,28 @@
 		</section>
 		<!-- banner -->
 		
+		
+		<?php if (!empty($completionsTime)):?>
+		<section class="table-container">
+			<h2 class="section-name">0-60 times across <?=$make['title']?> <?=$model['title']?> trims</h2>
+			<table>
+			<?php foreach ($completionsTime as $item):?>
+				<tr>
+					<td style="width:400px;">
+						<?=$item['title']?> 0-60
+					</td>
+					<td style="width:70px;">
+						<?=(float)$item['specs_0_60mph__0_100kmh_s_']?> sec
+					</td>
+					<td style="width:120px;">	
+						1/4 mile <?=(float)$item['specs_1_4_mile_time']?> @ <?=(float)$item['specs_1_4_mile_speed']?> mph
+					</td>					
+				</tr>
+			<?php endforeach;?>
+			</table>
+		</section>		
+		<?php endif;?>		
+		
 		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>	
 		
 		

@@ -66,7 +66,7 @@ class SiteController extends Controller
 		$lastModelYear = AutoModel::getLastYear($model['id']);
 		$modelByYears = AutoModel::getYears($model['id']);
 		$models = AutoMake::getModels($make['id']);
-		$completionsTime = AutoCompletion::getItemsByYearOrderTime($lastModelYear['id']);
+		
 		
 		//d($completionsTime);		
 				
