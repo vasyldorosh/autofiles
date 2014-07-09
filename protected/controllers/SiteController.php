@@ -34,9 +34,12 @@ class SiteController extends Controller
 			'#' => $make['title'],
 		);
 		
+		$dataModels = AutoMake::getModels($make['id']);
+		//d($dataModels);
+		
 		$this->render('make', array(
 			'make' => $make,
-			'dataModels' => AutoMake::getModels($make['id']),
+			'dataModels' => $dataModels,
 		));
 	}
 	

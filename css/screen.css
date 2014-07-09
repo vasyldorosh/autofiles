@@ -22,8 +22,8 @@ table { border-spacing: 0; border-collapse: collapse; width: 100%; }
 html { font-size: 62.5%; }
 
 body { font-family: Arial, sans-serif; font-size: 12px; line-height: 1.4; color: #4d4d4d; }
-body a { color: #4d4d4d; text-decoration: none; }
-body a:hover { color: #2fa4e7; }
+body a { color: #2fa4e7; text-decoration:none;}
+body a:hover { color: #000; }
 
 @font-face { font-family: "helveticaneuecyr-roman"; src: url("fonts/helveticaneuecyr-roman.eot"); src: url("fonts/helveticaneuecyr-roman.eot?#iefix") format("embedded-opentype"), url("fonts/helveticaneuecyr-roman.woff") format("woff"), url("fonts/helveticaneuecyr-roman.ttf") format("truetype"); font-weight: normal; font-style: normal; }
 
@@ -53,7 +53,7 @@ header:after { content: " "; display: table; clear: both; }
 .search input::-webkit-input-placeholder { color: #e3e3e3; }
 
 .btn { background: #2fa4e7; -webkit-box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.3) inset; box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.3) inset; border: 1px solid #3084b6; font-family: "helveticaneuecyr-bold", Arial, sans-serif; color: white; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); -webkit-border-radius: 3px; border-radius: 3px; -webkit-transition: background 0.2s linear; -moz-transition: background 0.2s linear; -o-transition: background 0.2s linear; transition: background 0.2s linear; }
-.btn:hover { background: #2d7caa; -webkit-box-shadow: none; box-shadow: none; color: white; }
+.btn:hover {text-decoration: none; background: #2d7caa; -webkit-box-shadow: none; box-shadow: none; color: white; }
 .btn:active { -webkit-transform: translateY(1px); -moz-transform: translateY(1px); -ms-transform: translateY(1px); -o-transform: translateY(1px); transform: translateY(1px); }
 
 .btn_search { position: absolute; top: 28px; right: 0; width: 90px; height: 38px; -webkit-border-radius: 3px; border-radius: 3px; }
@@ -321,6 +321,138 @@ header:after { content: " "; display: table; clear: both; }
 .find-dealer:after { content: " "; display: table; clear: both; }
 .find-dealer input.zipcode { border: 1px solid #e3e3e3; -webkit-border-radius: 3px; border-radius: 3px; width: 40px; color: #4d4d4d; padding: 2px; margin-left: 7px; background: white; }
 .find-dealer button { float: right; line-height: 2.15; padding: 0 8px; }
+
+/*====================>>>>> GALLEGY PAGE <<<<<=====================*/
+.gallery_box{padding-top: 35px;}
+.d_in-block{display: inline-block;}
+.d_block{display: block;}
+.f_left{float: left;}
+.f_right{float: right;}
+.p_rel{position: relative;}
+.p_abs{position: absolute;}
+.clearfix:after{
+	display: block;
+	content: "";
+	height: 0;
+	clear: both;
+}
+.btn_gallegy{
+	font-size: 12px;
+	display: block;
+	line-height: 25px;
+	padding: 0 14px;
+	font-family: Arial;
+	font-weight: bold;
+}
+.published{
+	font: 400 12px/27px Arial,sans-serif;
+	color: #cccccc;
+}
+.published_box{padding-left: 93px;margin-top: 3px;}
+.published time{padding-left: 10px;}
+.box1{margin-bottom: 7px;margin-top: 10px;}
+.advertisement{width: 568px;height: 56px;}
+
+.advertisement_list{padding-top: 20px;}
+	.advertisement_it{
+		float: left;
+		padding-left: 15px;
+		margin-left: 25px;
+		background: url(../img/marker1.png) 0 3px no-repeat;
+	}
+		.advertisement_it a{color: #2fa4e7;}
+		.advertisement_it a:hover{text-decoration: underline;}
+	.advertisement_it:first-child{
+		padding-left: 0;
+		margin-left: 0;
+		background: none;
+	}
+		.advertisement_it:first-child a{color:#4d4d4d;}
+	.descriptoin_galler{padding-bottom: 15px;}
+		.descriptoin_galler_text{
+			padding-bottom: 10px;
+		}
+		.descriptoin_galler_lk{
+			padding-bottom: 17px;
+			color: #2fa4e7;
+		}
+		.descriptoin_galler_lk:hover{text-decoration: underline;}
+
+/*slider*/
+
+#products{overflow: hidden;}
+.slides_container img{width: 870px;}
+.next,.prev{
+	position: absolute;
+	text-align: center;
+	display: block;
+	top: 0;
+	left: -80px;
+	height: 543px;
+	z-index: 99;
+	width: 80px;
+	background: ;
+	background: rgba(0,0,0,0.5) url(../img/prev_next.png) 30px center no-repeat;
+	-webkit-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+
+}
+
+.next{
+	left: inherit;
+	right: -80px;
+	background-position: -80px center;
+}
+.slides_container:hover~.next,.next:hover{
+	right: 0;
+	-webkit-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+}
+.slides_container:hover~.prev,.prev:hover{
+	left: 0;
+	-webkit-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+}
+.pagination{margin-left: -27px;padding-bottom: 45px;}
+	.pagination li{
+		width: 150px;
+		float: left;
+		padding-left: 29px;
+		padding-bottom: 26px;
+	}
+	.pagination li a{display: block;
+	}
+	.pagination li img{
+		width: 100%;
+		-webkit-transition: all 0.5s ease-in-out;
+		-o-transition: all 0.5s ease-in-out;
+		transition: all 0.5s ease-in-out;
+	}
+	.pagination li:hover img,.pagination li.current img{
+		outline: 2px solid #2fa4e7;
+		-webkit-transition: all 0.5s ease-in-out;
+		-o-transition: all 0.5s ease-in-out;
+		transition: all 0.5s ease-in-out;
+		-moz-transform: translateY(-10px);
+		-webkit-transform: translateY(-10px);
+		-o-transform: translateY(-10px);
+		-ms-transform: translateY(-10px);
+		transform: translateY(-10px);
+	}
+/*slider end*/
+	.related_pictures_list{margin-left: -31px;padding-top: 35px;}
+	.related_pictures_it{
+		width: 150px;
+		float: left;
+		padding-left: 30px;
+		padding-bottom: 26px;
+		text-align: center;
+	}
+	.related_pictures_it img{padding-bottom: 10px;}
+
 @media only screen and (max-width: 1090px) { .find-dealer button { float: none; } }
 
 footer { margin: 0 30px; margin-top: 50px; border-top: 1px solid #e3e3e3; *zoom: 1; }

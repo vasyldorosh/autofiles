@@ -658,11 +658,11 @@ class AutoModelYear extends CActiveRecord
 	public static function getFrontCompetitors($model_year_id)
 	{
 		$model_year_id = (int) $model_year_id;
-		
+
 		$key = Tags::TAG_MODEL_YEAR . '_COMPETITORS_'.$model_year_id;
 		$data = Yii::app()->cache->get($key);
-		
-		if ($data == false && !is_array($data) || true) {
+
+		if ($data == false && !is_array($data)) {
 			$data = array();
 			$sql = "SELECT 
 						*
@@ -674,9 +674,9 @@ class AutoModelYear extends CActiveRecord
 			$rows = Yii::app()->db->createCommand($sql)->queryAll();		
 			$ids = array();
 			foreach ($rows as $row) {
-				$ids[] = ($model_year_id==$row['model_year_id']) ? $row['competitor_id'] : $row['model_year_id'];
+				$ids[] = (int)(($model_year_id==$row['model_year_id']) ? $row['competitor_id'] : $row['model_year_id']);
 			}
-
+			
 			if (!empty($ids)) {
 				$criteria = new CDbCriteria();
 				$criteria->compare('t.is_active', 1);
@@ -689,97 +689,19 @@ class AutoModelYear extends CActiveRecord
 				$criteria->with = array('Model', 'Model.Make');
 				$criteria->order = 't.id';
 				
+				$itemIds = array($model_year_id);
 				$items = AutoModelYear::model()->findAll($criteria);	
-				
-				/*
-				$countItems = sizeof($items);	
-				$rangeItems = array();	
-				$rangeIds = array();
-				foreach ($items as $item_id=>$item) {
-					$rangeIds[] = $item->id;
-				}
-				
-				$match = false;
-				foreach ($items as $index=>$item) {
-					if ($item->id > $model_year_id) {
-						$match = true;
-						
-						if (isset($rangeIds[$index-3]))
-							$rangeItems[]= $rangeIds[$index-3];
-						else
-							$rangeItems[]= $rangeIds[$countItems-1];
-							
-						if (isset($rangeIds[$index-2]))
-							$rangeItems[]= $rangeIds[$index-2];
-						else
-							$rangeItems[]= $rangeIds[$countItems-2];
-							
-						if (isset($rangeIds[$index-1]))
-							$rangeItems[]= $rangeIds[$index-1];
-						else
-							$rangeItems[]= $rangeIds[$countItems-3];
-							
-						$rangeItems[]= $rangeIds[$index];
-						
-						if (isset($rangeIds[$index+1]))  
-							$rangeItems[]= $rangeIds[$index+1];
-						else if ($rangeIds[$countItems-1])
-							$rangeItems[]= $rangeIds[$countItems-1];
-												
-						if (isset($rangeIds[$index+2]))  
-							$rangeItems[]= $rangeIds[$index+2];
-						else if ($rangeIds[$countItems-2])
-							$rangeItems[]= $rangeIds[$countItems-2];
-						
-						
-						break;
-					}	
-				}
-				
-				if (!$match) {
-					foreach ($items as $index=>$item) {
-						if ($item->id < $model_year_id) {
-							$match = true;
-							
-							if (isset($rangeIds[$index-3]))
-								$rangeItems[]= $rangeIds[$index-3];
-							else
-								$rangeItems[]= $rangeIds[$countItems-1];
-								
-							if (isset($rangeIds[$index-2]))
-								$rangeItems[]= $rangeIds[$index-2];
-							else
-								$rangeItems[]= $rangeIds[$countItems-2];
-								
-							if (isset($rangeIds[$index-1]))
-								$rangeItems[]= $rangeIds[$index-1];
-							else
-								$rangeItems[]= $rangeIds[$countItems-3];
-								
-							$rangeItems[]= $rangeIds[$index];
-							
-							if (isset($rangeIds[$index+1]))  
-								$rangeItems[]= $rangeIds[$index+1];
-							else if ($rangeIds[$countItems-1])
-								$rangeItems[]= $rangeIds[$countItems-1];
-													
-							if (isset($rangeIds[$index+2]))  
-								$rangeItems[]= $rangeIds[$index+2];
-							else if ($rangeIds[$countItems-2])
-								$rangeItems[]= $rangeIds[$countItems-2];
-							
-							
-							break;
-						}	
-					}				
-				}
-				
-				d($model_year_id, 0);
-				d($rangeIds, 0);				
-				d($rangeItems);				
-				*/
-				
 				foreach ($items as $item) {
+					$itemIds[] = (int)$item->id;
+				}
+				
+				$dataIds = ArrayHelper::getArrayСircleNeighbor($itemIds, $model_year_id);
+
+				foreach ($items as $item) {
+					if (!in_array($item->id, $dataIds)) {
+						continue;
+					}
+				
 					$price = self::getMinMaxSpecs('msrp', $item->id);
 					$lastCompletion = self::getLastCompletion($item->id);
 				
@@ -807,7 +729,7 @@ class AutoModelYear extends CActiveRecord
 				}	
 			}
 
-			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+			Yii::app()->cache->set($key, $data, 60*60*24*31, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
 		}
 		
 		return $data;

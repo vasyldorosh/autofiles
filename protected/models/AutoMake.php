@@ -238,7 +238,9 @@ class AutoMake extends CActiveRecord
 	{
 		$key = Tags::TAG_MODEL . '_LIST_MODELS_'.$make_id;
 		$dataModels = Yii::app()->cache->get($key);
-		if ($dataModels == false) {
+		if ($dataModels == false && !is_array($dataModels)) {
+			$dataModels = array();
+		
 			$criteria = new CDbCriteria();
 			$criteria->compare('t.is_active', 1);
 			$criteria->compare('t.is_deleted', 0);

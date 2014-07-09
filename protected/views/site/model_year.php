@@ -402,7 +402,7 @@
 				
 				<?php if (!empty($carSpecsAndDimensions['0_60_times']['mmin'])):?>
 				<tr>
-					<td><a class="speed" href="#">0-60 times</a></td>
+					<td><a class="speed" title="<?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> 0-60" href="/0-60-times/<?=$make['alias']?>/<?=$model['alias']?>/">0-60 times</a></td>
 					<td class="spec-value">
 					<?php if ($carSpecsAndDimensions['0_60_times']['mmin'] != $carSpecsAndDimensions['0_60_times']['mmax']):?>
 						<?=(float)$carSpecsAndDimensions['0_60_times']['mmin']?> - <?=(float)$carSpecsAndDimensions['0_60_times']['mmax']?>

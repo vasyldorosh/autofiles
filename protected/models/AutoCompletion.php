@@ -287,7 +287,7 @@ class AutoCompletion extends CActiveRecord
 	
 	public static function getMakeTimes($make_id)
 	{
-		$key = Tags::TAG_COMPLETION . '_MAKE__TIMES_' . $make_id;
+		$key = Tags::TAG_COMPLETION . '__MAKE_TIMES__' . $make_id;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data == false) {
@@ -386,6 +386,84 @@ class AutoCompletion extends CActiveRecord
 			usort ($data, "cmpArrayTimes");	
 				
 			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		//d($data);
+		
+		return $data;		
+	}
+	
+	public static function getCarsWithSame060Time($model_id, $year)
+	{
+		$key = Tags::TAG_COMPLETION . '__MODEL_CARS_WITH_SAME_0_60_TIME__' . $model_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false && !is_array($data)) {
+			$data = array();
+			
+			$maxSpeed = AutoModel::getMinSpecs('0_60mph__0_100kmh_s_', $model_id);
+			
+			$sql = "SELECT 
+						c.id AS id,
+						c.specs_1_4_mile_time AS mile_time,
+						c.specs_1_4_mile_speed AS mile_speed,
+						c.specs_horsepower AS horsepower,
+						c.specs_torque AS torque,
+						c.specs_engine AS engine,
+						c.specs_0_60mph__0_100kmh_s_ AS speed,
+						y.year AS year,
+						y.id AS year_id,
+						m.title AS model_title,
+						m.alias AS model_alias,
+						m.id AS model_id,
+						k.title AS make_title,
+						k.alias AS make_alias
+					FROM auto_completion AS c
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					LEFT JOIN auto_model AS m ON y.model_id = m.id
+					LEFT JOIN auto_make AS k ON m.make_id = k.id
+					WHERE 
+						c.is_active = 1 AND 
+						c.is_deleted = 0 AND
+						c.specs_0_60mph__0_100kmh_s_ = {$maxSpeed} AND
+						y.is_active = 1 AND
+						y.is_deleted = 0 AND
+						y.year = {$year} AND
+						y.model_id <> {$model_id}
+					GROUP BY y.model_id
+					ORDER BY make_title ASC, model_title ASC
+					";
+					
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();			
+			$itemIds = array($model_id);
+			foreach ($rows as $row) {
+				$itemIds[] = (int)$row['model_id'];
+			}	
+
+			$dataIds = ArrayHelper::getArrayСircleNeighbor($itemIds, $model_id);
+			
+			$lastModelYear = AutoModel::getLastYear($model_id);
+			$competitors = AutoModelYear::getFrontCompetitors($lastModelYear['id']);
+
+			foreach ($rows as $row) {
+				
+				if (!in_array($row['model_id'], $dataIds)) {
+					continue;
+				}
+			
+				$data[$row['id']]['year'] = $row['year'];
+				$data[$row['id']]['model'] = $row['model_title'];
+				$data[$row['id']]['model_alias'] = $row['model_alias'];
+				$data[$row['id']]['make'] = $row['make_title'];
+				$data[$row['id']]['make_alias'] = $row['make_alias'];
+				$data[$row['id']]['speed'] = $row['speed'];
+				$data[$row['id']]['mile_time'] = $row['mile_time'];				
+				$data[$row['id']]['mile_speed'] = $row['mile_speed'];				
+			}
+				
+			//d($data);
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
 		}
 		
 		//d($data);

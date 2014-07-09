@@ -5,7 +5,7 @@
 			<h2 class="section-name"><?=$make['title']?> <?=$model['title']?> 0-60 times</h2>
 			<div class="times__container">
 				<div class="times__image">
-					<img src="/img/stop-wattch.jpg">
+					<img alt="Photo <?=$make['title']?> <?=$model['title']?> 0-60 times" src="<?=$lastModelYear['photo']?>">
 				</div>
 				<div class="times__textwrap">
 					<?=$description?>
@@ -16,7 +16,7 @@
 		
 		<?php if (!empty($completionsTime)):?>
 		<section class="table-container">
-			<h2 class="section-name">0-60 times across <?=$make['title']?> <?=$model['title']?> trims</h2>
+			<h2 class="section-name">0-60 times across <?=$lastModelYear['year']?> <?=$make['title']?> <?=$model['title']?> trims</h2>
 			<table>
 			<?php foreach ($completionsTime as $item):?>
 				<tr>
@@ -75,7 +75,7 @@
 			<table>
 			<?php foreach ($competitors as $item):?>
 				<tr>
-					<td><a href="/0-60-times/<?=$item['make_alias']?>/<?=$item['model_alias']?>/"><?=$item['year']?> <?=$item['make']?> <?=$item['model']?> 0-60</a></td>
+					<td><a title="<?=$item['year']?> <?=$item['make']?> <?=$item['model']?> 0-60" href="/0-60-times/<?=$item['make_alias']?>/<?=$item['model_alias']?>/"><?=$item['year']?> <?=$item['make']?> <?=$item['model']?> 0-60</a></td>
 					<td>
 					<?php if ($item['0_60_times']['mmax'] == $item['0_60_times']['mmin']):?>
 						<?=$item['0_60_times']['mmin']?>
@@ -102,76 +102,28 @@
 		</section>
 		<?php endif;?>
 		
+		<?php if (!empty($completionsCarsWithSame060Time)):?>
 		<section class="table-container">
 			<h2 class="section-name">Cars with the same 0-60 time</h2>
 			<table>
+			<?php foreach ($completionsCarsWithSame060Time as $item):?>
 				<tr>
-					<td>2014 Acura RDX 0-60</td>
-					<td>5.4 - 6.4 sec</td>
-					<td>1/4 mile 14.20 sec @ 85 mph - 16.60 @ 82 mph</td>
+					<td><a title="<?=$item['year']?> <?=$item['make']?> <?=$item['model']?> 0-60" href="/0-60-times/<?=$item['make_alias']?>/<?=$item['model_alias']?>/"><?=$item['year']?> <?=$item['make']?> <?=$item['model']?> 0-60</a></td>
+					<td><?=(float)$item['speed']?> sec</td>
+					<td>1/4 mile <?=(float)$item['mile_time']?> sec @ <?=(float)$item['mile_speed']?></td>
 				</tr>
-				<tr>
-					<td>2014 Acura RDX 0-60</td>
-					<td>5.4 - 6.4 sec</td>
-					<td>1/4 mile 14.20 sec @ 85 mph - 16.60 @ 82 mph</td>
-				</tr>
-				<tr>
-					<td>2014 Acura RDX 0-60</td>
-					<td>5.4 - 6.4 sec</td>
-					<td>1/4 mile 14.20 sec @ 85 mph - 16.60 @ 82 mph</td>
-				</tr>
-				<tr>
-					<td>2014 Acura RDX 0-60</td>
-					<td>5.4 - 6.4 sec</td>
-					<td>1/4 mile 14.20 sec @ 85 mph - 16.60 @ 82 mph</td>
-				</tr>
-				<tr>
-					<td>2014 Acura RDX 0-60</td>
-					<td>5.4 - 6.4 sec</td>
-					<td>1/4 mile 14.20 sec @ 85 mph - 16.60 @ 82 mph</td>
-				</tr>
-				<tr>
-					<td>2014 Acura RDX 0-60</td>
-					<td>5.4 - 6.4 sec</td>
-					<td>1/4 mile 14.20 sec @ 85 mph - 16.60 @ 82 mph</td>
-				</tr>
-				<tr>
-					<td>2014 Acura RDX 0-60</td>
-					<td>5.4 - 6.4 sec</td>
-					<td>1/4 mile 14.20 sec @ 85 mph - 16.60 @ 82 mph</td>
-				</tr>
-				<tr>
-					<td>2006 Acura RDX 0-60</td>
-					<td>7 sec</td>
-					<td>1/4 mile 17.20 sec @ 85 mph</td>
-				</tr>
-				<tr>
-					<td>2006 Acura RDX 0-60</td>
-					<td>7 sec</td>
-					<td>1/4 mile 17.20 sec @ 85 mph</td>
-				</tr>
-				<tr>
-					<td>2006 Acura RDX 0-60</td>
-					<td>7 sec</td>
-					<td>1/4 mile 17.20 sec @ 85 mph</td>
-				</tr>
-				<tr>
-					<td>2006 Acura RDX 0-60</td>
-					<td>7 sec</td>
-					<td>1/4 mile 17.20 sec @ 85 mph</td>
-				</tr>
-				<tr>
-					<td>2006 Acura RDX 0-60</td>
-					<td>7 sec</td>
-					<td>1/4 mile 17.20 sec @ 85 mph</td>
-				</tr>
+				
+			<?php endforeach;?>	
 			</table>
 		</section>
+		<?php endif;?>
+		
 	</div>
 	<div class="l-col2">
 		
 		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
 		
+		<?/*?>
 		<section class="right-block">
 			<h2 class="section-name">Car specs and dimensions</h2>
 			<table class="right-block__specs-list">
@@ -217,6 +169,8 @@
 				</tr>
 			</table>
 		</section>
+		<?*/?>
+		
 	</div>
 	</div>
 </main>

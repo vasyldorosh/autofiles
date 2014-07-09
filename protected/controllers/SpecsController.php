@@ -81,6 +81,7 @@ class SpecsController extends Controller
 		$models = AutoCompletion::getAccelerationAcrossYears($model['id']);	
 		$competitors = AutoCompletion::getCompetitorsAcceleration($model['id']);
 		$completionsTime = AutoCompletion::getItemsByYearOrderTime($lastModelYear['id']);		
+		$completionsCarsWithSame060Time = AutoCompletion::getCarsWithSame060Time($model['id'], $lastModelYear['year']);		
 		//d($competitors);	
 			
 		$this->breadcrumbs = array(
@@ -93,6 +94,8 @@ class SpecsController extends Controller
 		//$fastests = AutoCompletion::getFastest(6);
 		
 		$this->render('0_60_times_model', array(
+			'completionsCarsWithSame060Time' => $completionsCarsWithSame060Time,
+			'lastModelYear' => $lastModelYear,
 			'make' => $make,
 			'model' => $model,
 			'models' => $models,
