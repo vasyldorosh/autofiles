@@ -35,6 +35,14 @@
 					true
 				)),
                 array(
+					'label'=>Yii::t('admin', 'Model by Year Photos'),
+					'content' => $this->renderPartial('_model_year_photo_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+                array(
 					'label'=>Yii::t('admin', 'Completion'),
 					'content' => $this->renderPartial('_completion_page', array(
 						'form'=>$form,

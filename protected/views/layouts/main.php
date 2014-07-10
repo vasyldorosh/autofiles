@@ -10,7 +10,7 @@
 	<link rel="stylesheet" media="screen" href="/css/screen.css" >
 	<!--[if IE]><script src="/js/html5shiv.js"></script><![endif]-->
 	
-	<script src="/js/jquery.js"></script>	
+	<script src="/js/lib/jquery.js"></script>	
 </head>
 <body class="l">
 <!-- BEGIN HEADER -->

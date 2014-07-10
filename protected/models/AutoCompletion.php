@@ -393,15 +393,17 @@ class AutoCompletion extends CActiveRecord
 		return $data;		
 	}
 	
-	public static function getCarsWithSame060Time($model_id, $year)
+	public static function getCarsWithSame060Time($model_id, $lastModelYear)
 	{
-		$key = Tags::TAG_COMPLETION . '__MODEL_CARS_WITH_SAME_0_60_TIME__' . $model_id;
+		$year = $lastModelYear['year'];
+	
+		$key = Tags::TAG_COMPLETION . '_MODEL_CARS_WITH_SAME_0_60_TIME___' . $model_id;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data == false && !is_array($data)) {
 			$data = array();
 			
-			$maxSpeed = AutoModel::getMinSpecs('0_60mph__0_100kmh_s_', $model_id);
+			$maxSpeed = AutoModel::getMinSpecs('0_60mph__0_100kmh_s_', $model_id, $lastModelYear['id']);
 			
 			$sql = "SELECT 
 						c.id AS id,

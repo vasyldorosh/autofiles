@@ -9,13 +9,15 @@
 						<img alt="Photo <?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?>" src="<?=$modelYear['photo']?>">
 					</div>
 					
-					<!--
+				
 					<ul class="model-year__links">
-						<li><a href="#">Photos</a></li>
+						<li><a title="<?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> photos" href="<?=$model['url']?><?=$modelYear['year']?>/photos.html">Photos</a></li>
+						
+						<!--
 						<li><a href="#">Wallpapers</a></li>
 						<li><a href="#">Colors</a></li>
+						-->
 					</ul>
-					-->
 					
 				</div>
 				<div class="model-year__box-right">

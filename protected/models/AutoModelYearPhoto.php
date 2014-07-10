@@ -150,8 +150,7 @@ class AutoModelYearPhoto extends CActiveRecord
 	
 	private function _clearCache()
 	{
-		Yii::app()->cache->delete(AutoModelYear::CACHE_KEY_PHOTOS . $this->year_id);
-		Yii::app()->cache->clear(Tags::TAG_MODEL_YEAR_PHOTO);
+		Yii::app()->cache->delete(Tags::TAG_MODEL_YEAR_PHOTO . '_MODEL_YEAR_' . $this->year_id);
 	}
 	
 	public function beforeDelete()
@@ -241,6 +240,33 @@ class AutoModelYearPhoto extends CActiveRecord
 		
 		return '/photos/model_year/' . $this->year_id . '/'.$subdir.'/'. $this->file_name;
 	}	
+	
+	public static function getYearPhotos($model_year_id)
+	{
+		$model_year_id = (int) $model_year_id;
+		$key = Tags::TAG_MODEL_YEAR_PHOTO . '_MODEL_YEAR_' . $model_year_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false && !is_array($data)) {	
+			$data = array();
+			$criteria=new CDbCriteria;
+			$criteria->compare('year_id',$model_year_id);			
+			$criteria->order = 'rank';			
+			$items = self::model()->findAll($criteria);
+			foreach ($items as $item) {
+				$data[] = array(
+					'name' => $item->name,
+					'description' => $item->description,
+					'small' => $item->getThumb(150, null, 'resize'),
+					'large' => $item->getThumb(870, null, 'resize'),
+				);
+			}
+			
+			Yii::app()->cache->set($key, $data, 60*60*24*30);
+		}
+		
+		return $data;
+	}
 	
 
 	

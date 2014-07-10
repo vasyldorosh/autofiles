@@ -145,6 +145,47 @@ class SiteController extends Controller
 		));	
 	}	
 	
+	public function actionModelYearPhotos($makeAlias, $modelAlias, $year)
+	{
+		$make = AutoMake::getMakeByAlias($makeAlias);
+		if (empty($make)) {
+			 throw new CHttpException(404,'Page cannot be found.');
+		}	
+	
+		$model = AutoModel::getModelByMakeAndAlias($make['id'], $modelAlias);
+		if (empty($model)) {
+			 throw new CHttpException(404,'Page cannot be found.');
+		}	
+	
+		$modelYear = AutoModelYear::getYearByMakeAndModelAndAlias($make['id'], $model['id'], $year);
+		if (empty($modelYear)) {
+			 throw new CHttpException(404,'Page cannot be found.');
+		}		
+	
+		$this->pageTitle = str_replace(array('[make]', '[model]', '[year]'), array($make['title'], $model['title'], $modelYear['year']), SiteConfig::getInstance()->getValue('seo_model_year_photos_title'));
+		$this->meta_keywords = str_replace(array('[make]', '[model]', '[year]'), array($make['title'], $model['title'], $modelYear['year']), SiteConfig::getInstance()->getValue('seo_model_year_photos_meta_keywords'));
+		$this->meta_description = str_replace(array('[make]', '[model]', '[year]'), array($make['title'], $model['title'], $modelYear['year']), SiteConfig::getInstance()->getValue('seo_model_year_photos_meta_description'));		
+			
+
+		$this->breadcrumbs = array(
+			'/' => 'Home',
+			$make['url'] => $make['title'],
+			$model['url'] => $model['title'],
+			$model['url'].$modelYear['year'].'/' => $modelYear['year'] . ' ' .$make['title'] . ' ' . $model['title'],
+			'#' => 'Photos',
+		);	
+			
+		$photos = AutoModelYearPhoto::getYearPhotos($modelYear['id']);	
+			
+		$this->render('model_year_photos', array(
+			'make' => $make,
+			'model' => $model,
+			'modelYear' => $modelYear,
+			'photos' => $photos,
+			'description' => str_replace(array('[make]', '[model]', '[year]'), array($make['title'], $model['title'], $modelYear['year']), SiteConfig::getInstance()->getValue('model_year_photos_description')),
+		));	
+	}	
+	
 	/**
 	 * This is the action to handle external exceptions.
 	 */

@@ -400,14 +400,15 @@ class AutoModel extends CActiveRecord
 		return $data;
 	}		
 
-	public static function getMaxSpecs($specs, $model_id)
+	public static function getMaxSpecs($specs, $model_id, $model_year_id=0)
 	{
 		$model_id = (int) $model_id;
 	
-		$key = Tags::TAG_COMPLETION . '_MODEL_SPECS_MAX_' . $specs . '_' . $model_id;
+		$key = Tags::TAG_COMPLETION . '_MODEL_SPECS_MAX_' . $specs . '_' . $model_id . '_' . $model_year_id;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data == false) {
+			$whereYear = $model_year_id ? "AND y.id={$model_year_id}":"";
 			$sql = "SELECT 
 						MAX(c.specs_{$specs}) AS mmax
 					FROM auto_completion AS c
@@ -418,6 +419,7 @@ class AutoModel extends CActiveRecord
 						y.is_active = 1 AND
 						y.is_deleted = 0 AND
 						y.model_id = {$model_id}
+						{$whereYear}
 					";
 					
 			$data = Yii::app()->db->createCommand($sql)->queryRow();	
@@ -428,14 +430,15 @@ class AutoModel extends CActiveRecord
 		return $data;
 	}		
 
-	public static function getMinSpecs($specs, $model_id)
+	public static function getMinSpecs($specs, $model_id, $model_year_id=0)
 	{
 		$model_id = (int) $model_id;
 	
-		$key = Tags::TAG_COMPLETION . '_MODEL_SPECS_MIN_' . $specs . '_' . $model_id;
+		$key = Tags::TAG_COMPLETION . '_MODEL_SPECS_MIN_' . $specs . '_' . $model_id . '_' . $model_year_id;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data == false) {
+			$whereYear = $model_year_id ? "AND y.id={$model_year_id}":"";
 			$sql = "SELECT 
 						MIN(c.specs_{$specs}) AS mmin 
 					FROM auto_completion AS c
@@ -446,6 +449,7 @@ class AutoModel extends CActiveRecord
 						y.is_active = 1 AND
 						y.is_deleted = 0 AND
 						y.model_id = {$model_id}
+						{$whereYear}
 					";
 					
 			$data = Yii::app()->db->createCommand($sql)->queryRow();	
