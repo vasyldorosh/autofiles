@@ -286,7 +286,7 @@ header:after { content: " "; display: table; clear: both; }
 .table-container table td:first-child { padding-left: 3.44%; width: 37.24138%; }
 .table-container table td:last-child { padding-right: 3.44%; width: 34.71264%; }
 
-.banner-ver { margin-top: 76px; margin-bottom: 40px; font-size: 0; text-align: center; }
+.banner-ver { margin-top: 45px; margin-bottom: 40px; font-size: 0; text-align: center; }
 .banner-ver img { max-width: 100%; }
 
 .right-block { margin-bottom: 40px; padding: 14px 6.66666%; border: 1px solid #e3e3e3; -webkit-border-radius: 3px; border-radius: 3px; }
