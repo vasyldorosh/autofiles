@@ -244,7 +244,7 @@ class AutoModelYearPhoto extends CActiveRecord
 	public static function getYearPhotos($model_year_id)
 	{
 		$model_year_id = (int) $model_year_id;
-		$key = Tags::TAG_MODEL_YEAR_PHOTO . '_MODEL_YEAR_' . $model_year_id;
+		$key = Tags::TAG_MODEL_YEAR_PHOTO . '__MODEL_YEAR___' . $model_year_id;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data == false && !is_array($data)) {	
@@ -258,7 +258,7 @@ class AutoModelYearPhoto extends CActiveRecord
 					'name' => $item->name,
 					'description' => $item->description,
 					'small' => $item->getThumb(150, null, 'resize'),
-					'large' => $item->getThumb(870, null, 'resize'),
+					'large' => $item->getThumb(500, null, 'resize'),
 				);
 			}
 			
