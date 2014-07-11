@@ -381,7 +381,7 @@ header:after { content: " "; display: table; clear: both; }
 /*slider*/
 
 #products{overflow: hidden;}
-.slides_container{width: 500px;}
+.slides_container{width: 500px; margin: 0 auto;}
 .slides_container img{width: 500px;}
 .next,.prev{
 	opacity: 0;
@@ -389,7 +389,7 @@ header:after { content: " "; display: table; clear: both; }
 	text-align: center;
 	display: block;
 	top: 0;
-	left: 0px;
+	left: 185px;
 	height: 312px;
 	z-index: 99;
 	width: 80px;
@@ -402,7 +402,7 @@ header:after { content: " "; display: table; clear: both; }
 }
 
 .next{
-	left: 420px;
+	left: 605px;
 	background-position: -80px center;
 }
 .slides_container:hover~.prev,.prev:hover,.slides_container:hover~.next,.next:hover{
