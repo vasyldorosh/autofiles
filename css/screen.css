@@ -143,7 +143,9 @@ header:after { content: " "; display: table; clear: both; }
 .reviews .reviews__tabs li.is-active { background: white; border: 1px solid #e3e3e3; border-bottom: 1px solid white; }
 .reviews .reviews__tabs li.is-active a { color: #4d4d4d; cursor: default; }
 .reviews .reviews__tabs li.is-active:after { content: ""; height: 1px; width: 100%; background: white; display: block; position: absolute; bottom: -1px; z-index: 2; }
-.reviews .reviews__container { border: 1px solid #e3e3e3; position: relative; top: -1px; z-index: 1; padding: 15px; -webkit-border-radius: 3px; border-radius: 3px; *zoom: 1; }
+.reviews .reviews__container { border: 1px solid #e3e3e3; position: relative; top: -1px; z-index: 1; padding: 15px; -webkit-border-radius: 3px; border-radius: 3px; *zoom: 1;
+display: none; }
+.reviews .reviews__container.active{display: block;}
 .reviews .reviews__container:after { content: " "; display: table; clear: both; }
 .reviews .reviews__block { display: inline-block; vertical-align: top; width: 33%; padding: 10px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
 .reviews .reviews__image { width: 100%; font-size: 0; }
