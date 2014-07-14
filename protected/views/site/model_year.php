@@ -277,13 +277,13 @@
 		<section class="reviews">
 			<h2 class="section-name section-name_regular"><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> reviews</h2>
 			<ul class="reviews__tabs">
-				<li data-block="b1" class="is-active">
-					<a href="#">Expert reviews</a>
+				<li data-block="#b1" class="is-active">
+					<a href="javascript:;">Expert reviews</a>
 				</li>
-				<li data-block="b2"><a href="#">Video reviews</a></li>
-				<li data-block="b3"><a href="#">Consumer reviews</a></li>
+				<li data-block="#b2"><a href="javascript:;">Video reviews</a></li>
+				<li data-block="#b3"><a href="javascript:;">Consumer reviews</a></li>
 			</ul>
-			<div id="b1" class="reviews__container">
+			<div id="b1" class="reviews__container active">
 				<div class="reviews__block">
 					<div class="reviews__image">
 						<a href="#"><img src="/img/reviews.jpg"></a>
@@ -313,7 +313,7 @@
 				</div>
 				<a href="#" class="btn btn_reviews">More reviews</a>
 			</div>
-			<div id="b2" class="reviews__container" hidden="true">
+			<div id="b2" class="reviews__container">
 				<div class="reviews__block">
 					
 					<h3><a href="#">2014 Cadillac ELR</a></h3>
@@ -341,7 +341,7 @@
 				</div>
 				<a href="#" class="btn btn_reviews">More reviews</a>
 			</div>
-			<div id="b3" class="reviews__container" hidden="true">
+			<div id="b3" class="reviews__container">
 				<div class="reviews__block">
 					<div class="reviews__image">
 						<a href="#"><img src="/img/reviews.jpg"></a>
