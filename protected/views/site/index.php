@@ -265,7 +265,7 @@
 				<li><a href="#">Video reviews</a></li>
 				<li><a href="#">Consumer reviews</a></li>
 			</ul>
-			<div class="reviews__container">
+			<div class="reviews__container active">
 				<div class="reviews__block">
 					<div class="reviews__image">
 						<a href="#"><img src="img/reviews.jpg"></a>
