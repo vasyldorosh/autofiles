@@ -43,7 +43,7 @@
 			<table>
 			<?php foreach ($models as $item):?>
 				<tr>
-					<td><?=$item['year']?> <?=$make['title']?> <?=$model['title']?> 0-60</td>
+					<td><a href="/<?=$make['alias']?>/<?=$model['alias']?>/<?=$item['year']?>/"  title="<?=$item['year']?> <?=$make['title']?> <?=$model['title']?> review"><?=$item['year']?> <?=$make['title']?> <?=$model['title']?> 0-60</a></td>
 					<td>
 					<?php if ($item['0_60_times']['mmax'] == $item['0_60_times']['mmin']):?>
 						<?=$item['0_60_times']['mmin']?>
