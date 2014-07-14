@@ -65,7 +65,6 @@ class SitemapCommand extends CConsoleCommand
 			$doc->save(dirname(__FILE__) ."/../../" . $file);	
 			
 			$i++;
-			$iGlobal++;
 		} while (true);
 		
 		$i=0;
@@ -113,7 +112,6 @@ class SitemapCommand extends CConsoleCommand
 			$doc->save(dirname(__FILE__) ."/../../" . $file);	
 			
 			$i++;
-			$iGlobal++;
 		} while (true);
 		
 		
@@ -164,7 +162,6 @@ class SitemapCommand extends CConsoleCommand
 			$doc->save(dirname(__FILE__) ."/../../" . $file);	
 			
 			$i++;
-			$iGlobal++;
 		} while (true);
 		
 		
