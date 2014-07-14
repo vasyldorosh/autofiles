@@ -1,8 +1,8 @@
-<?php $this->pageTitle = Yii::app()->name.' - ' . Yii::t('admin', 'Models by Year - Empty Competitors');?>
+<?php $this->pageTitle = Yii::app()->name.' - ' . Yii::t('admin', 'Models by Year - Empty Photos');?>
 
 <div class="container inner-page white img-rounded">
     <div class="page-header">
-        <h3><?=Yii::t('admin', 'Models by Year - Empty Competitors')?></h3>
+        <h3><?=Yii::t('admin', 'Models by Year - Empty Photos')?></h3>
     </div>
     
 	<?php $this->widget('AdminTbAlert', array(
@@ -243,8 +243,8 @@
 		}
 		
 		$this->widget('bootstrap.widgets.TbExtendedGridView', array(
-            'dataProvider' => $model->searchEmptyCompetitors(),
-			'ajaxUrl'=> $this->createUrl('/admin/modelYear/emptyCompetitors'),
+            'dataProvider' => $model->searchEmptyPhotos(),
+			'ajaxUrl'=> $this->createUrl('/admin/modelYear/emptyPhotos'),
             'filter' => $model,
             'type' => 'striped bordered condensed',
             'columns' => $columns,

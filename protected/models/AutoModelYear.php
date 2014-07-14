@@ -267,7 +267,7 @@ class AutoModelYear extends CActiveRecord
 		));
 	}
 	
-	public function searchEmaptyCompetitors()
+	public function searchEmptyCompetitors()
 	{
 		$criteria=new CDbCriteria;
 
@@ -277,6 +277,27 @@ class AutoModelYear extends CActiveRecord
 		$criteria->compare('t.is_deleted',$this->is_deleted);
 		$criteria->compare('t.is_active',$this->is_active);			
 		$criteria->addNotInCondition('t.id', self::getIdsIsCompetitors());		
+					
+		$criteria->with = array('Model' => array('together'=>true));
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+			'pagination'=>array(
+				'pageSize'=>Yii::app()->request->getParam('pageSize', Yii::app()->params->defaultPerPage),
+			),			
+		));
+	}
+	
+	public function searchEmptyPhotos()
+	{
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('t.id',$this->id);
+		$criteria->compare('t.year',$this->year, true);
+		$criteria->compare('t.model_id',$this->model_id);
+		$criteria->compare('t.is_deleted',$this->is_deleted);
+		$criteria->compare('t.is_active',$this->is_active);			
+		$criteria->addNotInCondition('t.id', self::getIdsIsPhotos());		
 					
 		$criteria->with = array('Model' => array('together'=>true));
 
@@ -786,6 +807,25 @@ class AutoModelYear extends CActiveRecord
 			}
 
 			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR));
+		}
+		
+		return $data;
+	}
+	
+	public static function getIdsIsPhotos()
+	{
+		$key = Tags::TAG_MODEL_YEAR_PHOTO . '_IDS_IS_PHOTOS_';	
+		$data = Yii::app()->cache->get($key);
+		if ($data == false) {
+			$data = array();
+						
+			$sql = "SELECT DISTINCT year_id AS value FROM auto_model_year_photo";
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();
+			foreach ($rows as $row) {
+				$data[$row['value']] = $row['value'];
+			}
+
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR_PHOTO));
 		}
 		
 		return $data;

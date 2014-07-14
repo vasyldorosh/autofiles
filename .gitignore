@@ -12,4 +12,6 @@ robots.txt
 /nbproject/private/
 /protected/conponents/yii-aws
 /amazon
+/sitemap
+sitemap.xml
 .htaccess

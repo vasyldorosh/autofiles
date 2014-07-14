@@ -69,6 +69,27 @@ class ModelYearController extends BackendController
         ));
     }
 	
+    public function actionEmptyPhotos()
+    {
+		Access::is('modelYear', 403);
+		
+		$model = new AutoModelYear();
+		$model->unsetAttributes();
+		$model->is_deleted = 0;		
+	
+        if (isset($_GET['AutoModelYear'])) {
+            $model->attributes = $_GET['AutoModelYear'];
+        }
+		
+		
+		AutoModelYear::getIdsIsCompetitors();
+
+        $this->render("empty_photos", array(
+            'model' => $model,
+			'pageSize' => Yii::app()->request->getParam('pageSize', Yii::app()->params->defaultPerPage),
+        ));
+    }
+	
     public function actionBasket()
     {
 		Access::is('modelYear.basket', 403);

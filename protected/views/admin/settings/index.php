@@ -39,6 +39,15 @@
 					), 
 					true
 				)),
+                array(
+					'label'=>Yii::t('admin', 'Site Map'),
+					'active'=>false, 
+					'content' => $this->renderPartial('_sitemap', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
 			)
 		));?>
 
