@@ -253,16 +253,16 @@ $('#btn_submit_filter').click(function(e) {
 		<section class="reviews">
 			<h2 class="section-name">Car reviews</h2>
 			<ul class="reviews__tabs">
-				<li class="is-active">
+				<li data-block="#b1" class="is-active">
 					<a href="javascript:;">Expert reviews</a>
 				</li>
-				<li><a href="javascript:;">Video reviews</a></li>
-				<li><a href="javascript:;">Consumer reviews</a></li>
+				<li data-block="#b2"><a href="javascript:;">Video reviews</a></li>
+				<li data-block="#b3"><a href="javascript:;">Consumer reviews</a></li>
 			</ul>
-			<div class="reviews__container active">
+			<div id="b1" class="reviews__container active">
 				<div class="reviews__block">
 					<div class="reviews__image">
-						<a href="#"><img src="img/reviews.jpg"></a>
+						<a href="#"><img src="/img/reviews.jpg"></a>
 					</div>
 					<h3><a href="#">2014 Cadillac ELR</a></h3>
 					<p>The concept that wowed crowds at the 2009
@@ -271,7 +271,26 @@ $('#btn_submit_filter').click(function(e) {
 				</div>
 				<div class="reviews__block">
 					<div class="reviews__image">
-						<a href="#"><img src="img/reviews.jpg"></a>
+						<a href="#"><img src="/img/reviews.jpg"></a>
+					</div>
+					<h3><a href="#">2014 Cadillac ELR</a></h3>
+					<p>The concept that wowed crowds at the 2009
+					Detroit auto show is now beautiful production
+					car.</p>
+				</div>
+				<a href="#" class="btn btn_reviews">More reviews</a>
+			</div>
+			<div id="b2" class="reviews__container">
+				<div class="reviews__block">
+					
+					<h3><a href="#">2014 Cadillac ELR</a></h3>
+					<p>The concept that wowed crowds at the 2009
+					Detroit auto show is now beautiful production
+					car.</p>
+				</div>
+				<div class="reviews__block">
+					<div class="reviews__image">
+						<a href="#"><img src="/img/reviews.jpg"></a>
 					</div>
 					<h3><a href="#">2014 Cadillac ELR</a></h3>
 					<p>The concept that wowed crowds at the 2009
@@ -280,7 +299,43 @@ $('#btn_submit_filter').click(function(e) {
 				</div>
 				<div class="reviews__block">
 					<div class="reviews__image">
-						<a href="#"><img src="img/reviews.jpg"></a>
+						<a href="#"><img src="/img/reviews.jpg"></a>
+					</div>
+					<h3><a href="#">2014 Cadillac ELR</a></h3>
+					<p>The concept that wowed crowds at the 2009
+					Detroit auto show is now beautiful production
+					car.</p>
+				</div>
+				<a href="#" class="btn btn_reviews">More reviews</a>
+			</div>
+			<div id="b3" class="reviews__container">
+				<div class="reviews__block">
+					<div class="reviews__image">
+						<a href="#"><img src="/img/reviews.jpg"></a>
+					</div>
+					<h3><a href="#">2014 Cadillac ELR</a></h3>
+					<p>The concept that wowed crowds at the 2009
+					Detroit auto show is now beautiful production
+					car.</p>
+				</div>
+				<div class="reviews__block">
+					<div class="reviews__image">
+						<a href="#"><img src="/img/reviews.jpg"></a>
+					</div>
+					<h3><a href="#">2014 Cadillac ELR</a></h3>
+				</div>
+				<div class="reviews__block">
+					<div class="reviews__image">
+						<a href="#"><img src="/img/reviews.jpg"></a>
+					</div>
+					<h3><a href="#">2014 Cadillac ELR</a></h3>
+					<p>The concept that wowed crowds at the 2009
+					Detroit auto show is now beautiful production
+					car.</p>
+				</div>
+				<div class="reviews__block">
+					<div class="reviews__image">
+						<a href="#"><img src="/img/reviews.jpg"></a>
 					</div>
 					<h3><a href="#">2014 Cadillac ELR</a></h3>
 					<p>The concept that wowed crowds at the 2009
