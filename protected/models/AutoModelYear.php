@@ -891,7 +891,7 @@ class AutoModelYear extends CActiveRecord
 						y.is_active = 1 AND
 						y.is_deleted = 0
 					GROUP BY year
-					ORDER BY year ASC
+					ORDER BY year DESC
 					";
 					
 			$items = Yii::app()->db->createCommand($sql)->queryAll();	
