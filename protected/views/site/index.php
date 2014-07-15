@@ -1,7 +1,7 @@
 <main class="l">
 	<div class="l-col1">
 		<!-- section 1 -->
-		
+
 		<?php $this->widget('application.widgets.CatalogWidget', array('action' => 'makes')); ?>
 		
 		<section class="seo-text">
@@ -381,4 +381,3 @@ $('#btn_submit_filter').click(function(e) {
 		</section>
 	</div>
 </main>
-
