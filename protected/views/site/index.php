@@ -16,42 +16,73 @@
 		</section>
 		
 		<!-- section 2 -->
+		<?php $years = AutoModelYear::getYears();?>
 		<section class="options">
 			<p class="section-name">Select options</p>
 			<div class="options__block">
 				<div class="options__item">
 					<strong>Year</strong>
-					<form>
-						<select>
-							<option>-no select-</option>
-							<option>-no select-</option>
-							<option>-no select-</option>
-						</select>
-					</form>
+					<select id="Filter_year">
+						<option>-no select-</option>
+						<?php foreach ($years as $year):?>
+						<option value="<?=$year?>"><?=$year?></option>
+						<?php endforeach;?>
+					</select>
 				</div>
 				<div class="options__item">
 					<strong>Make</strong>
-					<form>
-						<select>
-							<option>-no select-</option>
-							<option>-no select-</option>
-							<option>-no select-</option>
-						</select>
-					</form>
+					<select id="Filter_make_id">
+						<option>-no select-</option>
+					</select>
 				</div>
 				<div class="options__item">
 					<strong>Model</strong>
-					<form>
-						<select>
-							<option>-no select-</option>
-							<option>-no select-</option>
-							<option>-no select-</option>
-						</select>
-					</form>
+					<select id="Filter_model_id">
+						<option>-no select-</option>
+					</select>
 				</div>
-				<button type="submit" class="btn btn_options">GO</button>
+				<button style="display: none;" type="submit" class="btn btn_options" id="btn_submit_filter">GO</button>
 			</div>
 		</section>
+		
+<script>
+$('#Filter_year').change(function(e) {
+	$('#Filter_make_id').empty().append('<option value="">-no select-</option>');
+	$('#Filter_model_id').empty().append('<option value="">-no select-</option>');
+	$.post('/ajax/getMakesByYear', {'year': $(this).val()} , function(response) {
+		$.each(response.items, function(value, lable){
+			$('#Filter_make_id').append('<option value="'+value+'">'+lable+'</option>');
+		});
+	}, 'json');
+});
+
+$('#Filter_make_id').change(function(e) {
+	$('#Filter_model_id').empty();
+	$('#Filter_model_id').append('<option value="">-no select-</option>');
+	$.post('/ajax/getModelsByMake', {'alias': $(this).val(), 'year': $('#Filter_year').val()} , function(response) {
+		$.each(response.items, function(value, lable){
+			$('#Filter_model_id').append('<option value="'+value+'">'+lable+'</option>');
+		});
+	}, 'json');
+});
+
+$('#Filter_model_id').change(function(e) {
+	if ($(this).val() == '') {
+		$('#btn_submit_filter').hide();
+	} else {
+		$('#btn_submit_filter').show();
+	} 
+});
+
+
+
+
+$('#btn_submit_filter').click(function(e) {
+	url = '/' + $('#Filter_make_id').val() + '/' + $('#Filter_model_id').val() + '/' + $('#Filter_year').val() + '/';
+	window.location = url;
+});
+</script>	
+		
 		<!-- section 3 -->
 		<!--
 		<section class="parts">
@@ -212,49 +243,12 @@
 		</section>
 		-->
 		
-		<!-- section 4 -->
-		<!--
-		<section class="most-visited">
-			<table>
-				<caption class="section-name">Most visited models</caption>
-				<tr>
-					<td><a href="#">2015 Ford Mustang</a></td>
-					<td><a href="#">2015 Ford Mustang</a></td>
-					<td><a href="#">2015 Ford Mustang</a></td>
-				</tr>
-				<tr>
-					<td><a href="#">2014 Chevrolet Corvette Stringray</a></td>
-					<td><a href="#">2014 Chevrolet Corvette Stringray</a></td>
-					<td><a href="#">2014 Chevrolet Corvette Stringray</a></td>
-				</tr>
-				<tr>
-					<td><a href="#">2014 Jeep Cherokee</a></td>
-					<td><a href="#">2014 Jeep Cherokee</a></td>
-					<td><a href="#">2014 Jeep Cherokee</a></td>
-				</tr>
-				<tr>
-					<td><a href="#">2014 Ford Mustang</a></td>
-					<td><a href="#">2014 Ford Mustang</a></td>
-					<td><a href="#">2014 Ford Mustang</a></td>
-				</tr>
-				<tr>
-					<td><a href="#">2014 Jeep Grand Cherokee</a></td>
-					<td><a href="#">2014 Jeep Grand Cherokee</a></td>
-					<td><a href="#">2014 Jeep Grand Cherokee</a></td>
-				</tr>
-				<tr>
-					<td><a href="#">2014 Chevrolet Camaro</a></td>
-					<td><a href="#">2014 Chevrolet Camaro</a></td>
-					<td><a href="#">2014 Chevrolet Camaro</a></td>
-				</tr>
-			</table>
-		</section>
-		-->
+
 		
-		<!-- banner -->
-		<div class="banner-hor">
-			<a href="#"><img src="img/banner.jpg"></a>
-		</div>
+		<?php $this->widget('application.widgets.CatalogWidget', array('action' => 'MostVisitedModelYear')); ?>
+		
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
+		
 		<!--
 		<section class="reviews">
 			<h2 class="section-name">Car reviews</h2>

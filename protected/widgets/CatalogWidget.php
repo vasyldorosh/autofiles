@@ -33,4 +33,13 @@ class CatalogWidget extends CWidget{
 			'makes' => AutoMake::getAllFront(),
 		));
     }
+	
+    public function actionMostVisitedModelYear() 
+	{
+		$items = AutoModelYear::getMostVisited(18);
+
+		$this->render(self::TEMPLATE_PATH . '.most_visited_model_year', array(
+			'items' => $items,
+		));
+    }
 }

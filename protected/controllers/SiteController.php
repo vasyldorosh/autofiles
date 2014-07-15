@@ -34,6 +34,8 @@ class SiteController extends Controller
 			'#' => $make['title'],
 		);
 		
+		SqlHelper::addView('AutoMake', $make['id']);
+		
 		$dataModels = AutoMake::getModels($make['id']);
 		//d($dataModels);
 		
@@ -70,6 +72,7 @@ class SiteController extends Controller
 		$modelByYears = AutoModel::getYears($model['id']);
 		$models = AutoMake::getModels($make['id']);
 		
+		SqlHelper::addView('AutoModel', $model['id']);
 		
 		//d($completionsTime);		
 				
@@ -103,6 +106,8 @@ class SiteController extends Controller
 		$this->pageTitle = str_replace(array('[make]', '[model]', '[year]'), array($make['title'], $model['title'], $modelYear['year']), SiteConfig::getInstance()->getValue('seo_model_year_title'));
 		$this->meta_keywords = str_replace(array('[make]', '[model]', '[year]'), array($make['title'], $model['title'], $modelYear['year']), SiteConfig::getInstance()->getValue('seo_model_year_meta_keywords'));
 		$this->meta_description = str_replace(array('[make]', '[model]', '[year]'), array($make['title'], $model['title'], $modelYear['year']), SiteConfig::getInstance()->getValue('seo_model_year_meta_description'));		
+			
+		SqlHelper::addView('AutoModelYear', $modelYear['id']);	
 			
 		$this->breadcrumbs = array(
 			'/' => 'Home',

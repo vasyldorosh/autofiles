@@ -831,4 +831,81 @@ class AutoModelYear extends CActiveRecord
 		return $data;
 	}
 	
+	
+	public static function getMostVisited($limit)
+	{
+		$key = Tags::TAG_MODEL_YEAR . '_MOST_VISITED_'.$limit;
+		$data = Yii::app()->cache->get($key);
+		if ($data == false) {
+			$data = array();
+
+			$criteria = new CDbCriteria();
+			$criteria->compare('t.is_active', 1);
+			$criteria->compare('t.is_deleted', 0);
+			$criteria->compare('Model.is_active', 1);
+			$criteria->compare('Model.is_deleted', 0);			
+			$criteria->compare('Make.is_active', 1);
+			$criteria->compare('Make.is_deleted', 0);			
+			$criteria->order = 't.view_count DESC';
+			$criteria->limit = $limit;
+			$criteria->with = array('Model', 'Model.Make');
+			
+			$items = AutoModelYear::model()->findAll($criteria);			
+			
+			foreach ($items as $item) {
+			
+				$row = array(
+					'id' => $item->id,
+					'year' => $item->year,
+					'model' => $item->Model->title,
+					'model_alias' => $item->Model->alias,
+					'make' => $item->Model->Make->title,
+					'make_alias' => $item->Model->Make->alias,
+				);
+
+				$data[] = $row;						
+			}
+			
+			Yii::app()->cache->set($key, $data, 60);
+		}	
+		
+		return $data;
+	}	
+	
+	public static function getYears()
+	{
+		$model_id = (int) $model_id;
+	
+		$key = Tags::TAG_MODEL_YEAR . '_LIST_YEARS_';
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false) {
+			$sql = "SELECT 
+						y.year AS year
+					FROM auto_model_year AS y
+					LEFT JOIN auto_model AS m ON y.model_id = m.id
+					LEFT JOIN auto_make AS k ON m.make_id = k.id
+					WHERE 
+						k.is_active = 1 AND 
+						k.is_deleted = 0 AND
+						m.is_active = 1 AND 
+						m.is_deleted = 0 AND
+						y.is_active = 1 AND
+						y.is_deleted = 0
+					GROUP BY year
+					ORDER BY year ASC
+					";
+					
+			$items = Yii::app()->db->createCommand($sql)->queryAll();	
+			foreach ($items as $item) {
+				$data[$item['year']] = $item['year'];
+			}
+	
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR));
+		}
+		
+		return $data;
+	}		
+	
+	
 }

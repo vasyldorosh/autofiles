@@ -460,4 +460,40 @@ class AutoModel extends CActiveRecord
 		
 		return $data;
 	}		
+	
+	public static function getModelsByMake($make_id, $year)
+	{
+		$make_id = (int) $make_id;
+		$year = (int) $year;
+		$key = Tags::TAG_MODEL . '_MODELS_BY_MAKE_'.$make_id . '_' . $year;
+		$data = Yii::app()->cache->get($key);
+		if ($data == false) {
+			$data = array();
+			
+			$sql = "SELECT 
+						m.title AS title,
+						m.alias AS alias
+					FROM auto_model_year AS y
+					LEFT JOIN auto_model AS m ON y.model_id = m.id
+					WHERE 
+						m.is_active = 1 AND 
+						m.is_deleted = 0 AND
+						m.make_id = {$make_id} AND 
+						y.year = {$year} AND 
+						y.is_active = 1 AND 
+						y.is_deleted = 0
+					GROUP BY y.model_id
+					ORDER BY title ASC
+					";
+					
+			$items = Yii::app()->db->createCommand($sql)->queryAll();	
+			foreach ($items as $item) {
+				$data[$item['alias']] = $item['title'];
+			}			
+
+			Yii::app()->cache->set($key, $data, 60*60*24*31, new Tags(Tags::TAG_MODEL));
+		}	
+		
+		return $data;
+	}		
 }

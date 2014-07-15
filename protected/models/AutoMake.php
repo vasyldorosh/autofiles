@@ -318,4 +318,41 @@ class AutoMake extends CActiveRecord
 		return $make;
 	}	
 
+	public static function getMakesByYear($year)
+	{
+		$year = (int) $year;
+		$key = Tags::TAG_MAKE . '_MAKES_BY_YEAR__'.$year;
+		$data = Yii::app()->cache->get($key);
+		if ($data == false) {
+			$data = array();
+			
+			$sql = "SELECT 
+						k.title AS title,
+						k.alias AS alias
+					FROM auto_model_year AS y
+					LEFT JOIN auto_model AS m ON y.model_id = m.id
+					LEFT JOIN auto_make AS k ON m.make_id = k.id
+					WHERE 
+						k.is_active = 1 AND 
+						k.is_deleted = 0 AND
+						m.is_active = 1 AND 
+						m.is_deleted = 0 AND
+						y.is_active = 1 AND
+						y.is_deleted = 0 AND
+						y.year = {$year}
+					GROUP BY k.id
+					ORDER BY title ASC
+					";
+					
+			$items = Yii::app()->db->createCommand($sql)->queryAll();	
+			foreach ($items as $item) {
+				$data[$item['alias']] = $item['title'];
+			}			
+
+			Yii::app()->cache->set($key, $data, 60*60*24*31, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR));
+		}	
+		
+		return $data;
+	}	
+
 }

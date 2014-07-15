@@ -1,1 +1,3 @@
-ALTER TABLE  `auto_model_year` ADD  `file_name` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE  `auto_make` ADD  `view_count` BIGINT( 20 ) UNSIGNED NOT NULL;
+ALTER TABLE  `auto_model` ADD  `view_count` BIGINT( 20 ) UNSIGNED NOT NULL;
+ALTER TABLE  `auto_model_year` ADD  `view_count` BIGINT( 20 ) UNSIGNED NOT NULL;
