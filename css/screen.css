@@ -64,7 +64,24 @@ header:after { content: " "; display: table; clear: both; }
 .join { color: #2fa4e7; padding-left: 25px; margin-right: 3%; position: relative; }
 .join:before { content: ""; position: absolute; top: 37px; left: 0; background: url('../img/icons-sc83f02760e.png') 0 -543px no-repeat; width: 16px; height: 18px; }
 
-.menu-list { background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #2fa4e7), color-stop(100%, #44ade9)); background-image: -webkit-linear-gradient(#2fa4e7, #44ade9); background-image: -moz-linear-gradient(#2fa4e7, #44ade9); background-image: -o-linear-gradient(#2fa4e7, #44ade9); background-image: linear-gradient(#2fa4e7, #44ade9); border: 1px solid #3084b6; -webkit-border-radius: 3px; border-radius: 3px; font-size: 0; margin: 0 30px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+.menu-list { 
+	background: #44ade9; /* Old browsers */
+	background: -moz-linear-gradient(top,  #44ade9 0%, #30a4e7 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#44ade9), color-stop(100%,#30a4e7)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #44ade9 0%,#30a4e7 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #44ade9 0%,#30a4e7 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #44ade9 0%,#30a4e7 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #44ade9 0%,#30a4e7 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#44ade9', endColorstr='#30a4e7',GradientType=0 ); /* IE6-9 */
+	border: 1px solid #3084b6; 
+	-webkit-border-radius: 3px; 
+	border-radius: 3px; 
+	font-size: 0; 
+	margin: 0 30px; 
+	-webkit-box-sizing: border-box; 
+	-moz-box-sizing: border-box; 
+	box-sizing: border-box; 
+}
 .menu-list li { font-size: 14px; font-size: 1.4rem; display: inline-block; border-left: 1px solid rgba(255, 255, 255, 0.3); border-right: 1px solid #328bbf; -webkit-transition: 0.2s linear; -moz-transition: 0.2s linear; -o-transition: 0.2s linear; transition: 0.2s linear; }
 .menu-list li:first-child { border-left: 1px solid transparent; }
 .menu-list li:last-child { border-right: 1px solid transparent; }
@@ -126,7 +143,9 @@ header:after { content: " "; display: table; clear: both; }
 .reviews .reviews__tabs li.is-active { background: white; border: 1px solid #e3e3e3; border-bottom: 1px solid white; }
 .reviews .reviews__tabs li.is-active a { color: #4d4d4d; cursor: default; }
 .reviews .reviews__tabs li.is-active:after { content: ""; height: 1px; width: 100%; background: white; display: block; position: absolute; bottom: -1px; z-index: 2; }
-.reviews .reviews__container { border: 1px solid #e3e3e3; position: relative; top: -1px; z-index: 1; padding: 15px; -webkit-border-radius: 3px; border-radius: 3px; *zoom: 1; }
+.reviews .reviews__container { border: 1px solid #e3e3e3; position: relative; top: -1px; z-index: 1; padding: 15px; -webkit-border-radius: 3px; border-radius: 3px; *zoom: 1;
+display: none; }
+.reviews .reviews__container.active{display: block;}
 .reviews .reviews__container:after { content: " "; display: table; clear: both; }
 .reviews .reviews__block { display: inline-block; vertical-align: top; width: 33%; padding: 10px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
 .reviews .reviews__image { width: 100%; font-size: 0; }

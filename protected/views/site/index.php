@@ -254,12 +254,12 @@ $('#btn_submit_filter').click(function(e) {
 			<h2 class="section-name">Car reviews</h2>
 			<ul class="reviews__tabs">
 				<li class="is-active">
-					<a href="#">Expert reviews</a>
+					<a href="javascript:;">Expert reviews</a>
 				</li>
-				<li><a href="#">Video reviews</a></li>
-				<li><a href="#">Consumer reviews</a></li>
+				<li><a href="javascript:;">Video reviews</a></li>
+				<li><a href="javascript:;">Consumer reviews</a></li>
 			</ul>
-			<div class="reviews__container">
+			<div class="reviews__container active">
 				<div class="reviews__block">
 					<div class="reviews__image">
 						<a href="#"><img src="img/reviews.jpg"></a>

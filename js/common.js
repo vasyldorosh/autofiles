@@ -3,10 +3,9 @@ head.ready(function() {
 	$('.reviews__tabs li').click(function(event) {
 		$('.reviews__tabs li').removeClass('is-active');
 		$(this).addClass('is-active');
-		$('.reviews__container').hide();
+		$('.reviews__container').removeClass('active');
 		blocktoshow = $(this).data('block');
-		console.log(blocktoshow)
-		$('#'+blocktoshow).show();
+		$(blocktoshow).addClass('active');
 		return false;
 	});
 
