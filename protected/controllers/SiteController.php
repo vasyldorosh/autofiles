@@ -207,10 +207,23 @@ class SiteController extends Controller
 	
 	public function actionT()
 	{
-		$models = AutoModel::model()->findAll();
-		foreach ($models as $model) {
-			$model->title = trim($model->title);
-			$model->save(false);
+		ini_set('max_execution_time', 3600*12);
+		$limit = 1000;
+		for ($offset = 0; $offset <= 30000; $offset+=$limit) {
+	
+			$criteria=new CDbCriteria;
+			$criteria->limit = $limit;		
+			$criteria->offset = $offset;		
+			$items = AutoCompletion::model()->findAll($criteria);
+			if (empty($items)) {
+				die();
+			}
+			
+			foreach ($items as $item) {
+			
+				$sql = "UPDATE  auto_completion SET specs_0_60mph__0_100kmh_s_ =  '{$item->specs_0_60mph__0_100kmh_s_}', specs_1_4_mile_time =  '{$item->specs_1_4_mile_time}' WHERE  id={$item->id};<br/>";
+				echo $sql;
+			}
 		}
 	}	
 	
