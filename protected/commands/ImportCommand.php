@@ -625,11 +625,15 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionModelYearP()
 	{
-		$sql = "SELECT DISTINCT CONCAT(model_id, '_', year) AS ccc, model_id, year, url FROM  auto_model_year WHERE file_name =''";
+		$sql = "SELECT DISTINCT CONCAT(model_id, '_', year) AS ccc, model_id, year, url FROM  auto_model_year WHERE";
 		$rows = Yii::app()->db->createCommand($sql)->queryAll();
 		$i = 0;
 		$urls = array();
 		foreach ($rows as $row) {
+			$file = Yii::getPathOfAlias('webroot'). '/photos/model_year_item/' . $row['file_name'];
+			echo $file;
+			die();
+		
 			$s = "-".$row['year'];
 			$url = str_replace(array("cars-", $s), array("",""), $row['url']);
 			$url = 'http://autos.aol.com'.$url;
