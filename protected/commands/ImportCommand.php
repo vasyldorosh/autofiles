@@ -623,16 +623,20 @@ class ImportCommand extends CConsoleCommand
 		}
 	}	
 	
-	public function actionModelYearP()
+	public function actionModelYearPhotoItem()
 	{
 		$sql = "SELECT DISTINCT CONCAT(model_id, '_', year) AS ccc, model_id, year, url, file_name FROM  auto_model_year";
 		$rows = Yii::app()->db->createCommand($sql)->queryAll();
 		$i = 0;
 		$urls = array();
+		$keyIsFile = 0;
 		foreach ($rows as $row) {
 			$file = Yii::getPathOfAlias('webroot'). '/photos/model_year_item/' . $row['file_name'];
-			echo $file;
-			die();
+			if (is_file($file)) {
+				echo $keyIsFile . ' ' . $file . "\n";
+				$keyIsFile++;
+				continue;
+			}
 		
 			$s = "-".$row['year'];
 			$url = str_replace(array("cars-", $s), array("",""), $row['url']);
