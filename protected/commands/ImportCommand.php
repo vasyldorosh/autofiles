@@ -644,9 +644,6 @@ class ImportCommand extends CConsoleCommand
 			$urls[$url] = $url;
 		}
 		
-		print_r($urls);
-		die();
-		
 		foreach ($urls as $url) {
 
 			$content = Yii::app()->cache->get($url);
