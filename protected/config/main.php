@@ -93,6 +93,7 @@ return array(
 		),
 		*/
 		
+		/*
 		 'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(      
@@ -101,7 +102,8 @@ return array(
 				'report'=>'summary',
 			  ),			  
 			),
-		  ),		
+		  ),
+		*/
 				
         'file' => array(
             'class'=>'application.extensions.file.CFile',
