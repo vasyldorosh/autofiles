@@ -622,5 +622,63 @@ class ImportCommand extends CConsoleCommand
 			echo "Add Competitors \n";				
 		}
 	}	
+	
+	public function actionModelYearP()
+	{
+		$sql = "SELECT DISTINCT CONCAT(model_id, '_', year) AS ccc, model_id, year, url FROM  auto_model_year WHERE file_name =''";
+		$rows = Yii::app()->db->createCommand($sql)->queryAll();
+		$i = 0;
+		$urls = array();
+		foreach ($rows as $row) {
+			$s = "-".$row['year'];
+			$url = str_replace(array("cars-", $s), array("",""), $row['url']);
+			$url = 'http://autos.aol.com'.$url;
+			$urls[$url] = $url;
+		}
+
+		foreach ($urls as $url) {
+
+			$content = Yii::app()->cache->get($url);
+			$content = str_replace(array(" ", "\n", "\t", "\r"), array("","","",""), $content);
+			if ($content == false) {
+				$content = CUrlHelper::getPage($url, '', '');	
+				Yii::app()->cache->set($url, $content, 60*60*24);
+			}
+
+			preg_match_all('/<divclass="mkencl"><divclass="img"><imgsrc="(.*?)"width="150"height="93"style="padding-top:12px"alt="(.*?)"\/><\/div><divclass="data"><ul><liclass="sub_title"><ahref="(.*?)">(.*?)<\/a><\/li><liclass="info">/', $content, $matches);
+			preg_match_all('/<divclass="img"><imgsrc="(.*?)"width="150"height="113"alt="(.*?)"\/><\/div><divclass="data"><ul><liclass="sub_title"><ahref="(.*?)">(.*?)<\/a><\/li><liclass="info">/', $content, $matchesTwo);
+			//file_put_contents('x.txt', $content);
+
+			foreach ($matches[3] as $k=>$url) {
+				$criteria = new CDbCriteria();
+				$criteria->compare('url', $url);				
+				$modelYear = AutoModelYear::model()->find($criteria);	
+				if (!empty($modelYear)) {
+					$data = explode('"', $matches[1][$k]);
+					$modelYear->file_url = $data[0];
+					$modelYear->save();
+					echo "$i \t" . $modelYear->id . " " .$modelYear->file_url. "\n";
+				}
+
+				$i++;
+			}  
+
+			foreach ($matchesTwo[3] as $k=>$url) {
+				$criteria = new CDbCriteria();
+				$criteria->compare('url', $url);				
+				$modelYear = AutoModelYear::model()->find($criteria);	
+				if (!empty($modelYear)) {
+					$data = explode('"', $matchesTwo[1][$k]);
+					$modelYear->file_url = $data[0];
+					$modelYear->save();
+					echo "$i \t" . $modelYear->id . " " .$modelYear->file_url. "\n";
+				}
+
+				$i++;
+			}  
+		}
+	}	
+	
+	
 }
 ?>

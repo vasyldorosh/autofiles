@@ -17,6 +17,8 @@ class SitemapCommand extends CConsoleCommand
 		if ($limit <= 0) $limit = 1000;
 		
 		$site_url = SiteConfig::getInstance()->getValue('sitemap_domain_url');	
+		echo $site_url;
+		die();
 		
 		$mapFiles = array(
 			'/', 

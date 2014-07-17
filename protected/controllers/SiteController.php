@@ -204,7 +204,8 @@ class SiteController extends Controller
 				$this->render('error', $error);
 		}
 	}	
-	
+		
+	/*	
 	public function actionT()
 	{
 		ini_set('max_execution_time', 3600*12);
@@ -225,8 +226,10 @@ class SiteController extends Controller
 				echo $sql;
 			}
 		}
-	}	
+	}
+	*/
 	
+	/*
 	public function actionPhoto()
 	{
 		$dir = Yii::getPathOfAlias('webroot') . '/photos/model_year_item/';
@@ -240,6 +243,7 @@ class SiteController extends Controller
 				}
 			}
 		}	
-	}	
+	}
+	*/
 	
 }
