@@ -220,3 +220,21 @@ INSERT INTO `tire_vehicle_class` (`id`, `code`, `title`, `rank`) VALUES
 (2, 'LT', 'Light Truck', 0),
 (3, 'C', 'Commercial Vehicle', 0);
   
+  
+ CREATE TABLE IF NOT EXISTS `auto_model_year_tire` (
+  `model_year_id` int(11) unsigned NOT NULL,
+  `tire_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`model_year_id`,`tire_id`),
+  KEY `tire_id` (`tire_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `auto_model_year_tire`
+--
+ALTER TABLE `auto_model_year_tire`
+  ADD CONSTRAINT `auto_model_year_tire_ibfk_1` FOREIGN KEY (`model_year_id`) REFERENCES `auto_model_year` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `auto_model_year_tire_ibfk_2` FOREIGN KEY (`tire_id`) REFERENCES `tire` (`id`) ON DELETE CASCADE; 

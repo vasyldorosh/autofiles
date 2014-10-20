@@ -346,6 +346,7 @@ class SiteController extends Controller
 			$attributes['rank'] = 0;
 			$model = new $modelName;
 			$model->attributes = $attributes;
+			$model->save();
 		}
 		
 		return $model->id;
