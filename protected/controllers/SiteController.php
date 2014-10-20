@@ -313,7 +313,7 @@ class SiteController extends Controller
 				
 				$criteria=new CDbCriteria;
 				$criteria->compare('model_year_id', $row['model_year_id']);		
-				$criteria->compare('tire_id', $tire->id);		
+				$criteria->compare('tire_id', $data[$tireTitle]);		
 				$modelYearVsTire = AutoModelYearTire::model()->find($criteria);
 				if (empty($modelYearVsTire)) {
 					$modelYearVsTire = new AutoModelYearTire;

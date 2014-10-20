@@ -1,5 +1,5 @@
 ALTER TABLE  `auto_model_year` ADD  `chassis_id` INT( 11 ) UNSIGNED NULL DEFAULT NULL , ADD INDEX (  `chassis_id` );
-ALTER TABLE  `auto_model_year` ADD FOREIGN KEY (  `chassis_id` ) REFERENCES  `auto_model_year_chassis` (`id`) ON DELETE SET NULL ;
+--ALTER TABLE  `auto_model_year` ADD FOREIGN KEY (  `chassis_id` ) REFERENCES  `auto_model_year_chassis` (`id`) ON DELETE SET NULL ;
 
 
 
@@ -158,6 +158,7 @@ CREATE TABLE IF NOT EXISTS `tire_vehicle_class` (
 --
 -- Ограничения внешнего ключа таблицы `tire`
 --
+
 ALTER TABLE `tire`
   ADD CONSTRAINT `tire_ibfk_2` FOREIGN KEY (`section_width_id`) REFERENCES `tire_section_width` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `tire_ibfk_3` FOREIGN KEY (`aspect_ratio_id`) REFERENCES `tire_aspect_ratio` (`id`) ON DELETE SET NULL,
