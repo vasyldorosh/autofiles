@@ -12,6 +12,7 @@ class AutoModelYear extends CActiveRecord
 	public $image_ext = 'jpg';	
 	
 	public $post_competitors = array();
+	public $post_tires = array();
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -40,9 +41,9 @@ class AutoModelYear extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('year, model_id', 'required'),
-            array('id, year', 'numerical', 'integerOnly' => true,),		
+            array('id, chassis_id, year', 'numerical', 'integerOnly' => true,),		
 			array('is_active, is_deleted, is_delete_photo', 'numerical', 'integerOnly' => true),
-            array('post_competitors', 'safe',),					
+            array('post_tires, post_competitors', 'safe',),					
             array('description', 'safe',),		
             array('file', 'length', 'max' => 128),
 			array(
@@ -61,6 +62,7 @@ class AutoModelYear extends CActiveRecord
 	{
 		return array(
             'Model' => array(self::BELONGS_TO, 'AutoModel', 'model_id', 'together'=>true,),
+            'Chassis' => array(self::BELONGS_TO, 'AutoModelYearChassis', 'chassis_id', 'together'=>true,),
 			'galleryPhotos' => array(self::HAS_MANY, 'AutoModelYearPhoto', 'year_id', 'order' => '`rank` ASC',),
 	    );
 	}	
@@ -83,6 +85,8 @@ class AutoModelYear extends CActiveRecord
 			'is_delete_photo' => Yii::t('admin', 'Delete Photo'),	
 			'description' => Yii::t('admin', 'Description'),
 			'file' => 'File Name',			
+			'chassis_id' => 'Chassis',			
+			'post_tires' => 'Tires',			
 		);
 	}
 
@@ -106,7 +110,11 @@ class AutoModelYear extends CActiveRecord
 		$deletedCompetitors = array();
 	
 		if ($this->scenario == 'updateAdmin') {
+			$sql = 'DELETE FROM auto_model_year_competitor WHERE model_year_id = ' . $this->id;
+			Yii::app()->db->createCommand($sql)->execute();			
+			
 			$this->post_competitors = (array)$this->post_competitors;
+			$this->post_tires = (array)$this->post_tires;
 		
 			$sqlParts[] = "model_year_id=$this->id";
 			$sqlParts[] = "competitor_id=$this->id";
@@ -137,6 +145,14 @@ class AutoModelYear extends CActiveRecord
 			$item = new AutoModelYearCompetitor;
 			$item->model_year_id = $this->id;
 			$item->competitor_id = $competitor_id;
+			$item->save();
+		}	
+		
+		foreach ($this->post_tires as $tire_id) {
+
+			$item = new AutoModelYearTire;
+			$item->model_year_id = $this->id;
+			$item->tire_id = $tire_id;
 			$item->save();
 		}	
 			
@@ -256,6 +272,7 @@ class AutoModelYear extends CActiveRecord
 		$criteria->compare('t.model_id',$this->model_id);
 		$criteria->compare('t.is_deleted',$this->is_deleted);
 		$criteria->compare('t.is_active',$this->is_active);			
+		$criteria->compare('t.chassis_id',$this->chassis_id);			
 		
 		$criteria->with = array('Model' => array('together'=>true));
 
@@ -299,7 +316,7 @@ class AutoModelYear extends CActiveRecord
 		$criteria->compare('t.is_active',$this->is_active);			
 		$criteria->addNotInCondition('t.id', self::getIdsIsPhotos());		
 					
-		$criteria->with = array('Model' => array('together'=>true));
+		$criteria->with = array('Model' => array('together'=>true), 'Chassis' => array('together'=>true));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -904,6 +921,28 @@ class AutoModelYear extends CActiveRecord
 		
 		return $data;
 	}		
+	
+	public function getPost_tires()
+	{
+		if (Yii::app()->request->isPostRequest) {
+			return $this->post_tires;
+		} else {
+			if ($this->isNewRecord) {
+				return array();
+			} else {
+				
+				$criteria = new CDbCriteria;
+				$criteria->compare('model_year_id', $this->id);
+				$items = AutoModelYearTire::model()->findAll($criteria);
+				$ids = array();
+				foreach ($items as $item) {
+					$ids[] = $item->tire_id;
+				}
+			
+				return $ids;
+			}
+		}
+	}	
 	
 	
 }

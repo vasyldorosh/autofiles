@@ -121,6 +121,7 @@ body {
 					array('label' => Yii::t('admin', 'Basket'), 'url' => Yii::app()->createUrl('admin/modelYear/basket'), 'visible'=>Access::is('modelYear.basket')),
 					array('label' => Yii::t('admin', 'Empty competitors'), 'url' => Yii::app()->createUrl('admin/modelYear/emptyCompetitors'), 'visible'=>Access::is('modelYear')),
 					array('label' => Yii::t('admin', 'Empty photos'), 'url' => Yii::app()->createUrl('admin/modelYear/emptyPhotos'), 'visible'=>Access::is('modelYear')),
+					array('label' => Yii::t('admin', 'Chassis'), 'url' => Yii::app()->createUrl('admin/modelYearChassis'), 'visible'=>Access::is('modelYear.chassis')),
 				)),				
 				
 				array('label' => Yii::t('admin', 'Completions'), 'visible'=>(Access::is('completion')), 'items' => array(
@@ -131,6 +132,17 @@ body {
 				array('label' => Yii::t('admin', 'Specs'), 'visible'=>(Access::is('specs') || Access::is('specsGroup')), 'items' => array(
 					array('label' => Yii::t('admin', 'Specs'), 'url' => Yii::app()->createUrl('admin/specs'), 'visible'=>Access::is('specs')),
 					array('label' => Yii::t('admin', 'Specs Group'), 'url' => Yii::app()->createUrl('admin/specsGroup'), 'visible'=>Access::is('specsGroup')),
+				)),	
+				
+				array('label' => Yii::t('admin', 'Tires'), 'visible'=>(Access::is('tire')), 'items' => array(
+					array('label' => Yii::t('admin', 'Tires'), 'url' => Yii::app()->createUrl('admin/tire'), 'visible'=>Access::is('tire')),
+					array('label' => Yii::t('admin', 'Aspect Ratio'), 'url' => Yii::app()->createUrl('admin/tireAspectRatio'), 'visible'=>Access::is('tire.aspect_ratio')),
+					array('label' => Yii::t('admin', 'Load Index'), 'url' => Yii::app()->createUrl('admin/tireLoadIndex'), 'visible'=>Access::is('tire.load_index')),
+					array('label' => Yii::t('admin', 'Rim Diameter'), 'url' => Yii::app()->createUrl('admin/tireRimDiameter'), 'visible'=>Access::is('tire.rim_diameter')),
+					array('label' => Yii::t('admin', 'Section Width'), 'url' => Yii::app()->createUrl('admin/tireSectionWidth'), 'visible'=>Access::is('tire.section_width')),
+					array('label' => Yii::t('admin', 'Speed Index'), 'url' => Yii::app()->createUrl('admin/tireSpeedIndex'), 'visible'=>Access::is('tire.speed_index')),
+					array('label' => Yii::t('admin', 'Type'), 'url' => Yii::app()->createUrl('admin/tireType'), 'visible'=>Access::is('tire.type')),
+					array('label' => Yii::t('admin', 'Vehicle Class'), 'url' => Yii::app()->createUrl('admin/tireVehicleClass'), 'visible'=>Access::is('tire.vehicle_class')),
 				)),	
 				
 				array('label' => Yii::t('admin', 'Settings'), 'url' => Yii::app()->createUrl('admin/settings'), 'visible'=>(Access::is('settings'))),

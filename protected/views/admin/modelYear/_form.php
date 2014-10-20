@@ -11,7 +11,7 @@
 
 	<?php if (!$model->isNewRecord):?>
 	<div class="control-group">
-			<label class="control-label required" for="Contractor_post_competitors"><?php echo $model->getAttributeLabel('post_competitors')?></label>
+			<label class="control-label required" for="AutoModelYear_post_competitors"><?php echo $model->getAttributeLabel('post_competitors')?></label>
 			<div class="controls">
 			<?php $this->widget('ext.chosen.Chosen',array(
 				'model' => $model, 
@@ -28,10 +28,31 @@
 			</div>
 	</div>	
 	<?php endif;?>
+	
+	<div class="control-group">
+		<?php $model->post_tires = $model->getPost_tires()?>
+			<label class="control-label required" for="AutoModelYear_post_tires"><?php echo $model->getAttributeLabel('post_tires')?></label>
+			<div class="controls">
+			<?php $this->widget('ext.chosen.Chosen',array(
+				'model' => $model, 
+				'attribute' => 'post_tires', 
+				'data' => Tire::getList(),
+				'multiple' => true,
+				'itemUrl' => '/admin/tire/update?id=',
+				'noResults' => Yii::t('admin', 'Not found'),
+				'placeholderMultiple'=>$model->getAttributeLabel('post_tires'),
+				'htmlOptions'=>array(
+					'style' => 'width:800px;'
+				),		   
+			));?>
+			</div>
+	</div>	
 
 	<?php echo $form->dropDownListRow($model, 'model_id', AutoModel::getAllWithMake(),array('empty'=>''))?>
 		
 	<?php echo $form->textFieldRow($model, 'year')?>
+	
+	<?php echo $form->dropDownListRow($model, 'chassis_id', AutoModelYearChassis::getList(),array('empty'=>''))?>
 	
 	<?php echo $form->fileFieldRow($model, 'file')?>
 		
