@@ -29,7 +29,7 @@ class Tire extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('vehicle_class_id', 'required'),
-			array('is_runflat, vehicle_class_id, section_width_id, aspect_ratio_id, rim_diameter_id, load_index_id, speed_index_id', 'numerical', 'integerOnly' => true),
+			array('is_runflat, vehicle_class_id, section_width_id, aspect_ratio_id, rim_diameter_id, load_index_id', 'numerical', 'integerOnly' => true),
 			array('id', 'safe', 'on' => 'search'),
 		);
 	}		
@@ -44,7 +44,6 @@ class Tire extends CActiveRecord
             'LoadIndex' => array(self::BELONGS_TO, 'TireLoadIndex', 'load_index_id', 'together'=>true,), //index
             'RimDiameter' => array(self::BELONGS_TO, 'TireRimDiameter', 'rim_diameter_id', 'together'=>true,), //value        
             'SectionWidth' => array(self::BELONGS_TO, 'TireSectionWidth', 'section_width_id', 'together'=>true,), //value
-            'SpeedIndex' => array(self::BELONGS_TO, 'TireSpeedIndex', 'speed_index_id', 'together'=>true,), //code
             'Type' => array(self::BELONGS_TO, 'TireType', 'type_id', 'together'=>true,), //value
 			'VehicleClass' => array(self::BELONGS_TO, 'TireVehicleClass', 'vehicle_class_id', 'together'=>true,), //title
         );
@@ -52,7 +51,7 @@ class Tire extends CActiveRecord
 	
 	public function beforeSave()
 	{
-		foreach (array('section_width_id', 'aspect_ratio_id', 'rim_diameter_id', 'load_index_id', 'speed_index_id') as $attribute) {
+		foreach (array('section_width_id', 'aspect_ratio_id', 'rim_diameter_id', 'load_index_id') as $attribute) {
 			if (empty($this->$attribute)) {
 				$this->$attribute = null;
 			}
@@ -90,7 +89,6 @@ class Tire extends CActiveRecord
 			'aspect_ratio_id' => 'Aspect Ratio',
 			'rim_diameter_id' => 'Rim Diameter',
 			'load_index_id' => 'Load Index',
-			'speed_index_id' => 'Speed Index',
 			'is_runflat' => 'Runflat',
 		);
 	}
@@ -106,15 +104,32 @@ class Tire extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('vehicle_class_id',$this->vehicle_class_id);
-		$criteria->compare('section_width_id',$this->section_width_id);
-		$criteria->compare('aspect_ratio_id',$this->aspect_ratio_id);
-		$criteria->compare('rim_diameter_id',$this->rim_diameter_id);
-		$criteria->compare('load_index_id',$this->load_index_id);
-		$criteria->compare('speed_index_id',$this->speed_index_id);	
-		$criteria->compare('is_runflat',$this->is_runflat);	
-	
+		$criteria->compare('t.id',$this->id);
+		$criteria->compare('t.vehicle_class_id',$this->vehicle_class_id);
+		$criteria->compare('t.section_width_id',$this->section_width_id);
+		$criteria->compare('t.aspect_ratio_id',$this->aspect_ratio_id);
+		$criteria->compare('t.rim_diameter_id',$this->rim_diameter_id);
+		$criteria->compare('t.load_index_id',$this->load_index_id);
+		$criteria->compare('t.is_runflat',$this->is_runflat);	
+		$criteria->with = array('VehicleClass', 'SectionWidth', 'AspectRatio', 'RimDiameter', 'LoadIndex');	
+		
+		$sort = array(
+			'vehicle_class_id' => 'VehicleClass.code',
+			'vehicle_class_id.desc' => 'VehicleClass.code DESC',
+			'section_width_id' => 'SectionWidth.value',
+			'section_width_id.desc' => 'SectionWidth.value DESC',
+			'aspect_ratio_id' => 'AspectRatio.value',
+			'aspect_ratio_id.desc' => 'AspectRatio.value DESC',
+			'rim_diameter_id' => 'RimDiameter.value',
+			'rim_diameter_id.desc' => 'RimDiameter.value DESC',
+			'load_index_id' => 'LoadIndex.index',
+			'load_index_id.desc' => 'LoadIndex.index DESC',
+		);
+		
+		if (isset($_GET['Tire_sort']) && isset($sort[$_GET['Tire_sort']])) {
+			$criteria->order = $sort[$_GET['Tire_sort']];	
+		}
+		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 			'pagination'=>array(

@@ -64,11 +64,6 @@
 					'filter' => CHtml::listData(TireLoadIndex::getAll(), 'id', 'index'),				
 				),			
 				array(
-					'name'=>'speed_index_id',
-					'value'=>'!empty($data->SpeedIndex)?$data->SpeedIndex->code:"-"',
-					'filter' => CHtml::listData(TireSpeedIndex::getAll(), 'id', 'code'),				
-				),	
-				array(
 					'name'=>'is_runflat',
 					'value'=>'$data->is_runflat?"runflat":"non-runflat"',
 					'filter' => array(0=>'non-runflat', 1=>'runflat'),					

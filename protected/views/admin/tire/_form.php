@@ -16,9 +16,7 @@
 		<?php echo $form->dropDownListRow($model, 'rim_diameter_id', CHtml::listData(TireRimDiameter::getAll(), 'id', 'value'), array('empty'=>'-'))?>
 				
 		<?php echo $form->dropDownListRow($model, 'load_index_id', CHtml::listData(TireLoadIndex::getAll(), 'id', 'index'), array('empty'=>'-'))?>
-		
-		<?php echo $form->dropDownListRow($model, 'speed_index_id', CHtml::listData(TireSpeedIndex::getAll(), 'id', 'code'), array('empty'=>'-'))?>
-		
+				
 		<?php echo $form->dropDownListRow($model, 'is_runflat', array(0=>'non-runflat', 1=>'runflat'))?>
 			
 		<?php $this->renderPartial('application.views.admin._form_actions', array('model'=>$model))?>

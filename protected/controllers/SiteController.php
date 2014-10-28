@@ -248,6 +248,7 @@ class SiteController extends Controller
 	
 	public function actionTire()
 	{
+		Tire::model()->deleteAll();
 		$data = array();
 		$limit = 100;
 		$count = AutoCompletion::model()->count();
@@ -279,7 +280,6 @@ class SiteController extends Controller
 						$attributes = array(
 							'vehicle_class' => $match[1][0],
 							'section_width' => $match[2][0],
-							'speed_index' => $match[3][0],
 							'rim_diameter' => $match[4][0],
 							'aspect_ratio_id' => null,
 						);
@@ -289,7 +289,6 @@ class SiteController extends Controller
 							'vehicle_class' => $match[1][0],
 							'section_width' => $match[2][0],
 							'aspect_ratio' => $match[3][0],
-							'speed_index' => $match[4][0],
 							'rim_diameter' => $match[5][0],
 						);				
 					}
@@ -305,7 +304,6 @@ class SiteController extends Controller
 					if (isset($attributes['aspect_ratio']))
 						$tireAttr['aspect_ratio_id'] = $this->_getModelId('TireAspectRatio', array('value'=>$attributes['aspect_ratio']));
 					
-					$tireAttr['speed_index_id'] = $this->_getModelId('TireSpeedIndex', array('code'=>$attributes['speed_index']));
 					$tireAttr['rim_diameter_id'] = $this->_getModelId('TireRimDiameter', array('value'=>$attributes['rim_diameter']));
 					
 					$data[$tireTitle] = $this->_getModelId('Tire', $tireAttr);

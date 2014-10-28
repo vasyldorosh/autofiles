@@ -238,3 +238,6 @@ INSERT INTO `tire_vehicle_class` (`id`, `code`, `title`, `rank`) VALUES
 ALTER TABLE `auto_model_year_tire`
   ADD CONSTRAINT `auto_model_year_tire_ibfk_1` FOREIGN KEY (`model_year_id`) REFERENCES `auto_model_year` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `auto_model_year_tire_ibfk_2` FOREIGN KEY (`tire_id`) REFERENCES `tire` (`id`) ON DELETE CASCADE; 
+  
+ ALTER TABLE  `tire` DROP FOREIGN KEY  `tire_ibfk_6` ;
+ALTER TABLE  `tire` DROP  `speed_index_id` 
