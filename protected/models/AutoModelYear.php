@@ -113,6 +113,9 @@ class AutoModelYear extends CActiveRecord
 			$sql = 'DELETE FROM auto_model_year_competitor WHERE model_year_id = ' . $this->id;
 			Yii::app()->db->createCommand($sql)->execute();			
 			
+			$sql = 'DELETE FROM auto_model_year_tire WHERE model_year_id = ' . $this->id;
+			Yii::app()->db->createCommand($sql)->execute();			
+			
 			$this->post_competitors = (array)$this->post_competitors;
 			$this->post_tires = (array)$this->post_tires;
 		
