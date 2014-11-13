@@ -132,9 +132,15 @@ class AutoCompletion extends CActiveRecord
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($conditions=array())
 	{
 		$criteria=new CDbCriteria;
+		
+		if (!empty($conditions)) {
+			foreach ($conditions as $c) {
+				$criteria->addCondition($c);
+			}
+		}
 		
 		$criteria->compare('t.id',$this->id);
 		$criteria->compare('t.title',$this->title, true);
@@ -194,7 +200,7 @@ class AutoCompletion extends CActiveRecord
 		$key = Tags::TAG_COMPLETION . '_MODEL_BY_YEAR_'.$model_year_id;	
 		$data = Yii::app()->cache->get($key);
 
-		if ($data == false) {
+		if ($data === false) {
 			$data = array();
 			$criteria=new CDbCriteria;
 
@@ -218,7 +224,7 @@ class AutoCompletion extends CActiveRecord
 		$key = Tags::TAG_COMPLETION . '__FASTEST__' . $limit;
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data == false) {
+		if ($data === false) {
 			$sql = "SELECT 
 						MAX(specs_0_60mph__0_100kmh_s_) AS speed,
 						c.id AS id,
@@ -290,7 +296,7 @@ class AutoCompletion extends CActiveRecord
 		$key = Tags::TAG_COMPLETION . '__MAKE_TIMES__' . $make_id;
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data == false) {
+		if ($data === false) {
 			$data = array();
 			$models = AutoMake::getModels($make_id);
 			foreach ($models as $model) {
@@ -322,7 +328,7 @@ class AutoCompletion extends CActiveRecord
 		$key = Tags::TAG_COMPLETION . '_MODEL_ACCELERATION_ACROSS_YEARS_' . $model_id;
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data == false) {
+		if ($data === false) {
 			$data = array();
 			$years = AutoModel::getYears($model_id);
 			
@@ -358,7 +364,7 @@ class AutoCompletion extends CActiveRecord
 		$key = Tags::TAG_COMPLETION . '_MODEL_COMPETITORS_ACCELERATION_' . $model_id;
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data == false) {
+		if ($data === false) {
 			$data = array();
 			
 			$lastModelYear = AutoModel::getLastYear($model_id);
@@ -400,7 +406,7 @@ class AutoCompletion extends CActiveRecord
 		$key = Tags::TAG_COMPLETION . '_MODEL_CARS_WITH_SAME_0_60_TIME___' . $model_id;
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data == false && !is_array($data)) {
+		if ($data === false && !is_array($data)) {
 			$data = array();
 			
 			$maxSpeed = AutoModel::getMinSpecs('0_60mph__0_100kmh_s_', $model_id, $lastModelYear['id']);
@@ -480,7 +486,7 @@ class AutoCompletion extends CActiveRecord
 		$key = Tags::TAG_COMPLETION . '__ITEMS_BY_YEAR_ORDER_TIME__' . $model_year_id;
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data == false) {	
+		if ($data === false) {	
 			$items = self::getItemsByYear($model_year_id);
 			$data = array();
 			foreach ($items as $item) {

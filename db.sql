@@ -240,4 +240,6 @@ ALTER TABLE `auto_model_year_tire`
   ADD CONSTRAINT `auto_model_year_tire_ibfk_2` FOREIGN KEY (`tire_id`) REFERENCES `tire` (`id`) ON DELETE CASCADE; 
   
  ALTER TABLE  `tire` DROP FOREIGN KEY  `tire_ibfk_6` ;
-ALTER TABLE  `tire` DROP  `speed_index_id` 
+ALTER TABLE  `tire` DROP  `speed_index_id` ;
+
+ALTER TABLE  `auto_model_year` ADD  `is_tires` TINYINT( 1 ) UNSIGNED NOT NULL;

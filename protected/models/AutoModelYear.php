@@ -13,6 +13,7 @@ class AutoModelYear extends CActiveRecord
 	
 	public $post_competitors = array();
 	public $post_tires = array();
+	public $post_tires_related = array();
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -43,7 +44,7 @@ class AutoModelYear extends CActiveRecord
 			array('year, model_id', 'required'),
             array('id, chassis_id, year', 'numerical', 'integerOnly' => true,),		
 			array('is_active, is_deleted, is_delete_photo', 'numerical', 'integerOnly' => true),
-            array('post_tires, post_competitors', 'safe',),					
+            array('post_tires, post_competitors, post_tires_related', 'safe',),					
             array('description', 'safe',),		
             array('file', 'length', 'max' => 128),
 			array(
@@ -96,6 +97,10 @@ class AutoModelYear extends CActiveRecord
 		if ($this->is_delete_photo) {
 			$this->_deleteImage();
 			$this->file_name = '';
+		}
+		
+		if ($this->scenario == 'updateAdmin') {
+			$this->is_tires = empty($this->post_tires)?0:1;
 		}
 		
 		return parent::beforeSave()	;
@@ -151,13 +156,31 @@ class AutoModelYear extends CActiveRecord
 			$item->save();
 		}	
 		
-		foreach ($this->post_tires as $tire_id) {
+		if (!empty($this->post_tires)) {
+			foreach ($this->post_tires as $tire_id) {
+				$item = new AutoModelYearTire;
+				$item->model_year_id = $this->id;
+				$item->tire_id = $tire_id;
+				$item->save();
+			}	
+		
+			if (!empty($this->post_tires_related)) {
+				foreach ($this->post_tires_related as $id) {
+					Yii::app()->db->createCommand("DELETE FROM auto_model_year_tire WHERE model_year_id = {$id}")->execute();	
+					
+					foreach ($this->post_tires as $tire_id) {
+						$item = new AutoModelYearTire;
+						$item->model_year_id = $id;
+						$item->tire_id = $tire_id;
+						$item->save();
+					}	
 
-			$item = new AutoModelYearTire;
-			$item->model_year_id = $this->id;
-			$item->tire_id = $tire_id;
-			$item->save();
-		}	
+					$mYear = $this->findByPk($id);
+					$mYear->is_tires = 1;
+					$mYear->save(false);
+				}
+			}
+		}
 			
 		if (!empty($this->file)) {
 			if (!$this->isNewRecord) {
@@ -316,6 +339,7 @@ class AutoModelYear extends CActiveRecord
 		$criteria->compare('t.year',$this->year, true);
 		$criteria->compare('t.model_id',$this->model_id);
 		$criteria->compare('t.is_deleted',$this->is_deleted);
+		$criteria->compare('t.is_tires',$this->is_tires);
 		$criteria->compare('t.is_active',$this->is_active);			
 		$criteria->addNotInCondition('t.id', self::getIdsIsPhotos());		
 					
@@ -944,6 +968,32 @@ class AutoModelYear extends CActiveRecord
 			
 				return $ids;
 			}
+		}
+	}	
+	
+	public static function getListYears($model_id)
+	{
+		$key = Tags::TAG_MODEL_YEAR . '_getListYears__' . $model_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false) {
+			$criteria = new CDbCriteria;
+			$criteria->compare('model_id', $model_id);
+			$criteria->order = 'year DESC';
+			$data = CHtml::listData(AutoModelYear::model()->findAll($criteria), 'id', 'year');			
+	
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR));
+		}
+		
+		return $data;
+	}			
+	
+	public function getPost_tires_related()
+	{
+		if (Yii::app()->request->isPostRequest) {
+			return $this->post_tires_related;
+		} else {
+			return array();
 		}
 	}	
 	

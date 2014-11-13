@@ -48,6 +48,43 @@ class ModelYearController extends BackendController
         ));
     }
 	
+    public function actionEmptyTires()
+    {
+		Access::is('modelYear', 403);
+		
+		$model = new AutoModelYear();
+		$model->unsetAttributes();
+		$model->is_deleted = 0;		
+		$model->is_tires = 0;		
+	
+        if (isset($_GET['AutoModelYear'])) {
+            $model->attributes = $_GET['AutoModelYear'];
+        }
+
+        $this->render("empty_tires", array(
+            'model' => $model,
+			'pageSize' => Yii::app()->request->getParam('pageSize', Yii::app()->params->defaultPerPage),
+        ));
+    }
+	
+    public function actionEmpty060()
+    {
+		Access::is('completion', 403);
+	
+        $model = new AutoCompletion();
+		$model->unsetAttributes();
+		$model->is_deleted = 0;			
+		
+        if (isset($_GET['AutoCompletion'])) {
+            $model->attributes = $_GET['AutoCompletion'];
+        }
+
+        $this->render("empty_060", array(
+            'model' => $model,
+			'pageSize' => Yii::app()->request->getParam('pageSize', Yii::app()->params->defaultPerPage),
+        ));
+    }
+	
     public function actionEmptyCompetitors()
     {
 		Access::is('modelYear', 403);

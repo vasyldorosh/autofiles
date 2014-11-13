@@ -325,7 +325,16 @@ class SiteController extends Controller
 				echo $row['id'] . ' ' . $tireTitle .  '<br/>';
 			}
 		}
-		d($data);
+		
+		$modelYears = AutoModelYear::model()->findAll();
+		foreach ($modelYears as $modelYear) {
+			$criteria=new CDbCriteria;
+			$criteria->compare('model_year_id', $modelYear->id);		
+			$count = AutoModelYearTire::model()->count($criteria);	
+		    $modelYear->is_tires = $count?1:0;
+		    $modelYear->save();
+		}
+		
 	}
 	
 	private function _getModelId($modelName, $attributes) {
