@@ -1,8 +1,8 @@
-<?php $this->pageTitle = Yii::app()->name.' - ' . Yii::t('admin', 'Models by Year');?>
+<?php $this->pageTitle = Yii::app()->name.' - ' . Yii::t('admin', 'Models by Year - empty tires');?>
 
 <div class="container inner-page white img-rounded">
     <div class="page-header">
-        <h3><?=Yii::t('admin', 'Models by Year')?></h3>
+        <h3><?=Yii::t('admin', 'Models by Year - empty tires')?></h3>
     </div>
     
 	<?php $this->widget('AdminTbAlert', array(
@@ -15,14 +15,6 @@
 	?> 	
 	
 	<div class="button">
-		<?php if (Access::is('modelYear.create')):?>
-			<? $this->widget("bootstrap.widgets.TbButtonGroup", array(
-				'type' => 'success',
-				'buttons' => array(
-					array('label' => Yii::t('admin', 'Create'), 'url' => Yii::app()->createUrl("admin/modelYear/create"), 'icon' => 'file white'),
-				),
-			))?>
-		<?php endif;?>
         <div class="btn clear-filter"><?=Yii::t('admin', 'Clear Search')?></div>
     </div>
 	

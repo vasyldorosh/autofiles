@@ -44,9 +44,12 @@ Yii::import('zii.widgets.grid.CDataColumn');
 class ELinkUpdateColumn extends CDataColumn
 {
 	public $linkHtmlOptions;
+	public $url = null;
 
 	protected function renderDataCellContent($row,$data)
 	{		
+		$url = !empty($this->url) ? str_replace('%id%', $data->id, $this->url) : Yii::app()->controller->createUrl("update",array("id"=>$data->id));
+	
 		if($this->value!==null)
 			$value=$this->evaluateExpression($this->value,array('data'=>$data,'row'=>$row));
 		elseif($this->name!==null)
@@ -54,7 +57,7 @@ class ELinkUpdateColumn extends CDataColumn
 		$title = $value===null ? $this->grid->nullDisplay : $this->grid->getFormatter()->format($value,$this->type);
 		
 		if (Access::is($this->htmlOptions['access'])) 
-			echo CHtml::link($title, Yii::app()->controller->createUrl("update",array("id"=>$data->id)), $this->linkHtmlOptions);
+			echo CHtml::link($title, $url, $this->linkHtmlOptions);
 		else
 			echo $title;
 	}

@@ -1,8 +1,8 @@
-<?php $this->pageTitle = Yii::app()->name.' - ' . Yii::t('admin', 'Models by Year');?>
+<?php $this->pageTitle = Yii::app()->name.' - ' . Yii::t('admin', 'Completions - empty 0-60');?>
 
 <div class="container inner-page white img-rounded">
     <div class="page-header">
-        <h3><?=Yii::t('admin', 'Models by Year')?></h3>
+        <h3><?=Yii::t('admin', 'Completions empty 0-60')?></h3>
     </div>
     
 	<?php $this->widget('AdminTbAlert', array(
@@ -15,14 +15,6 @@
 	?> 	
 	
 	<div class="button">
-		<?php if (Access::is('modelYear.create')):?>
-			<? $this->widget("bootstrap.widgets.TbButtonGroup", array(
-				'type' => 'success',
-				'buttons' => array(
-					array('label' => Yii::t('admin', 'Create'), 'url' => Yii::app()->createUrl("admin/modelYear/create"), 'icon' => 'file white'),
-				),
-			))?>
-		<?php endif;?>
         <div class="btn clear-filter"><?=Yii::t('admin', 'Clear Search')?></div>
     </div>
 	
@@ -37,42 +29,29 @@
 					'htmlOptions' => array(
 						'width' => 60, 
 					),					
-				),	
-				array(
-					'name' => 'preview',
-					'value' => 'CHtml::link("<img src=\"{$data->preview}\">", "#")',
-					'type' => 'raw',
-					'htmlOptions' => array(
-						'width' => 100, 
-						'height' => 60, 
-					),	
-					'filter' => false,
-				),					
+				),
 				array(
 					'class'=>'ELinkUpdateColumn',
-					'name' => 'model_id',
-					'value' => '$data->getTitle()',	
-					'filter' => AutoModel::getAllWithMake(),
+					'name' => 'title',
+					'url' => '/admin/completion/update/?id=%id%',
 					'htmlOptions' => array(
-						'access' => 'modelYear.update', 
-					),					
-				),	
-				array(
-					'name' => 'chassis_id',
-					'value' => '!empty($data->Chassis)?$data->Chassis->title:""',	
-					'filter' => AutoModelYearChassis::getList(),				
-				),	
-				array(
-					'name'=>'year',
-					'value'=>'$data->year',
-					'htmlOptions' => array(
-						'width' => 60, 
-					),					
+						'access' => 'completion.update', 
+					),						
 				),				
+				array(
+					'name' => 'model_year_id',
+					'value' => '$data->ModelYear?$data->ModelYear->Model->title:"-"',	
+					'filter' => AutoModel::getAllWithMake(),
+				),					
+				array(
+					'name' => 'year',
+					'value' => '$data->ModelYear?$data->ModelYear->year:"-"',
+					'filter' => true,
+				),					
             );
 			
 		$actionButtons = array();
-		if (Access::is('modelYear.update')) {
+		if (Access::is('completion.update')) {
 			$actionButtons[] = 	array(
 				'id' => 'btn_activate',
 				'buttonType' => 'button',
@@ -86,7 +65,7 @@
 					});	
 					$.ajax({
 						type: "POST",
-						url: "/admin/modelYear/active/?value=1",
+						url: "/admin/completion/active/?value=1",
 						data: {"ids":ids},
 						dataType:"json",
 						success: function(response){
@@ -112,7 +91,7 @@
 					});	
 					$.ajax({
 						type: "POST",
-						url: "/admin/modelYear/active/?value=0",
+						url: "/admin/completion/active/?value=0",
 						data: {"ids":ids},
 						dataType:"json",
 						success: function(response){
@@ -142,8 +121,8 @@
 					$("#errors-action-models").hide();
 					$("#btn_models_move").hide();
 					$("#btn_models_copy").show();
-					$("#modalCopyModelYear").modal("show");
-					$("#js-modal-title").text("'.Yii::t('admin', 'Copy Models by Year').'");
+					$("#modalCopyCompletion").modal("show");
+					$("#js-modal-title").text("'.Yii::t('admin', 'Copy Completions').'");
 				}',
 			);
 			
@@ -163,13 +142,13 @@
 					$("#errors-action-models").hide();
 					$("#btn_models_copy").hide();
 					$("#btn_models_move").show();
-					$("#modalCopyModelYear").modal("show");	
-					$("#js-modal-title").text("'.Yii::t('admin', 'Move Models by Year').'");
+					$("#modalCopyCompletion").modal("show");	
+					$("#js-modal-title").text("'.Yii::t('admin', 'Move Completions').'");
 				}',
 			);
 		}
 		
-		if (Access::is('modelYear.delete')) {
+		if (Access::is('completion.delete')) {
 			$actionButtons[] = array(
 						'id' => 'btn_delete',
 						'buttonType' => 'button',
@@ -183,7 +162,7 @@
 							});	
 							$.ajax({
 								type: "POST",
-								url: "/admin/modelYear/trash/?value=1",
+								url: "/admin/completion/trash/?value=1",
 								data: {"ids":ids},
 								dataType:"json",
 								success: function(response){
@@ -209,7 +188,7 @@
 		}				
 
 
-		if (Access::is('modelYear.update')) {
+		if (Access::is('completion.update')) {
 			$columns[] = array(
 					'class' => 'bootstrap.widgets.TbToggleColumn',
 					'name' => 'is_active',
@@ -221,21 +200,21 @@
 				);
 		}			
 			
-		if (Access::is('modelYear.update') || Access::is('modelYear.delete')) {
+		if (Access::is('completion.update') || Access::is('completion.delete')) {
 			$template = array();
 			$buttons = array();
 			
-			if (Access::is('modelYear.update')) {
+			if (Access::is('completion.update')) {
 				$template[] = '{update}';
 				$buttons['update'] = array(
-                    'url'=>'Yii::app()->createUrl("admin/modelYear/update", array("id"=>$data->id))',
+                    'url'=>'Yii::app()->createUrl("admin/completion/update", array("id"=>$data->id))',
                 );
 			}
 			
-			if (Access::is('modelYear.delete')) {
+			if (Access::is('completion.delete')) {
 				$template[] = '{delete}';
 				$buttons['delete'] = array(
-                    'url'=>'Yii::app()->createUrl("admin/modelYear/trash", array("ids"=>array($data->id), "value"=>1))',
+                    'url'=>'Yii::app()->createUrl("admin/completion/trash", array("ids"=>array($data->id), "value"=>1))',
                 );				
 			}
 		
@@ -248,8 +227,8 @@
 		}
 		
 		$this->widget('bootstrap.widgets.TbExtendedGridView', array(
-            'dataProvider' => $model->search(),
-			'ajaxUrl'=> $this->createUrl('/admin/modelYear/index'),
+            'dataProvider' => $model->search(array("(t.specs_0_60mph__0_100kmh_s_='' OR t.specs_0_60mph__0_100kmh_s_ IS NULL)")),
+			'ajaxUrl'=> $this->createUrl('/admin/completion/index'),
             'filter' => $model,
             'type' => 'striped bordered condensed',
             'columns' => $columns,
@@ -278,10 +257,10 @@ EOD
 ,CClientScript::POS_READY); ?>
 
 
-<?php $this->beginWidget('bootstrap.widgets.TbModal', array('id'=>'modalCopyModelYear')); ?>
+<?php $this->beginWidget('bootstrap.widgets.TbModal', array('id'=>'modalCopyCompletion')); ?>
  <div class="modal-header">
     <a class="close" data-dismiss="modal">&times;</a>
-    <h4 id="js-modal-title"><?=Yii::t('admin', 'Copy Models')?></h4>
+    <h4 id="js-modal-title"><?=Yii::t('admin', 'Copy Completions')?></h4>
 </div>
 <div class="modal-body">
 
@@ -290,19 +269,26 @@ EOD
 	<div class="control-group">
 		<label class="control-label"><?=Yii::t('admin', 'Model')?> <span class="required">*</span></label>
 		<div class="controls">
-			<input type="hidden" id="model_id" value="">
-			<?php echo CHtml::dropDownList('AutoModelYear[model_id]', '', AutoModel::getAllWithMake(), array('class'=>'span4', 'empty'=>'', 'onchange'=>'$("#model_id").val($(this).val())')); ?>	
+			<?php echo CHtml::dropDownList('AutoCompletion[model_id]', '', AutoModel::getAllWithMake(), array('class'=>'span4', 'empty'=>'-')); ?>	
+		</div>
+	</div>	
+	
+	<div class="control-group">
+		<label class="control-label"><?=Yii::t('admin', 'Year')?> <span class="required">*</span></label>
+		<div class="controls">
+			<input type="hidden" id="model_year_id" value="">
+			<?php echo CHtml::dropDownList('AutoCompletion[model_year_id]', '', array(), array('class'=>'span4 js-model_year_id', 'empty'=>'-', 'onchange'=>'$("#model_year_id").val($(this).val())')); ?>	
 		</div>
 	</div>		
 </div>
 
 <div class="modal-footer">
     
-	<a onclick="moveModels();return false;" class="btn btn-primary" id="btn_models_move" href="#"><?=Yii::t('admin', 'Move')?></a>
+	<a onclick="moveCompletions();return false;" class="btn btn-primary" id="btn_models_move" href="#"><?=Yii::t('admin', 'Move')?></a>
 	
-	<a onclick="copyModels();return false;" class="btn btn-info" id="btn_models_copy" href="#"><?=Yii::t('admin', 'Copy')?></a>
+	<a onclick="copyCompletions();return false;" class="btn btn-info" id="btn_models_copy" href="#"><?=Yii::t('admin', 'Copy')?></a>
 	
-	<a onclick="$('#modalCopyModelYear').modal('hide');return false;" class="btn" href="#" style="display: inline-block;"><?=Yii::t('admin', 'Cancel')?></a>
+	<a onclick="$('#modalCopyCompletion').modal('hide');return false;" class="btn" href="#" style="display: inline-block;"><?=Yii::t('admin', 'Cancel')?></a>
 	
 </div> 
 <?php $this->endWidget(); ?>
@@ -310,15 +296,15 @@ EOD
 <script>
 var checkedIds;
 
-function moveModels() {
+function moveCompletions() {
 	$.ajax({
 		type: "POST",
-		url: "/admin/modelYear/move",
-		data: {"ids":checkedIds, 'model_id':$('#model_id').val()},
+		url: "/admin/completion/move",
+		data: {"ids":checkedIds, 'model_year_id':$('#model_year_id').val()},
 		dataType:"json",
 		success: function(response){
 			if(response.status == 1){
-			   $('#modalCopyModelYear').modal('hide');
+			   $('#modalCopyCompletion').modal('hide');
 			   $.fn.yiiGridView.update("list-grid");
 			}else{
 				$('#errors-action-models').show().text(response.error);
@@ -327,15 +313,15 @@ function moveModels() {
 	});	
 }
 
-function copyModels() {
+function copyCompletions() {
 	$.ajax({
 		type: "POST",
-		url: "/admin/modelYear/copy",
-		data: {"ids":checkedIds, 'model_id':$('#model_id').val()},
+		url: "/admin/completion/copy",
+		data: {"ids":checkedIds, 'model_year_id':$('#model_year_id').val()},
 		dataType:"json",
 		success: function(response){
 			if(response.status == 1){
-			   $('#modalCopyModelYear').modal('hide');
+			   $('#modalCopyCompletion').modal('hide');
 			   $.fn.yiiGridView.update("list-grid");
 			}else{
 				$('#errors-action-models').show().text(response.error);
@@ -344,4 +330,13 @@ function copyModels() {
 	});	
 }
 
+$('#AutoCompletion_model_id').change(function(e) {
+	$('.js-model_year_id').empty();
+	$('.js-model_year_id').append('<option value=""></option>');
+	$.post('/admin/modelYear/getByModel', {'id': $(this).val()} , function(response) {
+		$.each(response.items, function(value, lable){
+			$('.js-model_year_id').append('<option value="'+value+'">'+lable+'</option>');
+		});
+	}, 'json');
+});
 </script>

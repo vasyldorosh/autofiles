@@ -246,4 +246,117 @@ class SiteController extends Controller
 	}
 	*/
 	
+	public function actionTire()
+	{
+		Tire::model()->deleteAll();
+		$data = array();
+		$limit = 100;
+		$count = AutoCompletion::model()->count();
+		
+		
+		for ($offset = 0; $offset <= $count; $offset+=$limit) {
+			
+			$sql = "SELECT specs_front_tires AS tire, id, model_year_id FROM  `auto_completion` LIMIT $offset, $limit";
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();
+			foreach ($rows as $row) {
+			
+				$tireTitle = trim($row['tire']);
+
+				if (!isset($data[$tireTitle])) {
+			
+					preg_match_all('/([A-Z].*?)([0-9].*?)\/([0-9].*?)([A-Z].*?)R([0-9]{1,2}.*?)/', $tireTitle, $match);
+						
+					$attributes = array();
+						
+					$noMatch = true;						
+					foreach ($match as $m) {
+						if (empty($m)) {
+							$noMatch = false;
+						}
+					}
+					
+					if (!$noMatch) {
+						preg_match_all('/([A-Z].*?)([0-9].*?)\/([A-Z].*?)R([0-9]{1,2}.*?)/', $tireTitle, $match);
+						$attributes = array(
+							'vehicle_class' => $match[1][0],
+							'section_width' => $match[2][0],
+							'rim_diameter' => $match[4][0],
+							'aspect_ratio_id' => null,
+						);
+					} else {
+						//d($match, 0);
+						$attributes = array(
+							'vehicle_class' => $match[1][0],
+							'section_width' => $match[2][0],
+							'aspect_ratio' => $match[3][0],
+							'rim_diameter' => $match[5][0],
+						);				
+					}
+							
+					$tireAttr = array();
+					
+					if (strpos($row['tire'], 'flat')) {
+						$tireAttr['is_runflat'] = 1;
+					}
+					
+					$tireAttr['vehicle_class_id'] = $this->_getModelId('TireVehicleClass', array('code'=>$attributes['vehicle_class']));
+					$tireAttr['section_width_id'] = $this->_getModelId('TireSectionWidth', array('value'=>$attributes['section_width']));
+					if (isset($attributes['aspect_ratio']))
+						$tireAttr['aspect_ratio_id'] = $this->_getModelId('TireAspectRatio', array('value'=>$attributes['aspect_ratio']));
+					
+					$tireAttr['rim_diameter_id'] = $this->_getModelId('TireRimDiameter', array('value'=>$attributes['rim_diameter']));
+					
+					$data[$tireTitle] = $this->_getModelId('Tire', $tireAttr);
+				}
+				
+				$criteria=new CDbCriteria;
+				$criteria->compare('model_year_id', $row['model_year_id']);		
+				$criteria->compare('tire_id', $data[$tireTitle]);		
+				$modelYearVsTire = AutoModelYearTire::model()->find($criteria);
+				if (empty($modelYearVsTire)) {
+					$modelYearVsTire = new AutoModelYearTire;
+					$modelYearVsTire->model_year_id = $row['model_year_id'];
+					$modelYearVsTire->tire_id = $data[$tireTitle];
+					$modelYearVsTire->save();
+				}
+				
+				//save model_year_tire
+				
+				echo $row['id'] . ' ' . $tireTitle .  '<br/>';
+			}
+		}
+		
+		$modelYears = AutoModelYear::model()->findAll();
+		foreach ($modelYears as $modelYear) {
+			$criteria=new CDbCriteria;
+			$criteria->compare('model_year_id', $modelYear->id);		
+			$count = AutoModelYearTire::model()->count($criteria);	
+		    $modelYear->is_tires = $count?1:0;
+		    $modelYear->save(false);
+		}
+		
+	}
+	
+	private function _getModelId($modelName, $attributes) {
+
+		$criteria=new CDbCriteria;
+		foreach ($attributes as $attribute=>$value) {
+			if ($value === null) {
+				$criteria->addCondition("{$attribute} IS NULL");
+			} else {
+				$criteria->compare($attribute, $value);
+			}
+		}
+		
+		$model = CActiveRecord::model($modelName)->find($criteria);
+		if (empty($model)) {
+			$attributes['rank'] = 0;
+			$model = new $modelName;
+			$model->attributes = $attributes;
+			$model->save();
+		}
+		
+		return $model->id;
+	}
+	
 }
