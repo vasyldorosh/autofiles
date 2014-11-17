@@ -55,7 +55,7 @@ class ModelYearController extends BackendController
 		$model = new AutoModelYear();
 		$model->unsetAttributes();
 		$model->is_deleted = 0;		
-		$model->is_tires = 1;		
+		$model->is_tires = 0;		
 		
         if (isset($_GET['AutoModelYear'])) {
             $model->attributes = $_GET['AutoModelYear'];
