@@ -298,7 +298,8 @@ class AutoModelYear extends CActiveRecord
 		$criteria->compare('t.model_id',$this->model_id);
 		$criteria->compare('t.is_deleted',$this->is_deleted);
 		$criteria->compare('t.is_active',$this->is_active);			
-		$criteria->compare('t.chassis_id',$this->chassis_id);			
+		$criteria->compare('t.chassis_id',$this->chassis_id);						
+		$criteria->compare('t.is_tires',$this->is_tires);			
 		
 		$criteria->with = array('Model' => array('together'=>true));
 

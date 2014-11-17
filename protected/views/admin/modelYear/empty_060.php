@@ -33,6 +33,7 @@
 				array(
 					'class'=>'ELinkUpdateColumn',
 					'name' => 'title',
+					'url' => '/admin/completion/update/?id=%id%',
 					'htmlOptions' => array(
 						'access' => 'completion.update', 
 					),						

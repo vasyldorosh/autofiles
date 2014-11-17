@@ -332,7 +332,7 @@ class SiteController extends Controller
 			$criteria->compare('model_year_id', $modelYear->id);		
 			$count = AutoModelYearTire::model()->count($criteria);	
 		    $modelYear->is_tires = $count?1:0;
-		    $modelYear->save();
+		    $modelYear->save(false);
 		}
 		
 	}
