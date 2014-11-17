@@ -39,6 +39,9 @@
 			</ul>
 		</section>
 		<!-- section 4 -->
+
+<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
+
 		<section class="seo-text">
 			<?=SiteConfig::getInstance()->getValue('0_60_times_footer_text_block');?>
 		</section>

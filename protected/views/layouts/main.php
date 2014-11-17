@@ -15,11 +15,11 @@
 <body class="l">
 <!-- BEGIN HEADER -->
 <header>
-	<a href="/" class="logo" title="Cars technical information"><span>Auto</span>Files</a>
-	<div class="search">
+	<a href="/" class="logo" title="Cars technical information"><span>Auto</span>Files.com</a>
+	<!--<div class="search">
 		<input type="text" placeholder="Search">
 		<button type="submit" class="btn btn_search"></button>
-	</div>
+	</div>-->
 	<!--
 	<a href="#" class="sign-in">Sign in</a>
 	<a href="#" class="join">Join</a>

@@ -9,6 +9,8 @@
 
 		</section>
 
+<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
+
 		<section class="table-container">
 			<h2 class="section-name">All <?=$make['title']?> models 0-60 times</h2>
 			<table>
@@ -39,7 +41,8 @@
 			<?php endforeach;?>
 			</table>
 		</section>		
-		
+
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 		
 	</div>
 	<div class="l-col2">

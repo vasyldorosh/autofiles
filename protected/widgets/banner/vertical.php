@@ -10,4 +10,6 @@
 			(adsbygoogle = window.adsbygoogle || []).push({});
 			</script>	
 		</div>
+
+
 		<?php endif;?>

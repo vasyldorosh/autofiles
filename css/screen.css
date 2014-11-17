@@ -33,15 +33,15 @@ body a:hover { color: #000; }
 
 .l { max-width: 1260px; min-width: 720px; margin: 0 auto; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; *zoom: 1; }
 .l:after { content: " "; display: table; clear: both; }
-.l .l-col1 { float: left; width: 71.42857%; padding-left: 30px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
-@media only screen and (max-width: 980px) { .l .l-col1 { float: none; width: 100%; padding-right: 30px; } }
-.l .l-col2 { float: right; width: 28.57143%; padding-left: 30px; padding-right: 30px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+.l .l-col1 { float: left; width: 71.42857%; padding-left: 5px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+@media only screen and (max-width: 980px) { .l .l-col1 { float: none; width: 100%; padding-right: 5px; } }
+.l .l-col2 { float: right; width: 28.57143%; padding-left: 30px; padding-right: 5px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
 @media only screen and (max-width: 980px) { .l .l-col2 { float: none; width: 400px; margin: 0 auto; } }
 
-header { *zoom: 1; padding: 0 30px; line-height: 95px; }
+header { *zoom: 1; padding: 0 5px; line-height: 65px; }
 header:after { content: " "; display: table; clear: both; }
 
-.logo { display: block; float: left; font-family: "helveticaneuecyr-roman", Arial, sans-serif; font-size: 48px; font-size: 4.8rem; text-decoration: none; margin-right: 12.41667%; }
+.logo { display: block; float: left; font-family: "helveticaneuecyr-roman", Arial, sans-serif; font-size: 36px; font-size: 3.6rem; text-decoration: none; margin-right: 12.41667%; }
 .logo span { color: #2fa4e7; }
 .logo:hover { color: #4d4d4d; }
 @media only screen and (max-width: 1090px) { .logo { margin-right: 5%; } }
@@ -77,7 +77,7 @@ header:after { content: " "; display: table; clear: both; }
 	-webkit-border-radius: 3px; 
 	border-radius: 3px; 
 	font-size: 0; 
-	margin: 0 30px; 
+	margin: 0 5px; 
 	-webkit-box-sizing: border-box; 
 	-moz-box-sizing: border-box; 
 	box-sizing: border-box; 
@@ -89,7 +89,7 @@ header:after { content: " "; display: table; clear: both; }
 .menu-list li a { display: block; padding: 0 20px; line-height: 36px; color: white; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); }
 .menu-list .is-active { background: #2d7caa; border-left: 1px solid transparent; border-right: 1px solid transparent; }
 
-.breadcrumb { margin: 0 30px; line-height: 47px; border-bottom: 1px solid #e3e3e3; }
+.breadcrumb { margin: 0 5px; line-height: 47px; border-bottom: 1px solid #e3e3e3; }
 .breadcrumb li { display: inline-block; vertical-align: middle; margin-right: 3px; }
 .breadcrumb li a { font-size: 12px; font-size: 1.2rem; text-decoration: underline; }
 .breadcrumb li span { margin-left: 5px; }
@@ -273,7 +273,7 @@ display: none; }
 
 .write-review__captcha-reload { display: block; color: #2fa4e7; text-decoration: underline; margin-top: 3px; }
 
-.times { margin-top: 35px; }
+.times { margin-top: 15px; }
 .times h3 { margin-top: 25px; }
 .times h3 + p { margin-top: 25px; line-height: 1.2; }
 .times .times__container { margin-top: 14px; *zoom: 1; }
@@ -299,13 +299,13 @@ display: none; }
 .parts_min { padding-bottom: 0; border-bottom: none; }
 
 .table-container { margin-top: 45px; }
-.table-container table { min-width: 100%; margin-top: 35px; }
+.table-container table { min-width: 100%; margin-top: 15px; }
 .table-container table tr:nth-child(odd) { background: whitesmoke; }
 .table-container table td { padding: 9px 0; }
-.table-container table td:first-child { padding-left: 3.44%; width: 37.24138%; }
+.table-container table td:first-child { padding-left: 5px; width: 32.24138%; }
 .table-container table td:last-child { padding-right: 3.44%; width: 34.71264%; }
 
-.banner-ver { margin-top: 45px; margin-bottom: 40px; font-size: 0; text-align: center; }
+.banner-ver { margin-top: 15px; margin-bottom: 10px; font-size: 0; text-align: left; }
 .banner-ver img { max-width: 100%; }
 
 .right-block { margin-bottom: 40px; padding: 14px 6.66666%; border: 1px solid #e3e3e3; -webkit-border-radius: 3px; border-radius: 3px; }
@@ -470,7 +470,7 @@ display: none; }
 
 @media only screen and (max-width: 1090px) { .find-dealer button { float: none; } }
 
-footer { margin: 0 30px; margin-top: 50px; border-top: 1px solid #e3e3e3; *zoom: 1; }
+footer { margin: 0 5px; margin-top: 50px; border-top: 1px solid #e3e3e3; *zoom: 1; }
 footer:after { content: " "; display: table; clear: both; }
 footer .footer__info { float: left; width: 50%; line-height: 67px; }
 footer .footer__info a { color: #2fa4e7; margin-right: 15px; }

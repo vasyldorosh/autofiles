@@ -7,26 +7,36 @@
 				<div class="times__image">
 					<img alt="Photo <?=$make['title']?> <?=$model['title']?> 0-60 times" src="<?=$lastModelYear['photo']?>">
 				</div>
-				<div class="times__textwrap">
+<div class="times__textwrap">
 					<?=$description?>
 				</div>
 		</section>
+
 		<!-- banner -->
-		
+			<br><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- autofiles_300x250 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-3243264408777652"
+     data-ad-slot="9434056455"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 		
 		<?php if (!empty($completionsTime)):?>
 		<section class="table-container">
-			<h2 class="section-name">0-60 times across <?=$lastModelYear['year']?> <?=$make['title']?> <?=$model['title']?> trims</h2>
-			<table>
+			<h2 class="section-name"><?=$lastModelYear['year']?> <?=$make['title']?> <?=$model['title']?> 0-60 times, all trims</h2>
+
+                     	<table>
 			<?php foreach ($completionsTime as $item):?>
 				<tr>
-					<td style="width:400px;">
+					<td>
 						<?=$item['title']?> 0-60
 					</td>
-					<td style="width:70px;">
+					<td>
 						<?=(float)$item['specs_0_60mph__0_100kmh_s_']?> sec
 					</td>
-					<td style="width:120px;">	
+					<td>	
 						1/4 mile <?=(float)$item['specs_1_4_mile_time']?> @ <?=(float)$item['specs_1_4_mile_speed']?> mph
 					</td>					
 				</tr>
@@ -34,12 +44,11 @@
 			</table>
 		</section>		
 		<?php endif;?>		
-		
-		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>	
-		
+	
 		
 		<section class="table-container">
 			<h2 class="section-name"><?=$make['title']?> <?=$model['title']?> 0-60 mph acceleration across years</h2>
+
 			<table>
 			<?php foreach ($models as $item):?>
 				<tr>
@@ -68,10 +77,13 @@
 			<?php endforeach;?>
 			</table>
 		</section>		
+
 		
+
 		<?php if (!empty($competitors)):?>
 		<section class="table-container">
 			<h2 class="section-name"><?=$make['title']?> <?=$model['title']?> competitors’ 0-60 mph acceleration</h2>
+
 			<table>
 			<?php foreach ($competitors as $item):?>
 				<tr>
@@ -99,7 +111,18 @@
 				</tr>
 			<?php endforeach;?>
 			</table>
-		</section>
+                </section>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- autof580 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:580px;height:400px"
+     data-ad-client="ca-pub-3243264408777652"
+     data-ad-slot="7653258858"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>            
+
 		<?php endif;?>
 		
 		<?php if (!empty($completionsCarsWithSame060Time)):?>
@@ -117,7 +140,10 @@
 			</table>
 		</section>
 		<?php endif;?>
-		
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
+
+
+
 	</div>
 	<div class="l-col2">
 		
@@ -168,6 +194,8 @@
 					<td class="spec-value">61.3 cu.ft</td>
 				</tr>
 			</table>
+
+                        
 		</section>
 		<?*/?>
 		
