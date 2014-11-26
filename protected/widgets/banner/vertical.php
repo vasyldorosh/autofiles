@@ -1,4 +1,3 @@
-		<?php if ($_SERVER['SERVER_NAME'] != 'auto.loc'):?>
 		<div class="banner-ver">
 		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 			<!-- autofiles300x600 -->
@@ -10,6 +9,3 @@
 			(adsbygoogle = window.adsbygoogle || []).push({});
 			</script>	
 		</div>
-
-
-		<?php endif;?>

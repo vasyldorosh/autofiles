@@ -1,5 +1,4 @@
 <div class="advertisement">
-<?php if ($_SERVER['SERVER_NAME'] != 'auto.loc'):?>
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- autof728links -->
 <ins class="adsbygoogle"
@@ -9,5 +8,4 @@
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
-<?php endif;?>
 </div>

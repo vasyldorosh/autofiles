@@ -441,3 +441,38 @@ $('#btn_submit_filter').click(function(e) {
 		</section>-->
 	</div>
 </main>
+
+
+
+<script src="/js/owl.carousel.js"></script>
+<script>
+ $(document).ready(function() {
+ 
+   var owl = $("#owl_carusel");
+ 
+  owl.owlCarousel({
+     
+      itemsCustom : [
+        [0, 2],
+        [450, 2],
+        [600, 3],
+        [700, 3],
+        [1000, 4],
+        [1200, 4],
+        [1400, 4],
+        [1600, 4]
+      ],
+      navigation : true
+ 
+  });
+  $('.reviews__tabs li').click(function(event) {
+  $('.reviews__tabs li').removeClass('is-active');
+  $(this).addClass('is-active');
+  $('.reviews__container').removeClass('active');
+  blocktoshow = $(this).data('block');
+  $(blocktoshow).addClass('active');
+  return false;
+ })
+ 
+});
+</script>

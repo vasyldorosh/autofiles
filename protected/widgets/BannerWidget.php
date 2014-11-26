@@ -23,9 +23,9 @@ class BannerWidget extends CWidget{
      * Роутер
      */
     public function run()
-    {
-		$this->render(self::TEMPLATE_PATH . '.'.$this->banner, array(
-		
-		));
+    {	
+		if ($_SERVER['SERVER_NAME'] != 'auto.loc') {
+			$this->render(self::TEMPLATE_PATH . '.'.$this->banner, array());
+		}
     }
 }
