@@ -1,4 +1,4 @@
-/*done by Coderiver.com.ua and Roma*/
+/*done by Coderiver.com.ua */
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; vertical-align: baseline; }
 
 body, html { height: 100%; }
@@ -316,6 +316,7 @@ display: none; }
 .right-block__specs-list td a:before { content: ""; position: absolute; }
 .right-block__specs-list .speed:before { background: url('../img/icons-sc83f02760e.png') 0 0 no-repeat; width: 31px; height: 36px; left: 6px; top: -11px; }
 .right-block__specs-list .engine:before { background: url('../img/icons-sc83f02760e.png') 0 -131px no-repeat; width: 36px; height: 32px; left: 4px; top: -9px; }
+.right-block__specs-list .tire:before { background: url('../images/tire.png') 0 0 no-repeat; width: 36px; height: 32px; left: 4px; top: -9px; }
 .right-block__specs-list .horsepower:before { background: url('../img/icons-sc83f02760e.png') 0 -406px no-repeat; width: 37px; height: 28px; left: 4px; top: -7px; }
 .right-block__specs-list .gas:before { background: url('../img/icons-sc83f02760e.png') 0 -173px no-repeat; width: 24px; height: 24px; left: 10px; top: -5px; }
 .right-block__specs-list .towing:before { background: url('../img/icons-sc83f02760e.png') 0 -477px no-repeat; width: 37px; height: 31px; left: 4px; top: -8px; }
@@ -475,3 +476,311 @@ footer:after { content: " "; display: table; clear: both; }
 footer .footer__info { float: left; width: 50%; line-height: 67px; }
 footer .footer__info a { color: #2fa4e7; margin-right: 15px; }
 footer .footer__copyright { float: right; width: 50%; text-align: right; line-height: 67px; }
+
+/*=========================== Serge's stiles  =============================*/
+.mb30{margin-bottom: 30px;}
+.pt20{padding-top: 20px;}
+.ml25{margin-left: 25px;}
+
+.d_none{display: none;}
+.al_right{text-align: right;}
+.al_center{text-align: center;}
+.wrapper{overflow: hidden;}
+
+
+.brdtop_col{border-top: 1px solid #e3e3e3;}
+.brd_bnone{border-bottom: none !important;}
+.google_links{
+	border: 0px solid #e3e3e3;
+	width: 300px;
+	height: 250px;
+	box-sizing:border-box;
+}
+.w78{width: 78.5%;}
+
+.pb18{padding-bottom: 18px;}
+
+.text_size{
+	background: #f7f7f7;
+	padding: 15px 20px 11px 20px;
+	box-sizing: border-box;
+	margin-left: 330px;
+}
+.text_size p{
+	padding-bottom: 12px;
+}
+.bdb_1{
+	border-bottom: 1px solid #e3e3e3;
+}
+.cars_ul ul{
+	margin-bottom: 40px;
+}
+.mb38{margin-bottom: 38px;}
+.section-name_2{
+	font-family: "helveticaneuecyr-bold", Arial, sans-serif;
+	font-weight: normal;
+	font-size: 18px;
+	color: #4d4d4d;
+}
+.section_tabs .text_tabs{
+	font-size: 11px;
+	font-weight: 400;
+	display: block;
+	margin-top: -20px;
+}
+.tire_tabs_img{
+	border: 1px solid #e3e3e3;
+}
+.title_tire{
+	font-size: 14px;
+	line-height: 20px;
+	color: #4d4d4d;
+}
+.section_tabs .reviews .reviews__container{
+	padding: 25px;
+}
+.reviews_container_col_right{
+	margin-top: 0;
+	margin-left: 213px;
+}
+.reviews_container_col_left{
+	width: 186px;
+	margin-top: 6px;
+}
+	.reviews_container_col_right img{max-width: 100%;}
+.select_tire.options .options__block{
+	padding: 15px 25px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.reviews_container_col_right.options .options__item{
+	width: 50%;
+	float: left;
+	margin: 0 0 15px;
+	min-width: 270px;
+}
+.reviews_container_col_right.options .options__item:nth-child(even){
+	text-align: right;
+}
+.reviews_container_col_right .options__item strong{
+	width: 135px;
+	text-align: left;
+}
+.reviews_container_col_right.options .options__item select{
+	width: 130px;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+}
+.select_tire.options .btn_options{
+	width: 130px;
+	height: 24px;
+	position: static;
+	float: none;
+}
+.result_select{
+	color: #ff5c28;
+	font-size: 14px;
+	line-height: 24px;
+	padding-right: 20px;
+}
+.owl-item .item{
+	padding: 0 19px;
+}
+.owl_image{padding-left: 20px;}
+.owl_title_name{
+	color: #2fa4e7;
+	font-size: 13px;
+	font-weight: 500;
+}
+.owl_title_name-item{
+	font-size: 11px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.price_owl{color: #ff5c28;}
+.carousel_section .owl-pagination{display: none;}
+.owl-theme .owl-controls .owl-buttons .owl-prev{
+	background: url(../images/owl_prev.png) 0 0 no-repeat;
+	width: 24px;
+	height: 70px;
+	left: -41px;
+	position: absolute;
+	top: 68px;
+}
+.owl-theme .owl-controls .owl-buttons .owl-next{
+	background: url(../images/owl_next.png) 0 0 no-repeat;
+	width: 24px;
+	height: 70px;
+	right: -41px;
+	position: absolute;
+	top: 68px;
+}
+.owl-carousel{
+	margin: 0 66px;
+	width: auto;
+}
+.carousel_section{
+	padding: 25px 0;
+	border: 1px solid #e3e3e3;
+	-webkit-border-radius: 3px;
+	        border-radius: 3px;
+}
+.pt25{padding-top: 25px;}
+.vehickle .options .btn_options{
+	top: 1px;
+}
+.vehickle .options .options__item select{
+	margin-left: 20px;
+}
+.vehicle_div_img{width: 86.4%;}
+	.vehicle_div_img img{max-width: 100%;}
+.vehikle_span{
+	background: url(../images/play_google_2.jpg) 0 0 no-repeat;
+	height: 15px;
+	width: 18px;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+.vehikle_img{
+	border: 1px solid #000;
+}
+
+/*product photo box*/
+.product_photo_item{
+	border: 1px solid #e3e3e3;
+	margin-bottom: 10px;
+}
+	.product_photo_item_top{
+		padding: 20px 23px;
+		border-bottom: 1px solid #e3e3e3;
+	}
+	.product_photo_item_bottom{
+		padding: 13px 23px 3px;
+	}
+		.product_photo_name{
+			font-size: 14px;
+			line-height: 24px;
+			font-weight: 700;
+		}
+		.product_photo_item_top .make__vehicle-specs li:first-child{
+			color: #2fa4e7;
+		}
+		.product_photo_item_bottom a{
+			margin-right: 5px;
+		}
+		.select_btn{
+			width: 70px;
+			height: 50px;
+			border: 1px solid #2fa4e7;
+			background: none;
+			color: #2fa4e7;
+			font-size: 12px;
+			line-height: 14px;
+		}
+		.select_btn:hover{
+			border-color: #e3e3e3;
+			color: #e3e3e3;
+		}
+	.years_list{
+		margin-top: 35px;
+	}
+		.years_list_item{
+			float: left;
+			padding-right: 9px;
+		}
+			.years_list_item.current .years_list_link{
+				background-color: #c6e6f8;
+				border-color: #c2dff0;
+			}
+			.years_list_link{
+				width: 50px;
+				display: block;
+				text-align: center;
+				padding: 3px 0;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+
+/*all models1*/
+	.all_models1_list_item{
+		float: left;
+		padding-right: 40px;
+		font-size: 14px;
+		line-height: 18px;
+	}
+	.all_models1_box{
+		margin-left: -70px;
+		margin-top: 35px;
+	}
+		.all_models1_item{
+			width: 230px;
+			margin-left: 60px;
+			margin-bottom: 30px;
+			float: left;
+			padding: 10px;
+		}
+		.all_models1_item:hover{
+			-webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+			box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+			-webkit-transition: 0.2s linear;
+			-moz-transition: 0.2s linear;
+			-o-transition: 0.2s linear;
+			transition: 0.2s linear;
+		}
+			.all_models1_item figure{
+				padding-bottom: 10px;
+			}
+			.all_models1_name{
+				display: inline-block;
+				font-size: 14px;
+				line-height: 18px;
+				font-weight: 700;
+				padding-bottom: 5px;
+			}
+			.all_models1_price{
+				font-size: 14px;
+				line-height: 18px;
+				color: #ff5c28;
+				font-weight: 700;
+				padding-right: 5px;
+			}
+			.all_models1_old_price{
+				font-size: 12px;
+				line-height: 18px;
+				color: #aaaaaa;
+				text-decoration: line-through;
+			}
+	.make .make__vehicle-years .no_active a{
+		color: #cccccc;
+		text-decoration: none;
+	}
+	.make__vehicle-years .no_active a:hover{
+		color: #cccccc;
+		text-decoration: underline;
+	}
+
+@media only screen and (max-width: 1230px){
+	.reviews_container_col_right.options .options__item{width: 100%;}
+	.reviews_container_col_right.options .options__item:nth-child(even){text-align: left;}
+	.btn_box{float: left;}
+	.result_select{width: 134px;display: inline-block;padding: 0;}
+}
+
+@media only screen and (max-width: 1120px){
+	.options .btn_options{position: static;float: none;}
+	.options .options__item{margin-right: 15px;}
+}
+@media only screen and (max-width: 767px){
+	.options .options__item{display: block;margin-bottom: 10px;}
+	.options .options__item strong{width: 70px;}
+	.reviews_container_col_right .options__item strong{
+		width: 135px;
+	}
+	.options .btn_options{margin-left: 92px;}
+	.options .btn_box .btn_options{margin-left: 0;}
+	.reviews_container_col_left{float: none;width: auto;}
+	.reviews_container_col_right{margin-left: 0;}
+}
