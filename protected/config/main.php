@@ -62,6 +62,7 @@ return array(
 			'rules'=>array(	
 				'site/<action:\w+>'=>'site/<action>',
 				'ajax/<action:\w+>'=>'ajax/<action>',
+				'tires.html'=>'tires/index',
 				'0-60-times.html'=>'specs/060times',
 				'0-60-times/<alias:[a-z0-9-_]{1,255}>'=>'specs/060timesMake',
 				'0-60-times/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>'=>'specs/060timesModel',

@@ -12,16 +12,7 @@
 				</div>
 		</section>
 
-		<!-- banner -->
-			<br><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- autofiles_300x250 -->
-<ins class="adsbygoogle"
-     style="display:inline-block;width:300px;height:250px"
-     data-ad-client="ca-pub-3243264408777652"
-     data-ad-slot="9434056455"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => '300x250')); ?>
 		
 		<?php if (!empty($completionsTime)):?>
 		<section class="table-container">
@@ -111,19 +102,12 @@
 				</tr>
 			<?php endforeach;?>
 			</table>
-                </section>
+			</section>
+		<?php endif;?>		
 
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- autof580 -->
-<ins class="adsbygoogle"
-     style="display:inline-block;width:580px;height:400px"
-     data-ad-client="ca-pub-3243264408777652"
-     data-ad-slot="7653258858"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>            
+		
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
 
-		<?php endif;?>
 		
 		<?php if (!empty($completionsCarsWithSame060Time)):?>
 		<section class="table-container">

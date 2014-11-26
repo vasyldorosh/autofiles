@@ -6,17 +6,9 @@
 	
 		<section class="seo-text">
 			<h3>Discovering your car’s secrets!</h3>
-<div style="float:left;padding-right:10px;">
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- autofiles_336 -->
-<ins class="adsbygoogle"
-     style="display:inline-block;width:336px;height:280px"
-     data-ad-client="ca-pub-3243264408777652"
-     data-ad-slot="6215492054"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-</div>
+	
+
+			<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>
 			
                   <p>Autofiles.com will guide you through the wide range of cars in the world.</p>
 <p>The world’s auto market comprises more than 60 basic makes with hundreds of models and trims appearing every year. No wonder that sometimes it is quite difficult to select a vehicle meeting all your demands or find a specific detail fitting exactly into your car model. Autofiles.com will help you choose from the variety of options providing tools to compare different makes, models and trims by years, price or body style.</p>

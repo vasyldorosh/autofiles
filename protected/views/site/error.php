@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 ?>
 <div class='container'>
     <div style="text-align: center;padding-top: 2em">
-<h2>Ошибка <?php echo $code; ?></h2>
+<h2>Error <?php echo $code; ?></h2>
 
 <div class="error">
 <?php echo CHtml::encode($message); ?>

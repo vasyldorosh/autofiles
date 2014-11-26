@@ -103,6 +103,10 @@ class AutoModelYear extends CActiveRecord
 			$this->is_tires = empty($this->post_tires)?0:1;
 		}
 		
+		if (empty($this->chassis_id)) {
+			$this->chassis_id = null;
+		}
+		
 		return parent::beforeSave()	;
 	}
 	
@@ -950,9 +954,9 @@ class AutoModelYear extends CActiveRecord
 		return $data;
 	}		
 	
-	public function getPost_tires()
+	public function getPost_tires($is_post=true)
 	{
-		if (Yii::app()->request->isPostRequest) {
+		if (Yii::app()->request->isPostRequest && $is_post) {
 			return $this->post_tires;
 		} else {
 			if ($this->isNewRecord) {
@@ -961,6 +965,7 @@ class AutoModelYear extends CActiveRecord
 				
 				$criteria = new CDbCriteria;
 				$criteria->compare('model_year_id', $this->id);
+				$criteria->order = 'tire_id';
 				$items = AutoModelYearTire::model()->findAll($criteria);
 				$ids = array();
 				foreach ($items as $item) {
@@ -974,16 +979,24 @@ class AutoModelYear extends CActiveRecord
 	
 	public static function getListYears($model_id)
 	{
-		$key = Tags::TAG_MODEL_YEAR . '_getListYears__' . $model_id;
+		$key = Tags::TAG_MODEL_YEAR . '__getListYears___' . $model_id;
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data == false) {
+		if ($data == false || true) {
+			$data = array();
 			$criteria = new CDbCriteria;
 			$criteria->compare('model_id', $model_id);
 			$criteria->order = 'year DESC';
-			$data = CHtml::listData(AutoModelYear::model()->findAll($criteria), 'id', 'year');			
-	
-			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR));
+			$items = AutoModelYear::model()->findAll($criteria);
+			foreach ($items as $item) {
+				$data[] = array(
+					'id' => $item->id,
+					'year' => $item->year,
+					'tires' => $item->getPost_tires(false),
+				);
+			}
+		
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR, Tags::TAG_TIRE));
 		}
 		
 		return $data;

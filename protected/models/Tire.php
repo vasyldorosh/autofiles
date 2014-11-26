@@ -29,7 +29,7 @@ class Tire extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('vehicle_class_id', 'required'),
-			array('is_runflat, vehicle_class_id, section_width_id, aspect_ratio_id, rim_diameter_id, load_index_id', 'numerical', 'integerOnly' => true),
+			array('is_rear, rear_section_width_id, rear_aspect_ratio_id, rear_rim_diameter_id, is_runflat, vehicle_class_id, section_width_id, aspect_ratio_id, rim_diameter_id, load_index_id', 'numerical', 'integerOnly' => true),
 			array('id', 'safe', 'on' => 'search'),
 		);
 	}		
@@ -40,13 +40,17 @@ class Tire extends CActiveRecord
 	public function relations()
 	{
 		return array(
-            'AspectRatio' => array(self::BELONGS_TO, 'TireAspectRatio', 'aspect_ratio_id', 'together'=>true,), //value
-            'LoadIndex' => array(self::BELONGS_TO, 'TireLoadIndex', 'load_index_id', 'together'=>true,), //index
-            'RimDiameter' => array(self::BELONGS_TO, 'TireRimDiameter', 'rim_diameter_id', 'together'=>true,), //value        
             'SectionWidth' => array(self::BELONGS_TO, 'TireSectionWidth', 'section_width_id', 'together'=>true,), //value
+            'AspectRatio' => array(self::BELONGS_TO, 'TireAspectRatio', 'aspect_ratio_id', 'together'=>true,), //value
+            'RimDiameter' => array(self::BELONGS_TO, 'TireRimDiameter', 'rim_diameter_id', 'together'=>true,), //value        
+            'LoadIndex' => array(self::BELONGS_TO, 'TireLoadIndex', 'load_index_id', 'together'=>true,), //index
             'Type' => array(self::BELONGS_TO, 'TireType', 'type_id', 'together'=>true,), //value
 			'VehicleClass' => array(self::BELONGS_TO, 'TireVehicleClass', 'vehicle_class_id', 'together'=>true,), //title
-        );
+            'RearSectionWidth' => array(self::BELONGS_TO, 'TireSectionWidth', 'rear_section_width_id', 'together'=>true,), //value
+            'RearAspectRatio' => array(self::BELONGS_TO, 'TireAspectRatio', 'rear_aspect_ratio_id', 'together'=>true,), //value
+            'RearRimDiameter' => array(self::BELONGS_TO, 'TireRimDiameter', 'rear_rim_diameter_id', 'together'=>true,), //value        
+
+		);
 	}	
 	
 	public function beforeSave()
@@ -55,6 +59,12 @@ class Tire extends CActiveRecord
 			if (empty($this->$attribute)) {
 				$this->$attribute = null;
 			}
+		}
+		
+		if (!$this->is_rear) {
+			$this->rear_section_width_id = null;
+			$this->rear_aspect_ratio_id = null;
+			$this->rear_rim_diameter_id = null;
 		}
 		
 		return parent::beforeSave();
@@ -90,6 +100,10 @@ class Tire extends CActiveRecord
 			'rim_diameter_id' => 'Rim Diameter',
 			'load_index_id' => 'Load Index',
 			'is_runflat' => 'Runflat',
+			'is_rear' => 'Is rear',
+			'rear_section_width_id' => 'Rear Section Width',
+			'rear_aspect_ratio_id' => 'Rear Aspect Ratio',
+			'rear_rim_diameter_id' => 'Rear Rim Diameter',			
 		);
 	}
 	
@@ -111,7 +125,21 @@ class Tire extends CActiveRecord
 		$criteria->compare('t.rim_diameter_id',$this->rim_diameter_id);
 		$criteria->compare('t.load_index_id',$this->load_index_id);
 		$criteria->compare('t.is_runflat',$this->is_runflat);	
-		$criteria->with = array('VehicleClass', 'SectionWidth', 'AspectRatio', 'RimDiameter', 'LoadIndex');	
+		$criteria->compare('t.is_rear',$this->is_rear);	
+		$criteria->compare('t.rear_section_width_id',$this->rear_section_width_id);
+		$criteria->compare('t.rear_aspect_ratio_id',$this->rear_aspect_ratio_id);
+		$criteria->compare('t.rear_rim_diameter_id',$this->rear_rim_diameter_id);
+		
+		$criteria->with = array(
+			'VehicleClass', 
+			'SectionWidth', 
+			'AspectRatio', 
+			'RimDiameter', 
+			'LoadIndex',
+			'RearRimDiameter',
+			'RearAspectRatio',
+			'RearSectionWidth',
+		);	
 		
 		$sort = array(
 			'vehicle_class_id' => 'VehicleClass.code',
@@ -124,6 +152,12 @@ class Tire extends CActiveRecord
 			'rim_diameter_id.desc' => 'RimDiameter.value DESC',
 			'load_index_id' => 'LoadIndex.index',
 			'load_index_id.desc' => 'LoadIndex.index DESC',
+			'rear_section_width_id' => 'RearSectionWidth.value',
+			'rear_section_width_id.desc' => 'RearSectionWidth.value DESC',
+			'rear_aspect_ratio_id' => 'RearAspectRatio.value',
+			'rear_aspect_ratio_id.desc' => 'RearAspectRatio.value DESC',			
+			'rear_rim_diameter_id' => 'RearRimDiameter.value',
+			'rear_rim_diameter_id.desc' => 'RearRimDiameter.value DESC',		
 		);
 		
 		if (isset($_GET['Tire_sort']) && isset($sort[$_GET['Tire_sort']])) {
@@ -140,18 +174,23 @@ class Tire extends CActiveRecord
 	
 	public function getList()
 	{
-		$key = Tags::TAG_TIRE . '_getList_';
+		$key = Tags::TAG_TIRE . '_getList';
 		$data = Yii::app()->cache->get($key);
 		if ($data === false) {
 			$data = array();
 			
 			$criteria=new CDbCriteria;
-			$criteria->with = array('SectionWidth', 'AspectRatio', 'RimDiameter');			
+			$criteria->with = array('SectionWidth', 'AspectRatio', 'RimDiameter', 'RearSectionWidth', 'RearAspectRatio', 'RearRimDiameter');			
 			$criteria->order = 'SectionWidth.value, AspectRatio.value, RimDiameter.value';			
 			$items = Tire::model()->findAll($criteria);
 			foreach ($items as $item) {
 				if (!empty($item->SectionWidth) && !empty($item->AspectRatio) && !empty($item->RimDiameter)) {
-					$data[$item->id] = $item->SectionWidth->value . '/' . $item->AspectRatio->value . ' R' . $item->RimDiameter->value;
+					$value = $item->SectionWidth->value . '/' . $item->AspectRatio->value . ' R' . $item->RimDiameter->value;
+					if ($item->is_rear) {
+						$value .= ' ' .$item->RearSectionWidth->value . '/' . $item->RearAspectRatio->value . ' R' . $item->RearRimDiameter->value;
+					}
+					
+					$data[$item->id] = $value;
 				}
 			}
 			

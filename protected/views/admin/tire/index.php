@@ -62,7 +62,28 @@
 					'name'=>'load_index_id',
 					'value'=>'!empty($data->LoadIndex)?$data->LoadIndex->index:"-"',
 					'filter' => CHtml::listData(TireLoadIndex::getAll(), 'id', 'index'),				
+				),	
+				array(
+					'value'=>'$data->is_rear?"Yes":"No"',
+					'name' => 'is_rear',
+					'filter' => HtmlHelper::getYesNoFilter(),				
+				),	
+				array(
+					'name'=>'rear_section_width_id',
+					'value'=>'!empty($data->RearSectionWidth)?$data->RearSectionWidth->value:"-"',
+					'filter' => CHtml::listData(TireSectionWidth::getAll(), 'id', 'value'),				
 				),			
+				array(
+					'name'=>'rear_aspect_ratio_id',
+					'value'=>'!empty($data->RearAspectRatio)?$data->RearAspectRatio->value:"-"',
+					'filter' => CHtml::listData(TireAspectRatio::getAll(), 'id', 'value'),				
+				),			
+				array(
+					'name'=>'rear_rim_diameter_id',
+					'value'=>'!empty($data->RearRimDiameter)?$data->RearRimDiameter->value:"-"',
+					'filter' => CHtml::listData(TireRimDiameter::getAll(), 'id', 'value'),				
+				),
+				
 				array(
 					'name'=>'is_runflat',
 					'value'=>'$data->is_runflat?"runflat":"non-runflat"',

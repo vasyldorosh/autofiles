@@ -28,15 +28,10 @@
 
 <nav>
 	<ul class="menu-list">
-		<li class="is-active"><a href="/">Home</a></li>
-		<!--
-		<li><a href="#">All cars</a></li>
-		<li><a href="#">Cars specs</a></li>
-		<li><a href="#">Store</a></li>
-		<li><a href="#">Tires</a></li>
-		<li><a href="#">Media</a></li>
-		-->
-
+	<?php $uri = Yii::app()->request->requestUri;?>
+		<li <?=($uri=='/')?'class="is-active"':''?>><a href="/">Home</a></li>
+		<li <?=($uri=='/0-60-times.html')?'class="is-active"':''?>><a href="/0-60-times.html">0-60 times</a></li>
+		<li <?=($uri=='/tire-size.html')?'class="is-active"':''?>><a href="/tire-size.html">Tire size</a></li>
 	</ul>
 </nav>
 
