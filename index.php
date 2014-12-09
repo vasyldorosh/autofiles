@@ -12,7 +12,7 @@ defined('YII_DEBUG') or define('YII_DEBUG',true);
 //defined('YII_DEBUG') or define('YII_DEBUG',false);
 defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
 //show profiler
-defined('YII_DEBUG_SHOW_PROFILER') or define('YII_DEBUG_SHOW_PROFILER',true);
+defined('YII_DEBUG_SHOW_PROFILER') or define('YII_DEBUG_SHOW_PROFILER',0);
 //enable profiling
 defined('YII_DEBUG_PROFILING') or define('YII_DEBUG_PROFILING',true);
 //execution time
