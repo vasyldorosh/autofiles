@@ -15,7 +15,7 @@
 							<span>Rim Diameter</span>
 						</td>
 						<td class="spec-value">
-							<?=$tire['rim_diameter']?>"
+							<a href="/tires/r<?=$tire['rim_diameter']?>.html"><?=$tire['rim_diameter']?>"</a>
 						</td>
 					</tr>
 
@@ -34,7 +34,7 @@
 					<?php $overallDiameter = Tire::diameter($tire);?>
 					<tr>
 						<td>
-							<span>Overall Daiameter</span>
+							<span>Overall Diameter</span>
 						</td>
 						<td class="spec-value">
 							<?=$overallDiameter?>"
