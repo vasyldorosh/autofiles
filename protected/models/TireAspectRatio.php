@@ -98,4 +98,47 @@ class TireAspectRatio extends CActiveRecord
 		return $data;
 	}	
 	
+	public static function getList()
+	{
+		return CHtml::listData(self::getAll(), 'id', 'value');
+	}	
+	
+	public static function getListFront($attributes=array())
+	{
+		$key = Tags::TAG_TIRE_ASPECT_RATIO . '__getListFront__' . serialize($attributes);
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			$data = array();
+			
+			$where = array();
+			foreach ($attributes as $k=>$v) {
+				$where[] = "$k = '$v'";
+			}
+			if (!empty($where)) {
+				$where = 'WHERE ' . implode(' AND ', $where);
+			} else {
+				$where = '';
+			}
+			
+			$items = Yii::app()->db->createCommand("SELECT DISTINCT aspect_ratio_id FROM tire $where")->queryAll();
+			$ids = array();
+			foreach ($items as $item) {
+				$ids[] = $item['aspect_ratio_id'];
+			}
+			
+			if (!empty($ids)) {
+				$items = Yii::app()->db->createCommand("SELECT 	id, value FROM tire_aspect_ratio WHERE id IN (".implode(',', $ids).") ORDER BY value")->queryAll();
+				foreach ($items as $item) {
+					$data[$item['id']] = $item['value'];
+				}							
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE_ASPECT_RATIO, Tags::TAG_TIRE));
+		}
+		
+		return $data;			
+	}	
+		
+	
+	
 }

@@ -16,6 +16,7 @@ class Tags implements ICacheDependency {
 	const TAG_TIRE_SECTION_WIDTH = 'TAG_TIRE_SECTION_WIDTH';
 	const TAG_TIRE_SPEED_INDEX = 'TAG_TIRE_SPEED_INDEX';
 	const TAG_TIRE_VEHICLE_CLASS = 'TAG_TIRE_VEHICLE_CLASS';
+	const TAG_TIRE_RIM_WIDTH = 'TAG_TIRE_RIM_WIDTH';
 	
 	protected $timestamp;
 	protected $tags;

@@ -200,4 +200,387 @@ class Tire extends CActiveRecord
 		return $data;
 	}
 	
+	public static function getCount($attributes=array())
+	{
+		$criteria=new CDbCriteria;
+		foreach ($attributes as $k=>$v)
+			$criteria->compare($k, $v);
+		
+		return self::model()->count($criteria);
+	}
+	
+	public static function format($attributes, $vehicle_class=true) 
+	{
+		$tire = $attributes['section_width'] . '/' . $attributes['aspect_ratio'] . ' R' . $attributes['rim_diameter'];
+		if ($vehicle_class)
+			$tire = $attributes['vehicle_class'] . ' ' . $tire;
+			
+		return $tire;
+	}
+	
+	public static function diameter($attributes) 
+	{
+		return round(($attributes['section_width'] * $attributes['aspect_ratio'] / 2540 * 2) + $attributes['rim_diameter'], 2);
+	}
+	
+	public static function sidewallHeight($attributes) 
+	{
+		return round(($attributes['section_width'] * $attributes['aspect_ratio'] / 100 / 25.4), 2);
+	}
+	
+	public static function circumference($overallDiameter) 
+	{
+		return round(($overallDiameter * 3.1415 ), 2);
+	}
+	
+	public static function revsPerMile($circumference) 
+	{
+		return round((63.36 / $circumference), 2);
+	}
+	
+	public static function url($attributes, $onlyAttr=false) 
+	{
+		$url = $attributes['vehicle_class'] . '-' . $attributes['section_width'].'-'.$attributes['aspect_ratio'].'r'.$attributes['rim_diameter'].'.html';
+		if (!$onlyAttr) {
+			$url = '/tires/' . $url;
+		}
+		
+		return $url; 
+	}
+	
+	public static function getItemsByRimDiameterNonRunflat($rim_diameter_id)
+	{
+		$rim_diameter_id = (int) $rim_diameter_id;
+		
+		$key = Tags::TAG_TIRE . '_getItemsByRimDiameter_'.$rim_diameter_id;
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			$data = array();
+
+				$sql = "SELECT 
+							vc.code AS vehicle_class, 
+							rd.value AS rim_diameter, 
+							sw.value AS section_width, 
+							ar.value AS aspect_ratio
+						FROM tire AS t
+						LEFT JOIN tire_vehicle_class AS vc ON t.vehicle_class_id = vc.id
+						LEFT JOIN tire_rim_diameter AS rd ON t.rim_diameter_id = rd.id
+						LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
+						LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
+						WHERE rd.id = {$rim_diameter_id} AND t.is_runflat = 0
+				";
+		
+			$items = Yii::app()->db->createCommand($sql)->queryAll();
+			foreach ($items as $item) {
+				$data[] = array(
+					'vehicle_class' => $item['vehicle_class'],
+					'rim_diameter' => $item['rim_diameter'],
+					'section_width' => $item['section_width'],
+					'aspect_ratio' => $item['aspect_ratio'],
+				);
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_TIRE_SECTION_WIDTH, Tags::TAG_TIRE_ASPECT_RATIO, Tags::TAG_TIRE_RIM_DIAMETER));
+		}	
+		
+		return $data;	
+	}	
+	
+	public static function getItemsByAttributes($attributes)
+	{
+		$key = Tags::TAG_TIRE . '_getItemByAttributes_'.serialize($attributes);
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			$data = array();
+			
+			$where = '';
+			foreach ($attributes as $k=>$v) {
+				$where[] = "$k = '$v'";
+			}	
+			if (!empty($where)) {
+				$where = implode(' AND ', $where);
+			}
+			
+			$sql = "SELECT 
+							t.id AS id, 
+							rd.value AS rim_diameter, 
+							sw.value AS section_width, 
+							vc.code AS vehicle_class, 
+							ar.value AS aspect_ratio
+						FROM tire AS t
+						LEFT JOIN tire_vehicle_class AS vc ON t.vehicle_class_id = vc.id
+						LEFT JOIN tire_rim_diameter AS rd ON t.rim_diameter_id = rd.id
+						LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
+						LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
+						WHERE $where
+			";
+			
+			$data = Yii::app()->db->createCommand($sql)->queryAll();
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_TIRE_SECTION_WIDTH, Tags::TAG_TIRE_ASPECT_RATIO, Tags::TAG_TIRE_RIM_DIAMETER));
+		}	
+		
+		return $data;	
+	}	
+	
+	public static function getSimilarSizes($tire)
+	{
+		$key = Tags::TAG_TIRE . '__getSimilarSizes__' . serialize($tire);
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			$data = array();
+			$sectionWidth 	 = $tire['section_width'];
+			$rimDiameter 	 = $tire['rim_diameter'];
+			$sectionWidthMin = $sectionWidth-30;
+			$sectionWidthMax = $sectionWidth+30;
+			
+			$overallDiameter = self::diameter($tire);
+			$limitPercent	 = 3;
+			
+			$sql = "SELECT 
+							t.id AS id, 
+							rd.value AS rim_diameter, 
+							sw.value AS section_width, 
+							vc.code AS vehicle_class, 
+							ar.value AS aspect_ratio,
+						   ((sw.value*ar.value/2540*2)+rd.value) AS overallDiameter,
+						   ROUND((100-(((sw.value*ar.value/2540*2)+rd.value)/$overallDiameter * 100))*(-1), 2) as percent
+						FROM tire AS t
+						LEFT JOIN tire_vehicle_class AS vc ON t.vehicle_class_id = vc.id
+						LEFT JOIN tire_rim_diameter AS rd ON t.rim_diameter_id = rd.id
+						LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
+						LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
+						WHERE rd.value=$rimDiameter AND sw.value >= $sectionWidthMin
+						HAVING overallDiameter <= $overallDiameter AND percent >= -$limitPercent
+						ORDER BY percent ASC
+						LIMIT 5
+			";
+			
+			$dataMin = Yii::app()->db->createCommand($sql)->queryAll();
+			
+			$sql = "SELECT 
+								t.id AS id, 
+								rd.value AS rim_diameter, 
+								sw.value AS section_width, 
+								vc.code AS vehicle_class, 
+								ar.value AS aspect_ratio,
+							   ((sw.value*ar.value/2540*2)+rd.value) AS overallDiameter,
+							   ROUND((100-($overallDiameter/((sw.value*ar.value/2540*2)+rd.value) * 100)), 2) as percent
+							FROM tire AS t
+							LEFT JOIN tire_vehicle_class AS vc ON t.vehicle_class_id = vc.id
+							LEFT JOIN tire_rim_diameter AS rd ON t.rim_diameter_id = rd.id
+							LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
+							LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
+							WHERE rd.value=$rimDiameter AND sw.value <= $sectionWidthMax
+							HAVING overallDiameter >= $overallDiameter AND percent <= $limitPercent
+							ORDER BY percent ASC
+							LIMIT 10
+				";
+
+			$dataMax = Yii::app()->db->createCommand($sql)->queryAll();
+			$data = array_merge($dataMin, $dataMax);
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_TIRE_SECTION_WIDTH, Tags::TAG_TIRE_ASPECT_RATIO, Tags::TAG_TIRE_RIM_DIAMETER));
+		}	
+		
+		return $data;	
+	}	
+	
+	public static function getMakeModelsByTireIds($ids)
+	{
+		$key = Tags::TAG_TIRE . '__getMakeModelsByTireIds_'.serialize($ids);
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			$data = array();
+			
+			if (!empty($ids)) {	
+				
+				//select model year ids
+				$items = Yii::app()->db->createCommand("SELECT DISTINCT model_year_id FROM auto_model_year_tire WHERE tire_id IN(".implode(',', $ids).")")->queryAll();
+				if (!empty($items)) {
+					$modelYearIds = array();
+					foreach ($items as $item) {
+						$modelYearIds[] = $item['model_year_id'];
+					}
+					
+					//select model ids
+					if (!empty($modelYearIds)) {
+						$items = Yii::app()->db->createCommand("SELECT DISTINCT model_id FROM auto_model_year WHERE id IN(".implode(',', $modelYearIds).")")->queryAll();
+						$modelIds = array();
+						if (!empty($items)) {
+							foreach ($items as $item) {
+								$modelIds[] = $item['model_id'];
+							}	
+							
+							//select model with make
+							if (!empty($modelIds)) {
+								$sql = "SELECT 
+											m.id AS model_id, 
+											m.alias AS model_alias, 
+											m.title AS model_title, 
+											make.id AS make_id, 
+											make.alias AS make_alias, 
+											make.title AS make_title, 
+											make.image_ext AS make_image_ext
+										FROM auto_model AS m
+										LEFT JOIN auto_make AS make ON m.make_id = make.id
+										WHERE 
+											m.id IN(".implode(',', $modelIds).") AND
+											make.is_active = 1 AND
+											m.is_active = 1 
+										";
+								$items = Yii::app()->db->createCommand($sql)->queryAll();	
+								foreach ($items as $item){
+									$modelAttr = array(
+										'id' => $item['model_id'],
+										'alias' => $item['model_alias'],
+										'title' => $item['model_title'],
+									);
+								
+									if (!isset($data[$item['make_id']])) {
+										$data[$item['make_id']] = array(
+											'id' => $item['make_id'],
+											'title' => $item['make_title'],
+											'alias' => $item['make_alias'],	
+											'image' => AutoMake::image(array(
+												'ext' => $item['make_image_ext'],
+												'width' => 150,
+												'height' => 80,
+												'mode' => 'resize',
+												'id' => $item['make_id'],
+											)),											
+										);
+									}
+									
+									$data[$item['make_id']]['models'][] = $modelAttr;
+								}
+							}	
+						}
+					}					
+				}
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_TIRE_VEHICLE_CLASS, Tags::TAG_TIRE_SECTION_WIDTH, Tags::TAG_TIRE_ASPECT_RATIO, Tags::TAG_TIRE_RIM_DIAMETER));
+		}	
+		
+		return $data;	
+	}	
+	
+	public static function getModelYearsByMakeTireIds($make_id, $ids)
+	{
+		$key = Tags::TAG_TIRE . '_getModelYearsByMakeTireIds_'. $make_id . '_' . serialize($ids);
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			$data = array();
+			
+			if (!empty($ids)) {	
+				
+				//select model year ids
+				$items = Yii::app()->db->createCommand("SELECT DISTINCT model_year_id FROM auto_model_year_tire WHERE tire_id IN(".implode(',', $ids).")")->queryAll();
+				if (!empty($items)) {
+					$modelYearIds = array();
+					foreach ($items as $item) {
+						$modelYearIds[] = $item['model_year_id'];
+					}
+					
+					//select model ids
+
+					if (!empty($modelYearIds)) {
+								$sql = "SELECT 
+											m.id AS model_id, 
+											m.alias AS model_alias, 
+											m.title AS model_title, 
+											y.id AS year_id, 
+											y.year AS year
+										FROM auto_model_year AS y
+										LEFT JOIN auto_model AS m ON y.model_id = m.id
+										WHERE 
+											y.id IN(".implode(',', $modelYearIds).") AND
+											y.is_active = 1  AND 
+											m.make_id = $make_id AND
+											m.is_active = 1 
+											
+										";
+								$items = Yii::app()->db->createCommand($sql)->queryAll();	
+								foreach ($items as $item){
+								
+									if (!isset($data[$item['model_id']])) {
+										$lastYear = AutoModel::getLastYear($item['model_id']);
+									
+										$data[$item['model_id']] = array(
+											'id' => $item['model_id'],
+											'title' => $item['model_title'],
+											'alias' => $item['model_alias'],											
+											'photo' => $lastYear['photo'],											
+										);
+									}
+									
+									$data[$item['model_id']]['years'][$item['year_id']] = $item['year'];
+								}
+					}					
+				}
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_TIRE_VEHICLE_CLASS, Tags::TAG_TIRE_SECTION_WIDTH, Tags::TAG_TIRE_ASPECT_RATIO, Tags::TAG_TIRE_RIM_DIAMETER));
+		}	
+		
+		return $data;	
+	}	
+	
+	public static function getAutoModelsByTire($tire_id)
+	{
+		$tire_id = (int) $tire_id;
+		
+		$key = Tags::TAG_TIRE . '_getAutoModelsByTire_' . $tire_id;
+		$data = Yii::app()->cache->get($key);
+		if ($data == false) {
+			$data = array();
+			
+			$sql 	= "SELRCT model_year_id FROM auto_model_year_tire WHERE tire_id = {$tire_id}";
+			$items 	= Yii::app()->db->createCommand($sql)->queryAll();
+			$modelYearIds = array();
+			foreach ($items as $item) {
+				$modelYearIds[] = $item['model_year_id'];
+			}
+			
+			if (!empty($modelYearIds)) {
+			
+				$sql = "SELECT 
+								y.id AS year_id, 
+								y.year AS year, 
+								model.id AS model_id, 
+								model.alias AS model_alias, 
+								model.title AS model, 
+								make.id AS make_id, 
+								make.title AS make_title, 
+								make.alias AS make_alias
+								make.image_ext AS make_image_ext
+							FROM auto_model_year AS y
+							LEFT JOIN auto_model AS model ON y.model_id = model.id
+							LEFT JOIN auto_make AS make ON model.make_id = make.id
+							WHERE y.id IN(".implode(',', $modelYearIds).")
+				";
+		
+				$items = Yii::app()->db->createCommand($sql)->queryAll();
+				
+				foreach ($items as $item) {
+					$row = $item;
+					$row['make_image'] = AutoMake::image(array(
+						'ext' => $item['make_image_ext'],
+						'id' => $item['make_id'],
+						'width' => 150,
+						'height' => 80,
+						'mode' => 'resize',
+					));
+					
+					$data[] = $row;
+				}
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_TIRE_SECTION_WIDTH, Tags::TAG_TIRE_ASPECT_RATIO, Tags::TAG_TIRE_RIM_DIAMETER));
+		}	
+		
+		return $data;	
+	}	
+	
 }

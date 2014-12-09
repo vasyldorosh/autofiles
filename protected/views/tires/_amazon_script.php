@@ -1,0 +1,3 @@
+<?php if ($_SERVER['SERVER_NAME'] != 'auto.loc'):?>
+	<SCRIPT charset="utf-8" type="text/javascript" src="http://ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fauto034-20%2F8005%2Fae844525-e587-44f7-abc1-3427d05933dd"> </SCRIPT> <NOSCRIPT><A rel="nofollow" HREF="http://ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fauto034-20%2F8005%2Fae844525-e587-44f7-abc1-3427d05933dd&Operation=NoScript">Amazon.com Widgets</A></NOSCRIPT>
+	<?php endif;?>

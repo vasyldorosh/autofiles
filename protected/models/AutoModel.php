@@ -300,15 +300,15 @@ class AutoModel extends CActiveRecord
 					'photo' => $item->getThumb(150, null, 'resize'),
 				);
 			
-			Yii::app()->cache->set($key, $data, 60*60*24*31, new Tags(Tags::TAG_MODEL_YEAR));
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR));
 		}
 
 		return $data;	
 	}	
 
-	public static function getYears($model_id)
+	public static function getYears($model_id, $onlyIds=false)
 	{
-		$key = Tags::TAG_MODEL_YEAR . '__YEARS__'.$model_id;
+		$key = Tags::TAG_MODEL_YEAR . '_getYears_'.$model_id;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data == false) {
@@ -322,16 +322,24 @@ class AutoModel extends CActiveRecord
 			
 			$modelByYears = AutoModelYear::model()->findAll($criteria);			
 			foreach ($modelByYears as $item) {
-				$data[] = array(
+				$data[$item->id] = array(
 					'id' => $item->id,
 					'year' => $item->year,
 					'photo' => $item->getThumb(150, null, 'resize'),
 				);			
 			}
 			
-			Yii::app()->cache->set($key, $data, 60*60*24*31, new Tags(Tags::TAG_MODEL_YEAR));
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR));
 		}
-
+		
+		if ($onlyIds) {
+			$ids = array();
+			foreach ($data as $item) {
+				$ids[] = $item['id'];
+			}
+			return $ids;
+		}
+		
 		return $data;	
 	}	
 	
@@ -364,7 +372,7 @@ class AutoModel extends CActiveRecord
 				);
 			}
 			
-			Yii::app()->cache->set($key, $model, 60*60*24*31, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL));
+			Yii::app()->cache->set($key, $model, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL));
 		}	
 		
 		return $model;
@@ -491,9 +499,87 @@ class AutoModel extends CActiveRecord
 				$data[$item['alias']] = $item['title'];
 			}			
 
-			Yii::app()->cache->set($key, $data, 60*60*24*31, new Tags(Tags::TAG_MODEL));
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL));
 		}	
 		
 		return $data;
-	}		
+	}	
+
+	public static function getMinMaxTireSize($model_id)
+	{
+		$model_id = (int) $model_id;
+		$key = Tags::TAG_MODEL . 'getMinMaxTireSize'.$model_id;
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			$data = array();
+			$ids = self::getYears($model_id, true);
+			$tireIds = array();
+			if (!empty($ids)) {
+				$sql = "SELECT DISTINCT tire_id FROM auto_model_year_tire WHERE model_year_id IN(".implode(',', $ids).")";
+				$items = Yii::app()->db->createCommand($sql)->queryAll();
+				foreach ($items as $item) {
+					$tireIds[] = $item['tire_id'];
+				}
+			}
+			
+			if (!empty($tireIds)) {
+				$data['min'] = self::_getTireRange($tireIds, 'ASC');
+				$data['max'] = self::_getTireRange($tireIds, 'DESC');
+			}
+				
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_TIRE_ASPECT_RATIO, Tags::TAG_TIRE_RIM_DIAMETER, Tags::TAG_TIRE_SECTION_WIDTH));
+		}	
+		
+		return $data;
+	}
+	
+	private static function _getTireRange($tireIds, $dir)
+	{
+		$sql = "SELECT 
+							vc.code AS vehicle_class, 
+							rd.value AS rim_diameter, 
+							sw.value AS section_width, 
+							ar.value AS aspect_ratio
+						FROM tire AS t
+						LEFT JOIN tire_vehicle_class AS vc ON t.vehicle_class_id = vc.id
+						LEFT JOIN tire_rim_diameter AS rd ON t.rim_diameter_id = rd.id
+						LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
+						LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
+						WHERE t.id IN (".implode(',', $tireIds).")
+						ORDER BY rim_diameter {$dir}, section_width {$dir}, aspect_ratio {$dir} 
+		";
+		
+		$row = Yii::app()->db->createCommand($sql)->queryRow();	
+		if (!empty($row)) {
+			return Tire::format($row);
+		}
+	}
+	
+	public static function getMinMaxTireSizeYear($model_year_id)
+	{
+		$model_year_id = (int) $model_year_id;
+		$key = Tags::TAG_MODEL_YEAR . '_getMinMaxTireSizeYear_'.$model_year_id;
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			$data = array();
+			
+			$tireIds = array();
+			$sql = "SELECT tire_id FROM auto_model_year_tire WHERE model_year_id = {$model_year_id}";
+			$items = Yii::app()->db->createCommand($sql)->queryAll();
+			foreach ($items as $item) {
+				$tireIds[] = $item['tire_id'];
+			}
+			
+			if (!empty($tireIds)) {
+				$data['min'] = self::_getTireRange($tireIds, 'ASC');
+				$data['max'] = self::_getTireRange($tireIds, 'DESC');
+			}
+				
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_TIRE_ASPECT_RATIO, Tags::TAG_TIRE_RIM_DIAMETER, Tags::TAG_TIRE_SECTION_WIDTH));
+		}	
+		
+		return $data;
+	}	
+	
+
 }

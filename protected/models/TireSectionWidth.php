@@ -90,12 +90,55 @@ class TireSectionWidth extends CActiveRecord
 	{
 		$key = Tags::TAG_TIRE_SECTION_WIDTH . '_getAll__';
 		$data = Yii::app()->cache->get($key);
-		if (empty($data)) {
+		if ($data === false) {
 			$data = (array)self::model()->findAll(array('order'=>'rank, value'));
 			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE_SECTION_WIDTH));
 		}
 		
 		return $data;
 	}	
+	
+	public static function getList()
+	{
+		return CHtml::listData(self::getAll(), 'id', 'value');
+	}	
+	
+	public static function getListFront($attributes=array())
+	{
+		$key = Tags::TAG_TIRE_SECTION_WIDTH . '__getListFront__' . serialize($attributes);
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			$data = array();
+			
+			$where = array();
+			foreach ($attributes as $k=>$v) {
+				$where[] = "$k = '$v'";
+			}
+			if (!empty($where)) {
+				$where = 'WHERE ' . implode(' AND ', $where);
+			} else {
+				$where = '';
+			}
+			
+			$items = Yii::app()->db->createCommand("SELECT DISTINCT section_width_id FROM tire $where")->queryAll();
+			$ids = array();
+			foreach ($items as $item) {
+				$ids[] = $item['section_width_id'];
+			}
+			
+			if (!empty($ids)) {
+				$items = Yii::app()->db->createCommand("SELECT 	id, value FROM tire_section_width WHERE id IN (".implode(',', $ids).") ORDER BY value")->queryAll();
+				foreach ($items as $item) {
+					$data[$item['id']] = $item['value'];
+				}							
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE_SECTION_WIDTH, Tags::TAG_TIRE));
+		}
+		
+		return $data;			
+	}	
+	
+	
 	
 }

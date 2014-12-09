@@ -31,7 +31,7 @@
 	<?php $uri = Yii::app()->request->requestUri;?>
 		<li <?=($uri=='/')?'class="is-active"':''?>><a href="/">Home</a></li>
 		<li <?=($uri=='/0-60-times.html')?'class="is-active"':''?>><a href="/0-60-times.html">0-60 times</a></li>
-		<li <?=($uri=='/tire-size.html')?'class="is-active"':''?>><a href="/tire-size.html">Tire size</a></li>
+		<li <?=($uri=='/tires.html')?'class="is-active"':''?>><a href="/tires.html">Tire size</a></li>
 	</ul>
 </nav>
 

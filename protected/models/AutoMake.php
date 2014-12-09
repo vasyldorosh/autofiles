@@ -111,18 +111,35 @@ class AutoMake extends CActiveRecord
 	
 	public function getThumb($width=null, $height=null, $mode='origin')
 	{
-		$dir = $this->getImage_directory();
-		$originFile = $dir . 'origin.' . $this->image_ext;
+		return self::image(array(
+			'ext' => $this-image_ext,
+			'id' => $this->id,
+			'width' => $width,
+			'height' => $height,
+			'mode' => $mode,
+		));
+	}	
+
+	public static function image($attributes)
+	{
+		$ext = $attributes['ext'];
+		$id = $attributes['id'];
+		$width = isset($attributes['width'])?$attributes['width']:null;
+		$height = isset($attributes['height'])?$attributes['height']:null;
+		$mode = isset($attributes['mode'])?$attributes['mode']:'origin';
+
+		$dir = self::model()->getImage_directory(false, $id);
+		$originFile = $dir . 'origin.' . $ext;
 		
-		if (empty($this->image_ext) || !is_file($originFile)) {
+		if (empty($ext) || !is_file($originFile)) {
 			return "http://www.placehold.it/{$width}x{$height}/EFEFEF/AAAAAA";
 		}
 	
 		if ($mode == 'origin') {
-			return '/photos/make/'.$this->id.'/origin.'. $this->image_ext;
+			return '/photos/make/'.$id.'/origin.'. $ext;
 		}
 	
-		$fileName = $mode . '_w' . $width . '_h' . $height . '.' . $this->image_ext;
+		$fileName = $mode . '_w' . $width . '_h' . $height . '.' . $ext;
 		$filePath = $dir . $fileName;
 		if (!is_file($filePath)) {
 			if ($mode == 'resize') {
@@ -136,11 +153,13 @@ class AutoMake extends CActiveRecord
 			}
 		}
 		
-		return '/photos/make/'. $this->id . '/'. $fileName;
+		return '/photos/make/'. $id . '/'. $fileName;
 	}	
 
-    public function getImage_directory($mkdir=false) {
-		$directory = Yii::app()->basePath . '/../photos/make/' . $this->id . '/';
+    public function getImage_directory($mkdir=false, $id=null) {
+		$id = (empty($id))?$this->id:$id;
+	
+		$directory = Yii::app()->basePath . '/../photos/make/' . $id . '/';
         if (!$mkdir) {
 			return $directory;
 		
@@ -283,7 +302,7 @@ class AutoMake extends CActiveRecord
 				$dataModels[] = $row;
 			}
 			
-			Yii::app()->cache->set($key, $dataModels, 60*60*24*31, new Tags(Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+			Yii::app()->cache->set($key, $dataModels, 0, new Tags(Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
 		}
 		
 		return $dataModels;
@@ -291,7 +310,7 @@ class AutoMake extends CActiveRecord
 	
 	public static function getMakeByAlias($alias)
 	{
-		$key = Tags::TAG_MAKE . '__ITEM__'.$alias;
+		$key = Tags::TAG_MAKE . '_ITEM_'.$alias;
 		$make = Yii::app()->cache->get($key);
 		if ($make == false) {
 			$make = array();
@@ -309,10 +328,11 @@ class AutoMake extends CActiveRecord
 					'title' => $model->title,
 					'description' => $model->description,
 					'photo' => $model->getThumb(150, null, 'resize'),
+					//'photo_300x250' => $model->getThumb(300, 250, 'resize'),
 				);
 			}
 			
-			Yii::app()->cache->set($key, $make, 60*60*24*31, new Tags(Tags::TAG_MAKE));
+			Yii::app()->cache->set($key, $make, 0, new Tags(Tags::TAG_MAKE));
 		}	
 		
 		return $make;
@@ -349,10 +369,11 @@ class AutoMake extends CActiveRecord
 				$data[$item['alias']] = $item['title'];
 			}			
 
-			Yii::app()->cache->set($key, $data, 60*60*24*31, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR));
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR));
 		}	
 		
 		return $data;
 	}	
+
 
 }

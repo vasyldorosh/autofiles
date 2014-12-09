@@ -1,6 +1,6 @@
 <?php
 
-class TireVehicleClass extends CActiveRecord
+class TireRimWidth extends CActiveRecord
 {		
 	/**
 	 * Returns the static model of the specified AR class.
@@ -17,7 +17,7 @@ class TireVehicleClass extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'tire_vehicle_class';
+		return 'tire_rim_width';
 	}
 
 	/**
@@ -28,8 +28,9 @@ class TireVehicleClass extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('code, title, rank', 'required'),
-			array('rank', 'numerical', 'integerOnly' => true),
+			array('rim_width, min_width, opt_width, max_width', 'required'),
+			array('min_width, opt_width, max_width', 'numerical', 'integerOnly' => true),
+			array('rim_width', 'numerical'),
 			array('id', 'safe', 'on' => 'search'),
 		);
 	}		
@@ -48,7 +49,7 @@ class TireVehicleClass extends CActiveRecord
 	
 	private function clearCache()
 	{
-		Yii::app()->cache->clear(Tags::TAG_TIRE_VEHICLE_CLASS);
+		Yii::app()->cache->clear(Tags::TAG_TIRE_RIM_WIDTH);
 	}
 	
 	/**
@@ -58,12 +59,13 @@ class TireVehicleClass extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'code' => Yii::t('admin', 'Code'),
-			'title' => Yii::t('admin', 'Title'),
-			'rank' => Yii::t('admin', 'Rank'),
+			'rim_width' => Yii::t('admin', 'Rim Width'),
+			'min_width' => Yii::t('admin', 'Minimal Tire width'),
+			'opt_width' => Yii::t('admin', 'optimal Tire width'),
+			'max_width' => Yii::t('admin', 'Maximum Tire width'),
 		);
 	}
-	
+
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
@@ -76,9 +78,10 @@ class TireVehicleClass extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('code',$this->code, true);
-		$criteria->compare('title',$this->title, true);
-		$criteria->compare('rank',$this->rank);
+		$criteria->compare('rim_width',$this->rim_width);
+		$criteria->compare('min_width',$this->min_width);
+		$criteria->compare('opt_width',$this->opt_width);
+		$criteria->compare('max_width',$this->max_width);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -88,41 +91,26 @@ class TireVehicleClass extends CActiveRecord
 		));
 	}
 	
-	public static function getAll()
+	public static function getRangeWidth($width) 
 	{
-		$key = Tags::TAG_TIRE_VEHICLE_CLASS . '_getAll_';
+		$width = (int) $width;
+		$key = Tags::TAG_TIRE_RIM_WIDTH . 'getRangeWidth'.$width;
 		$data = Yii::app()->cache->get($key);
-		if (empty($data)) {
-			$data = (array)self::model()->findAll(array('order'=>'rank'));
-			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE_VEHICLE_CLASS));
+		
+		if ($data === false) {
+			$data = array();
+			$sql = "SELECT rim_width FROM tire_rim_width WHERE {$width} IN (min_width, opt_width, max_width) ORDER BY rim_width ASC";
+			$items = Yii::app()->db->createCommand($sql)->queryAll();
+			if (!empty($items)) {
+				$data['min'] = $items[0]['rim_width'];
+				$end = end($items);
+				$data['max'] = $end['rim_width'];
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE_RIM_WIDTH));
 		}
 		
 		return $data;
-	}	
-	
-	public static function getListFront()
-	{
-		$key = Tags::TAG_TIRE_VEHICLE_CLASS . '_getListFront_';
-		$data = Yii::app()->cache->get($key);
-		if ($data === false) {
-			$data = array();
-			$items = Yii::app()->db->createCommand("SELECT DISTINCT vehicle_class_id FROM tire")->queryAll();
-			$ids = array();
-			foreach ($items as $item) {
-				$ids[] = $item['vehicle_class_id'];
-			}
-			
-			if (!empty($ids)) {
-				$items = Yii::app()->db->createCommand("SELECT 	id, code FROM tire_vehicle_class WHERE id IN (".implode(',', $ids).") ORDER BY code")->queryAll();
-				foreach ($items as $item) {
-					$data[$item['id']] = $item['code'];
-				}							
-			}
-			
-			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE_VEHICLE_CLASS, Tags::TAG_TIRE));
-		}
+	}
 		
-		return $data;			
-	}	
-	
 }

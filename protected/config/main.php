@@ -60,9 +60,15 @@ return array(
 			'urlFormat'=>'path',
 			'showScriptName' => false,
 			'rules'=>array(	
+				'tires.html'=>'tires/index',
+				'tires/r<value:[0-9]{2}>.html'=>'tires/diameter',
+				'tires/<vehicle_class:[A-Z]{1,3}>-<section_width:[0-9]{3}>-<aspect_ratio:[0-9]{2,3}>r<rim_diameter:[0-9]{2}>.html'=>'tires/size',
+				'tires/<makeAlias:[a-z0-9-_]{1,255}>/<vehicle_class:[A-Z]{1,3}>-<section_width:[0-9]{3}>-<aspect_ratio:[0-9]{2,3}>r<rim_diameter:[0-9]{2}>.html'=>'tires/sizeMake',
+				'tires/<alias:[a-z0-9-_]{1,255}>' => 'tires/make',
+				'tires/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'tires/model',
+				'tires/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>/<year:[0-9]{4}>' => 'tires/modelYear',
 				'site/<action:\w+>'=>'site/<action>',
 				'ajax/<action:\w+>'=>'ajax/<action>',
-				'tires.html'=>'tires/index',
 				'0-60-times.html'=>'specs/060times',
 				'0-60-times/<alias:[a-z0-9-_]{1,255}>'=>'specs/060timesMake',
 				'0-60-times/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>'=>'specs/060timesModel',
@@ -81,7 +87,6 @@ return array(
 			'errorAction'=>'site/error',
 		),
 		
-		/*
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
@@ -92,8 +97,7 @@ return array(
 				),
 			),
 		),
-		*/
-		
+	
 		/*
 		 'log'=>array(
 			'class'=>'CLogRouter',

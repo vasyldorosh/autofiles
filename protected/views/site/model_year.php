@@ -415,7 +415,17 @@
 					</td>
 				</tr>
 				<?php endif;?>
-				
+
+				<?php $rangeTireSize = AutoModel::getMinMaxTireSizeYear($modelYear['id']);?>
+				<?php if (!empty($rangeTireSize)):?>
+				<tr>
+					<td><a class="tires" title="<?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> Tire size" href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/<?=$modelYear['year']?>/">Tire size</a></td>
+					<td class="spec-value">
+						<?=$rangeTireSize['min']?> ...
+					</td>
+				</tr>
+				<?php endif;?>			
+					
 				<?php if (!empty($carSpecsAndDimensions['engine'])):?>
 				<tr>
 					<td><a class="engine" href="#">Engine specs</a></td>
@@ -515,7 +525,8 @@
 				</tr>
 				<?php endif;?>
 				
-			</tbody></table>
+			</tbody>
+		</table>
 		</section>
 		<?php endif;?>
 		

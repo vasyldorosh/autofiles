@@ -74,6 +74,62 @@
 					), 
 					true
 				)),				
+                array(
+					'label'=>Yii::t('admin', 'Tires'),
+					'content' => $this->renderPartial('_tires', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+                array(
+					'label'=>Yii::t('admin', 'Tire Make'),
+					'content' => $this->renderPartial('_tires_make', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+                array(
+					'label'=>Yii::t('admin', 'Tire Model'),
+					'content' => $this->renderPartial('_tires_model', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+                array(
+					'label'=>Yii::t('admin', 'Tire Model Year'),
+					'content' => $this->renderPartial('_tires_model_year', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+                array(
+					'label'=>Yii::t('admin', 'Tire Diameter'),
+					'content' => $this->renderPartial('_tires_diameter', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+                array(
+					'label'=>Yii::t('admin', 'Tire Size'),
+					'content' => $this->renderPartial('_tires_size', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+                array(
+					'label'=>Yii::t('admin', 'Tire Size Make'),
+					'content' => $this->renderPartial('_tires_size_make', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
 			)
 		));?>
 

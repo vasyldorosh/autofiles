@@ -982,7 +982,7 @@ class AutoModelYear extends CActiveRecord
 		$key = Tags::TAG_MODEL_YEAR . '__getListYears___' . $model_id;
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data == false || true) {
+		if ($data == false) {
 			$data = array();
 			$criteria = new CDbCriteria;
 			$criteria->compare('model_id', $model_id);
@@ -1011,5 +1011,53 @@ class AutoModelYear extends CActiveRecord
 		}
 	}	
 	
-	
+	public static function getTires($model_year_id)
+	{	
+		$model_year_id = (int) $model_year_id;
+		$key = Tags::TAG_MODEL_YEAR . 'getTires' . $model_year_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false) {
+			$data = array();
+			
+			$tireIds = array();
+			$sql = "SELECT tire_id FROM auto_model_year_tire WHERE model_year_id = {$model_year_id}";
+			$items = Yii::app()->db->createCommand($sql)->queryAll();
+			foreach ($items as $item) {
+				$tireIds[] = $item['tire_id'];
+			}			
+			
+			if (!empty($tireIds)) {
+			
+				$sql = "SELECT 
+							t.id AS id, 
+							vc.code AS vehicle_class, 
+							rd.value AS rim_diameter, 
+							sw.value AS section_width, 
+							ar.value AS aspect_ratio
+						FROM tire AS t
+						LEFT JOIN tire_vehicle_class AS vc ON t.vehicle_class_id = vc.id
+						LEFT JOIN tire_rim_diameter AS rd ON t.rim_diameter_id = rd.id
+						LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
+						LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
+						WHERE t.id IN (".implode(',', $tireIds).")";
+				$items = Yii::app()->db->createCommand($sql)->queryAll();
+				
+				foreach ($items as $item) {
+					$data[] = array(
+						'id' => $item['id'],
+						'vehicle_class' => $item['vehicle_class'],
+						'rim_diameter' => $item['rim_diameter'],
+						'section_width' => $item['section_width'],
+						'aspect_ratio' => $item['aspect_ratio'],
+					);
+				}
+			}
+		
+		
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR, Tags::TAG_TIRE));
+		}
+		
+		return $data;		
+	}
 }

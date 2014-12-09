@@ -98,4 +98,72 @@ class TireRimDiameter extends CActiveRecord
 		return $data;
 	}	
 	
+	public static function getList()
+	{
+		return CHtml::listData(self::getAll(), 'id', 'value');
+	}	
+	
+	public static function getItemByValue($value)
+	{
+		$key = Tags::TAG_TIRE_RIM_DIAMETER . '_ITEM_'.$value;
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			$data = array();
+			$criteria = new CDbCriteria();
+			$criteria->compare('value', $value);
+			$model = self::model()->find($criteria);
+			
+			if (!empty($model)) {
+				$data = array(
+					'id' => $model->id,
+					'value' => $model->value,
+				);
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE_RIM_DIAMETER));
+		}	
+		
+		return $data;	
+	}	
+
+	public static function getListFront($attributes=array())
+	{
+		$key = Tags::TAG_TIRE_RIM_DIAMETER . '__getListFront__' . serialize($attributes);
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			$data = array();
+			
+			$where = array();
+			foreach ($attributes as $k=>$v) {
+				$where[] = "$k = '$v'";
+			}
+			if (!empty($where)) {
+				$where = 'WHERE ' . implode(' AND ', $where);
+			} else {
+				$where = '';
+			}
+			
+			$items = Yii::app()->db->createCommand("SELECT DISTINCT rim_diameter_id FROM tire $where")->queryAll();
+			$ids = array();
+			foreach ($items as $item) {
+				$ids[] = $item['rim_diameter_id'];
+			}
+			
+			if (!empty($ids)) {
+				$items = Yii::app()->db->createCommand("SELECT 	id, value FROM tire_rim_diameter WHERE id IN (".implode(',', $ids).") ORDER BY value")->queryAll();
+				foreach ($items as $item) {
+					$data[$item['id']] = $item['value'];
+				}							
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE_RIM_DIAMETER, Tags::TAG_TIRE));
+		}
+		
+		return $data;			
+	}	
+		
+	
+		
+	
+	
 }
