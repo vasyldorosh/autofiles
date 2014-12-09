@@ -121,7 +121,7 @@ class TiresController extends Controller
 		$models = AutoModelYear::getModelsByMakeAndYear($make['id'], $modelYear['year']);
 
 		$carSpecsAndDimensions = AutoModelYear::getCarSpecsAndDimensions($modelYear['id']);
-			
+	
 		$this->render('model_year', array(
 			'make' => $make,
 			'model' => $model,

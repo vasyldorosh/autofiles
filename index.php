@@ -1,4 +1,7 @@
 <?php
+ini_set('display errors', 1);
+error_reporting(E_ALL);
+
 function d($var,$d=true) {CVarDumper::dump($var,30,true); if($d)die;}
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/yii/framework/yii.php';

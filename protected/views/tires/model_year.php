@@ -82,9 +82,9 @@
 			<h2 class="section-name_2">Other <?=$modelYear['year']?> <?=$make['title']?> models</h2>
 			<div class="model__block-box model__block-box_all-models">
 			<?php foreach ($otherModels as $otherModel):?>	
-				<a href="/tires/<?=$make['alias']?>/<?=$otherModel['model_alias']?>/<?=$otherModel['year']?>/" class="model__block model__block_all-models" title="<?=$otherModel['year']?> <?=$otherModel['make']?> <?=$otherModel['model']?> tire size">
+				<a href="/tires/<?=$make['alias']?>/<?=$otherModel['model_alias']?>/<?=$otherModel['year']?>/" class="model__block model__block_all-models" title="<?=$otherModel['year']?> <?=$make['title']?> <?=$otherModel['model']?> tire size">
 					<img src="<?=$otherModel['photo']?>">
-					<div class="model__block-name"><h3><?=$otherModel['year']?> <?=$otherModel['make']?> <?=$otherModel['model']?></h3></div>
+					<div class="model__block-name"><h3><?=$otherModel['year']?> <?=$make['title']?> <?=$otherModel['model']?></h3></div>
 					<?php $rangeTireSize = AutoModel::getMinMaxTireSizeYear($otherModel['id']);?>
 					<?php if (!empty($rangeTireSize)):?>
 					<span class="model__block-cost">
