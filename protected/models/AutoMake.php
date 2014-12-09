@@ -112,7 +112,7 @@ class AutoMake extends CActiveRecord
 	public function getThumb($width=null, $height=null, $mode='origin')
 	{
 		return self::image(array(
-			'ext' => $this-image_ext,
+			'ext' => $this->image_ext,
 			'id' => $this->id,
 			'width' => $width,
 			'height' => $height,
