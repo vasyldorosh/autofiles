@@ -29,19 +29,30 @@
 <nav>
 	<ul class="menu-list">
 	<?php $uri = Yii::app()->request->requestUri;?>
-		<li <?=($uri=='/')?'class="is-active"':''?>><a href="/">Home</a></li>
+		<li <?=($uri=='/')?'class="is-active"':''?>><a href="/">All cars</a></li>
 		<li <?=($uri=='/0-60-times.html')?'class="is-active"':''?>><a href="/0-60-times.html">0-60 times</a></li>
-		<li <?=($uri=='/tires.html')?'class="is-active"':''?>><a href="/tires.html">Tire size</a></li>
+		<li <?=($uri=='/tires.html')?'class="is-active"':''?>><a href="/tires.html">Tires</a></li>
 	</ul>
 </nav>
 
 <ul class="breadcrumb">
-	<?php foreach ($this->breadcrumbs as $url=>$title):?>
+	<?php foreach ($this->breadcrumbs as $url=>$item):?>
 		<li>
+			<?php 
+			$anchor = '';
+			$title = '';
+			if (is_array($item)) {
+				$anchor = $item['anchor'];
+				if (isset($item['title']))
+					$title = $item['title'];
+			} else {
+				$anchor = $item;
+			}?>
+		
 			<?php if ($url != '#'):?>
-				<a href="<?=$url?>"><?=$title?></a><span>→</span>
+				<a href="<?=$url?>" <?=!empty($title)?"title='{$title}'":""?> ><?=$anchor?></a><span>→</span>
 			<?php else:?>
-				<a href="#"><?=$title?></a>
+				<a href="#"><?=$anchor?></a>
 			<?php endif;?>
 		</li>
 	<?php endforeach;?>

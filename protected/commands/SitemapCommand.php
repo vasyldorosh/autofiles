@@ -14,13 +14,15 @@ class SitemapCommand extends CConsoleCommand
 	public function actionRun()
 	{
 		$limit = (int)SiteConfig::getInstance()->getValue('count_items_in_file');	
-		if ($limit <= 0) $limit = 1000;
+
+		if ($limit <= 1) $limit = 1000;
 		
 		$site_url = 'http://autofiles.com';//SiteConfig::getInstance()->getValue('sitemap_domain_url');	
 
 		$mapFiles = array(
 			'/', 
 			'/0-60-times.html',
+			'/tires.html',
 		);
 		
 		$i=0;
@@ -51,6 +53,11 @@ class SitemapCommand extends CConsoleCommand
 			
 				$this->addItem($doc, $urlset, array(
 					'url' => $site_url . '/0-60-times/'.$make['alias'].'/',
+					'lastmod' => time(),
+				));	
+				
+				$this->addItem($doc, $urlset, array(
+					'url' => $site_url . '/tires/'.$make['alias'].'/',
 					'lastmod' => time(),
 				));						
 			}
@@ -98,6 +105,11 @@ class SitemapCommand extends CConsoleCommand
 			
 				$this->addItem($doc, $urlset, array(
 					'url' => $site_url . '/0-60-times/' . $model->Make->alias . '/' . $model->alias.'/',
+					'lastmod' => time(),
+				));	
+				
+				$this->addItem($doc, $urlset, array(
+					'url' => $site_url . '/tires/' . $model->Make->alias . '/' . $model->alias.'/',
 					'lastmod' => time(),
 				));						
 			}
@@ -149,6 +161,16 @@ class SitemapCommand extends CConsoleCommand
 				$this->addItem($doc, $urlset, array(
 					'url' => $site_url . '/' . $model->Model->Make->alias . '/' . $model->Model->alias . '/' . $model->year.'/photos.html',
 					'lastmod' => time(),
+				));					
+			
+				$this->addItem($doc, $urlset, array(
+					'url' => $site_url . '/0-60-times/' . $model->Model->Make->alias . '/' . $model->Model->alias . '/' . $model->year.'/',
+					'lastmod' => time(),
+				));	
+				
+				$this->addItem($doc, $urlset, array(
+					'url' => $site_url . '/tires/' . $model->Model->Make->alias . '/' . $model->Model->alias . '/' . $model->year.'/',
+					'lastmod' => time(),
 				));						
 			}
 				
@@ -164,6 +186,132 @@ class SitemapCommand extends CConsoleCommand
 			$i++;
 		} while (true);
 		
+		$i=0;
+		do {		
+			$file = "/sitemap/tires_r{$i}.xml";
+			$doc	= new DOMDocument("1.0", 'utf-8');
+			$urlset = $doc->createElement("urlset");
+			$doc->appendChild($urlset);
+			$xmlns = $doc->createAttribute("xmlns");
+			$urlset->appendChild($xmlns);
+			$value = $doc->createTextNode('http://www.sitemaps.org/schemas/sitemap/0.9');
+			$xmlns->appendChild($value);
+					
+			$criteria = new CDbCriteria();
+			$criteria->limit = $limit/2;
+			$criteria->offset = $i*$limit/2;
+			
+			$models = TireRimDiameter::model()->findAll($criteria);	
+				
+			foreach ($models as $model) {
+				
+				$this->addItem($doc, $urlset, array(
+					'url' => $site_url . '/tires/r'.$model->value.'.html',
+					'lastmod' => time(),
+				));
+			}
+				
+			if (empty($models))	{
+				break;
+			}	
+				
+			$mapFiles[] = $file;
+				
+			$doc->formatOutput = true;
+			$doc->save(dirname(__FILE__) ."/../../" . $file);	
+			
+			$i++;
+		} while (true);
+		
+		
+		$items = Yii::app()->db->createCommand("SELECT DISTINCT tire_id FROM `auto_model_year_tire`")->queryAll();
+		$tireIds = array();
+		foreach ($items as $item) {
+			$tireIds[] = $item['tire_id'];
+		}
+		
+		$i=0;
+		$makeTireUrls = array();
+		do {		
+			$file = "/sitemap/tires_size{$i}.xml";
+			$doc	= new DOMDocument("1.0", 'utf-8');
+			$urlset = $doc->createElement("urlset");
+			$doc->appendChild($urlset);
+			$xmlns = $doc->createAttribute("xmlns");
+			$urlset->appendChild($xmlns);
+			$value = $doc->createTextNode('http://www.sitemaps.org/schemas/sitemap/0.9');
+			$xmlns->appendChild($value);
+					
+			$criteria = new CDbCriteria();
+			$criteria->limit = $limit/2;
+			$criteria->offset = $i*$limit/2;
+			$criteria->addInCondition('t.id', $tireIds);
+			
+			$criteria->with = array(
+				'VehicleClass', 
+				'SectionWidth', 
+				'AspectRatio', 
+				'RimDiameter', 
+				'LoadIndex',
+				'RearRimDiameter',
+				'RearAspectRatio',
+				'RearSectionWidth',
+			);	
+	
+			$models = Tire::model()->findAll($criteria);	
+				
+			echo count($models);	
+				
+			foreach ($models as $model) {
+				$tireAttr = array(
+					'vehicle_class' => $model->VehicleClass->code,
+					'section_width' => $model->SectionWidth->value,
+					'aspect_ratio' => $model->AspectRatio->value,
+					'rim_diameter' => $model->RimDiameter->value,
+				);
+				
+				$makeModels = Tire::getMakeModelsByTireIds(array($model->id));
+				foreach ($makeModels as $makeModel) {
+					$url = $site_url . '/tires/'.$makeModel['alias'] . '/' . Tire::url($tireAttr, true);
+					$makeTireUrls[$url] = $url;
+				}
+
+				$this->addItem($doc, $urlset, array(
+					'url' => $site_url . Tire::url($tireAttr),
+					'lastmod' => time(),
+				));
+			}
+
+			if (empty($models))	{
+				break;
+			}	
+				
+			$mapFiles[] = $file;
+				
+			$doc->formatOutput = true;
+			$doc->save(dirname(__FILE__) ."/../../" . $file);	
+			
+			$i++;
+		} while (true);
+		
+		$file = "/sitemap/tires_make_size.xml";
+		$doc	= new DOMDocument("1.0", 'utf-8');
+		$urlset = $doc->createElement("urlset");
+		$doc->appendChild($urlset);
+		$xmlns = $doc->createAttribute("xmlns");
+		$urlset->appendChild($xmlns);
+		$value = $doc->createTextNode('http://www.sitemaps.org/schemas/sitemap/0.9');
+		$xmlns->appendChild($value);		
+		foreach ($makeTireUrls as $makeTireUrl) {				
+			$this->addItem($doc, $urlset, array(
+				'url' => $makeTireUrl,
+				'lastmod' => time(),
+			));			
+		}
+		$mapFiles[] = $file;
+				
+		$doc->formatOutput = true;
+		$doc->save(dirname(__FILE__) ."/../../" . $file);		
 		
 		$doc	= new DOMDocument("1.0", 'utf-8');
 		$urlset = $doc->createElement("urlset");

@@ -2,7 +2,7 @@
 		<div class="l-col1 brdtop_col">
 			<!-- section 1 -->
 			<section class="times clearfix">
-				<h2 class="section-name pb18">Tire size</h2>
+				<h2 class="section-name pb18">Car tires</h2>
 				<div class="google_links f_left p_rel">
 					<?php $this->widget('application.widgets.BannerWidget', array('banner' => '300x250')); ?>
 				</div>
@@ -113,11 +113,6 @@
 				</section>
 			</section>
 
-			<?php if ($_SERVER['SERVER_NAME'] != 'auto.loc'):?>
-				<iframe src="http://astore.amazon.com/auto034-20" width="100%" height="900" frameborder="0" scrolling="no"></iframe>
-			<?php endif;?>		
-		
-		<!-- section 2 -->
 		<section class="all-makes cars_ul bdb_1">
 			<h2 class="section-name_2">Search tire size by vehicle</h2>
 				<ul>
@@ -128,11 +123,40 @@
 					<?php endif;?>
 				<?php $key++;endforeach;?>
 				</ul>			
-		</section>
-
+		</section>			
+			
+		<?php if ($_SERVER['SERVER_NAME'] != 'auto.loc'):?>
+			<iframe src="http://astore.amazon.com/auto0a70-20" width="100%" height="900" frameborder="0" scrolling="no"></iframe>
+		<?php endif;?>		
+		
 		<section class="seo-text">
 			<?=SiteConfig::getInstance()->getValue('tires_footer_text_block')?>			
 		</section>
+		
+		<section class="product_photo_box make">				
+			<div class="product_photo_item">
+				<div class="product_photo_item_top">
+					<h3>All tire diameters</h3>
+					<ul class="make__vehicle-specs">
+					<?php foreach (TireRimDiameter::getListFront() as $r):?>	
+						<li><a href="/tires/r<?=$r?>.html" title="<?=$r?> inch wheels">R<?=$r?></a></li>
+					<?php endforeach?>
+					</ul>
+				</div>
+			</div>
+			<div class="product_photo_item">
+				<div class="product_photo_item_top">
+						<h3>Popular tire sizes</h3>
+					<ul class="make__vehicle-specs">
+					<?php foreach (Tire::getPopolar() as $tire):?>
+						<?php $tireTitle = Tire::format($tire);?>
+						<li><a href="<?=Tire::url($tire)?>" title="<?=$tireTitle?> tires"><?=$tireTitle?></a></li>
+					<?php endforeach?>
+					</ul>
+				</div>
+			</div>
+		</section>
+		
 
 	</div>
 	

@@ -6,7 +6,7 @@
 							<span>Section Width</span>
 						</td>
 						<td class="spec-value">
-							<?=$tire['section_width']?>"
+							<?=$tire['section_width']?> mm
 						</td>
 					</tr>
 
@@ -57,7 +57,7 @@
 							<span>Circumference</span>
 						</td>
 						<td class="spec-value">
-							<?=$circumference?> cu.ft
+							<?=$circumference?> "
 						</td>
 					</tr>
 

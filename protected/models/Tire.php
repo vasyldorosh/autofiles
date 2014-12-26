@@ -29,11 +29,45 @@ class Tire extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('vehicle_class_id', 'required'),
+			array('vehicle_class_id', 'uniqueTire'),
 			array('is_rear, rear_section_width_id, rear_aspect_ratio_id, rear_rim_diameter_id, is_runflat, vehicle_class_id, section_width_id, aspect_ratio_id, rim_diameter_id, load_index_id', 'numerical', 'integerOnly' => true),
 			array('id', 'safe', 'on' => 'search'),
 		);
-	}		
+	}	
 
+	public function uniqueTire()
+	{
+		$criteria=new CDbCriteria;
+		if (!$this->isNewRecord) {
+			$criteria->addCondition("t.id <> {$this->id}");
+		}
+
+		$criteria->compare('t.vehicle_class_id', $this->getEmpty($this->vehicle_class_id));
+		$criteria->compare('t.section_width_id', $this->getEmpty($this->section_width_id));
+		$criteria->compare('t.aspect_ratio_id', $this->getEmpty($this->aspect_ratio_id));
+		$criteria->compare('t.rim_diameter_id', $this->getEmpty($this->rim_diameter_id));
+		$criteria->compare('t.load_index_id', $this->getEmpty($this->load_index_id));
+		$criteria->compare('t.is_runflat', (int)$this->is_runflat);	
+		$criteria->compare('t.is_rear', (int)$this->is_rear);
+		if ($this->is_rear) {
+			$criteria->compare('t.rear_section_width_id', $this->getEmpty($this->rear_section_width_id));
+			$criteria->compare('t.rear_aspect_ratio_id', $this->getEmpty($this->rear_aspect_ratio_id));
+			$criteria->compare('t.rear_rim_diameter_id', $this->getEmpty($this->rear_rim_diameter_id));	
+		}
+		
+		$model = $this->find($criteria);
+		
+		if (!empty($model)) {
+			$this->addError('vehicle_class_id', 'Tire already exsists for this parameters');
+		}
+
+	}
+	
+	private function getEmpty($value)
+	{
+		return empty($value) ? null : (int) $value;
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */
@@ -200,6 +234,43 @@ class Tire extends CActiveRecord
 		return $data;
 	}
 	
+	public static function getPopolar()
+	{
+		$key = Tags::TAG_TIRE . '_getPopolar_';
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			$data = array();
+			$tireIds = array();
+			
+			
+			$sql = "SELECT tire_id, COUNT(*) AS c FROM `auto_model_year_tire` GROUP BY tire_id ORDER BY c DESC";
+			$items = Yii::app()->db->createCommand($sql)->queryAll();
+			foreach ($items as $item) {
+				$tireIds[] = $item['tire_id'];
+			}
+			
+			$criteria=new CDbCriteria;
+			$criteria->with = array('VehicleClass', 'SectionWidth', 'AspectRatio', 'RimDiameter', 'RearSectionWidth', 'RearAspectRatio', 'RearRimDiameter');			
+			$criteria->addInCondition('t.id', $tireIds);			
+			$criteria->order = 'Field(t.id, ' . implode(',', $tireIds) . ')';			
+			
+			$items = Tire::model()->findAll($criteria);
+			foreach ($items as $item) {
+				$data[] = array(
+					'vehicle_class' => isset($item->VehicleClass)?$item->VehicleClass->code:'',
+					'rim_diameter' => isset($item->RimDiameter)?$item->RimDiameter->value:'',
+					'section_width' => isset($item->SectionWidth)?$item->SectionWidth->value:'',
+					'aspect_ratio' => isset($item->AspectRatio)?$item->AspectRatio->value:'',
+				);				
+				
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_TIRE_SECTION_WIDTH, Tags::TAG_TIRE_ASPECT_RATIO, Tags::TAG_TIRE_RIM_DIAMETER, Tags::TAG_MODEL_YEAR));
+		}
+		
+		return $data;
+	}
+	
 	public static function getCount($attributes=array())
 	{
 		$criteria=new CDbCriteria;
@@ -235,7 +306,7 @@ class Tire extends CActiveRecord
 	
 	public static function revsPerMile($circumference) 
 	{
-		return round((63.36 / $circumference), 2);
+		return round((1000*63.36 / $circumference), 2);
 	}
 	
 	public static function url($attributes, $onlyAttr=false) 
@@ -268,6 +339,7 @@ class Tire extends CActiveRecord
 						LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
 						LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
 						WHERE rd.id = {$rim_diameter_id} AND t.is_runflat = 0
+						ORDER BY rd.value, sw.value, ar.value, t.is_rear
 				";
 		
 			$items = Yii::app()->db->createCommand($sql)->queryAll();
@@ -325,7 +397,7 @@ class Tire extends CActiveRecord
 	
 	public static function getSimilarSizes($tire)
 	{
-		$key = Tags::TAG_TIRE . '__getSimilarSizes__' . serialize($tire);
+		$key = Tags::TAG_TIRE . '__getSimilarSizes___' . serialize($tire);
 		$data = Yii::app()->cache->get($key);
 		if ($data === false) {
 			$data = array();
@@ -350,7 +422,7 @@ class Tire extends CActiveRecord
 						LEFT JOIN tire_rim_diameter AS rd ON t.rim_diameter_id = rd.id
 						LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
 						LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
-						WHERE rd.value=$rimDiameter AND sw.value >= $sectionWidthMin
+						WHERE rd.value=$rimDiameter AND sw.value >= $sectionWidthMin AND t.is_runflat=0	ANd t.is_rear=0
 						HAVING overallDiameter <= $overallDiameter AND percent >= -$limitPercent
 						ORDER BY percent ASC
 						LIMIT 5
@@ -371,7 +443,7 @@ class Tire extends CActiveRecord
 							LEFT JOIN tire_rim_diameter AS rd ON t.rim_diameter_id = rd.id
 							LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
 							LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
-							WHERE rd.value=$rimDiameter AND sw.value <= $sectionWidthMax
+							WHERE rd.value=$rimDiameter AND sw.value <= $sectionWidthMax AND t.is_runflat=0	ANd t.is_rear=0
 							HAVING overallDiameter >= $overallDiameter AND percent <= $limitPercent
 							ORDER BY percent ASC
 							LIMIT 10

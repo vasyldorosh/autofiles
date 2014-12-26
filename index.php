@@ -11,7 +11,7 @@ $c = strpos($_SERVER['REQUEST_URI'], 'admin') ?'admin.php':'main.php';
 
 $config=dirname(__FILE__).'/protected/config/'.$c;
 
-defined('YII_DEBUG') or define('YII_DEBUG',0);
+defined('YII_DEBUG') or define('YII_DEBUG',1);
 //defined('YII_DEBUG') or define('YII_DEBUG',false);
 defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
 //show profiler

@@ -62,15 +62,15 @@ class TiresController extends Controller
 			 throw new CHttpException(404,'Page cannot be found.');
 		}
 		
-		$this->pageTitle = str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('seo_tires_model__title'));
-		$this->meta_keywords = str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('seo_tires_model__meta_keywords'));
-		$this->meta_description = str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('seo_tires_model__meta_description'));		
+		$this->pageTitle = str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('seo_tires_model_title'));
+		$this->meta_keywords = str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('seo_tires_model_meta_keywords'));
+		$this->meta_description = str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('seo_tires_model_meta_description'));		
 		$header_text_block = str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('tires_model_header_text_block'));		
 			
 		$this->breadcrumbs = array(
 			'/' => 'Home',
 			'/tires.html' => 'Tires',
-			'/tires'.$make['url'] => $make['title'],
+			'/tires'.$make['url'] => $make['title'] . ' tires',
 			'#' => $model['title'],
 		);
 			
@@ -83,6 +83,7 @@ class TiresController extends Controller
 			'model' => $model,
 			'modelByYears' => $modelByYears,
 			'header_text_block' => $header_text_block,
+			'lastYear' => AutoModel::getLastYear($model['id']),
 		));
 	}
 	
@@ -113,15 +114,18 @@ class TiresController extends Controller
 		$this->breadcrumbs = array(
 			'/' => 'Home',
 			'/tires.html' => 'Tires',
-			'/tires'.$make['url'] => $make['title'],
-			'/tires'.$model['url'] => $model['title'],
+			'/tires'.$make['url'] => array('anchor'=>$make['title'], 'title'=>$make['title'] . ' tires'),
+			'/tires'.$model['url'] => array('anchor'=>$model['title'], 'title'=>$make['title'] . ' ' . $model['title'] . ' tires'),
 			'#' => $modelYear['year'] . ' ' .$make['title'] . ' ' . $model['title'],
 		);	
 			
 		$models = AutoModelYear::getModelsByMakeAndYear($make['id'], $modelYear['year']);
 
 		$carSpecsAndDimensions = AutoModelYear::getCarSpecsAndDimensions($modelYear['id']);
-	
+			
+		$tires = AutoModelYear::getTires($modelYear['id']);	
+		//d($tires);
+		
 		$this->render('model_year', array(
 			'make' => $make,
 			'model' => $model,
@@ -131,7 +135,7 @@ class TiresController extends Controller
 			'otherModels' => AutoModelYear::getOtherMakeYear($models, $modelYear['id']),
 			'carSpecsAndDimensions' => $carSpecsAndDimensions,
 			'header_text_block' => $header_text_block,
-			'tires' => AutoModelYear::getTires($modelYear['id']),
+			'tires' => $tires,
 		));	
 	}	
 	

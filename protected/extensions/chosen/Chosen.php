@@ -31,6 +31,7 @@ class Chosen extends CInputWidget
 
     /** @var string|null If is set will override default label "No results match" */
     public $noResults;
+    public $noResultsUrl;
 
     /** @var array Chosen script settings passed to $.fn.chosen() */
     private $settings = array();
@@ -77,6 +78,9 @@ class Chosen extends CInputWidget
         }
 		
 		$this->htmlOptions['itemUrl'] = $this->itemUrl;
+		$this->htmlOptions['noResultsUrl'] = $this->noResultsUrl;	
+		$this->settings['itemUrl'] = $this->itemUrl;			
+		$this->settings['noResultsUrl'] = $this->noResultsUrl;		
 		
 		
         if (!isset($this->htmlOptions['data-placeholder'])) {
@@ -91,16 +95,15 @@ class Chosen extends CInputWidget
                 else
                     $this->htmlOptions['data-placeholder'] = Yii::t('Chosen.main', "Select an Option");
             }
-        }
+        }	
+		
         if (isset($this->noResults))
             $this->settings['no_results_text'] = $this->noResults;
         else
             $this->settings['no_results_text'] = Yii::t('Chosen.main', "No results match");
         if (!$this->multiple)
-            $this->settings['allow_single_deselect'] = $this->allowSingleDeselect;
-			
-		$this->settings['itemUrl'] = $this->itemUrl;	
-
+            $this->settings['allow_single_deselect'] = $this->allowSingleDeselect;	
+		
         if (isset($this->maxSelectedOptions)) $this->settings['max_selected_options'] = $this->maxSelectedOptions;
         if ($this->disableSearch !== false) $this->settings['disable_search'] = $this->disableSearch;
         if ($this->enableSplitWordSearch !== true) $this->settings['enable_split_word_search'] = $this->enableSplitWordSearch;
@@ -145,14 +148,8 @@ class Chosen extends CInputWidget
         
 		if ($this->register_scripts) {		
 			$cs->registerCoreScript('jquery');
-			if (defined('YII_DEBUG')) {
-				$cs->registerScriptFile($this->assetsDir . '/chosen.jquery.js');
-
-				$cs->registerCssFile($this->assetsDir . '/chosen.css');
-			} else {
-				$cs->registerScriptFile($this->assetsDir . '/chosen.jquery.min.js');
-				$cs->registerCssFile($this->assetsDir . '/chosen.min.css');
-			}
+			$cs->registerScriptFile($this->assetsDir . '/chosen.jquery.js');
+			$cs->registerCssFile($this->assetsDir . '/chosen.css');
 		}
 
         $settings = CJavaScript::encode($this->settings);

@@ -9,6 +9,7 @@
 				'multiple' => true,
 				'itemUrl' => '/admin/tire/update?id=',
 				'noResults' => Yii::t('admin', 'Not found'),
+				'noResultsUrl' => '/admin/tire/create',
 				'placeholderMultiple'=>$model->getAttributeLabel('post_tires'),
 				'htmlOptions'=>array(
 					'style' => 'width:800px;'

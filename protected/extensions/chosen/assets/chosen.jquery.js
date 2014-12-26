@@ -1008,7 +1008,15 @@
 
     Chosen.prototype.no_results = function(terms) {
       var no_results_html;
-      no_results_html = $('<li class="no-results">' + this.results_none_found + ' "<span></span>"</li>');
+	  
+	  no_results_html = '';
+	  
+	  if (this.options.noResultsUrl == null) {
+		no_results_html = $('<li class="no-results">' + this.results_none_found + ' "<span></span>"</li>');
+	  } else {
+		no_results_html = $('<li class="no-results"><a href="'+this.options.noResultsUrl+'" target="_blank">create</a> <span></span></li>');
+	  }
+
       no_results_html.find("span").first().html(terms);
       return this.search_results.append(no_results_html);
     };

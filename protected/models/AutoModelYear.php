@@ -1031,16 +1031,25 @@ class AutoModelYear extends CActiveRecord
 			
 				$sql = "SELECT 
 							t.id AS id, 
+							t.is_rear AS is_rear, 
 							vc.code AS vehicle_class, 
 							rd.value AS rim_diameter, 
 							sw.value AS section_width, 
-							ar.value AS aspect_ratio
+							ar.value AS aspect_ratio,
+							r_rd.value AS rear_rim_diameter, 
+							r_sw.value AS rear_section_width, 
+							r_ar.value AS rear_aspect_ratio
 						FROM tire AS t
 						LEFT JOIN tire_vehicle_class AS vc ON t.vehicle_class_id = vc.id
 						LEFT JOIN tire_rim_diameter AS rd ON t.rim_diameter_id = rd.id
 						LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
 						LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
-						WHERE t.id IN (".implode(',', $tireIds).")";
+						LEFT JOIN tire_rim_diameter AS r_rd ON t.rear_rim_diameter_id = r_rd.id
+						LEFT JOIN tire_section_width AS r_sw ON t.rear_section_width_id = r_sw.id
+						LEFT JOIN tire_aspect_ratio AS r_ar ON t.rear_aspect_ratio_id = r_ar.id
+						WHERE t.id IN (".implode(',', $tireIds).")
+						ORDER BY rd.value, sw.value, ar.value, t.is_rear
+						";
 				$items = Yii::app()->db->createCommand($sql)->queryAll();
 				
 				foreach ($items as $item) {
@@ -1050,10 +1059,13 @@ class AutoModelYear extends CActiveRecord
 						'rim_diameter' => $item['rim_diameter'],
 						'section_width' => $item['section_width'],
 						'aspect_ratio' => $item['aspect_ratio'],
+						'is_rear' => $item['is_rear'],
+						'rear_rim_diameter' => $item['rear_rim_diameter'],
+						'rear_section_width' => $item['rear_section_width'],
+						'rear_aspect_ratio' => $item['rear_aspect_ratio'],
 					);
 				}
-			}
-		
+			}		
 		
 			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR, Tags::TAG_TIRE));
 		}

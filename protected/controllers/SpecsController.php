@@ -87,7 +87,7 @@ class SpecsController extends Controller
 		$this->breadcrumbs = array(
 			'/' => 'Home',
 			'/0-60-times.html' => '0-60 times',
-			'/0-60-times' . $make['url'] => $make['title'],
+			'/0-60-times' . $make['url'] => $make['title'] . ' 0-60 times acceleration',
 			'#' => $model['title'],
 		);	
 	

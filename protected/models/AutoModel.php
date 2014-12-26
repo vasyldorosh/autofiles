@@ -281,7 +281,7 @@ class AutoModel extends CActiveRecord
 	{
 		$model_id = (int) $model_id;
 	
-		$key = Tags::TAG_MODEL_YEAR . '__LAST_YEAR__'.$model_id;
+		$key = Tags::TAG_MODEL_YEAR . '_LAST_YEAR_'.$model_id;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data == false) {
@@ -298,6 +298,7 @@ class AutoModel extends CActiveRecord
 					'id' => $item->id,
 					'year' => $item->year,
 					'photo' => $item->getThumb(150, null, 'resize'),
+					'photo_270' => $item->getThumb(270, null, 'resize'),
 				);
 			
 			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR));
@@ -508,7 +509,7 @@ class AutoModel extends CActiveRecord
 	public static function getMinMaxTireSize($model_id)
 	{
 		$model_id = (int) $model_id;
-		$key = Tags::TAG_MODEL . 'getMinMaxTireSize'.$model_id;
+		$key = Tags::TAG_MODEL . '_getMinMaxTireSize__'.$model_id;
 		$data = Yii::app()->cache->get($key);
 		if ($data === false) {
 			$data = array();
@@ -551,14 +552,14 @@ class AutoModel extends CActiveRecord
 		
 		$row = Yii::app()->db->createCommand($sql)->queryRow();	
 		if (!empty($row)) {
-			return Tire::format($row);
+			return Tire::format($row, false);
 		}
 	}
 	
 	public static function getMinMaxTireSizeYear($model_year_id)
 	{
 		$model_year_id = (int) $model_year_id;
-		$key = Tags::TAG_MODEL_YEAR . '_getMinMaxTireSizeYear_'.$model_year_id;
+		$key = Tags::TAG_MODEL_YEAR . '__getMinMaxTireSizeYear__'.$model_year_id;
 		$data = Yii::app()->cache->get($key);
 		if ($data === false) {
 			$data = array();
