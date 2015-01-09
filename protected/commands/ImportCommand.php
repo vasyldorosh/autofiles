@@ -10,7 +10,7 @@ class ImportCommand extends CConsoleCommand
 
 	public function actionBodyStyle()
 	{
-		$url = 'http://autos.aol.com/new-cars/';
+		$url = 'http://autoblog.com/new-cars/';
 		$content = CUrlHelper::getPage($url, '', '');
 		
 		preg_match_all('/<a href="\/car-finder\/style-(.*?)\/"><span><\/span>(.*?)<\/a>/', $content, $matches);
@@ -30,7 +30,7 @@ class ImportCommand extends CConsoleCommand
 
 	private function actionMake()
 	{
-		$url = 'http://autos.aol.com/new-cars/';
+		$url = 'http://autoblog.com/new-cars/';
 		$content = CUrlHelper::getPage($url, '', '');
 
 		preg_match_all('/<a href="\/car-finder\/make-(.*?)\/">(.*?)<\/a>/', $content, $matches);
@@ -61,7 +61,7 @@ class ImportCommand extends CConsoleCommand
 		if (empty($data)) {		
 			$data = array();
 			foreach ($autoMakes as $makeKey=>$autoMake) {
-				$url = 'http://autos.aol.com/' . $autoMake->alias;
+				$url = 'http://autoblog.com/' . $autoMake->alias;
 				$content = CUrlHelper::getPage($url, '', '');
 				preg_match_all('/<div class="pagecount">Page <span>1<\/span> of <span>(.*?)<\/span><\/div>/', $content, $matches);
 				$data[$autoMake->alias] = (int) isset($matches[1][0]) ? $matches[1][0] : 1;
@@ -76,7 +76,7 @@ class ImportCommand extends CConsoleCommand
 			$pages = $data[$autoMake->alias];
 			
 			for ($i=0;$i<$pages;$i++) {
-				$url = 'http://autos.aol.com/' . $autoMake->alias . '/page-'.($i+1);
+				$url = 'http://autoblog.com/' . $autoMake->alias . '/page-'.($i+1);
 				$content = CUrlHelper::getPage($url, '', '');
 				preg_match_all('/<li class="research_ifnoratings">All Years of <a class="first" href="\/(.*?)-(.*?)\/">(.*?)<\/a><\/li>/', $content, $matches);
 				
@@ -117,7 +117,7 @@ class ImportCommand extends CConsoleCommand
 		
 		$autoModels = (array)AutoModel::model()->findAll();
 		foreach ($autoModels as $keyModel=>$autoModel) {
-			$url = "http://autos.aol.com/{$autoModel->Make->alias}-{$autoModel->alias}/";
+			$url = "http://autoblog.com/{$autoModel->Make->alias}-{$autoModel->alias}/";
 			
 			$content = Yii::app()->cache->get($url);
 			if ($content == false) {
@@ -207,7 +207,7 @@ class ImportCommand extends CConsoleCommand
 		$criteria->addInCondition('id', $ids);		
 		$autoModels = (array)AutoModelYear::model()->findAll($criteria);
 		foreach ($autoModels as $keyYear=>$autoModelYear) {
-			$url = "http://autos.aol.com".$autoModelYear->url."photos/";
+			$url = "http://autoblog.com".$autoModelYear->url."photos/";
 			
 			$content = CUrlHelper::getPage($url, '', '');
 			preg_match_all('/<a href="http:\/\/o.aolcdn.com\/commerce\/images\/(.*?)_Large.jpg">/', $content, $matches);
@@ -293,11 +293,11 @@ class ImportCommand extends CConsoleCommand
 		$autoModels = AutoModelYear::model()->findAll($criteria);
 		foreach ($autoModels as $keyYear=>$autoModelYear) {
 			echo $autoModelYear->id . ' - ' . $autoModelYear->year . "\n";
-			$url = "http://autos.aol.com{$autoModelYear->url}equipment/";
+			$url = "http://autoblog.com{$autoModelYear->url}equipment/";
 			$content = CUrlHelper::getPage($url, '', '');
 			preg_match_all('/cars-compare\?v1=(.*?)\&amp\;type\=other/', $content, $matches);
 											
-			$linkCompare = 'http://autos.aol.com/' . $matches[0][0];
+			$linkCompare = 'http://autoblog.com/' . $matches[0][0];
 			
 			$contentCompare = CUrlHelper::getPage($linkCompare, '', '');	
 			preg_match_all('/<select name="trim_1" class="trimSelecter" id="compTrimList1">(.*?)<\/select>/', str_replace(array("\n", "\t"), "", $contentCompare), $matches);
@@ -326,7 +326,7 @@ class ImportCommand extends CConsoleCommand
 			
 			foreach ($completions as $key=>$completion) {
 				AutoCompletionSpecsTemp::model()->deleteAllByAttributes(array('completion_id'=>$completion->id));
-				$url = "http://autos.aol.com/cars-compare?cur_page=details&v1={$completion->code}&v2=&v3=&v4=&v5=&v6=&v7=&v8=&v9=";
+				$url = "http://autoblog.com/cars-compare?cur_page=details&v1={$completion->code}&v2=&v3=&v4=&v5=&v6=&v7=&v8=&v9=";
 				
 				$content = Yii::app()->cache->get($url);
 				if ($content == false) {
@@ -640,7 +640,7 @@ class ImportCommand extends CConsoleCommand
 		
 			$s = "-".$row['year'];
 			$url = str_replace(array("cars-", $s), array("",""), $row['url']);
-			$url = 'http://autos.aol.com'.$url;
+			$url = 'http://autoblog.com'.$url;
 			$urls[$url] = $url;
 		}
 		
