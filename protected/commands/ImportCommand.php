@@ -36,11 +36,13 @@ class ImportCommand extends CConsoleCommand
 		$items = json_decode(CUrlHelper::getPage($url, '', ''));
 		foreach ($items as $makeTitle) {
 			
-			$autoMake = AutoMake::model()->findByAttributes(array('title'=>$makeTitle));
+			$alias = TextHelper::urlSafe(str_replace(' ', '+', $makeTitle));
+			
+			$autoMake = AutoMake::model()->findByAttributes(array('alias'=>$alias));
 			if (!empty($autoMake)) continue;
 						
 			$autoMake = new AutoMake;
-			$autoMake->alias = TextHelper::urlSafe(str_replace(' ', '+', $makeTitle));
+			$autoMake->alias = $alias;
 			$autoMake->title = $makeTitle;
 			$autoMake->is_active = 1;
 			$autoMake->is_deleted = 0;
