@@ -184,8 +184,6 @@ class ImportCommand extends CConsoleCommand
 	{	
 		$this->actionMake();
 		$this->actionModel();
-		return;
-		
 		$parsedModelYearIds = $this->actionModelYear();
 		
 		//$parsedModelYearIds = range(5887, 5896);
