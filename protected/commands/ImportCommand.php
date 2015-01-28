@@ -171,7 +171,7 @@ class ImportCommand extends CConsoleCommand
 								$modelYearIds[] = $modelYear->id;
 								echo "ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle";
 							} else {
-								echo  echo "ModelYear: $year $makeTitle $modelTitle";
+								echo "ModelYear: $year $makeTitle $modelTitle";
 								print_r($modelYear->errors);
 							}							
 						}
