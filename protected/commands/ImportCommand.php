@@ -169,9 +169,9 @@ class ImportCommand extends CConsoleCommand
 							$modelYear->model_id = $dataModel[$aliasMake][$modelAlias];
 							if ($modelYear->save()) {
 								$modelYearIds[] = $modelYear->id;
-								echo "ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle";
+								echo "ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
 							} else {
-								echo "ModelYear: $year $makeTitle $modelTitle";
+								echo "ModelYear: $year $makeTitle $modelTitle \n";
 								print_r($modelYear->errors);
 							}							
 						}
@@ -187,7 +187,7 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionCatalog()
 	{	
-		Yii::app()->db->createCommand("DELETE FROM auto_model_year WHERE id > 5135")->execute();
+		//Yii::app()->db->createCommand("DELETE FROM auto_model_year WHERE id > 5135")->execute();
 	
 		$this->actionMake();
 		$this->actionModel();
