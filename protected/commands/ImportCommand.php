@@ -167,8 +167,13 @@ class ImportCommand extends CConsoleCommand
 							$modelYear->is_active = 1;
 							$modelYear->year = $year;
 							$modelYear->model_id = $dataModel[$aliasMake][$modelAlias];
-							$modelYear->save();
-							$modelYearIds[] = $modelYear->id;
+							if ($modelYear->save()) {
+								$modelYearIds[] = $modelYear->id;
+								echo "ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle";
+							} else {
+								echo  echo "ModelYear: $year $makeTitle $modelTitle";
+								print_r($modelYear->errors);
+							}							
 						}
 					}	
 				}
@@ -182,6 +187,8 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionCatalog()
 	{	
+		Yii::app()->db->createCommand("DELETE FROM auto_model_year WHERE id > 5135")->execute();
+	
 		$this->actionMake();
 		$this->actionModel();
 		$parsedModelYearIds = $this->actionModelYear();
@@ -297,7 +304,7 @@ class ImportCommand extends CConsoleCommand
 		foreach ($modelYears as $keyYear=>$autoModelYear) {
 			echo $autoModelYear->id . ' - ' . $autoModelYear->year . ' ' . $autoModelYear->Model->Make->title . ' ' .  $autoModelYear->Model->title . "\n";
 		
-			$url = "http://www.autoblog.com/buy/{$autoModelYear->year}-{$autoModelYear->Model->Make->title}-".str_replace(" ", "+", $autoModelYear->Model->title)."/specs/";
+			$url = "http://www.autoblog.com/buy/{$autoModelYear->year}-".str_replace(array("-"), array("_"), $autoModelYear->Model->Make->title)."-".str_replace(array(" ", "-"), array("+", "_"), $autoModelYear->Model->title)."/specs/";
 			$content = CUrlHelper::getPage($url, '', '');
 
 			preg_match_all('/<liclass="tools_first"><ahref="http:\/\/www.autoblog.com\/cars\-compare\?v1=(.*?)&amp;type=other">CompareCars<\/a><\/li>/', str_replace(array("\n", "\t", "\r"," "), "", $content), $matches);			
