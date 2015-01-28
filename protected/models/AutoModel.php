@@ -31,7 +31,6 @@ class AutoModel extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('title, make_id', 'required'),
-			array('alias', 'unique'),
 			array('is_active, is_deleted', 'numerical', 'integerOnly' => true),
 			array(
 				'file', 

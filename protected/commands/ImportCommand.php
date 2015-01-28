@@ -48,7 +48,12 @@ class ImportCommand extends CConsoleCommand
 			$autoMake->is_deleted = 0;
 			$autoMake->save();
 			
-			echo "Make $autoMake->id - $autoMake->title \n";
+			if ($autoMake->save()) {
+				echo "Make: $autoMake->id - $autoMake->title \n";
+			} else {
+				echo  $autoMake->title . "\n";
+				print_r($autoMake->errors);
+			}					
 		}
 	}	
 	
@@ -79,9 +84,12 @@ class ImportCommand extends CConsoleCommand
 				$autoModel->make_id = $make->id;
 				$autoModel->is_active = 1;
 				$autoModel->is_deleted = 0;
-				$autoModel->save();
-				
-				echo "Make $autoModel->id - $autoModel->title : $autoModel->id \n";
+				if ($autoModel->save()) {
+					echo "Model: $autoModel->id - $autoModel->title : $autoModel->id \n";
+				} else {
+					echo  $autoModel->title . "\n";
+					print_r($autoModel->errors);
+				}
 			}
 		}
 	}	
@@ -176,8 +184,9 @@ class ImportCommand extends CConsoleCommand
 	{	
 		$this->actionMake();
 		$this->actionModel();
-		$parsedModelYearIds = $this->actionModelYear();
 		return;
+		
+		$parsedModelYearIds = $this->actionModelYear();
 		
 		//$parsedModelYearIds = range(5887, 5896);
 
