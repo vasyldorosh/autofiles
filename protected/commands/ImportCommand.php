@@ -618,19 +618,22 @@ class ImportCommand extends CConsoleCommand
 			$completionCompetitor->is_parsed = 0;
 			$completionCompetitor->save();
 			
-			$attributes = array(
-				'model_year_id' => $completionCompetitor->Completion->model_year_id,
-				'competitor_id' => $completionCompetitor->Competitor->model_year_id
-			);
-				
-			$m = AutoModelYearCompetitor::model()->findByAttributes($attributes);
-			if (empty($m)) {
-				$autoModelYearCompetitor = new AutoModelYearCompetitor;
-				$autoModelYearCompetitor->attributes = $attributes;
-				$autoModelYearCompetitor->save();
+			if (isset($completionCompetitor->Completion) && isset($completionCompetitor->Competitor)) {
+			
+				$attributes = array(
+					'model_year_id' => $completionCompetitor->Completion->model_year_id,
+					'competitor_id' => $completionCompetitor->Competitor->model_year_id
+				);
+					
+				$m = AutoModelYearCompetitor::model()->findByAttributes($attributes);
+				if (empty($m)) {
+					$autoModelYearCompetitor = new AutoModelYearCompetitor;
+					$autoModelYearCompetitor->attributes = $attributes;
+					$autoModelYearCompetitor->save();
+				}
+					
+				echo "Add Competitors \n";
 			}
-				
-			echo "Add Competitors \n";				
 		}
 	}	
 	
