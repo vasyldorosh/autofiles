@@ -79,7 +79,7 @@ class ImportCommand extends CConsoleCommand
 				$autoModel->is_deleted = 0;
 				$autoModel->save();
 				
-				echo "Make $autoMake->id - $autoModel->title : $autoModel->id \n";
+				echo "Make $autoModel->id - $autoModel->title : $autoModel->id \n";
 			}
 		}
 	}	
