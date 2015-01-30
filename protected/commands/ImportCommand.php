@@ -187,8 +187,6 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionCatalog()
 	{	
-		Yii::app()->db->createCommand("DELETE FROM auto_model_year WHERE id > 5135")->execute();
-	
 		$this->actionMake();
 		$this->actionModel();
 		$parsedModelYearIds = $this->actionModelYear();
