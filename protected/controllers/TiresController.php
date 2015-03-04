@@ -75,10 +75,10 @@ class TiresController extends Controller
 		);
 			
 		$modelByYears = AutoModel::getYears($model['id']);
-		
-		//SqlHelper::addView('AutoModel', $model['id']);
+		$lastModelYear = AutoModel::getLastYear($model['id']);
 
 		$this->render('model', array(
+			'lastModelYear' => $lastModelYear,
 			'make' => $make,
 			'model' => $model,
 			'modelByYears' => $modelByYears,
@@ -133,7 +133,6 @@ class TiresController extends Controller
 			'modelYears' => AutoModel::getYears($model['id']),
 			'competitors' => AutoModelYear::getFrontCompetitors($modelYear['id']),
 			'otherModels' => AutoModelYear::getOtherMakeYear($models, $modelYear['id']),
-			'carSpecsAndDimensions' => $carSpecsAndDimensions,
 			'header_text_block' => $header_text_block,
 			'tires' => $tires,
 		));	

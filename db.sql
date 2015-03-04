@@ -1,1 +1,1 @@
-ALTER TABLE  `tire` ADD  `model_year_count` INT( 11 ) UNSIGNED NOT NULL;
+ALTER TABLE  `auto_completion` ADD  `image_path` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;

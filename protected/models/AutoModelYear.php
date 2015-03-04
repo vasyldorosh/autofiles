@@ -479,7 +479,7 @@ class AutoModelYear extends CActiveRecord
 				);
 			}
 			
-			Yii::app()->cache->set($key, $modelYear, 60*60*24*31, new Tags(Tags::TAG_MODEL_YEAR));
+			Yii::app()->cache->set($key, $modelYear, 0, new Tags(Tags::TAG_MODEL_YEAR));
 		}	
 		
 		return $modelYear;
@@ -531,7 +531,7 @@ class AutoModelYear extends CActiveRecord
 				$data[$item['id']] = $row;						
 			}
 			
-			Yii::app()->cache->set($key, $data, 60*60*24*31, new Tags(Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
 		}	
 		
 		return $data;
@@ -799,7 +799,7 @@ class AutoModelYear extends CActiveRecord
 				}	
 			}
 
-			Yii::app()->cache->set($key, $data, 60*60*24*31, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
 		}
 		
 		return $data;
@@ -809,7 +809,7 @@ class AutoModelYear extends CActiveRecord
 	{
 		$model_year_id = (int) $model_year_id;
 		
-		$key = Tags::TAG_MODEL_YEAR . '_CAR_SPECS_AND_DIMENSIONS_'.$model_year_id;
+		$key = Tags::TAG_MODEL_YEAR . '___CAR_SPECS_AND_DIMENSIONS__'.$model_year_id;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data == false) {
@@ -823,6 +823,12 @@ class AutoModelYear extends CActiveRecord
 			$data['clearance'] = self::getMinMaxSpecs('ground_clearance', $model_year_id);
 			$data['cargo_space'] = self::getMinMaxSpecs('luggage_volume', $model_year_id);
 			$data['curb_weight'] = self::getMinMaxSpecs('curb_weight', $model_year_id);
+			
+			$hps = AutoModelYear::getHps($model_year_id);
+			if (!empty($hps)) {
+				$data['hp']['mmin'] = min($hps);
+				$data['hp']['mmax'] = max($hps);
+			}
 			
 			$v1 = AutoSpecsOption::getV('fuel_economy__city', $lastCompletion['specs_fuel_economy__city']);
 			$v2 = AutoSpecsOption::getV('fuel_economy__highway', $lastCompletion['specs_fuel_economy__highway']);
@@ -982,7 +988,7 @@ class AutoModelYear extends CActiveRecord
 		$key = Tags::TAG_MODEL_YEAR . '__getListYears___' . $model_id;
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data == false) {
+		if ($data === false) {
 			$data = array();
 			$criteria = new CDbCriteria;
 			$criteria->compare('model_id', $model_id);
@@ -1072,4 +1078,194 @@ class AutoModelYear extends CActiveRecord
 		
 		return $data;		
 	}
+	
+	public static function getHps($model_year_id)
+	{	
+		$model_year_id = (int) $model_year_id;
+		$key = Tags::TAG_MODEL_YEAR . '_getHps__' . $model_year_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false) {
+			$data = array();
+			
+			$sql = "SELECT 
+						DISTINCT CONVERT(SUBSTRING_INDEX(c.specs_horsepower, '@', 1), SIGNED INTEGER) AS hp
+					FROM `auto_completion` AS c 
+					WHERE c.is_active=1 AND c.is_deleted=0 AND c.model_year_id={$model_year_id}
+					ORDER BY CONVERT(SUBSTRING_INDEX(c.specs_horsepower, '@', 1), SIGNED INTEGER) ASC";
+		
+			$items = Yii::app()->db->createCommand($sql)->queryAll();
+	
+			foreach ($items as $item) {
+				$data[] = $item['hp'];
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_COMPLETION));
+		}
+		
+		return $data;		
+	}
+	
+	public static function getFrontCompetitorsHp($model_year_id)
+	{
+		$model_year_id = (int) $model_year_id;
+
+		$key = Tags::TAG_MODEL_YEAR . '_getFrontCompetitorsHp_'.$model_year_id;
+		$data = Yii::app()->cache->get($key);
+
+		if ($data == false && !is_array($data)) {
+			$data = array();
+
+			$sql = "SELECT 
+						c.id AS id, 
+						c.model_year_id AS model_year_id, 
+						c.title AS title, 
+						c.image_path AS image, 
+						c.specs_horsepower AS horsepower,
+						c.specs_0_60mph__0_100kmh_s_ AS 0_60_mph, 
+						c.specs_1_4_mile_time AS mile_time, 
+						c.specs_1_4_mile_speed AS mile_speed, 
+						c.specs_msrp AS msrp, 
+						c.specs_curb_weight AS curb_weight, 
+						c.specs_fuel_economy__city AS fuel_economy_city, 
+						c.specs_fuel_economy__highway AS fuel_economy_highway, 
+						SUBSTRING_INDEX(c.specs_torque, '@', 1) AS torque,
+						SUBSTRING_INDEX(c.specs_horsepower, '@', 1) AS hp
+					FROM `auto_completion` AS c 
+					WHERE 
+						c.is_active=1 AND 
+						c.is_deleted=0 AND 
+						c.model_year_id	= {$model_year_id}
+					ORDER BY CONVERT(SUBSTRING_INDEX(c.specs_horsepower, '@', 1), SIGNED INTEGER) ASC
+					";
+									
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();			
+			foreach ($rows as $row) {
+				$data[$row['id']] = $row;
+				$data[$row['id']]['image'] = AutoCompletion::getThumb(AutoCompletion::PHOTO_DIR.$row['image'], 150, 80, 'resize');
+			}	
+
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_COMPLETION));
+		}
+		
+		return $data;
+	}	
+	
+	public static function getItemsByHp($hp, $limit, $offset)
+	{
+		$hp = (int) $hp;
+		$limit = (int) $limit;
+		$offset = (int) $offset;
+
+		$key = Tags::TAG_MODEL_YEAR . '__getItemsByHp__'.$hp .'_'. $limit .'_'. $offset;
+		$data = Yii::app()->cache->get($key);
+
+		if ($data === false) {
+			$data = array();
+			
+			$engines = AutoSpecsOption::getAllBySpecs(120);
+			
+			$sql = "SELECT 
+						c.id AS id, 
+						c.model_year_id AS model_year_id, 
+						c.title AS title, 
+						c.image_path AS image, 
+						c.specs_horsepower AS horsepower,
+						c.specs_0_60mph__0_100kmh_s_ AS 0_60_mph, 
+						c.specs_1_4_mile_time AS mile_time, 
+						c.specs_1_4_mile_speed AS mile_speed, 
+						c.specs_msrp AS msrp, 
+						c.specs_curb_weight AS curb_weight, 
+						c.specs_fuel_economy__city AS fuel_economy_city, 
+						c.specs_fuel_economy__highway AS fuel_economy_highway, 
+						c.specs_engine AS engine, 
+						SUBSTRING_INDEX(c.specs_torque, '@', 1) AS torque,
+						SUBSTRING_INDEX(c.specs_horsepower, '@', 1) AS hp,
+						c.title AS completion_title, 
+						y.id AS model_year_id,
+						y.year AS model_year,
+						model.title AS model_title,
+						model.alias AS model_alias,
+						make.title AS make_title,
+						make.alias AS make_alias						
+					FROM `auto_completion` AS c 
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					LEFT JOIN auto_model AS model ON y.model_id = model.id
+					LEFT JOIN auto_make AS make ON model.make_id = make.id					
+					WHERE 
+						c.is_active=1 AND 
+						c.is_deleted=0 AND 
+						y.is_active=1 AND 
+						y.is_deleted=0 AND 
+						model.is_active=1 AND 
+						model.is_deleted=0 AND 
+						make.is_active=1 AND
+						make.is_deleted=0 AND 					
+						SUBSTRING_INDEX(c.specs_horsepower, '@', 1) = {$hp}
+					LIMIT {$offset}, {$limit}
+					";
+			
+			$modelYearIds = [];
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();			
+			foreach ($rows as $row) {
+				$data[$row['id']] = $row;
+				if (isset($engines[$row['engine']]))
+					$data[$row['id']]['engine'] = $engines[$row['engine']];
+				
+				$data[$row['id']]['image'] = AutoCompletion::getThumb(AutoCompletion::PHOTO_DIR.$row['image'], 150, 80, 'resize');
+				$modelYearIds[] = $row['model_year_id'];
+			}	
+			
+			if (!empty($modelYearIds)) {
+				$criteria = new CDbCriteria;
+				$criteria->addInCondition('id', $modelYearIds);			
+				$criteria->index = 'id';			
+				$modelYears = self::model()->findAll($criteria);
+				foreach ($rows as $row) {
+					if (empty($data[$row['id']]['image'])) {
+						$data[$row['id']]['image'] = $modelYears[$data[$row['id']]['model_year_id']]->getThumb(150, 80, 'resize');
+					}
+				}				
+				
+			}
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		return $data;
+	}	
+	
+	public static function getCountItemsByHp($hp)
+	{
+		$hp = (int) $hp;
+	
+		$key = Tags::TAG_MODEL_YEAR . '_getCountItemsByHp_'.$hp;
+		$count = Yii::app()->cache->get($key);
+
+		if ($count === false) {
+		
+			$sql = "SELECT COUNT(*) AS cc FROM `auto_completion` AS c 
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					LEFT JOIN auto_model AS model ON y.model_id = model.id
+					LEFT JOIN auto_make AS make ON model.make_id = make.id					
+					WHERE 
+						c.is_active=1 AND 
+						c.is_deleted=0 AND 
+						y.is_active=1 AND 
+						y.is_deleted=0 AND 
+						model.is_active=1 AND 
+						model.is_deleted=0 AND 
+						make.is_active=1 AND
+						make.is_deleted=0 AND 					
+						SUBSTRING_INDEX(c.specs_horsepower, '@', 1) = {$hp}
+					";
+									
+			$count = Yii::app()->db->createCommand($sql)->queryScalar();			
+
+			Yii::app()->cache->set($key, $count, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		return $count;
+	}	
+	
+	
 }

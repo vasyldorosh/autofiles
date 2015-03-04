@@ -45,23 +45,11 @@
 		</section>
 		<?*/?>
 		
-		<section class="right-block">
-			<h2 class="section-name"><?=$make['title']?> <?=$model['title']?> specs and dimensions</h2>
-			<ul class="right-block__specs-list">
-				<li class="speed"><a title="<?=$lastModelYear['year']?> <?=$make['title']?> <?=$model['title']?> 0-60" href="/0-60-times<?=$model['url']?>">0-60 times</a></li>
-				<!--
-				<li class="engine"><a href="#">Engine specs</a></li>
-				<li class="horsepower"><a href="#">Horsepower</a></li>
-				<li class="gas"><a href="#">Gas mileage</a></li>
-				<li class="towing"><a href="#">Towing capacity</a></li>
-				<li class="length"><a href="#">Length</a></li>
-				<li class="wheelbase"><a href="#">Wheelbase</a></li>
-				<li class="clearance"><a href="#">Clearance</a></li>
-				<li class="weight"><a href="#">Curb weight</a></li>
-				<li class="cargo"><a href="#">Cargo space</a></li>
-				-->
-			</ul>
-		</section>
+		<?php $this->renderPartial('application.views.specs._right_model', array(
+			'lastModelYear'=>$lastModelYear,
+			'make'=>$make,
+			'model'=>$model,
+		))?>			
 		
 		<?/*?>
 		<section class="right-block">

@@ -145,7 +145,6 @@ class SiteController extends Controller
 			'completions' => $completions,
 			'models' => $models,
 			'competitors' => $competitors,
-			'carSpecsAndDimensions' => $carSpecsAndDimensions,
 			'lastCompletion' => $lastCompletion,
 		));	
 	}	

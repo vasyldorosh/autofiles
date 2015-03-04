@@ -67,6 +67,15 @@ return array(
 				'tires/<alias:[a-z0-9-_]{1,255}>' => 'tires/make',
 				'tires/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'tires/model',
 				'tires/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>/<year:[0-9]{4}>' => 'tires/modelYear',
+
+				'horsepower.html'=>'horsepower/index',
+				'horsepower/<hp:[0-9]{1,4}>/1' => 'site/404',
+				'horsepower/<hp:[0-9]{1,4}>/<page:[0-9]{1,3}>' => 'horsepower/hp',
+				'horsepower/<hp:[0-9]{1,4}>' => 'horsepower/hp',
+				'horsepower/<alias:[a-z0-9-_]{1,255}>' => 'horsepower/make',
+				'horsepower/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'horsepower/model',
+				'horsepower/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>/<year:[0-9]{4}>' => 'horsepower/modelYear',
+								
 				'site/<action:\w+>'=>'site/<action>',
 				'ajax/<action:\w+>'=>'ajax/<action>',
 				'0-60-times.html'=>'specs/060times',

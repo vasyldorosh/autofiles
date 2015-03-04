@@ -7,6 +7,15 @@
 		),		
     ))?>
 
+		<?php echo $form->fileFieldRow($model, 'file')?>
+			
+		<?php if (!$model->isNewRecord):?>
+			<img id="image_preview" src="<?=AutoCompletion::getThumb(AutoCompletion::PHOTO_DIR.$model->image_path, 150, 80, 'resize');?>"/>
+		
+			<?php echo $form->checkBoxRow($model, 'is_delete_photo')?><br/>
+		<?php endif;?>
+
+		
 		<fieldset>
 			<legend><?=Yii::t('admin', 'General')?></legend>	
 			<?php echo $form->dropDownListRow($model, 'model_id', AutoModel::getAllWithMake(),array('empty'=>''))?>

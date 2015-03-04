@@ -382,7 +382,7 @@ class AutoModel extends CActiveRecord
 	{
 		$model_id = (int) $model_id;
 	
-		$key = Tags::TAG_COMPLETION . '_MODEL_SPECS_MIN_MAX_' . $specs . '_' . $model_id;
+		$key = Tags::TAG_COMPLETION . '__MODEL_SPECS_MIN_MAX_' . $specs . '_' . $model_id;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data == false) {
@@ -581,5 +581,37 @@ class AutoModel extends CActiveRecord
 		return $data;
 	}	
 	
+	public static function getMinMaxHorsepower($model_id)
+	{
+		$model_id = (int) $model_id;
+		$key = Tags::TAG_MODEL . '__getMinMaxHorsepower__'.$model_id;
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			$data = array();
 
+			$sql = "
+					SELECT 
+						MAX(CONVERT(SUBSTRING_INDEX(c.specs_horsepower, '@', 1), SIGNED INTEGER)) AS `max`,
+						MIN(CONVERT(SUBSTRING_INDEX(c.specs_horsepower, '@', 1), SIGNED INTEGER)) AS `min`
+					FROM `auto_completion` AS c 
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					LEFT JOIN auto_model AS model ON y.model_id = model.id
+					LEFT JOIN auto_make AS make ON model.make_id = make.id
+					WHERE 
+						y.is_active=1 AND 
+						y.is_deleted=0 AND 
+						model.is_active=1 AND 
+						model.is_deleted=0 AND 
+						make.is_active=1 AND 
+						make.is_deleted=0 AND 
+						model.id={$model_id}			
+			";
+			$data = Yii::app()->db->createCommand($sql)->queryRow();	
+				
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}	
+		
+		return $data;
+	}
+	
 }

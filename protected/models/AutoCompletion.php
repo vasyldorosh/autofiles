@@ -2,6 +2,10 @@
 
 class AutoCompletion extends CActiveRecord
 {
+	const PHOTO_DIR = '/photos/completion/';
+	
+	public $file;
+	public $is_delete_photo;
 	public $model_id;
 	public $year;
 	
@@ -35,10 +39,17 @@ class AutoCompletion extends CActiveRecord
 		$rules = array(
 			array('title, model_year_id', 'required'),
 			array('model_id, code', 'safe'),
-			array('year', 'numerical', 'integerOnly' => true),
+			array('year, is_delete_photo', 'numerical', 'integerOnly' => true),
 			array('is_active, is_deleted', 'numerical', 'integerOnly' => true),
+			array(
+				'file', 
+				'file', 
+				'types'=>'jpg,png,gif,jpeg',
+				'allowEmpty'=>true
+			),		
 		);
-		
+
+	
 		$specs = AutoSpecs::getAll();
 		foreach ($specs as $spec) {
 			$rules[] = array(self::PREFIX_SPECS.$spec['alias'], 'safe');
@@ -88,6 +99,11 @@ class AutoCompletion extends CActiveRecord
 	
 	protected function beforeSave()
 	{
+		if ($this->is_delete_photo) {
+			$this->_deleteImage();
+			$this->image_path = '';
+		}	
+	
 		$this->update_time = time();
 		return parent::beforeSave();
 	}
@@ -117,7 +133,10 @@ class AutoCompletion extends CActiveRecord
 			'model_year_id' => Yii::t('admin', 'Model'),
 			'year' => Yii::t('admin', 'Year'),
 			'is_active' => Yii::t('admin', 'Published'),
-			'is_deleted' => Yii::t('admin', 'Deleted'),				
+			'is_deleted' => Yii::t('admin', 'Deleted'),	
+			'is_delete_photo' => Yii::t('admin', 'Delete Photo'),	
+			'file' => 'File Name',			
+						
 		);
 		
 		$specs = AutoSpecs::getAll();
@@ -177,8 +196,62 @@ class AutoCompletion extends CActiveRecord
 	{
 		$this->_clearCache();
 		
+		if (!empty($this->file)) {
+			if (!$this->isNewRecord && !empty($this->image_path)) {
+				$this->_deleteImage();
+			}		
+			
+			$dir = Yii::getPathOfAlias('webroot') . self::PHOTO_DIR . $this->ModelYear->Model->Make->alias . '/';
+			if (!is_dir($dir)) {
+				mkdir($dir, 0777);
+			}
+			$dir .= $this->ModelYear->Model->alias . '/';
+			if (!is_dir($dir)) {
+				mkdir($dir, 0777);
+			}
+			$dir .= $this->ModelYear->year . '/';
+			if (!is_dir($dir)) {
+				mkdir($dir, 0777);
+			}
+			$image_path =  $this->ModelYear->Model->Make->alias . '/' . $this->ModelYear->Model->alias . '/' . $this->ModelYear->year . '/' . $this->alias.'-'.$this->id . '.'.$this->file->getExtensionName();
+			
+			$this->file->saveAs(Yii::getPathOfAlias('webroot') . self::PHOTO_DIR . $image_path);
+			$this->updateByPk($this->id, array('image_path'=>$image_path));
+		}
+		
+		
 		return parent::afterSave();
 	}
+		
+	private function _deleteImage()
+    {
+        if (!empty($this->image_path)) {
+			$pi = pathinfo(Yii::getPathOfAlias('webroot') . self::PHOTO_DIR . $this->image_path);
+		
+			$files = $this->bfglob($pi['dirname'], "thumb*{$pi['basename']}", 0, 10);			
+			foreach ($files as $file) {
+				@unlink($file);
+			}
+			@unlink(Yii::getPathOfAlias('webroot') . self::PHOTO_DIR . $this->image_path);
+		}
+    }	
+	
+	function bfglob($path, $pattern = '*', $flags = 0, $depth = 0) {
+        $matches = array();
+        $folders = array(rtrim($path, DIRECTORY_SEPARATOR));
+ 
+        while($folder = array_shift($folders)) {
+            $matches = array_merge($matches, glob($folder.DIRECTORY_SEPARATOR.$pattern, $flags));
+            if($depth != 0) {
+                $moreFolders = glob($folder.DIRECTORY_SEPARATOR.'*', GLOB_ONLYDIR);
+                $depth   = ($depth < -1) ? -1: $depth + count($moreFolders) - 2;
+                $folders = array_merge($folders, $moreFolders);
+            }
+        }
+        return $matches;
+    }	
+	
+	
 	
 	public function afterDelete()
 	{
@@ -500,6 +573,139 @@ class AutoCompletion extends CActiveRecord
 	
 		return $data;
 	}
+	
+	public static function getHighHorsepower()
+	{
+		$key = Tags::TAG_COMPLETION . '_getHighHorsepower_';
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data === false && !is_array($data)) {
+			$data = array();
+			
+			$sql = "SELECT 
+						c.model_year_id AS model_year_id, 
+						c.specs_horsepower AS horsepower,
+						c.specs_0_60mph__0_100kmh_s_ AS 0_60_mph, 
+						c.specs_1_4_mile_time AS mile_time, 
+						c.specs_1_4_mile_speed AS mile_speed, 
+						c.specs_msrp AS msrp, 
+						c.specs_curb_weight AS curb_weight, 
+						c.specs_fuel_economy__city AS fuel_economy_city, 
+						c.specs_fuel_economy__highway AS fuel_economy_highway, 
+						SUBSTRING_INDEX(c.specs_torque, '@', 1) AS torque,
+						SUBSTRING_INDEX(c.specs_horsepower, '@', 1) AS hp,
+						y.year AS model_year,
+						model.title AS model_title,
+						model.alias AS model_alias,
+						make.title AS make_title,
+						make.alias AS make_alias
+					FROM `auto_completion` AS c 
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					LEFT JOIN auto_model AS model ON y.model_id = model.id
+					LEFT JOIN auto_make AS make ON model.make_id = make.id
+					WHERE 
+						c.is_active=1 AND 
+						c.is_deleted=0 AND 
+						y.is_active=1 AND  
+						y.is_deleted=0 AND 
+						model.is_active=1 AND 
+						model.is_deleted=0 AND 
+						make.is_active=1 AND
+						make.is_deleted=0
+					GROUP BY c.model_year_id
+					ORDER BY CONVERT(SUBSTRING_INDEX(c.specs_horsepower, '@', 1), SIGNED INTEGER) DESC
+					LIMIT 10";
+					
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();			
+			$modelYearIds = array();
+			foreach ($rows as $row) {
+				$data[$row['model_year_id']] = $row;
+				$modelYearIds[] = $row['model_year_id'];
+			}	
+			
+			$criteria = new CDbCriteria;
+			$criteria->addInCondition('id',$modelYearIds);			
+			$modelYears = AutoModelYear::model()->findAll($criteria);			
+			foreach ($modelYears as $modelYear) {
+				$data[$modelYear->id]['photo'] = $modelYear->getThumb(150, null, 'resize');
+			}
+
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		return $data;		
+	}		
+		
+	public static function getThumb($image_path, $width, $height, $mode='origin')
+	{
+		$originFile = Yii::getPathOfAlias('webroot') . $image_path;
+
+		if (is_file($originFile)) {
+ 		
+			if ($mode == 'origin') {
+				return self::PHOTO_DIR . $image_path;
+			} else {
+			
+				$pathinfo = pathinfo($originFile);
+				
+				$thumbFileName = "/thumb_{$mode}_{$width}x{$height}_" . $pathinfo['basename']; 
+				$thumbFilePath = $pathinfo['dirname'] . $thumbFileName;
+				if (!is_file($thumbFilePath)) {
+					$image = Yii::app()->iwi->load($originFile);
+					if ($mode=='resize') {
+						$image->resize($width, $height);
+					} else {
+						$image->crop($width, $height);
+					}
+					$image->save($thumbFilePath);
+				}
+						
+				$exp = explode(self::PHOTO_DIR, $pathinfo['dirname']);		
+						
+				return self::PHOTO_DIR . end($exp) . $thumbFileName;
+			} 
+		} else {
+			return false;
+		}
+	}
+	
+	public static function getHpList()
+	{
+		$key = Tags::TAG_COMPLETION . 'getHpList_';
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data === false) {
+			$data = array();
+			
+			$sql = "SELECT 
+						DISTINCT CONVERT(SUBSTRING_INDEX(c.specs_horsepower, '@', 1), SIGNED INTEGER) AS hp
+					FROM `auto_completion` AS c 
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					LEFT JOIN auto_model AS model ON y.model_id = model.id
+					LEFT JOIN auto_make AS make ON model.make_id = make.id
+					WHERE 
+						c.is_active=1 AND 
+						c.is_deleted=0 AND 
+						y.is_active=1 AND  
+						y.is_deleted=0 AND 
+						model.is_active=1 AND 
+						model.is_deleted=0 AND 
+						make.is_active=1 AND
+						make.is_deleted=0
+					ORDER BY CONVERT(SUBSTRING_INDEX(c.specs_horsepower, '@', 1), SIGNED INTEGER) ASC";
+					
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();			
+			$modelYearIds = array();
+			foreach ($rows as $row) {
+				$data[] = $row['hp'];
+			}	
+
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		return $data;		
+	}		
+	
 	
 }
 

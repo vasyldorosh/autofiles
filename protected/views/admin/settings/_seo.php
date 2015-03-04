@@ -130,6 +130,46 @@
 					), 
 					true
 				)),				
+                array(
+					'label'=>Yii::t('admin', 'Horsepower'),
+					'content' => $this->renderPartial('_horsepower', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+                array(
+					'label'=>Yii::t('admin', 'Horsepower Make'),
+					'content' => $this->renderPartial('_horsepower_make', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+                array(
+					'label'=>Yii::t('admin', 'Horsepower Model'),
+					'content' => $this->renderPartial('_horsepower_model', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+                array(
+					'label'=>Yii::t('admin', 'Horsepower Model Year'),
+					'content' => $this->renderPartial('_horsepower_model_year', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+                array(
+					'label'=>Yii::t('admin', 'Horsepower value'),
+					'content' => $this->renderPartial('_horsepower_hp', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
 			)
 		));?>
 

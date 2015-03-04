@@ -9,6 +9,11 @@
 						</tr>
 						<tr>
 							<td>
+								<a class="horsepower" href="/horsepower/<?=$make['alias']?>/"><?=$make['title']?> horsepower</a>
+							</td>						
+						</tr>						
+						<tr>
+							<td>
 								<a class="tire" href="/tires/<?=$make['alias']?>/"><?=$make['title']?> tires</a>
 							</td>						
 						</tr>

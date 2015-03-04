@@ -72,6 +72,8 @@ class CompletionController extends BackendController
 
         if (isset($_POST['AutoCompletion'])) {
 			$model->attributes = $_POST['AutoCompletion'];
+			$model->file = CUploadedFile::getInstance($model, 'file');
+
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Completion successfully added'));
 				$this->afterSaveRedirect($model);
@@ -90,6 +92,7 @@ class CompletionController extends BackendController
 
         if (isset($_POST['AutoCompletion'])) {
 			$model->attributes = $_POST['AutoCompletion'];
+			$model->file = CUploadedFile::getInstance($model, 'file');
 
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Completion successfully edited'));

@@ -44,29 +44,11 @@
 
 <?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
 
-<section class="right-block">
-	<h2 class="section-name"><?=$make['title']?> <?=$model['title']?> specs</h2>
-	
-	<a href="/<?=$make['alias']?>/<?=$model['alias']?>/" title="<?=$make['title']?> <?=$model['title']?> info ">
-		<img src="<?=$lastYear['photo_270']?>">
-	</a>
-	
-	<table class="right-block__specs-list">
-					<tbody>
-						<tr>
-							<td>
-								<a class="speed" title="<?=$make['title']?> <?=$model['title']?> 0-60 acceleration times, ¼ mile" href="/0-60-times/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$make['title']?> <?=$model['title']?> 0-60 times</a>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<a class="tire" href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$make['title']?> <?=$model['title']?> tires</a>
-							</td>						
-						</tr>
-					</tbody>
-				</table>
-
-</section>
+<?php $this->renderPartial('application.views.specs._right_model', array(
+	'make'=>$make,
+	'model'=>$model,
+	'lastModelYear'=>$lastModelYear,
+))?>
 
 </div>
 </main>
