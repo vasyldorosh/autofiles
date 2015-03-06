@@ -842,6 +842,17 @@ class AutoModelYear extends CActiveRecord
 		return $data;
 	}	
 	
+	public static function getRangeHp($model_year_id)
+	{
+		$hps = AutoModelYear::getHps($model_year_id);
+		$data = array();
+		if (!empty($hps)) {
+			$data['min'] = min($hps);
+			$data['max'] = max($hps);
+		}
+		return $data;
+	}
+	
 	public static function getIdsIsCompetitors()
 	{
 		$key = Tags::TAG_MODEL_YEAR . '_IDS_IS_COMPETITORS_';	

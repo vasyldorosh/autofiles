@@ -23,10 +23,11 @@
 						</a>
 					</div>
 					<h3><?=$completion['title']?></h3>	
-						
 					<h3><a href="/horsepower/<?=trim($completion['hp'])?>/"><?=$completion['horsepower']?></a></h3>
 					<ul class="make__vehicle-specs">
-						<li><a href="/0-60-times/<?=$make['alias']?>/<?=$model['alias']?>/" title="<?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> 0-60 times 6.1 sec">0-60 6.1 sec</a></li>
+						<?php if (!empty($completion['0_60_mph'])):?>
+						<li><a href="/0-60-times/<?=$make['alias']?>/<?=$model['alias']?>/" title="<?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> 0-60 times <?=$completion['0_60_mph']?> sec">0-60 <?=$completion['0_60_mph']?> sec</a></li>
+						<?php endif;?>
 						<?php if (!empty($completion['torque'])):?>
 							<li>Torque <?=(float)$completion['torque']?> lb.-ft.</a></li>
 						<?php endif;?>
@@ -61,23 +62,33 @@
 			<?php foreach ($competitors as $competitor):?>
 				<li>
 					<div class="make__vehicle-image">
-						<a title="<?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> horsepower" href="/horsepower/<?=$make['alias']?>/<?=$model['alias']?>/<?=$modelYear['year']?>/">
+						<a title="<?=$competitor['year']?> <?=$competitor['make']?> <?=$competitor['model']?> horsepower" href="/horsepower/<?=$competitor['make_alias']?>/<?=$competitor['model_alias']?>/<?=$competitor['year']?>/">
 							<img src="<?=$competitor['photo']?>">
 						</a>
 					</div>
 					<h3>
-						<a href="/horsepower/<?=$make['alias']?>/<?=$model['alias']?>/<?=$modelYear['year']?>/"><?=$modelYear['year']?> <?=$make['title']?>  <?=$model['title']?> horsepower</a>
+						<a href="/horsepower/<?=$competitor['make_alias']?>/<?=$competitor['model_alias']?>/<?=$competitor['year']?>/"><?=$competitor['year']?> <?=$competitor['make']?>  <?=$competitor['model']?> horsepower</a>
 					</h3>
 
-					<?php $rangeTireSize = AutoModel::getMinMaxTireSizeYear($competitor['id']);?>
-					<?php if (!empty($rangeTireSize)):?>
 					<ul class="make__vehicle-specs">
+						<?php $rangeHp = AutoModelYear::getRangeHp($competitor['id']);?>
+						<?php if (!empty($rangeHp)):?>					
 						<li>
-							<?=$rangeTireSize['min']?> 
-							<?php if ($rangeTireSize['min'] != $rangeTireSize['max']):?> - <?=$rangeTireSize['max']?><?php endif;?>
+							<?=$rangeHp['min']?> 
+							<?php if ($rangeHp['min'] != $rangeHp['max']):?> - <?=$rangeHp['max']?><?php endif;?> hp
 						</li>
+						<?php endif;?>		
+						<?php $range060 = AutoModelYear::getMinMaxSpecs('0_60mph__0_100kmh_s_', $competitor['id']);?>
+						<?php if (!empty($range060)):?>
+						<li>
+							<a href="/0-60-times/<?=$competitor['make_alias']?>/<?=$competitor['model_alias']?>/">
+							<?=$range060['mmin']?> 
+							<?php if ($range060['mmin'] != $range060['mmax']):?> - <?=$range060['mmax']?><?php endif;?> sec
+							</a>
+						</li>
+						<?php endif;?>
 					</ul>
-					<?php endif;?>					
+								
 					
 				</li>
 			<?php endforeach;?>
@@ -103,11 +114,11 @@
 				<a href="/horsepower/<?=$make['alias']?>/<?=$otherModel['model_alias']?>/<?=$otherModel['year']?>/" class="model__block model__block_all-models" title="<?=$otherModel['year']?> <?=$make['title']?> <?=$otherModel['model']?> horsepower">
 					<img src="<?=$otherModel['photo']?>">
 					<div class="model__block-name"><h3><?=$otherModel['year']?> <?=$make['title']?> <?=$otherModel['model']?></h3></div>
-					<?php $rangeTireSize = AutoModel::getMinMaxTireSizeYear($otherModel['id']);?>
-					<?php if (!empty($rangeTireSize)):?>
+					<?php $rangeHp = AutoModelYear::getRangeHp($otherModel['id']);?>
+					<?php if (!empty($rangeHp)):?>
 					<span class="model__block-cost">
-						<?=$rangeTireSize['min']?> 
-						<?php if ($rangeTireSize['min'] != $rangeTireSize['max']):?> - <?=$rangeTireSize['max']?><?php endif;?>
+						<?=$rangeHp['min']?> 
+						<?php if ($rangeHp['min'] != $rangeHp['max']):?> - <?=$rangeHp['max']?><?php endif;?> hp
 					</span>
 					<?php endif;?>	
 				</a>
