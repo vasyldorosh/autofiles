@@ -17,7 +17,7 @@ defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
 //show profiler
 defined('YII_DEBUG_SHOW_PROFILER') or define('YII_DEBUG_SHOW_PROFILER',0);
 //enable profiling
-defined('YII_DEBUG_PROFILING') or define('YII_DEBUG_PROFILING',true);
+defined('YII_DEBUG_PROFILING') or define('YII_DEBUG_PROFILING',false);
 //execution time
 defined('YII_DEBUG_DISPLAY_TIME') or define('YII_DEBUG_DISPLAY_TIME',false);
 
