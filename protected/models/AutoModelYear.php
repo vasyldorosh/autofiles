@@ -929,7 +929,7 @@ class AutoModelYear extends CActiveRecord
 	
 	public static function getYears()
 	{
-		$key = Tags::TAG_MODEL_YEAR . '_LIST_YEARS_';
+		$key = Tags::TAG_MODEL_YEAR . '__LIST_YEARS__';
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data == false) {
