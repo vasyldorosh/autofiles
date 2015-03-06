@@ -102,7 +102,7 @@ class ImportCommand extends CConsoleCommand
 			'Chrysler' => array('Town-Country'=>228),
 		);
 		
-		$year = 2015;
+		$year = date('Y');
 		$content = CUrlHelper::getPage("http://www.autoblog.com/car-finder/year-{$year}/");
 		preg_match_all('/<span class="pageCntr"> Page <strong>1<\/strong> of <strong>(.*?)<\/strong><\/span>/', $content, $matchesPager);
 		if (isset($matchesPager[1][1]) && is_numeric($matchesPager[1][1])) {
@@ -183,6 +183,96 @@ class ImportCommand extends CConsoleCommand
 		return $modelYearIds;
 	}	
 	
+	public function actionModelYearNext()
+	{
+		$modelYearIds = array();
+		$dataMake = array();
+		$dataModel = array(
+			'Chrysler' => array('Town-Country'=>228),
+		);
+		
+		$year = date('Y') + 1;		
+		if (true) {
+			for ($page=1; $page<=10; $page++) {
+				$notFound = false;
+				
+				$url = "http://www.autoblog.com/car-finder/sort-yr/{$page}/";
+				$content = CUrlHelper::getPage($url);
+				preg_match_all('/<a class="overviewTitle" href="\/buy\/'.$year.'\-(.*?)\-(.*?)\/">(.*?)<\/a>/', $content, $matches);
+				preg_match_all('/<div class="carImg"><a href="\/buy\/(.*?)\/"><img src="(.*?)" alt="(.*?)" \/><\/a><\/div>/', $content, $matchesImage);
+				$imagesData = array();
+				foreach ($matchesImage[0] as $key=>$val) {	
+					$imagesData[trim($matchesImage[3][$key])] = $matchesImage[2][$key];
+				}
+				
+				foreach ($matches[1] as $key=>$makeTitle) {
+					$modelTitle = $matches[2][$key];
+					
+					if ((int)$matches[3][$key] != $year) {
+						break 2;
+					}
+					
+					$makeTitle	= str_replace(array('_', '+'), array('-', ' '), $makeTitle);
+					$modelTitle	= str_replace(array('_', '+'), array('-', ' '), $modelTitle);
+					
+					
+					$aliasMake = TextHelper::urlSafe(str_replace(' ', '+', $makeTitle));
+					$modelAlias = TextHelper::urlSafe(str_replace(' ', '+', $modelTitle));
+					
+					if (!isset($dataMake[$aliasMake])) {
+						$make = AutoMake::model()->findByAttributes(array('alias'=>$aliasMake));
+						if (!empty($make)) {
+							$dataMake[$aliasMake] = $make->id;
+						} else {
+							echo "Make $makeTitle not found \n";
+							$notFound = true;
+						}
+					}
+					
+					if (isset($dataMake[$aliasMake]) && !isset($dataModel[$aliasMake][$modelAlias])) {
+						$model = AutoModel::model()->findByAttributes(array('alias'=>$modelAlias, 'make_id'=>$dataMake[$aliasMake]));
+						if (!empty($model)) {
+							$dataModel[$aliasMake][$modelAlias] = $model->id;
+						} else { 
+							echo "model $makeTitle $modelTitle not found \n";
+							$notFound = true;
+						}
+					}
+					
+					if (!$notFound) {
+						$modelYear = AutoModelYear::model()->findByAttributes(array(
+							'year' => $year,
+							'model_id' => $dataModel[$aliasMake][$modelAlias],
+						));
+						
+						if (empty($modelYear)) {
+							$modelYear = new AutoModelYear;
+							
+							$keyImage = "{$year} {$model->Make->title} {$model->title}";
+							if (isset($imagesData[$keyImage])) {
+								$modelYear->file_url = $imagesData[$keyImage];
+								$modelYear->file_name = "{$model->Make->title}-{$model->title}-{$year}.jpg";	
+							}
+													
+							$modelYear->is_active = 1;
+							$modelYear->year = $year;
+							$modelYear->model_id = $dataModel[$aliasMake][$modelAlias];
+							if ($modelYear->save()) {
+								$modelYearIds[] = $modelYear->id;
+								echo "ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
+							} else {
+								echo "ModelYear: $year $makeTitle $modelTitle \n";
+								print_r($modelYear->errors);
+							}							
+						}
+					}	
+				}
+			}
+		}
+		
+		return $modelYearIds;
+	}	
+	
 	
 	
 	public function actionCatalog()
@@ -190,6 +280,7 @@ class ImportCommand extends CConsoleCommand
 		$this->actionMake();
 		$this->actionModel();
 		$parsedModelYearIds = $this->actionModelYear();
+		$parsedModelYearIds = array_merge($parsedModelYearIds, $this->actionModelYearNext());
 		
 		//$parsedModelYearIds = range(5887, 5896);
 
