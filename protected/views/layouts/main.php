@@ -32,6 +32,7 @@
 		<li <?=($uri=='/')?'class="is-active"':''?>><a href="/">All cars</a></li>
 		<li <?=($uri=='/0-60-times.html')?'class="is-active"':''?>><a href="/0-60-times.html">0-60 times</a></li>
 		<li <?=($uri=='/tires.html')?'class="is-active"':''?>><a href="/tires.html">Tires</a></li>
+		<li <?=($uri=='/horsepower.html')?'class="is-active"':''?>><a href="/horsepower.html">HP</a></li>
 	</ul>
 </nav>
 
