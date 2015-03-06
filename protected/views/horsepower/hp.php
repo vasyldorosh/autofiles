@@ -59,7 +59,7 @@
 			<section class="years_box make">
 				<ul class="years_list">
 				<?php for($i=1; $i<=$countPage; $i++):?>
-					<li class="years_list_item <?=($i==$page)?'current':''?>"><a href="/horsepower/<?=$hp?>/<?php if($i>1):?><?=$i?><?php endif;?>" class="btn years_list_link" title="<?=$hp?> hp page <?=$i?>"><?=$i?></a></li>
+					<li class="years_list_item <?=($i==$page)?'current':''?>"><a href="/horsepower/<?=$hp?>/<?php if($i>1):?><?=$i?>/<?php endif;?>" class="btn years_list_link" title="<?=$hp?> hp page <?=$i?>"><?=$i?></a></li>
 				<?php endfor;?>
 				</ul>
 			</section>

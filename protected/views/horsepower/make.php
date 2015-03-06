@@ -18,9 +18,10 @@
 		<li>
 			<?php if (isset($dataModel['photo'])):?>
 			<div class="make__vehicle-image">
-				<a title="<?=$make['title']?> <?=$dataModel['title']?> tire size" href="/horsepower<?=$dataModel['url']?>">
+				<a title="<?=$make['title']?> <?=$dataModel['title']?> horsepower" href="/horsepower<?=$dataModel['url']?>">
 					<img src="<?=$dataModel['photo']?>"> 
-				</div>
+				</a>
+			</div>
 			<?php endif;?>	
 			<h3>
 				<a href="/horsepower<?=$dataModel['url']?>" title="<?=$make['title']?> <?=$dataModel['title']?> horsepower"><?=$make['title']?> <?=$dataModel['title']?> horsepower</a>

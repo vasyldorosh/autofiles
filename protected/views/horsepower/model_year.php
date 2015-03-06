@@ -24,7 +24,7 @@
 					</div>
 					<h3><?=$completion['title']?></h3>	
 						
-					<h3><a href="/horsepower/<?=$completion['hp']?>/"><?=$completion['horsepower']?></a></h3>
+					<h3><a href="/horsepower/<?=trim($completion['hp'])?>/"><?=$completion['horsepower']?></a></h3>
 					<ul class="make__vehicle-specs">
 						<li><a href="/0-60-times/<?=$make['alias']?>/<?=$model['alias']?>/" title="<?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> 0-60 times 6.1 sec">0-60 6.1 sec</a></li>
 						<?php if (!empty($completion['torque'])):?>
@@ -61,12 +61,12 @@
 			<?php foreach ($competitors as $competitor):?>
 				<li>
 					<div class="make__vehicle-image">
-						<a title="<?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> tire size" href="/horsepower/<?=$make['alias']?>/<?=$model['alias']?>/<?=$modelYear['year']?>/">
+						<a title="<?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> horsepower" href="/horsepower/<?=$make['alias']?>/<?=$model['alias']?>/<?=$modelYear['year']?>/">
 							<img src="<?=$competitor['photo']?>">
 						</a>
 					</div>
 					<h3>
-						<a href="/horsepower/<?=$make['alias']?>/<?=$model['alias']?>/<?=$modelYear['year']?>/"><?=$modelYear['year']?> <?=$make['title']?>  <?=$model['title']?> tire size</a>
+						<a href="/horsepower/<?=$make['alias']?>/<?=$model['alias']?>/<?=$modelYear['year']?>/"><?=$modelYear['year']?> <?=$make['title']?>  <?=$model['title']?> horsepower</a>
 					</h3>
 
 					<?php $rangeTireSize = AutoModel::getMinMaxTireSizeYear($competitor['id']);?>
@@ -100,7 +100,7 @@
 			<h2 class="section-name_2">Other <?=$modelYear['year']?> <?=$make['title']?> models</h2>
 			<div class="model__block-box model__block-box_all-models">
 			<?php foreach ($otherModels as $otherModel):?>	
-				<a href="/horsepower/<?=$make['alias']?>/<?=$otherModel['model_alias']?>/<?=$otherModel['year']?>/" class="model__block model__block_all-models" title="<?=$otherModel['year']?> <?=$make['title']?> <?=$otherModel['model']?> tire size">
+				<a href="/horsepower/<?=$make['alias']?>/<?=$otherModel['model_alias']?>/<?=$otherModel['year']?>/" class="model__block model__block_all-models" title="<?=$otherModel['year']?> <?=$make['title']?> <?=$otherModel['model']?> horsepower">
 					<img src="<?=$otherModel['photo']?>">
 					<div class="model__block-name"><h3><?=$otherModel['year']?> <?=$make['title']?> <?=$otherModel['model']?></h3></div>
 					<?php $rangeTireSize = AutoModel::getMinMaxTireSizeYear($otherModel['id']);?>
