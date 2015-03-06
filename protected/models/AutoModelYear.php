@@ -1205,7 +1205,7 @@ class AutoModelYear extends CActiveRecord
 					LIMIT {$offset}, {$limit}
 					";
 			
-			$modelYearIds = [];
+			$modelYearIds = array();
 			$rows = Yii::app()->db->createCommand($sql)->queryAll();			
 			foreach ($rows as $row) {
 				$data[$row['id']] = $row;
