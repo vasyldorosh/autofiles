@@ -1,5 +1,5 @@
 <!-- banner -->
-<br><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- autofiles_300x250 -->
 <ins class="adsbygoogle"
      style="display:inline-block;width:300px;height:250px"
