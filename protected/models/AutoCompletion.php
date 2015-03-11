@@ -576,7 +576,7 @@ class AutoCompletion extends CActiveRecord
 	
 	public static function getHighHorsepower()
 	{
-		$key = Tags::TAG_COMPLETION . '_getHighHorsepower_';
+		$key = Tags::TAG_COMPLETION . '__getHighHorsepower__';
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data === false && !is_array($data)) {
@@ -614,7 +614,7 @@ class AutoCompletion extends CActiveRecord
 						make.is_deleted=0
 					GROUP BY c.model_year_id
 					ORDER BY CONVERT(SUBSTRING_INDEX(c.specs_horsepower, '@', 1), SIGNED INTEGER) DESC
-					LIMIT 10";
+					LIMIT 20";
 					
 			$rows = Yii::app()->db->createCommand($sql)->queryAll();			
 			$modelYearIds = array();

@@ -24,7 +24,7 @@
 		</section>	
 
 		<section class="product_photo_box make">
-			<h2 class="section-name_2">10 high horsepower cars in our database</h2>
+			<h2 class="section-name_2">20 high horsepower cars in our database</h2>
 			<ul class="make__vehicle">
 			<?php foreach (AutoCompletion::getHighHorsepower() as $modelYear):?>	
 				<li>
@@ -32,11 +32,13 @@
 					<h3><a title="<?=$modelYear['make_title']?> <?=$modelYear['model_title']?> horsepower" href="/horsepower/<?=$modelYear['make_alias']?>/<?=$modelYear['model_alias']?>/"><?=$modelYear['model_year']?> <?=$modelYear['make_title']?> <?=$modelYear['model_title']?></a></h3>
 					<h3><a href="/horsepower/<?=trim($modelYear['hp'])?>/"><?=$modelYear['horsepower']?></a></h3>
 					<ul class="make__vehicle-specs">
-						<li><a href="/0-60-times/<?=$modelYear['make_alias']?>/<?=$modelYear['model_alias']?>/" title="<?=$modelYear['model_year']?> <?=$modelYear['make_title']?> <?=$modelYear['model_title']?> 0-60 times 6.1 sec">0-60 6.1 sec</a></li>
+						<?php if (!empty($modelYear['0_60_mph'])):?>
+							<li><a href="/0-60-times/<?=$modelYear['make_alias']?>/<?=$modelYear['model_alias']?>/" title="<?=$modelYear['model_year']?> <?=$modelYear['make_title']?> <?=$modelYear['model_title']?> 0-60 times <?=(float)$modelYear['0_60_mph']?> sec">0-60 <?=(float)$modelYear['0_60_mph']?> sec</a></li>
+						<?php endif;?>
 						<?php if (!empty($modelYear['torque'])):?>
 							<li>Torque <?=(float)$modelYear['torque']?> lb.-ft.</a></li>
 						<?php endif;?>
-						<?php if (!empty($modelYear['mile_time']) || !empty($modelYear['mile_speed'])):?>
+						<?php if (!empty($modelYear['mile_time']) || !empty($modelYear['mile_speed'])):?>0_60_mph
 							<li>
 								<?php if (!empty($modelYear['mile_time'])):?>1/4 mile <?=$modelYear['mile_time']?> sec @ <?php endif;?>
 								<?php if (!empty($modelYear['mile_speed'])):?> <?=$modelYear['mile_speed']?> mph<?php endif;?>
