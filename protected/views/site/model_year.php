@@ -49,7 +49,7 @@
 					</ul>		
 					-->
 					<?php else:?>
-						<p>Trims not founded</p>
+						<p>Trims not found</p>
 					<?php endif;?>
 
 					<ul class="model-year__years">
@@ -61,7 +61,7 @@
 			</div>
 		</section>
 		
-		<?php $this->widget('application.widgets.BannerWidget', array('banner' => '300x250')); ?>
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>
 		
 		<section class="make">
 			<div class="make__history">
