@@ -148,14 +148,11 @@ class TireRimDiameter extends CActiveRecord
 			foreach ($items as $item) {
 				$ids[] = $item['rim_diameter_id'];
 			}
-			
-			return array();
-			
+
 			if (!empty($ids)) {
 				$sql = "SELECT id, value FROM tire_rim_diameter WHERE id IN (".implode(',', $ids).") ORDER BY value";
-				if (isset($_GET['t'])) {
-					d($sql,0);
-				}
+				d($sql);
+				
 				$items = Yii::app()->db->createCommand($sql)->queryAll();
 				
 				foreach ($items as $item) {
