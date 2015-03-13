@@ -128,9 +128,9 @@ class TireRimDiameter extends CActiveRecord
 
 	public static function getListFront($attributes=array())
 	{
-		$key = Tags::TAG_TIRE_RIM_DIAMETER . '__getListFront__' . serialize($attributes);
+		$key = Tags::TAG_TIRE_RIM_DIAMETER . 'getListFront' . serialize($attributes);
 		$data = Yii::app()->cache->get($key);
-		if ($data === false || true) {
+		if ($data === false) {
 			$data = array();
 			
 			$where = array();
@@ -146,12 +146,11 @@ class TireRimDiameter extends CActiveRecord
 			$items = Yii::app()->db->createCommand("SELECT DISTINCT rim_diameter_id FROM tire $where")->queryAll();
 			$ids = array();
 			foreach ($items as $item) {
-				$ids[] = $item['rim_diameter_id'];
+				$ids[] = (int)$item['rim_diameter_id'];
 			}
 
 			if (!empty($ids)) {
 				$sql = "SELECT id, value FROM tire_rim_diameter WHERE id IN (".implode(',', $ids).") ORDER BY value";
-				d($sql);
 				
 				$items = Yii::app()->db->createCommand($sql)->queryAll();
 				
