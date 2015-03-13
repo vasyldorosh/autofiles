@@ -342,6 +342,7 @@ class SitemapCommand extends CConsoleCommand
 		$value = $doc->createTextNode('http://www.sitemaps.org/schemas/sitemap/0.9');
 		$xmlns->appendChild($value);		
 		foreach ($hps = AutoCompletion::getHpList() as $hp) {
+			if (!$hp) {continue;}
 			$url = $site_url . '/horsepower/'.$hp . '/';
 			$this->addItem($doc, $urlset, array(
 				'url' => $url,
