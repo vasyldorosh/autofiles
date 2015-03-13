@@ -305,6 +305,26 @@ class SitemapCommand extends CConsoleCommand
 			$i++;
 		} while (true);
 		
+		//hp
+		$file = "/sitemap/hp.xml";
+		$doc	= new DOMDocument("1.0", 'utf-8');
+		$urlset = $doc->createElement("urlset");
+		$doc->appendChild($urlset);
+		$xmlns = $doc->createAttribute("xmlns");
+		$urlset->appendChild($xmlns);
+		$value = $doc->createTextNode('http://www.sitemaps.org/schemas/sitemap/0.9');
+		$xmlns->appendChild($value);		
+		foreach ($hps = AutoCompletion::getHpList() as $hp) {
+			if (!$hp) {continue;}
+			$url = $site_url . '/horsepower/'.$hp . '/';
+			$this->addItem($doc, $urlset, array(
+				'url' => $url,
+				'lastmod' => time(),
+			));			
+		}
+		$mapFiles[] = $file;		
+		
+		
 		$file = "/sitemap/tires_make_size.xml";
 		$doc	= new DOMDocument("1.0", 'utf-8');
 		$urlset = $doc->createElement("urlset");
@@ -331,25 +351,7 @@ class SitemapCommand extends CConsoleCommand
 		$urlset->appendChild($xmlns);
 		$value = $doc->createTextNode('http://www.sitemaps.org/schemas/sitemap/0.9');
 		$xmlns->appendChild($value);
-		
-		//hp
-		$file = "/sitemap/hp.xml";
-		$doc	= new DOMDocument("1.0", 'utf-8');
-		$urlset = $doc->createElement("urlset");
-		$doc->appendChild($urlset);
-		$xmlns = $doc->createAttribute("xmlns");
-		$urlset->appendChild($xmlns);
-		$value = $doc->createTextNode('http://www.sitemaps.org/schemas/sitemap/0.9');
-		$xmlns->appendChild($value);		
-		foreach ($hps = AutoCompletion::getHpList() as $hp) {
-			if (!$hp) {continue;}
-			$url = $site_url . '/horsepower/'.$hp . '/';
-			$this->addItem($doc, $urlset, array(
-				'url' => $url,
-				'lastmod' => time(),
-			));			
-		}
-		$mapFiles[] = $file;
+	
 				
 		$doc->formatOutput = true;
 		$doc->save(dirname(__FILE__) ."/../../" . $file);		
