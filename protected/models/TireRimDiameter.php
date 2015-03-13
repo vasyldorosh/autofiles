@@ -149,6 +149,8 @@ class TireRimDiameter extends CActiveRecord
 				$ids[] = $item['rim_diameter_id'];
 			}
 			
+			return array();
+			
 			if (!empty($ids)) {
 				$sql = "SELECT id, value FROM tire_rim_diameter WHERE id IN (".implode(',', $ids).") ORDER BY value";
 				if (isset($_GET['t'])) {

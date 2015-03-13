@@ -144,7 +144,17 @@
 					</ul>
 				</div>
 			</div>
-
+			<div class="product_photo_item">
+				<div class="product_photo_item_top">
+						<h3>Popular tire sizes</h3>
+					<ul class="make__vehicle-specs">
+					<?php foreach (Tire::getPopolar() as $tire):?>
+						<?php $tireTitle = Tire::format($tire);?>
+						<li><a href="<?=Tire::url($tire)?>" title="<?=$tireTitle?> tires"><?=$tireTitle?></a></li>
+					<?php endforeach?>
+					</ul>
+				</div>
+			</div>
 		</section>
 		
 
