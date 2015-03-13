@@ -133,7 +133,19 @@
 			<?=SiteConfig::getInstance()->getValue('tires_footer_text_block')?>			
 		</section>
 		
+		<section class="product_photo_box make">				
+			<div class="product_photo_item">
+				<div class="product_photo_item_top">
+					<h3>All tire diameters</h3>
+					<ul class="make__vehicle-specs">
+					<?php foreach (TireRimDiameter::getListFront() as $r):?>	
+						<li><a href="/tires/r<?=$r?>.html" title="<?=$r?> inch wheels">R<?=$r?></a></li>
+					<?php endforeach?>
+					</ul>
+				</div>
+			</div>
 
+		</section>
 		
 
 	</div>
