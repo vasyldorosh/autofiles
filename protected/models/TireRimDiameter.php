@@ -130,7 +130,7 @@ class TireRimDiameter extends CActiveRecord
 	{
 		$key = Tags::TAG_TIRE_RIM_DIAMETER . '__getListFront__' . serialize($attributes);
 		$data = Yii::app()->cache->get($key);
-		if ($data === false) {
+		if ($data === false || true) {
 			$data = array();
 			
 			$where = array();
@@ -150,7 +150,12 @@ class TireRimDiameter extends CActiveRecord
 			}
 			
 			if (!empty($ids)) {
-				$items = Yii::app()->db->createCommand("SELECT 	id, value FROM tire_rim_diameter WHERE id IN (".implode(',', $ids).") ORDER BY value")->queryAll();
+				$sql = "SELECT id, value FROM tire_rim_diameter WHERE id IN (".implode(',', $ids).") ORDER BY value";
+				if (isset($_GET['t'])) {
+					d($sql,0);
+				}
+				$items = Yii::app()->db->createCommand($sql)->queryAll();
+				
 				foreach ($items as $item) {
 					$data[$item['id']] = $item['value'];
 				}							
