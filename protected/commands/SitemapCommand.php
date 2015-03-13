@@ -23,6 +23,7 @@ class SitemapCommand extends CConsoleCommand
 			'/', 
 			'/0-60-times.html',
 			'/tires.html',
+			'/horsepower.html',
 		);
 		
 		$i=0;
@@ -58,6 +59,11 @@ class SitemapCommand extends CConsoleCommand
 				
 				$this->addItem($doc, $urlset, array(
 					'url' => $site_url . '/tires/'.$make['alias'].'/',
+					'lastmod' => time(),
+				));						
+				
+				$this->addItem($doc, $urlset, array(
+					'url' => $site_url . '/horsepower/'.$make['alias'].'/',
 					'lastmod' => time(),
 				));						
 			}
@@ -112,6 +118,11 @@ class SitemapCommand extends CConsoleCommand
 					'url' => $site_url . '/tires/' . $model->Make->alias . '/' . $model->alias.'/',
 					'lastmod' => time(),
 				));						
+				
+				$this->addItem($doc, $urlset, array(
+					'url' => $site_url . '/horsepower/' . $model->Make->alias . '/' . $model->alias.'/',
+					'lastmod' => time(),
+				));						
 			}
 				
 			if (empty($models))	{
@@ -162,14 +173,14 @@ class SitemapCommand extends CConsoleCommand
 					'url' => $site_url . '/' . $model->Model->Make->alias . '/' . $model->Model->alias . '/' . $model->year.'/photos.html',
 					'lastmod' => time(),
 				));					
-			
-				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . '/0-60-times/' . $model->Model->Make->alias . '/' . $model->Model->alias . '/' . $model->year.'/',
-					'lastmod' => time(),
-				));	
 				
 				$this->addItem($doc, $urlset, array(
 					'url' => $site_url . '/tires/' . $model->Model->Make->alias . '/' . $model->Model->alias . '/' . $model->year.'/',
+					'lastmod' => time(),
+				));						
+				
+				$this->addItem($doc, $urlset, array(
+					'url' => $site_url . '/horsepower/' . $model->Model->Make->alias . '/' . $model->Model->alias . '/' . $model->year.'/',
 					'lastmod' => time(),
 				));						
 			}
@@ -320,6 +331,28 @@ class SitemapCommand extends CConsoleCommand
 		$urlset->appendChild($xmlns);
 		$value = $doc->createTextNode('http://www.sitemaps.org/schemas/sitemap/0.9');
 		$xmlns->appendChild($value);
+		
+		//hp
+		$file = "/sitemap/hp.xml";
+		$doc	= new DOMDocument("1.0", 'utf-8');
+		$urlset = $doc->createElement("urlset");
+		$doc->appendChild($urlset);
+		$xmlns = $doc->createAttribute("xmlns");
+		$urlset->appendChild($xmlns);
+		$value = $doc->createTextNode('http://www.sitemaps.org/schemas/sitemap/0.9');
+		$xmlns->appendChild($value);		
+		foreach ($hps = AutoCompletion::getHpList() as $hp) {
+			$url = $site_url . '/horsepower/'.$hp . '/';
+			$this->addItem($doc, $urlset, array(
+				'url' => $url,
+				'lastmod' => time(),
+			));			
+		}
+		$mapFiles[] = $file;
+				
+		$doc->formatOutput = true;
+		$doc->save(dirname(__FILE__) ."/../../" . $file);		
+		
 		
 		foreach ($mapFiles as $mapFile) {
 			$attributes = array(
