@@ -124,11 +124,7 @@
 				<?php $key++;endforeach;?>
 				</ul>			
 		</section>			
-			
-		<?php if ($_SERVER['SERVER_NAME'] != 'auto.loc'):?>
-			<iframe src="http://astore.amazon.com/auto0a70-20" width="100%" height="900" frameborder="0" scrolling="no"></iframe>
-		<?php endif;?>		
-		
+	
 		<section class="seo-text">
 			<?=SiteConfig::getInstance()->getValue('tires_footer_text_block')?>			
 		</section>
