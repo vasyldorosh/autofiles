@@ -1,4 +1,3 @@
-<div style="float:left;padding-right:10px;">
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- autof_336_adapt -->
 <ins class="adsbygoogle"
@@ -9,4 +8,3 @@
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
-</div>
