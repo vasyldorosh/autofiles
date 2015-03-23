@@ -1,4 +1,4 @@
-	<div class="l">
+	<div>
 		<div class="l-col1 brdtop_col">
 			<!-- section 1 -->
 			<section class="times clearfix">

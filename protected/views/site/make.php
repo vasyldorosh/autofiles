@@ -1,4 +1,4 @@
-<main class="l">
+<main>
 	<div class="l-col1">
 		<!-- section 1 -->
 		<section class="make">
@@ -202,24 +202,7 @@
 			</ul>
 		</section>
 		
-		<!--
-		<section class="right-block">
-			<h2 class="section-name">Acura wallpapers</h2>
-			<ul class="right-block__wallpaper-list">
-				<li><a href="#"></a></li>
-				<li><a href="#">2015 Citroen DS3</a></li>
-				<li><a href="#">2015 Citroen DS3 Cabrio</a></li>
-				<li><a href="#">2015 Audi S7 Sportback</a></li>
-				<li><a href="#">2015 Audi A7 Sportback</a></li>
-				<li><a href="#">2015 GMC Sierra All Terrain</a></li>
-				<li><a href="#">2015 Mercedes-Benz C-Class Estate</a></li>
-				<li><a href="#">2014 Seat Ibiza Cupster Concept</a></li>
-				<li><a href="#">2014 Nissan X-Trail</a></li>
-				<li><a href="#">2015 Nissan Juke</a></li>
-				<li><a href="#">2015 Nissan Pulsar</a></li>
-			</ul>
-		</section>
-		-->
+		
 		
 	</div>
 </main>

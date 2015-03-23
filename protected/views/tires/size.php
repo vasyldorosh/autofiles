@@ -1,4 +1,4 @@
-<main class="l">
+<main>
 	<div class="l-col1">
 		<section class="make">
 			<h2 class="section-name">List of cars with <?=Tire::format($tire)?> tire size</h2>
