@@ -49,7 +49,7 @@
 				<button style="display: none;" type="submit" class="btn btn_options" id="btn_submit_filter">GO</button>
 			</div>
 		</section>
-		
+	<script src="/js/lib/jquery.js"></script>		
 <script>
 $('#Filter_year').change(function(e) {
 	$('#Filter_make_id').empty().append('<option value="">-no select-</option>');
@@ -100,18 +100,26 @@ $('#btn_submit_filter').click(function(e) {
 		
 		<section class="right-block">
 			<h2 class="section-name">Car specs and dimensions</h2>
-			<ul class="right-block__specs-list">
-				<li class="speed"><a href="/0-60-times.html">0-60 times</a></li>
-				<li class="engine"><a href="#">Engine specs</a></li>
-				<li class="horsepower"><a href="#">Horsepower</a></li>
-				<li class="gas"><a href="#">Gas mileage</a></li>
-				<li class="towing"><a href="#">Towing capacity</a></li>
-				<li class="length"><a href="#">Length</a></li>
-				<li class="wheelbase"><a href="#">Wheelbase</a></li>
-				<li class="clearance"><a href="#">Clearance</a></li>
-				<li class="weight"><a href="#">Curb weight</a></li>
-				<li class="cargo"><a href="#">Cargo space</a></li>
-			</ul>
+                        <table class="right-block__specs-list">
+					<tbody>
+						<tr>
+							<td>
+								<a class="speed" href="/0-60-times.html">0-60 times</a>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<a class="horsepower" href="/horsepower.html">Horsepower</a>
+							</td>						
+						</tr>						
+						<tr>
+							<td>
+								<a class="tire" href="/tires.html">Tires</a>
+							</td>						
+						</tr>
+					</tbody>
+                          </table>			
+
 		</section>
 		<!--<section class="right-block">
 			<h2 class="section-name">Tires</h2>
@@ -127,22 +135,7 @@ $('#btn_submit_filter').click(function(e) {
 				<li><a href="#">rims</a></li>
 			</ul>
 		</section>
-		<section class="right-block">
-			<h2 class="section-name">Car wallpapers</h2>
-			<ul class="right-block__wallpaper-list">
-				<li><a href="#"></a></li>
-				<li><a href="#">2015 Citroen DS3</a></li>
-				<li><a href="#">2015 Citroen DS3 Cabrio</a></li>
-				<li><a href="#">2015 Audi S7 Sportback</a></li>
-				<li><a href="#">2015 Audi A7 Sportback</a></li>
-				<li><a href="#">2015 GMC Sierra All Terrain</a></li>
-				<li><a href="#">2015 Mercedes-Benz C-Class Estate</a></li>
-				<li><a href="#">2014 Seat Ibiza Cupster Concept</a></li>
-				<li><a href="#">2014 Nissan X-Trail</a></li>
-				<li><a href="#">2015 Nissan Juke</a></li>
-				<li><a href="#">2015 Nissan Pulsar</a></li>
-			</ul>
-		</section>-->
+		-->
 	</div>
 </main>
 

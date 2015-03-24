@@ -2,11 +2,16 @@
 	<div class="l-col1">
 		<!-- section 1 -->
 		<section class="times">
-			<?=SiteConfig::getInstance()->getValue('0_60_times_header_text_block');?>
+		<h2 class="section-name">0-60 times acceleration stats</h2>
+			<div class="times__container">
+				<div class="google_links f_left p_rel">
+					<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
+				</div>
+				<div class="text_size">
+					<?=SiteConfig::getInstance()->getValue('0_60_times_header_text_block');?>
+				</div>
+			</div>
 		</section>
-		<!-- banner -->
-		
-		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 		
 		<!-- section 2 -->
 		<section class="all-makes">

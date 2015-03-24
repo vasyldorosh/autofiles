@@ -11,7 +11,8 @@
 					<?=SiteConfig::getInstance()->getValue('tires_header_text_block')?>
 				</div>
 			</section>
-			<section class="section_tabs">
+			<script src="/js/lib/jquery.js"></script>	
+                        <section class="section_tabs">
 				<section class="reviews">
 					<ul class="reviews__tabs">
 						<li data-block="#b1" class="is-active">

@@ -1,12 +1,16 @@
 <main>
 	<div class="l-col1">
 		<!-- section 1 -->
-		<section class="make">
+			<section class="times">
 			<h2 class="section-name"><?=$make['title']?> 0-60 times</h2>
-			<div class="make__history">
-				<?=$description?>
+				<div class="times__container">
+				<div class="google_links f_left p_rel">
+					<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
+				</div>
+				<div class="text_size">
+					<?=$description?>
+				</div>
 			</div>
-
 		</section>
 
 <?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
