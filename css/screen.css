@@ -240,7 +240,7 @@ display: none; }
 .make .make__vehicle-years li { display: inline-block; margin-right: 5px; }
 .make .make__vehicle-years li a { text-decoration: underline; display: inline-block; margin: 3px; padding: 3px;}
 
-.product_photo_item_top>ul{
+.brdtop_col  .product_photo_item_top>ul{
 	display:none;
 }
 
@@ -363,7 +363,7 @@ display: none; }
 .banner-ver { margin-top: 15px; margin-bottom: 10px; font-size: 0; text-align: left; }
 .banner-ver img { max-width: 100%; }
 
-.right-block { margin-bottom: 40px; padding: 14px 6.66666%; border: 1px solid #e3e3e3; -webkit-border-radius: 3px; border-radius: 3px; }
+.right-block {max-width:300px; margin-bottom: 40px; padding: 14px 6.66666%; border: 1px solid #e3e3e3; -webkit-border-radius: 3px; border-radius: 3px; }
 .right-block:last-child { margin-bottom: 0; }
 
 .right-block__specs-list { margin-top: 20px; }
