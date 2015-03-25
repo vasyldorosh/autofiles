@@ -323,21 +323,28 @@ class Tire extends CActiveRecord
 	{
 		$rim_diameter_id = (int) $rim_diameter_id;
 		
-		$key = Tags::TAG_TIRE . '_getItemsByRimDiameter_'.$rim_diameter_id;
+		$key = Tags::TAG_TIRE . '_getItemsByRimDiameter__'.$rim_diameter_id;
 		$data = Yii::app()->cache->get($key);
 		if ($data === false) {
 			$data = array();
 
 				$sql = "SELECT 
+							t.is_rear AS is_rear, 
 							vc.code AS vehicle_class, 
 							rd.value AS rim_diameter, 
 							sw.value AS section_width, 
-							ar.value AS aspect_ratio
+							ar.value AS aspect_ratio,
+							r_rd.value AS rear_rim_diameter, 
+							r_sw.value AS rear_section_width, 
+							r_ar.value AS rear_aspect_ratio
 						FROM tire AS t
 						LEFT JOIN tire_vehicle_class AS vc ON t.vehicle_class_id = vc.id
 						LEFT JOIN tire_rim_diameter AS rd ON t.rim_diameter_id = rd.id
 						LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
 						LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
+						LEFT JOIN tire_rim_diameter AS r_rd ON t.rear_rim_diameter_id = r_rd.id
+						LEFT JOIN tire_section_width AS r_sw ON t.rear_section_width_id = r_sw.id
+						LEFT JOIN tire_aspect_ratio AS r_ar ON t.rear_aspect_ratio_id = r_ar.id
 						WHERE rd.id = {$rim_diameter_id} AND t.is_runflat = 0
 						ORDER BY rd.value, sw.value, ar.value, t.is_rear
 				";
