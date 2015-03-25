@@ -15,8 +15,18 @@
 		<section class="product_photo_box make">
 			<h2 class="section-name_2 mb30">All tire sizes for <?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?></h2>
 			
+			
+			<?php 
+				$vc=array(); 
+				foreach ($tires as $tire) {
+					$vc[$tire['vehicle_class']]=$tire['vehicle_class']; 
+				}
+				$pVC = (count($vc)>1);
+			?>
+			
+			
 			<?php foreach ($tires as $tire):?>
-			<?php $tireText = Tire::format($tire);?>
+			<?php $tireText = Tire::format($tire, $pVC);?>
 			
 			<div class="product_photo_item">
 				<div class="product_photo_item_top">
