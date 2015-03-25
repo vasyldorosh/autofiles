@@ -323,7 +323,7 @@ class Tire extends CActiveRecord
 	{
 		$rim_diameter_id = (int) $rim_diameter_id;
 		
-		$key = Tags::TAG_TIRE . '_getItemsByRimDiameter__'.$rim_diameter_id;
+		$key = Tags::TAG_TIRE . '__getItemsByRimDiameter__'.$rim_diameter_id;
 		$data = Yii::app()->cache->get($key);
 		if ($data === false) {
 			$data = array();
@@ -351,12 +351,7 @@ class Tire extends CActiveRecord
 		
 			$items = Yii::app()->db->createCommand($sql)->queryAll();
 			foreach ($items as $item) {
-				$data[] = array(
-					'vehicle_class' => $item['vehicle_class'],
-					'rim_diameter' => $item['rim_diameter'],
-					'section_width' => $item['section_width'],
-					'aspect_ratio' => $item['aspect_ratio'],
-				);
+				$data[] = $item;
 			}
 			
 			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_TIRE_SECTION_WIDTH, Tags::TAG_TIRE_ASPECT_RATIO, Tags::TAG_TIRE_RIM_DIAMETER));
