@@ -1,4 +1,4 @@
-<main class="l">
+<main>
 	<div class="l-col1">
 		<!-- section 1 -->
 				<section class="times">
@@ -35,20 +35,6 @@
 		</section>		
 		<?php endif;?>		
 	
-<script type="text/javascript" language="javascript">
-  amzn_assoc_ad_type = "contextual";
-  amzn_assoc_tracking_id = "auto0a70-20";
-  amzn_assoc_marketplace = "amazon";
-  amzn_assoc_region = "US";
-  amzn_assoc_placement = "GHXNGETSQ3XJIX6K";
-  amzn_assoc_linkid = "GHXNGETSQ3XJIX6K";
-  amzn_assoc_emphasize_categories = "";
-  amzn_assoc_fallback_products = "";
-  amzn_assoc_width = "728";
-  amzn_assoc_height = "90";
-</script>
-<script type="text/javascript" language="javascript" src="//z-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&Operation=GetScript&ID=OneJS&WS=1&MarketPlace=US&source=ac"></script>
-		
 
 		<section class="table-container">
 			<h2 class="section-name"><?=$make['title']?> <?=$model['title']?> 0-60 mph acceleration across years</h2>
@@ -86,7 +72,7 @@
 
 		<?php if (!empty($competitors)):?>
 		<section class="table-container">
-			<h2 class="section-name"><?=$make['title']?> <?=$model['title']?> competitorsвЂ™ 0-60 mph acceleration</h2>
+			<h2 class="section-name"><?=$make['title']?> <?=$model['title']?> competitors' 0-60 mph acceleration</h2>
 
 			<table>
 			<?php foreach ($competitors as $item):?>

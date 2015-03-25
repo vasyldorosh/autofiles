@@ -1,6 +1,16 @@
-<main class="l">
+<main>
 	<div class="l-col1">
-		<section class="make">
+                 <section class="make">
+			<h2 class="section-name_2">Cheap <?=Tire::format($tire, false)?> tires for sale online</h2>	
+			<br>		
+			<?php $this->widget('application.widgets.AmazonWidget', array(
+				'action' => 'products',
+				'params' => array(
+					'tire' => Tire::format($tire, false),
+				),
+			)); ?>
+		</section>			
+                <section class="make">
 			<h2 class="section-name">List of cars with <?=Tire::format($tire)?> tire size</h2>
 			<ul class="make__vehicle">
 			<?php foreach ($makeModels as $makeModel):?>
@@ -25,17 +35,6 @@
 			</ul>
 		</section>
 		
-		<section class="make">
-			<h2 class="section-name_2">Cheap <?=Tire::format($tire, false)?> tires for sale online</h2>	
-			<br>		
-			<?php $this->widget('application.widgets.AmazonWidget', array(
-				'action' => 'products',
-				'params' => array(
-					'tire' => Tire::format($tire, false),
-				),
-			)); ?>
-		</section>	
-			
 	</div>
 	
 	<div class="l-col2">

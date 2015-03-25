@@ -1,10 +1,10 @@
-<main class="l">
+<main>
 	<div class="l-col1">
 		<!-- section 1 -->
 		<section class="times clearfix">
 			<h2 class="section-name pb18">Horsepower</h2>
 			<div class="google_links f_left p_rel">
-				<?php $this->widget('application.widgets.BannerWidget', array('banner' => '300x250')); ?>
+				<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>
 			</div>
 			<div class="text_size">
 				<?=SiteConfig::getInstance()->getValue('horsepower_header_text_block')?>

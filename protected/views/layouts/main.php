@@ -8,9 +8,9 @@
 	
 	<meta name="viewport" content="initial-scale=1"/>
 	<link rel="stylesheet" media="screen" href="/css/screen.css" >
+        <link rel="stylesheet" href="/css/responsive.css" />
 	<!--[if IE]><script src="/js/html5shiv.js"></script><![endif]-->
-	
-	<script src="/js/lib/jquery.js"></script>	
+
 </head>
 <body class="l">
 <!-- BEGIN HEADER -->

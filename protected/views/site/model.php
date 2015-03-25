@@ -1,4 +1,4 @@
-<main class="l">
+<main>
 	<div class="l-col1">
 		<!-- section 1 -->
 		<section class="model">

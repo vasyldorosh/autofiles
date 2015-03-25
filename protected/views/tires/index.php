@@ -1,4 +1,4 @@
-	<div class="l">
+	<div>
 		<div class="l-col1 brdtop_col">
 			<!-- section 1 -->
 			<section class="times clearfix">
@@ -11,7 +11,8 @@
 					<?=SiteConfig::getInstance()->getValue('tires_header_text_block')?>
 				</div>
 			</section>
-			<section class="section_tabs">
+			<script src="/js/lib/jquery.js"></script>	
+                        <section class="section_tabs">
 				<section class="reviews">
 					<ul class="reviews__tabs">
 						<li data-block="#b1" class="is-active">
@@ -124,11 +125,7 @@
 				<?php $key++;endforeach;?>
 				</ul>			
 		</section>			
-			
-		<?php if ($_SERVER['SERVER_NAME'] != 'auto.loc'):?>
-			<iframe src="http://astore.amazon.com/auto0a70-20" width="100%" height="900" frameborder="0" scrolling="no"></iframe>
-		<?php endif;?>		
-		
+	
 		<section class="seo-text">
 			<?=SiteConfig::getInstance()->getValue('tires_footer_text_block')?>			
 		</section>
