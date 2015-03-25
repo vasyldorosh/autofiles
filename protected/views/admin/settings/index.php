@@ -39,17 +39,15 @@
 					), 
 					true
 				)),
-				/*
                 array(
-					'label'=>Yii::t('admin', 'Site Map'),
+					'label'=>Yii::t('admin', 'Static pages'),
 					'active'=>false, 
-					'content' => $this->renderPartial('_sitemap', array(
+					'content' => $this->renderPartial('_static_pages', array(
 						'form'=>$form,
 						'values'=>$values,
 					), 
 					true
 				)),
-				*/
 			)
 		));?>
 

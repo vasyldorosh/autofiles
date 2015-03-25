@@ -60,6 +60,9 @@ return array(
 			'urlFormat'=>'path',
 			'showScriptName' => false,
 			'rules'=>array(	
+				//static page view
+				'<alias:(about|test)>.html' => 'site/page',			
+			
 				'tires.html'=>'tires/index',
 				'tires/r<value:[0-9]{2}>.html'=>'tires/diameter',
 				'tires/<vehicle_class:[A-Z]{1,3}>-<section_width:[0-9]{3}>-<aspect_ratio:[0-9]{2,3}>r<rim_diameter:[0-9]{2}>.html'=>'tires/size',

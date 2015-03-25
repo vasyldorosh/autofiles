@@ -357,41 +357,24 @@ class SiteController extends Controller
 		
 		return $model->id;
 	}
-	
-	/*
-	public function actionT()
+
+	public function actionPage($alias)
 	{
-		$lines = 	"5*165*175*185
-					5.5*175*185*195
-					6*185*195*205
-					6.5*195*205*215
-					7*205*215*225
-					7.5*215*225*235
-					8*225*235*245
-					8.5*235*245*255
-					9*245*255*265
-					9.5*255*265*275
-					10*265*275*285
-					10.5*275*285*295
-					11*285*295*305
-					11.5*295*305*315
-					12*305*315*325
-					12.5*315*325*335";
-		$lines = explode("\n", $lines);
-		foreach ($lines as $line) {
-			$line = trim($line);
-			$data = explode("*", $line);
-			
-			$model = new TireRimWidth;
-			$model->attributes = array(
-				'rim_width' => $data[0],
-				'min_width' => $data[1],
-				'opt_width' => $data[2],
-				'max_width' => $data[3],
-			);
-			$model->save();
-		}			
+		$title = SiteConfig::getInstance()->getValue('static_'.$alias.'_title');
+		$this->pageTitle = $title;
+		$this->meta_keywords = SiteConfig::getInstance()->getValue('static_'.$alias.'_meta_keywords');
+		$this->meta_description = SiteConfig::getInstance()->getValue('static_'.$alias.'_meta_description');
+		$content = SiteConfig::getInstance()->getValue('static_'.$alias.'_content');
+		
+		$this->breadcrumbs = array(
+			'/' => 'Home',
+			'#' => $title,
+		);		
+		
+		$this->render('page', array(
+			'title' => $title,
+			'content' => $content,
+		));
 	}	
-	*/
 	
 }

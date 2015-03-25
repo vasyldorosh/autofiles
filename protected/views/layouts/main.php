@@ -64,9 +64,7 @@
 <!-- BEGIN FOOTER -->
 <footer>
 	<section class="footer__info">
-		<a href="#">RSS</a>
-		<a href="#">About us</a>
-		<a href="#">Support</a>
+		<a href="/about.html">About us</a>
 	</section>
 	<section class="footer__copyright">
 		&copy <?=date('Y')?> AutoFiles. All Rights Reserved.
