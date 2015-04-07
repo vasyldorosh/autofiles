@@ -327,7 +327,26 @@ class ImportCommand extends CConsoleCommand
 				$this->actionCompetitor();
 			}
 		}
+		
+		$this->actionNotModelYear();
+		$this->actionEmptyCompletion();
 	}	
+	
+	public function actionEmptyCompletion() {
+		$sql = "SELECT * FROM  `auto_completion` WHERE  `specs_msrp` IS NULL";
+		$completionIds = array();
+		$rows = Yii::app()->db->createCommand($sql)->queryAll();
+		foreach ($rows as $row) {
+			$completionIds[]=$row['id'];
+		}
+
+		if (!empty($completionIds)) {
+			$this->actionCompletionDetails($completionIds);
+			$this->actionSpecs();
+			$this->actionCompletionData($completionIds);
+			$this->actionCompetitor();
+		}		
+	}
 	
 	private function actionModelYearPhoto($ids)
 	{
