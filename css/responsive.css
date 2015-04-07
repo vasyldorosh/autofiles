@@ -61,9 +61,22 @@
 		margin-right:3%;
 	}
 	
-	.text_size{
-		width:80%;
+	.breadcrumb {
+		display:block;
 	}
+	
+	.text_size{
+		width:60%;
+		float:left;
+		
+	}
+	
+	.seo-text .adsbygoogle{
+		float:left;
+		margin-right:2%;
+	}
+	
+	.f_left{float: left;width:20%;max-width:168px;margin-right:143px;}
 }
 
 @media screen and (min-width:1024px){
@@ -101,6 +114,10 @@
 	.product_photo_item_top > ul{
 		display:block;
 	}
+	
+	.text_size{
+		width:57%;
+		float:left;
+	}
 
 }
-
