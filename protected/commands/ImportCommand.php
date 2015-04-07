@@ -523,11 +523,17 @@ class ImportCommand extends CConsoleCommand
 						foreach ($matches[1] as $competitor_code) {
 							$competitorCompletion = AutoCompletion::model()->findByAttributes(array('code'=>$competitor_code));
 							if (!empty($competitorCompletion)) {
+								
 								$competitorsTemp = new AutoCompletionCompetitorsTemp;
 								$competitorsTemp->completion_id = $completion->id;
 								$competitorsTemp->competitor_id = $competitorCompletion->id;
 								$competitorsTemp->is_parsed = 1;
-								$competitorsTemp->save();
+								try {
+								  $competitorsTemp->save();
+								} catch (Exception $exc) {
+								  
+								} 								
+								
 								$competitorCount++;
 							}	
 						}
