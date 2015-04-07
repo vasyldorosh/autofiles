@@ -333,6 +333,7 @@ class ImportCommand extends CConsoleCommand
 	}	
 	
 	public function actionEmptyCompletion() {
+		Yii::app()->cache->flush();
 		$sql = "SELECT * FROM  `auto_completion` WHERE  `specs_msrp` IS NULL";
 		$completionIds = array();
 		$rows = Yii::app()->db->createCommand($sql)->queryAll();
