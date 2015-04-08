@@ -119,24 +119,12 @@ class SiteController extends Controller
 		$completions = AutoCompletion::getItemsByYear($modelYear['id']);
 		$models = AutoModelYear::getModelsByMakeAndYear($make['id'], $modelYear['year']);
 		
-		/*
-		d($modelYear['id'], 0);
-		echo "===================================================================================================";
-		d(AutoModelYear::getOtherMakeYear($models, $modelYear['id']), 0);
-		echo "===================================================================================================";
-		d($models);
-		*/
-		
 		$models = AutoModelYear::getOtherMakeYear($models, $modelYear['id']);
 		
 		$competitors = AutoModelYear::getFrontCompetitors($modelYear['id']);
-		//d($competitors);
-		
 		$carSpecsAndDimensions = AutoModelYear::getCarSpecsAndDimensions($modelYear['id']);
 		$lastCompletion = AutoModelYear::getLastCompletion($modelYear['id']);
-		
-		//d($carSpecsAndDimensions);
-		
+			
 		$this->render('model_year', array(
 			'make' => $make,
 			'model' => $model,

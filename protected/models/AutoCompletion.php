@@ -270,7 +270,7 @@ class AutoCompletion extends CActiveRecord
 	{
 		$model_year_id = (int) $model_year_id;
 		
-		$key = Tags::TAG_COMPLETION . '_MODEL_BY_YEAR_'.$model_year_id;	
+		$key = Tags::TAG_COMPLETION . '__MODEL_BY_YEAR__'.$model_year_id;	
 		$data = Yii::app()->cache->get($key);
 
 		if ($data === false) {
