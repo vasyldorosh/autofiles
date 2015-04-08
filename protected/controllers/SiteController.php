@@ -365,4 +365,9 @@ class SiteController extends Controller
 		));
 	}	
 	
+	public function actionFlush()
+	{
+		Yii::app()->cache->flush();
+	}	
+	
 }
