@@ -322,6 +322,7 @@ class ImportCommand extends CConsoleCommand
 				$p=($page==1)?"":"pg-{$page}/";
 				//$url = "http://www.autoblog.com/car-finder/sort-yr/{$page}/";
 				$url = "http://www.autoblog.com/car-finder/{$year}/{$p}";
+				echo $url . "\n";
 				$content = CUrlHelper::getPage($url);
 				preg_match_all('/<a class="overviewTitle" href="\/buy\/'.$year.'\-(.*?)\-(.*?)\/">(.*?)<\/a>/', $content, $matches);
 				preg_match_all('/<div class="carImg"><a href="\/buy\/(.*?)\/"><img src="(.*?)" alt="(.*?)" \/><\/a><\/div>/', $content, $matchesImage);
