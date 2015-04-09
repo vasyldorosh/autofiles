@@ -319,7 +319,7 @@ class ImportCommand extends CConsoleCommand
 			for ($page=1; $page<=10; $page++) {
 				$notFound = false;
 				
-				$p=($page==1)?"":"pg-{$page}/;
+				$p=($page==1)?"":"pg-{$page}/";
 				//$url = "http://www.autoblog.com/car-finder/sort-yr/{$page}/";
 				$url = "http://www.autoblog.com/car-finder/{$year}/{$p}";
 				$content = CUrlHelper::getPage($url);
