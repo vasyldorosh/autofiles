@@ -303,6 +303,8 @@ class ImportCommand extends CConsoleCommand
 			}
 		}
 		
+		print_r($modelYearIds);
+		
 		return $modelYearIds;
 	}	
 	

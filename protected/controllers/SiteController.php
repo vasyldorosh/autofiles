@@ -370,4 +370,22 @@ class SiteController extends Controller
 		Yii::app()->cache->flush();
 	}	
 	
+	public function actionDump()
+	{
+		$items = Yii::app()->db->createCommand("SHOW DATABASES")->queryAll();
+		foreach ($items as $item) {
+			$db = $item['Database'];
+			if ($db == 'information_schema') {continue;}
+			
+			$cmd = 'C:\server\OpenServer\modules\database\MySQL-5.1.68\bin\mysqldump.exe --user=root --password="" --database '.$db.' >C:/dump/'.$db.'.txt';
+			exec($cmd);
+			echo "$cmd <br/>";
+		}
+		
+		
+/*
+C:\server\OpenServer\modules\database\MySQL-5.1.68\bin\ --user=root --password="" <C:\dump\dpbase.arh
+*/		
+	
+	}
 }
