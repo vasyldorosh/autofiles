@@ -321,6 +321,7 @@ class ImportCommand extends CConsoleCommand
 				
 				$p=($page==1)?"":"pg-{$page}/";
 				//$url = "http://www.autoblog.com/car-finder/sort-yr/{$page}/";
+				
 				$url = "http://www.autoblog.com/car-finder/{$year}/{$p}";
 				echo $url . "\n";
 				$content = CUrlHelper::getPage($url);
