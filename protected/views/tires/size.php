@@ -3,12 +3,15 @@
                  <section class="make">
 			<h2 class="section-name_2">Cheap <?=Tire::format($tire, false)?> tires for sale online</h2>	
 			<br>		
-			<?php $this->widget('application.widgets.AmazonWidget', array(
+                        <a href="http://www.dpbolvw.net/click-7797286-11912700-1419859652000" target="_top">
+                        <img src="http://www.awltovhc.com/image-7797286-11912700-1419859652000" width="300" height="250" alt="Tire Rack: Revolutionizing tire buying since 1979" border="0"/></a>			
+
+                        <?php /*$this->widget('application.widgets.AmazonWidget', array(
 				'action' => 'products',
 				'params' => array(
 					'tire' => Tire::format($tire, false),
 				),
-			)); ?>
+			));*/ ?>
 		</section>			
                 <section class="make">
 			<h2 class="section-name">List of cars with <?=Tire::format($tire)?> tire size</h2>

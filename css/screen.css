@@ -548,8 +548,8 @@ footer .footer__copyright { width: 100%; text-align: right; line-height: 67px; t
 .brd_bnone{border-bottom: none !important;}
 .google_links{
 	border: 0px solid #e3e3e3;
-	width: 336px;
-	height: 280px;
+	width: 300px;
+	height: 250px;
 	box-sizing:border-box;
 
 }

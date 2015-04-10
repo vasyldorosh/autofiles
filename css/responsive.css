@@ -76,7 +76,7 @@
 		margin-right:2%;
 	}
 	
-	.f_left{float: left;width:20%;max-width:168px;margin-right:143px;}
+	.f_left{float: left;width:20%;max-width:300px;margin-right:20px;}
 }
 
 @media screen and (min-width:1024px){
@@ -86,7 +86,7 @@
 	}
 	
 	.google_links{
-		width:336px;
+		width:300px;
 	}
 	
 	.all-makes td, .all-makes ul{
