@@ -4,9 +4,7 @@
 		<section class="times clearfix">
 			<h2 class="section-name pb18"><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> tires</h2>
 			<div class="google_links f_left p_rel">
-				 <a href="http://www.dpbolvw.net/click-7797286-11582933-1412624204000" target="_top">
-                                 <img src="http://www.lduhtrp.net/image-7797286-11582933-1412624204000" width="300" height="250" alt="Tire Rack: Revolutionizing tire buying since 1979" border="0"/></a>
-                                 <?php //$this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
+				<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
 			</div>
 			<div class="text_size">
 				<?=$header_text_block?>
@@ -72,6 +70,8 @@
 		</section>
 		<?php endif;?>
 		
+                <?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
+
 		<?php if (!empty($competitors)):?>
 		<section class="make">
 			<h2 class="section-name_2">Competitors' tire sizes</h2>
@@ -104,9 +104,11 @@
 		</section>
 		<?php endif;?>
 		
+               <?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
+
 		<!-- years -->
 		<section class="years_box make">
-			<h2 class="section-name_2">Years</h2>
+			<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> by years</h2>
 			<ul class="years_list">
 			<?php foreach ($modelYears as $item):?>
 				<li class="years_list_item <?php if($item['year']==$modelYear['year']):?>current<?php endif;?>"><a href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/<?=$item['year']?>/" class="btn years_list_link" title="<?=$item['year']?> <?=$make['title']?> <?=$model['title']?> tires"><?=$item['year']?></a></li>
@@ -148,9 +150,6 @@
 			))?>			
 			
 		</section>
-<br>
-<a href="http://www.jdoqocy.com/click-7797286-11996557-1419024416000" target="_top">
-<img src="http://www.lduhtrp.net/image-7797286-11996557-1419024416000" width="160" height="600" alt="Tire Rack Gift Guide" border="0"/></a>
 
 	</div>
 </main>

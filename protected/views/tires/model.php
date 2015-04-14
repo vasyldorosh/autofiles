@@ -4,9 +4,7 @@
 <section class="times clearfix">
 	<h2 class="section-name pb18"><?=$make['title']?> <?=$model['title']?> tires</h2>
 	<div class="google_links f_left p_rel">
-                <a href="http://www.tkqlhce.com/click-7797286-11724508-1425186322000" target="_top">
-                <img src="http://www.tqlkg.com/image-7797286-11724508-1425186322000" width="300" height="250" alt="Tire Rack: Goodyear/Dunlop Get Rebates Up to $60" border="0"/></a>		
-                <?php // $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
+               <?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
 	</div>
 	<div class="text_size">
 		<?=$header_text_block?>
@@ -39,10 +37,7 @@
 		</li>
 	<?php endforeach;?>	
 	</ul>
-
-<a href="http://www.anrdoezrs.net/click-7797286-11912813-1426518599000" target="_top">
-<img src="http://www.lduhtrp.net/image-7797286-11912813-1426518599000" width="728" height="90" alt="Pirelli Get a $60 Visa Prepaid Card and A Chance to Win a Trip to Amalfi Coast Italy" border="0"/></a>
-
+<?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
 </section>
 
 </div>
@@ -56,8 +51,6 @@
 	'lastModelYear'=>$lastModelYear,
 ))?>
 
-<a href="http://www.kqzyfj.com/click-7797286-11912793-1428067094000" target="_top">
-<img src="http://www.ftjcfx.com/image-7797286-11912793-1428067094000" width="160" height="600" alt="General Grab Up To $70" border="0"/></a>
 
 </div>
 </main>
