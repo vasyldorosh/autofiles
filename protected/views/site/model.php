@@ -14,7 +14,7 @@
 				<a href="<?=$model['url']?><?=$completion['year']?>/"><img alt="Photo <?=$completion['year']?> <?=$make['title']?> <?=$model['title']?>" src="<?=$lastModelYear['photo']?>"></a></div>
 				<?php $this->renderPartial('_model_specs', array('completion'=>$completion))?>
 			</div>		
-			
+			<?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
 			<div>
 			<?php foreach ($modelByYears as $modelByYear): if ($lastModelYear['year'] == $modelByYear['year']) {continue;}?>
 				<a title="<?=$modelByYear['year']?> <?=$make['title']?> <?=$model['title']?>" href="<?=$model['url']?><?=$modelByYear['year']?>/" class="model__block"><span><?=$modelByYear['year']?></span><img src="<?=$modelByYear['photo']?>"></a>
@@ -36,14 +36,7 @@
 		
 		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
 		
-		<?/*?>
-		<section class="right-block">
-			<h2 class="section-name">Find an Acura dealer near you</h2>
-			<p class="find-dealer">Shop for cars in your area.<br>
-			ZIP code: <input type="text" class="zipcode"><button type="submit" class="btn btn_zipcode">Search Used</button></p>
-			<a href="#">Find Local Dealers</a>
-		</section>
-		<?*/?>
+		
 		
 		<?php $this->renderPartial('application.views.specs._right_model', array(
 			'lastModelYear'=>$lastModelYear,
@@ -51,24 +44,16 @@
 			'model'=>$model,
 		))?>			
 		
-		<?/*?>
-		<section class="right-block">
-			<h2 class="section-name">Acura wallpapers</h2>
-			<ul class="right-block__wallpaper-list">
-				<li><a href="#"></a></li>
-				<li><a href="#">2015 Citroen DS3</a></li>
-				<li><a href="#">2015 Citroen DS3 Cabrio</a></li>
-				<li><a href="#">2015 Audi S7 Sportback</a></li>
-				<li><a href="#">2015 Audi A7 Sportback</a></li>
-				<li><a href="#">2015 GMC Sierra All Terrain</a></li>
-				<li><a href="#">2015 Mercedes-Benz C-Class Estate</a></li>
-				<li><a href="#">2014 Seat Ibiza Cupster Concept</a></li>
-				<li><a href="#">2014 Nissan X-Trail</a></li>
-				<li><a href="#">2015 Nissan Juke</a></li>
-				<li><a href="#">2015 Nissan Pulsar</a></li>
-			</ul>
-		</section>
-		<?*/?>
+		       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- autof_250 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3243264408777652"
+     data-ad-slot="2242919653"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 		
 	</div>
 </main>

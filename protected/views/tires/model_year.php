@@ -70,6 +70,8 @@
 		</section>
 		<?php endif;?>
 		
+                <?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
+
 		<?php if (!empty($competitors)):?>
 		<section class="make">
 			<h2 class="section-name_2">Competitors' tire sizes</h2>
@@ -102,9 +104,11 @@
 		</section>
 		<?php endif;?>
 		
+               <?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
+
 		<!-- years -->
 		<section class="years_box make">
-			<h2 class="section-name_2">Years</h2>
+			<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> by years</h2>
 			<ul class="years_list">
 			<?php foreach ($modelYears as $item):?>
 				<li class="years_list_item <?php if($item['year']==$modelYear['year']):?>current<?php endif;?>"><a href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/<?=$item['year']?>/" class="btn years_list_link" title="<?=$item['year']?> <?=$make['title']?> <?=$model['title']?> tires"><?=$item['year']?></a></li>
@@ -146,6 +150,7 @@
 			))?>			
 			
 		</section>
+
 	</div>
 </main>
 

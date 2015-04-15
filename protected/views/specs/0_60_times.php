@@ -26,6 +26,7 @@
 			</ul>		
 		</section>
 		<!-- section 3 -->
+                <?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
 		<section class="make make_fastest-cars">
 			<h2 class="section-name">The fastest cars in our database</h2>
 			<ul class="make__vehicle">

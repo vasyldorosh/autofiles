@@ -46,6 +46,9 @@
 		</li>
 	<?php endforeach;?>	
 	</ul>
+
+<?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
+
 </section>
 
 </div>

@@ -8,21 +8,12 @@
 					<div class="model-year__image">
 						<img alt="Photo <?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?>" src="<?=$modelYear['photo']?>">
 					</div>
-					
-				
-					<ul class="model-year__links">
-						<li><a title="<?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> photos" href="<?=$model['url']?><?=$modelYear['year']?>/photos.html">Photos</a></li>
-						
-						<!--
-						<li><a href="#">Wallpapers</a></li>
-						<li><a href="#">Colors</a></li>
-						-->
-					</ul>
+
 					
 				</div>
 				<div class="model-year__box-right">
 				
-					<?php $this->renderPartial('_model_specs', array('completion'=>$lastCompletion))?>
+					<?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
 				
 					<h3><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> trim levels</h3>
 					<?php if (!empty($completions)):?>
@@ -62,73 +53,6 @@
 			</div>
 		</section>
 		
-		<section class="parts">
-			<h2 class="section-name_2"><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> Parts &amp; Accessories on Amazon</h2>
-		
-			<div class="parts__block">
-				<div class="parts__image">
-					<a rel="nofollow" href="http://www.amazon.com/s/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&qid=1428327565&rh=i%3Aautomotive%2Cn%3A15714131&tag=auto0a70-20&linkId=XQPA5UY34HTEUHIW"><img src="/img/Perffilter._V192201762_.jpg"</a>
-				</div>
-				<h2><a rel="nofollow" target="_blank" href="http://www.amazon.com/s/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&qid=1428327565&rh=i%3Aautomotive%2Cn%3A15714131&tag=auto0a70-20&linkId=XQPA5UY34HTEUHIW">Air Intakes &amp; Filters</a><img src="https://ir-na.amazon-adsystem.com/e/ir?t=auto0a70-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></h2>
-			</div>
-			<div class="parts__block">
-				<div class="parts__image">
-					<a rel="nofollow" href="http://www.amazon.com/s/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&qid=1428327800&rh=i%3Aautomotive%2Cn%3A15713821&tag=auto0a70-20&linkId=ARHZ6HUAHHZ3ONAO"><img src="/img/Perfexhaust._V192201762_.jpg"</a>
-				</div>
-				<h2><a rel="nofollow" target="_blank" href="http://www.amazon.com/s/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&qid=1428327800&rh=i%3Aautomotive%2Cn%3A15713821&tag=auto0a70-20&linkId=ARHZ6HUAHHZ3ONAO">Exhaust</a><img src="https://ir-na.amazon-adsystem.com/e/ir?t=auto0a70-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></h2>
-			</div>
-			
-			<div class="parts__block">
-				<div class="parts__image">
-					<a rel="nofollow" href="http://www.amazon.com/s/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&qid=1428327864&rh=i%3Aautomotive%2Cn%3A2286884011&tag=auto0a70-20&linkId=6B5U7DGLISEWVHNS"><img src="/img/PerformanceChassis._V192201760_.jpg"</a>
-				</div>
-				<h2><a rel="nofollow" target="_blank" href="http://www.amazon.com/s/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&qid=1428327864&rh=i%3Aautomotive%2Cn%3A2286884011&tag=auto0a70-20&linkId=6B5U7DGLISEWVHNS">Suspension &amp; Chassis</a><img src="https://ir-na.amazon-adsystem.com/e/ir?t=auto0a70-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></h2>
-			</div>
-			
-			<div class="parts__block">
-				<div class="parts__image">
-					<a rel="nofollow" href="http://www.amazon.com/mn/search/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&qid=1428327949&rh=i%3Aautomotive%2Cn%3A2286883011&tag=auto0a70-20&linkId=4RRLS7AW2OPT45XL"><img src="/img/PerformanceIgnition._V192201760_.jpg"</a>
-				</div>
-				<h2><a rel="nofollow" target="_blank" href="http://www.amazon.com/mn/search/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&qid=1428327949&rh=i%3Aautomotive%2Cn%3A2286883011&tag=auto0a70-20&linkId=4RRLS7AW2OPT45XL">Ignition &amp; Electrical</a><img src="https://ir-na.amazon-adsystem.com/e/ir?t=auto0a70-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></h2>
-			</div>
-			<div class="parts__block">
-				<div class="parts__image">
-					<a rel="nofollow" href="http://www.amazon.com/s/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&qid=1428328048&rh=i%3Aautomotive%2Cn%3A15736321&tag=auto0a70-20&linkId=JYGBSO5SQ7IBN3V2"><img src="/img/LightingPerformanceOffRoad._V192201765_.jpg"</a>
-				</div>
-				<h2><a rel="nofollow" target="_blank" href="http://www.amazon.com/s/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&qid=1428328048&rh=i%3Aautomotive%2Cn%3A15736321&tag=auto0a70-20&linkId=JYGBSO5SQ7IBN3V2">Lighting</a><img src="https://ir-na.amazon-adsystem.com/e/ir?t=auto0a70-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></h2>
-			</div>
-			<div class="parts__block">
-				<div class="parts__image">
-					<a rel="nofollow" href="http://www.amazon.com/s/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&qid=1428328119&rh=i%3Aautomotive%2Cn%3A15710921&tag=auto0a70-20&linkId=SQNHVOLAJZR6VUJE"><img src="/img/Brake._V192201789_.jpg"</a>
-				</div>
-				<h2><a rel="nofollow" target="_blank" href="http://www.amazon.com/s/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&qid=1428328119&rh=i%3Aautomotive%2Cn%3A15710921&tag=auto0a70-20&linkId=SQNHVOLAJZR6VUJE">Brakes &amp; Brake Parts</a><img src="https://ir-na.amazon-adsystem.com/e/ir?t=auto0a70-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></h2>
-			</div>
-			<div class="parts__block">
-				<div class="parts__image">
-					<a rel="nofollow" href="http://www.amazon.com/s/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&qid=1428328173&rh=i%3Aautomotive%2Cn%3A15714351&tag=auto0a70-20&linkId=35D5WO2IVKBQ2DSQ"><img src="/img/PerformanceFuel._V192201767_.jpg"</a>
-				</div>
-				<h2><a rel="nofollow" target="_blank" href="http://www.amazon.com/s/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&qid=1428328173&rh=i%3Aautomotive%2Cn%3A15714351&tag=auto0a70-20&linkId=35D5WO2IVKBQ2DSQ">Fuel System</a><img src="https://ir-na.amazon-adsystem.com/e/ir?t=auto0a70-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></h2>
-			</div>
-			<div class="parts__block">
-				<div class="parts__image">
-					<a rel="nofollow" href="http://www.amazon.com/s/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&qid=1428328212&rh=i%3Aautomotive%2Cn%3A15712301&tag=auto0a70-20&linkId=JGOREEAMVZGAXK65"><img src="/img/EngineCooling._V192201762_.jpg"</a>
-				</div>
-				<h2><a rel="nofollow" target="_blank" href="http://www.amazon.com/s/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&qid=1428328212&rh=i%3Aautomotive%2Cn%3A15712301&tag=auto0a70-20&linkId=JGOREEAMVZGAXK65">Engine Cooling</a><img src="https://ir-na.amazon-adsystem.com/e/ir?t=auto0a70-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></h2>
-			</div>
-			<div class="parts__block">
-				<div class="parts__image">
-					<a rel="nofollow" href="http://www.amazon.com/b/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&node=15718791&pf_rd_i=B00EVQSX08&pf_rd_m=ATVPDKIKX0DER&pf_rd_p=2040563602&pf_rd_r=142BC53VXET4PATT98DW&pf_rd_s=center-1&pf_rd_t=1601&tag=auto0a70-20&vehicleId=6&linkId=D6CFHIWVQL3O3JGM"><img src="/img/PerformanceOils._V192201760_.jpg"</a>
-				</div>
-				<h2><a rel="nofollow" target="_blank" href="http://www.amazon.com/b/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&node=15718791&pf_rd_i=B00EVQSX08&pf_rd_m=ATVPDKIKX0DER&pf_rd_p=2040563602&pf_rd_r=142BC53VXET4PATT98DW&pf_rd_s=center-1&pf_rd_t=1601&tag=auto0a70-20&vehicleId=6&linkId=D6CFHIWVQL3O3JGM">Oil &amp; Lubricants</a><img src="https://ir-na.amazon-adsystem.com/e/ir?t=auto0a70-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></h2>
-			</div>
-			<div class="parts__block">
-				<div class="parts__image">
-					<a rel="nofollow" href="http://www.amazon.com/b/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&node=15737011&pf_rd_i=B00EVQSX08&pf_rd_m=ATVPDKIKX0DER&pf_rd_p=2040563602&pf_rd_r=142BC53VXET4PATT98DW&pf_rd_s=center-1&pf_rd_t=1601&tag=auto0a70-20&vehicleId=6&linkId=KPSIPO327YEAF2CB"><img src="/img/PerformanceAccessories._V192201766_.jpg"</a>
-				</div>
-				<h2><a rel="nofollow" target="_blank" href="http://www.amazon.com/b/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&node=15737011&pf_rd_i=B00EVQSX08&pf_rd_m=ATVPDKIKX0DER&pf_rd_p=2040563602&pf_rd_r=142BC53VXET4PATT98DW&pf_rd_s=center-1&pf_rd_t=1601&tag=auto0a70-20&vehicleId=6&linkId=KPSIPO327YEAF2CB">Tuning Accessories</a><img src="https://ir-na.amazon-adsystem.com/e/ir?t=auto0a70-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></h2>
-			</div>
-		</section>
-		
 		<?php if (!empty($competitors)):?>
 		<section class="make make_competitors">
 			<h2 class="section-name section-name_regular"><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> competitors</h2>
@@ -158,8 +82,10 @@
 			</ul>
 		</section>
 		<?php endif;?>
-	
-		<section class="all-models">
+	        
+                <?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
+		
+                <section class="all-models">
 			<h2 class="section-name section-name_regular">Other <?=$modelYear['year']?> <?=$make['title']?> models</h2>
 			<div class="model__block-box model__block-box_all-models">
 			<?php foreach ($models as $item):?>
@@ -329,7 +255,7 @@
 <style>
 .js-completion-hide {display: none;}
 </style>
-
+<script src="/js/lib/jquery.js"></script>	
 <script>
 $('#link-completions-show-more').click(function(e){
 	e.preventDefault();

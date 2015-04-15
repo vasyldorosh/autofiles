@@ -13,7 +13,7 @@
 			
 		<?php if (!empty($completions)):?>	
 		<section class="product_photo_box make">
-			<ul class="make__vehicle"><h2 class="section-name_2 mb30"><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> horsepower by trims</h2>
+			<ul class="make__vehicle"><h2 class="section-name_2 mb30">How much horsepower does the <?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> have?</h2>
 			<?php foreach ($completions as $completion):?>	
 				<?php $image = !empty($completion['image']) ? $completion['image']: $modelYear['photo'] ?>
 				<li>

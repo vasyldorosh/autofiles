@@ -19,7 +19,7 @@
 <p>If you already possess a car and your iron horse needs quick maintenance or repair we will help you find and buy all the necessary auto supplies and accessories. We answer questions on car specifications. By the way, do you know the tire size for your vehicle? What kind of wheels fit your car? No problem. We’ll tell you then!</p>
 <p>You just have to specify your make, model, trim and year of production to see the tires and wheels your car needs. We will help you buy them right away!</p>
 		</section>
-
+                <?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
 		<!-- section 2 -->
 		<?php $years = AutoModelYear::getYears();?>
 		<section class="options">
@@ -119,23 +119,18 @@ $('#btn_submit_filter').click(function(e) {
 						</tr>
 					</tbody>
                           </table>			
-
+                         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- autof_250 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3243264408777652"
+     data-ad-slot="2242919653"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 		</section>
-		<!--<section class="right-block">
-			<h2 class="section-name">Tires</h2>
-			<div>
-			<div class="right-block__image">
-				<img src="img/tires.png">
-			</div>
-			<ul class="right-block__tires-list">
-				<li><a href="#">tire size</a></li>
-				<li><a href="#">tire pressure</a></li>
-				<li><a href="#">bolt pattern</a></li>
-				<li><a href="#">wheels</a></li>
-				<li><a href="#">rims</a></li>
-			</ul>
-		</section>
-		-->
+		
 	</div>
 </main>
 

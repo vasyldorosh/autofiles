@@ -2,8 +2,8 @@
 	<div class="l-col1">
                  <section class="make">
 			<h2 class="section-name_2">Cheap <?=Tire::format($tire, false)?> tires for sale online</h2>	
-			<br>		
-			<?php $this->widget('application.widgets.AmazonWidget', array(
+			
+                        <?php $this->widget('application.widgets.AmazonWidget', array(
 				'action' => 'products',
 				'params' => array(
 					'tire' => Tire::format($tire, false),
@@ -12,7 +12,10 @@
 		</section>			
                 <section class="make">
 			<h2 class="section-name">List of cars with <?=Tire::format($tire)?> tire size</h2>
-			<ul class="make__vehicle">
+			
+                        <?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
+
+                        <ul class="make__vehicle">
 			<?php foreach ($makeModels as $makeModel):?>
 				<li>
 					<div class="make__vehicle-image">
@@ -33,7 +36,10 @@
 				</li>
 			<?php endforeach;?>
 			</ul>
-		</section>
+                        
+                        <?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
+		
+                  </section>
 		
 	</div>
 	
@@ -58,8 +64,22 @@
 				<?php endforeach;?>
 				</tbody>
 			</table>
+
+ <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- autof_250 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3243264408777652"
+     data-ad-slot="2242919653"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
 		</section>
 
+  
 		<section class="right-block w78">
 			<h2 class="section-name"><?=Tire::format($tire)?> specs</h2>
 			<?php $this->renderPartial('_specs', array('tire'=>$tire))?>

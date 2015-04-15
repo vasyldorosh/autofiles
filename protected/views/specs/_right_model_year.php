@@ -143,4 +143,15 @@
 					
 				</tbody>
 				</table>
+   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- autof_250 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3243264408777652"
+     data-ad-slot="2242919653"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
 			</section>
