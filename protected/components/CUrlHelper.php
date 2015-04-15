@@ -5,7 +5,7 @@ class CUrlHelper
 	{
 		$key = "CUrlHelper_getPage" . md5($url);
 		$result = Yii::app()->cache->get($key);
-		if ($result === false) {
+		if ($result === false || true) {
 		
 			if ($cookiefile == '')
 				$cookiefile = 'cookie.txt';

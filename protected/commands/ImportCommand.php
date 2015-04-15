@@ -231,8 +231,8 @@ class ImportCommand extends CConsoleCommand
 				
 				$url = "http://www.autoblog.com/car-finder/sort-yr/{$page}/";
 				$content = CUrlHelper::getPage($url);
-				preg_match_all('/<a class="overviewTitle" href="\/buy\/'.$year.'\-(.*?)\-(.*?)\/">(.*?)<\/a>/', $content, $matches);
-				preg_match_all('/<div class="carImg"><a href="\/buy\/(.*?)\/"><img src="(.*?)" alt="(.*?)" \/><\/a><\/div>/', $content, $matchesImage);
+				//preg_match_all('/<a class="overviewTitle" href="\/buy\/'.$year.'\-(.*?)\-(.*?)\/">(.*?)<\/a>/', $content, $matches);
+				//preg_match_all('/<div class="carImg"><a href="\/buy\/(.*?)\/"><img src="(.*?)" alt="(.*?)" \/><\/a><\/div>/', $content, $matchesImage);
 				$imagesData = array();
 				foreach ($matchesImage[0] as $key=>$val) {	
 					$imagesData[trim($matchesImage[3][$key])] = $matchesImage[2][$key];
@@ -308,6 +308,8 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionModelYearNext()
 	{
+		echo "============================================== \n";
+		
 		$modelYearIds = array();
 		$dataMake = array();
 		$dataModel = array(
@@ -316,28 +318,29 @@ class ImportCommand extends CConsoleCommand
 		
 		$year = date('Y') + 1;		
 		if (true) {
-			for ($page=1; $page<=10; $page++) {
+			for ($page=1; $page<=3; $page++) {
 				$notFound = false;
 				
 				$p=($page==1)?"":"pg-{$page}/";
-				//$url = "http://www.autoblog.com/car-finder/sort-yr/{$page}/";
-				
 				$url = "http://www.autoblog.com/car-finder/{$year}/{$p}";
 				echo $url . "\n";
 				$content = CUrlHelper::getPage($url);
-				preg_match_all('/<a class="overviewTitle" href="\/buy\/'.$year.'\-(.*?)\-(.*?)\/">(.*?)<\/a>/', $content, $matches);
-				preg_match_all('/<div class="carImg"><a href="\/buy\/(.*?)\/"><img src="(.*?)" alt="(.*?)" \/><\/a><\/div>/', $content, $matchesImage);
+				$content = str_replace(array("\n", "\t", "\r"), "", $content);
+				
+				preg_match_all('/<div class="trim__desc hidden-xs hidden-tn"><div class="h4"><a class="desc__link" href="http:\/\/www.autoblog.com\/buy\/'.$year.'\-(.*?)\-(.*?)\/">(.*?)<\/a><\/div><\/div>/', $content, $matches);
+				preg_match_all('/<div class="col col-tn-6 col-sm-3 col--photo">(.*?)src="(.*?)" alt="(.*?)"(.*?)<\/div>/', $content, $matchesImage);
+
 				$imagesData = array();
 				foreach ($matchesImage[0] as $key=>$val) {	
 					$imagesData[trim($matchesImage[3][$key])] = $matchesImage[2][$key];
 				}
-				
+					
+				echo count($imagesData) . "\n";	
+				print_r($imagesData);	
+				continue;	
+					
 				foreach ($matches[1] as $key=>$makeTitle) {
 					$modelTitle = $matches[2][$key];
-					
-					if ((int)$matches[3][$key] != $year) {
-						break 2;
-					}
 					
 					$makeTitle	= str_replace(array('_', '+'), array('-', ' '), $makeTitle);
 					$modelTitle	= str_replace(array('_', '+'), array('-', ' '), $modelTitle);
