@@ -532,6 +532,9 @@ class ImportCommand extends CConsoleCommand
 	*/	
 	private function actionCompletion($ids)
 	{
+		print_r($ids);
+		die();
+		
 		$completionIds = array();
 		
 		$criteria = new CDbCriteria();
