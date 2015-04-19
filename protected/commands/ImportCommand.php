@@ -551,7 +551,9 @@ class ImportCommand extends CConsoleCommand
 			$content = CUrlHelper::getPage($url, '', '');
 
 			preg_match_all('/<liclass="tools_first"><ahref="http:\/\/www.autoblog.com\/cars\-compare\?v1=(.*?)&amp;type=other">CompareCars<\/a><\/li>/', str_replace(array("\n", "\t", "\r"," "), "", $content), $matches);			
-								
+			print_r($matches);			
+			die();
+						
 			if (isset($matches[1][0])) {					
 				$linkCompare = 'http://www.autoblog.com/cars-compare?v1='.$matches[1][0].'&type=other';
 				$contentCompare = CUrlHelper::getPage($linkCompare, '', '');	
