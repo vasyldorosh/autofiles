@@ -553,11 +553,13 @@ class ImportCommand extends CConsoleCommand
 				$linkCompare = 'http://www.autoblog.com/cars-compare?v1='.$matches[1][0].'&type=other';
 				$contentCompare = CUrlHelper::getPage($linkCompare, '', '');	
 				preg_match_all('/<select name="trim_1" class="trimSelecter" id="compTrimList1">(.*?)<\/select>/', str_replace(array("\n", "\t", "\r"), "", $contentCompare), $matches);
-				preg_match_all('/<option value="(.*?)">(.*?)<\/option>/', $matches[1][0], $matchOptions);
-				foreach ($matchOptions[1] as $key=>$code) {
-					$completion = $this->getCompletion(array('model_year_id'=>$autoModelYear->id,'code'=>$code, 'title'=>$matchOptions[2][$key]));
-					echo "\t  Completion " . $completion->id . ' - ' . $completion->title . "\n";
-					$completionIds[] = $completion->id;
+				if (isset($matches[1][0])) {
+					preg_match_all('/<option value="(.*?)">(.*?)<\/option>/', $matches[1][0], $matchOptions);
+					foreach ($matchOptions[1] as $key=>$code) {
+						$completion = $this->getCompletion(array('model_year_id'=>$autoModelYear->id,'code'=>$code, 'title'=>$matchOptions[2][$key]));
+						echo "\t  Completion " . $completion->id . ' - ' . $completion->title . "\n";
+						$completionIds[] = $completion->id;
+					}
 				}
 			}
 		}
