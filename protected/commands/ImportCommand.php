@@ -592,59 +592,64 @@ class ImportCommand extends CConsoleCommand
 				
 				$headerTrs = explode('<tr class="header">', $matchTable[1][0]);
 				
-				$dataSpecsGroup = array();
-				foreach ($headerTrs as $trKey=>$headerTr) {
-					if ($trKey < 2) continue;
-					preg_match_all('/<td class="anchor label"><span><em>Compare<\/em>(.*?)<\/span><\/td>/', $headerTr, $matchGroup);
-					preg_match_all('/<tr(.*?)class="data(.*?)"><td class="anchor label"><span>(.*?)<\/span><\/td><td class="anchor right_bor(.*?)">(.*?)<\/td>/', $headerTr, $matchSpecs);
+				if (isset($matchTable[1][0])) {
 					
-					$specsGroupTitle = trim($matchGroup[1][0]);
-					$specsGroup = $this->getSpecsGroup(array('title'=>$specsGroupTitle));
+					$dataSpecsGroup = array();
+					foreach ($headerTrs as $trKey=>$headerTr) {
+						if ($trKey < 2) continue;
+						preg_match_all('/<td class="anchor label"><span><em>Compare<\/em>(.*?)<\/span><\/td>/', $headerTr, $matchGroup);
+						preg_match_all('/<tr(.*?)class="data(.*?)"><td class="anchor label"><span>(.*?)<\/span><\/td><td class="anchor right_bor(.*?)">(.*?)<\/td>/', $headerTr, $matchSpecs);
 						
-					foreach ($matchSpecs[3] as $specsKey=>$matchSpecTitle) {
-						$specsTitle = trim(strip_tags($matchSpecTitle));
-						$specs = $this->getSpecs(array('title'=>$specsTitle, 'group_id'=>$specsGroup->id));
-						$tempValue = strip_tags($matchSpecs[5][$specsKey]);
-						
-						$dataSpecsGroup[$specsGroup->title][$specs->title] = $tempValue;
-						
-						$completionSpecs = new AutoCompletionSpecsTemp;
-						$completionSpecs->attributes = array(
-							'completion_id' => $completion->id,
-							'specs_id' => $specs->id,
-							'value' => $tempValue,
-						);
-						
-						$completionSpecs->save();										
-					}	
-				}
+						$specsGroupTitle = trim($matchGroup[1][0]);
+						$specsGroup = $this->getSpecsGroup(array('title'=>$specsGroupTitle));
+							
+						foreach ($matchSpecs[3] as $specsKey=>$matchSpecTitle) {
+							$specsTitle = trim(strip_tags($matchSpecTitle));
+							$specs = $this->getSpecs(array('title'=>$specsTitle, 'group_id'=>$specsGroup->id));
+							$tempValue = strip_tags($matchSpecs[5][$specsKey]);
+							
+							$dataSpecsGroup[$specsGroup->title][$specs->title] = $tempValue;
+							
+							$completionSpecs = new AutoCompletionSpecsTemp;
+							$completionSpecs->attributes = array(
+								'completion_id' => $completion->id,
+								'specs_id' => $specs->id,
+								'value' => $tempValue,
+							);
+							
+							$completionSpecs->save();										
+						}	
+					}
+					
 
-				$competitorCount = 0;
-				if (substr_count($content, "Competitors for") == 1) {
-					preg_match_all('/<a href="#top-chooser" class="addVeh add" name="(.*?)">Add to Compare<\/a>/', $content, $matches);	
+					$competitorCount = 0;
+					if (substr_count($content, "Competitors for") == 1) {
+						preg_match_all('/<a href="#top-chooser" class="addVeh add" name="(.*?)">Add to Compare<\/a>/', $content, $matches);	
+						
+						if (isset($matches[1]) && !empty($matches[1])) {
+							foreach ($matches[1] as $competitor_code) {
+								$competitorCompletion = AutoCompletion::model()->findByAttributes(array('code'=>$competitor_code));
+								if (!empty($competitorCompletion)) {
+									
+									$competitorsTemp = new AutoCompletionCompetitorsTemp;
+									$competitorsTemp->completion_id = $completion->id;
+									$competitorsTemp->competitor_id = $competitorCompletion->id;
+									$competitorsTemp->is_parsed = 1;
+									try {
+									  $competitorsTemp->save();
+									} catch (Exception $exc) {
+									  
+									} 								
+									
+									$competitorCount++;
+								}	
+							}
+						}	
+					}
 					
-					if (isset($matches[1]) && !empty($matches[1])) {
-						foreach ($matches[1] as $competitor_code) {
-							$competitorCompletion = AutoCompletion::model()->findByAttributes(array('code'=>$competitor_code));
-							if (!empty($competitorCompletion)) {
-								
-								$competitorsTemp = new AutoCompletionCompetitorsTemp;
-								$competitorsTemp->completion_id = $completion->id;
-								$competitorsTemp->competitor_id = $competitorCompletion->id;
-								$competitorsTemp->is_parsed = 1;
-								try {
-								  $competitorsTemp->save();
-								} catch (Exception $exc) {
-								  
-								} 								
-								
-								$competitorCount++;
-							}	
-						}
-					}	
-				}
+					echo "Completion parsed " . $completion->id . ' ' . $competitorCount . "\n";
 				
-				echo "Completion parsed " . $completion->id . ' ' . $competitorCount . "\n";
+				}
 			}
 	}
 	
