@@ -590,10 +590,10 @@ class ImportCommand extends CConsoleCommand
 				
 				preg_match_all('/<table id="data_table" cellpadding="0" cellspacing="0" class="fixed_wrap">(.*?)<\/table>/', $content, $matchTable);
 				
-				$headerTrs = explode('<tr class="header">', $matchTable[1][0]);
-				
 				if (isset($matchTable[1][0])) {
-					
+						
+					$headerTrs = explode('<tr class="header">', $matchTable[1][0]);	
+						
 					$dataSpecsGroup = array();
 					foreach ($headerTrs as $trKey=>$headerTr) {
 						if ($trKey < 2) continue;
