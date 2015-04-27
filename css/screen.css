@@ -370,10 +370,11 @@ display: none; }
 .right-block__specs-list li a{display:inline-block;padding:5px 3px;margin-bottom:5px;}
 .right-block__specs-list td a { line-height: 3; position: relative; padding-left:64px;}
 .right-block__specs-list td a:before { content: ""; position: absolute; }
-.right-block__specs-list .speed:before { background: url('../img/icons-sc83f02760e.png') 0 0 no-repeat; width: 31px; height: 36px; left: 6px; top: -11px; }
+.right-block__specs-list .speed:before { background: url('../img/icons-sc83f02760e.png') 0 0 no-repeat; width: 31px; height: 36px; left: 6px; top: -12px; }
 .right-block__specs-list .engine:before { background: url('../img/icons-sc83f02760e.png') 0 -131px no-repeat; width: 36px; height: 32px; left: 4px; top: -9px; }
 .right-block__specs-list .tire:before { background: url('../img/tire.png') 0 0 no-repeat; width: 36px; height: 32px; left: 4px; top: -9px; }
-.right-block__specs-list .horsepower:before { background: url('../img/icons-sc83f02760e.png') 0 -406px no-repeat; width: 37px; height: 28px; left: 4px; top: -7px; }
+.right-block__specs-list .dim:before { background: url('../img/dimensions.png') 0 0 no-repeat; width: 26px; height: 26px; left: 9px; top: -6px; }
+.right-block__specs-list .horsepower:before { background: url('../img/icons-sc83f02760e.png') 0 -406px no-repeat; width: 37px; height: 28px; left: 4px; top: -6px; }
 .right-block__specs-list .gas:before { background: url('../img/icons-sc83f02760e.png') 0 -173px no-repeat; width: 24px; height: 24px; left: 10px; top: -5px; }
 .right-block__specs-list .towing:before { background: url('../img/icons-sc83f02760e.png') 0 -477px no-repeat; width: 37px; height: 31px; left: 4px; top: -8px; }
 .right-block__specs-list .length:before { background: url('../img/icons-sc83f02760e.png') 0 -247px no-repeat; width: 25px; height: 25px; left: 9px; top: -8px; }
@@ -559,7 +560,7 @@ footer .footer__copyright { width: 100%; text-align: right; line-height: 67px; t
 
 .text_size{
 	background: #fff;
-	padding: 15px 20px 11px 20px;
+	padding: 0 10px 11px 10px;
 	box-sizing: border-box;
 }
 .text_size p{
@@ -762,10 +763,10 @@ footer .footer__copyright { width: 100%; text-align: right; line-height: 67px; t
 				border-color: #c2dff0;
 			}
 			.years_list_link{
-				width: 50px;
+				
 				display: block;
 				text-align: center;
-				padding: 3px 0;
+				padding: 3px 5px;
 				-webkit-box-sizing: border-box;
 				-moz-box-sizing: border-box;
 				box-sizing: border-box;

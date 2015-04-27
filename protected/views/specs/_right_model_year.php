@@ -28,7 +28,7 @@
 					
 					<?php if (!empty($carSpecsAndDimensions['hp']['mmin'])):?>
 					<tr>
-						<td><a class="horsepower" href="/horsepower/<?=$make['alias']?>/<?=$model['alias']?>/<?=$modelYear['year']?>/">Horsepower</a></td>
+						<td><a class="horsepower" title="<?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> horsepower, hp" href="/horsepower/<?=$make['alias']?>/<?=$model['alias']?>/<?=$modelYear['year']?>/">Horsepower</a></td>
 						<td class="spec-value">
 						<?php if ($carSpecsAndDimensions['hp']['mmin'] != $carSpecsAndDimensions['hp']['mmax']):?>
 							<?=(float)$carSpecsAndDimensions['hp']['mmin']?> - <?=(float)$carSpecsAndDimensions['hp']['mmax']?>
