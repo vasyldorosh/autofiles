@@ -21,6 +21,11 @@
 						</tr>						
 						<tr>
 							<td>
+								<a class="dim" href="/dimensions/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$make['title']?> <?=$model['title']?> horsepower</a>
+							</td>						
+						</tr>						
+						<tr>
+							<td>
 								<a class="tire" href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$make['title']?> <?=$model['title']?> tires</a>
 							</td>						
 						</tr>

@@ -49,7 +49,12 @@
 		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 		
 	</div>
-	<div class="l-col2">
+	<div class="l-col2">	
 		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>		
+		
+		<section class="right-block">
+			<?php $this->renderPartial('application.views.specs._right_make', array('make'=>$make))?>
+		</section>	
+		
 	</div>
 </main>

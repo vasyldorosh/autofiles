@@ -23,16 +23,7 @@
 						</td>
 					</tr>
 					<?php endif;?>
-
-					<?php $rangeTireSize = AutoModel::getMinMaxTireSizeYear($modelYear['id']);?>
-					<?php if (!empty($rangeTireSize)):?>
-					<tr>
-						<td><a class="tire" title="<?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> Tire size" href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/<?=$modelYear['year']?>/">Tire size</a></td>
-						<td class="spec-value">
-							<?=$rangeTireSize['min']?> ...
-						</td>
-					</tr>
-					<?php endif;?>			
+		
 						
 					
 					<?php if (!empty($carSpecsAndDimensions['hp']['mmin'])):?>
@@ -48,98 +39,22 @@
 					</tr>
 					<?php endif;?>
 					
-                                        <?php if (!empty($carSpecsAndDimensions['engine'])):?>
 					<tr>
-						<td><a class="engine" href="#">Engine specs</a></td>
-						<td class="spec-value"><?=$carSpecsAndDimensions['engine']?></td>
-					</tr>
-					<?php endif;?>
+						<td><a class="dim" title="<?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> dimensions" href="/dimensions/<?=$make['alias']?>/<?=$model['alias']?>/<?=$modelYear['year']?>/">Dimensions</a></td>
+						<td class="spec-value">...</td>
+					</tr>						
 					
-					<?php if (!empty($carSpecsAndDimensions['horsepower'])):?>
+ 
+					<?php $rangeTireSize = AutoModel::getMinMaxTireSizeYear($modelYear['id']);?>
+					<?php if (!empty($rangeTireSize)):?>
 					<tr>
-						<td><a class="gas" href="#">Gas mileage</a></td>
-						<td class="spec-value"><?=$carSpecsAndDimensions['gas_mileage']?></td>
-					</tr>
-					<?php endif;?>
-					
-					<?php if (!empty($carSpecsAndDimensions['towing_capacity']['mmin'])):?>
-					<tr>
-						<td><a class="towing" href="#">Towing capacity</a></td>
+						<td><a class="tire" title="<?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> Tire size" href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/<?=$modelYear['year']?>/">Tire size</a></td>
 						<td class="spec-value">
-						<?php if ($carSpecsAndDimensions['towing_capacity']['mmin'] != $carSpecsAndDimensions['towing_capacity']['mmax']):?>
-							<?=(float)$carSpecsAndDimensions['towing_capacity']['mmin']?> - <?=(float)$carSpecsAndDimensions['towing_capacity']['mmax']?>
-						<?php else:?>
-							<?=(float)$carSpecsAndDimensions['towing_capacity']['mmin']?>
-						<?php endif;?>					
-						lbs</td>
+							<?=$rangeTireSize['min']?> ...
+						</td>
 					</tr>
-					<?php endif;?>	
+					<?php endif;?>	                  
 					
-					<?php if (!empty($carSpecsAndDimensions['length']['mmin'])):?>
-					<tr>
-						<td><a class="length" href="#">Length</a></td>
-						<td class="spec-value">
-						<?php if ($carSpecsAndDimensions['length']['mmin'] != $carSpecsAndDimensions['length']['mmax']):?>
-							<?=(float)$carSpecsAndDimensions['length']['mmin']?> - <?=(float)$carSpecsAndDimensions['length']['mmax']?>
-						<?php else:?>
-							<?=(float)$carSpecsAndDimensions['length']['mmin']?>
-						<?php endif;?>					
-						”</td>
-					</tr>
-					<?php endif;?>	
-					
-					<?php if (!empty($carSpecsAndDimensions['wheelbase']['mmin'])):?>
-					<tr>
-						<td><a class="wheelbase" href="#">Wheelbase</a></td>
-						<td class="spec-value">
-						<?php if ($carSpecsAndDimensions['wheelbase']['mmin'] != $carSpecsAndDimensions['wheelbase']['mmax']):?>
-							<?=(float)$carSpecsAndDimensions['wheelbase']['mmin']?> - <?=(float)$carSpecsAndDimensions['wheelbase']['mmax']?>
-						<?php else:?>
-							<?=(float)$carSpecsAndDimensions['wheelbase']['mmin']?>
-						<?php endif;?>						
-						”</td>
-					</tr>
-					<?php endif;?>	
-					
-					<?php if (!empty($carSpecsAndDimensions['clearance']['mmin'])):?>
-					<tr>
-						<td><a class="clearance" href="#">Clearance</a></td>
-						<td class="spec-value">
-						<?php if ($carSpecsAndDimensions['clearance']['mmin'] != $carSpecsAndDimensions['clearance']['mmax']):?>
-							<?=(float)$carSpecsAndDimensions['clearance']['mmin']?> - <?=(float)$carSpecsAndDimensions['clearance']['mmax']?>
-						<?php else:?>
-							<?=(float)$carSpecsAndDimensions['clearance']['mmin']?>
-						<?php endif;?>						
-						”</td>
-					</tr>
-					<?php endif;?>
-					
-					<?php if (!empty($carSpecsAndDimensions['curb_weight']['mmin'])):?>
-					<tr>
-						<td><a class="weight" href="#">Curb weight</a></td>
-						<td class="spec-value">
-						<?php if ($carSpecsAndDimensions['curb_weight']['mmin'] != $carSpecsAndDimensions['curb_weight']['mmax']):?>
-							<?=(float)$carSpecsAndDimensions['curb_weight']['mmin']?> - <?=(float)$carSpecsAndDimensions['curb_weight']['mmax']?>
-						<?php else:?>
-							<?=(float)$carSpecsAndDimensions['curb_weight']['mmin']?>
-						<?php endif;?>	
-						lbs</td>
-					</tr>
-					<?php endif;?>
-					
-					<?php if (!empty($carSpecsAndDimensions['cargo_space']['mmin'])):?>
-					<tr>
-						<td><a class="cargo" href="#">Cargo space</a></td>
-						<td class="spec-value">
-						<?php if ($carSpecsAndDimensions['cargo_space']['mmin'] != $carSpecsAndDimensions['cargo_space']['mmax']):?>
-							<?=(float)$carSpecsAndDimensions['cargo_space']['mmin']?> - <?=(float)$carSpecsAndDimensions['cargo_space']['mmax']?>
-						<?php else:?>
-							<?=(float)$carSpecsAndDimensions['cargo_space']['mmin']?>
-						<?php endif;?>	
-						cu.ft</td>
-					</tr>
-					<?php endif;?>
-
 					
 				</tbody>
 				</table>

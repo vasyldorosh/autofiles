@@ -145,6 +145,11 @@
 		
 		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
 		
+		<section class="right-block">				
+			<?php $this->renderPartial('application.views.specs._right_index')?>		
+		</section>		
+		
+		
 		<!--
 		<section class="right-block">
 			<h2 class="section-name">Car specs and dimensions</h2>

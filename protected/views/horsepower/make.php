@@ -68,7 +68,7 @@
 <br>
 
 <section class="right-block">
-	<?php $this->renderPartial('application.views.tires._make_info', array('make'=>$make))?>
+	<?php $this->renderPartial('application.views.specs._right_make', array('make'=>$make))?>
 </section>
 
 <?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>

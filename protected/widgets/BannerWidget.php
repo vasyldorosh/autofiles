@@ -24,7 +24,7 @@ class BannerWidget extends CWidget{
      */
     public function run()
     {	
-		if ($_SERVER['SERVER_NAME'] != 'auto.loc') {
+		if ($_SERVER['SERVER_NAME'] != 'auto.loc' || true) {
 			$this->render(self::TEMPLATE_PATH . '.'.$this->banner, array());
 		}
     }

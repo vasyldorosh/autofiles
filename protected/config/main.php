@@ -71,6 +71,11 @@ return array(
 				'tires/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'tires/model',
 				'tires/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>/<year:[0-9]{4}>' => 'tires/modelYear',
 
+				'dimensions.html'=>'dimensions/index',
+				'dimensions/<alias:[a-z0-9-_]{1,255}>' => 'dimensions/make',
+				'dimensions/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'dimensions/model',
+				'dimensions/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>/<year:[0-9]{4}>' => 'dimensions/modelYear',
+								
 				'horsepower.html'=>'horsepower/index',
 				'horsepower/<hp:[0-9]{1,4}>/1' => 'site/404',
 				'horsepower/<hp:[0-9]{1,4}>/<page:[0-9]{1,3}>' => 'horsepower/hp',

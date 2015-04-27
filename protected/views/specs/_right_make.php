@@ -1,25 +1,30 @@
 	<h2 class="section-name"><?=$make['title']?> specs and dimensions</h2>
 	
 	<table class="right-block__specs-list">
-					<tbody>
+		<tbody>
 						<tr>
 							<td>
-								<a class="speed" title="<?=$make['title']?> 0-60 acceleration times, ¼ mile" href="/0-60-times/<?=$make['alias']?>/"><?=$make['title']?> 0-60 times</a>
+								<a class="speed" title="<?=$make['title']?> 0-60 acceleration times, ¼ mile" href="/0-60-times<?=$make['url']?>"><?=$make['title']?> 0-60 times</a>
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<a class="horsepower" href="/horsepower/<?=$make['alias']?>/"><?=$make['title']?> horsepower</a>
-							</td>						
-						</tr>						
-						<tr>
-							<td>
-								<a class="tire" href="/tires/<?=$make['alias']?>/"><?=$make['title']?> tires</a>
+								<a class="horsepower" href="/horsepower<?=$make['url']?>"><?=$make['title']?> horsepower</a>
 							</td>						
 						</tr>
-					</tbody>
+						<tr>
+							<td>
+								<a class="dim" href="/dimensions<?=$make['url']?>"><?=$make['title']?> dimensions</a>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<a class="tire" href="/tires<?=$make['url']?>"><?=$make['title']?> tires</a>
+							</td>						
+						</tr>
+		</tbody>
 	</table>
-
+	
    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- autof_250 -->
 <ins class="adsbygoogle"

@@ -604,6 +604,10 @@ class AutoModelYear extends CActiveRecord
 			}
 		}
 		
+		if (sizeof($data) == 5) {
+			array_pop($data);
+		}
+		
 		return $data;
 	}
 	

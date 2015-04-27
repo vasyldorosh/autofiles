@@ -169,6 +169,38 @@
 						'values'=>$values,
 					), 
 					true
+				)),
+                array(
+					'label'=>Yii::t('admin', 'Dimensions'),
+					'content' => $this->renderPartial('_dimensions', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),	
+                array(
+					'label'=>Yii::t('admin', 'Dimensions Make'),
+					'content' => $this->renderPartial('_dimensions_make', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+                array(
+					'label'=>Yii::t('admin', 'Dimensions Model'),
+					'content' => $this->renderPartial('_dimensions_model', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+                array(
+					'label'=>Yii::t('admin', 'Dimensions Model Year'),
+					'content' => $this->renderPartial('_dimensions_model_year', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
 				)),				
 			)
 		));?>

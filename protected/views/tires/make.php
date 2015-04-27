@@ -52,13 +52,15 @@
 </section>
 
 </div>
-<div class="l-col2">
 
-<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
+	<div class="l-col2">
 
-<section class="right-block">
-	<?php $this->renderPartial('_make_info', array('make'=>$make))?>
-</section>
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
 
-</div>
+		<section class="right-block">
+			<?php $this->renderPartial('application.views.specs._right_make', array('make'=>$make))?>
+		</section>	
+
+
+	</div>
 </main>
