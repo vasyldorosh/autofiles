@@ -399,7 +399,7 @@ class AutoModel extends CActiveRecord
 						y.model_id = {$model_id}
 					";
 				
-			echo $sql;
+			echo $sql . '<br/>';
 				
 			$data = Yii::app()->db->createCommand($sql)->queryRow();	
 			$data['mmax'] = (float) $data['mmax'];
