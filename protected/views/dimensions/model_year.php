@@ -16,7 +16,7 @@
 			<table>
 			<?php $tableMap = array(
 				'exterior_length' => 'Overall Length',
-				'exterior_body_width' => 'Overall Body Widt',
+				'exterior_body_width' => 'Overall Body Width',
 				'exterior_height' => 'Overall Body Height',
 				'wheelbase' => 'Wheelbase',
 				'turning_radius' => 'Turning Radius',
