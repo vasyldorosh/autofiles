@@ -30,7 +30,7 @@
 			<?php foreach ($tableMap as $attribute=>$spec_title): $range=AutoModel::getMinMaxSpecs($attribute, $modelYear['id'])?>
 				<tr>
 					<td><?=$spec_title?></td>
-					<td><?php if (!empty($range) && $range['mmin']>0):?>
+					<td><?php if (!empty($range) && $range['mmax']>0):?>
 							<?=$range['mmin']?><?php if ($range['mmin'] != $range['mmax']):?> - <?=$range['mmax']?><?php endif;?><?=($attribute!='drag_coefficient')?'"':''?>
 						<?php else:?>	
 							&mdash;
@@ -70,7 +70,7 @@
 			<?php foreach ($tableMap as $attribute=>$spec_title): $range=AutoModel::getMinMaxSpecs($attribute, $modelYear['id'])?>
 				<tr>
 					<td><?=$spec_title?></td>
-					<td><?php if (!empty($range) && $range['mmin']>0):?>
+					<td><?php if (!empty($range) && $range['mmax']>0):?>
 							<?=$range['mmin']?><?php if ($range['mmin'] != $range['mmax']):?> - <?=$range['mmax']?><?php endif;?>"
 						<?php else:?>	
 							&mdash;
