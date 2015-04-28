@@ -94,19 +94,6 @@
 		<?php if (!empty($competitors)):?>
 		<section class="make">
 			<h2 class="section-name_2">Competitors' dimensions</h2>
-
-			<ul class="make__vehicle">
-							<li>
-					<div class="make__vehicle-image">
-						<a title="2015 Kia Optima dimensions, length, clearance" href="/dimensions/kia/optima/2015/">
-							<img src="http://autofiles.com/photos/model_year_item/150/kia-optima-2015.jpg">
-						</a>
-					</div>
-					<h3>
-						<a href="/dimensions/kia/optima/2015/">2015 Kia Optima dimensions</a>
-					</h3>
-
-				</li>
 				
 			<ul class="make__vehicle">
 			<?php foreach ($competitors as $competitor):?>
@@ -120,8 +107,7 @@
 						<a href="/dimensions/<?=$competitor['make_alias']?>/<?=$competitor['model_alias']?>/<?=$competitor['year']?>/"><?=$competitor['year']?> <?=$competitor['make']?>  <?=$competitor['model']?> dimensions</a>
 					</h3>			
 				</li>
-			<?php endforeach;?>				
-				
+			<?php endforeach;?>								
 			</ul>
 		</section>
 		<?php endif;?>
