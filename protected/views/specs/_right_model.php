@@ -21,7 +21,7 @@
 						</tr>						
 						<tr>
 							<td>
-								<a class="dim" href="/dimensions/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$make['title']?> <?=$model['title']?> horsepower</a>
+								<a class="dim" href="/dimensions/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$make['title']?> <?=$model['title']?> dimensions</a>
 							</td>						
 						</tr>						
 						<tr>

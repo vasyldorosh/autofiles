@@ -7,7 +7,7 @@
 				<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>
 			</div>
 			<div class="text_size">
-				<?=SiteConfig::getInstance()->getValue('horsepower_header_text_block')?>
+				<?=SiteConfig::getInstance()->getValue('dimensions_header_text_block')?>
 			</div>
 		</section>
 		

@@ -18,7 +18,7 @@
 			
 			<div>
 			<?php foreach ($modelByYears as $item):?>
-				<a title="<?=$item['year']?> <?=$make['title']?> <?=$model['title']?> dimensions" href="/horsepower/<?=$make['alias']?>/<?=$model['alias']?>/<?=$item['year']?>/" class="model__block"><span><?=$item['year']?></span><img src="<?=$item['photo']?>"></a>
+				<a title="<?=$item['year']?> <?=$make['title']?> <?=$model['title']?> dimensions" href="/dimensions/<?=$make['alias']?>/<?=$model['alias']?>/<?=$item['year']?>/" class="model__block"><span><?=$item['year']?></span><img src="<?=$item['photo']?>"></a>
 			<?php endforeach;?>
 			</div>
 		</section>
