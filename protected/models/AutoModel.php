@@ -398,7 +398,9 @@ class AutoModel extends CActiveRecord
 						y.is_deleted = 0 AND
 						y.model_id = {$model_id}
 					";
-					
+				
+			echo $sql;
+				
 			$data = Yii::app()->db->createCommand($sql)->queryRow();	
 			$data['mmax'] = (float) $data['mmax'];
 			$data['mmin'] = (float) $data['mmin'];
