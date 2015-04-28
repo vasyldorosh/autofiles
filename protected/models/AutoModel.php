@@ -382,10 +382,10 @@ class AutoModel extends CActiveRecord
 	{
 		$model_id = (int) $model_id;
 	
-		$key = Tags::TAG_COMPLETION . '_getMinMaxSpecs_' . $specs . '_' . $model_id;
+		$key = Tags::TAG_MODEL . '_getMinMaxSpecs_' . $specs . '_' . $model_id;
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data == false || true) {
+		if ($data === false) {
 			$sql = "SELECT 
 						MAX(c.specs_{$specs}) AS mmax,  
 						MIN(c.specs_{$specs}) AS mmin 
@@ -398,9 +398,7 @@ class AutoModel extends CActiveRecord
 						y.is_deleted = 0 AND
 						y.model_id = {$model_id}
 					";
-				
-			echo $sql . '<br/>';
-				
+
 			$data = Yii::app()->db->createCommand($sql)->queryRow();	
 			$data['mmax'] = (float) $data['mmax'];
 			$data['mmin'] = (float) $data['mmin'];
