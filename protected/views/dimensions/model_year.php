@@ -27,7 +27,7 @@
 			);
 			?>
 			
-			<?php foreach ($tableMap as $attribute=>$spec_title): $range=AutoModel::getMinMaxSpecs($attribute, $modelYear['id'])?>
+			<?php foreach ($tableMap as $attribute=>$spec_title): $range=AutoModel::getMinMaxSpecs($attribute, $modelYear['id']); d($modelYear);?>
 				<tr>
 					<td><?=$spec_title?></td>
 					<td><?php if (!empty($range) && $range['mmax']>0):?>
