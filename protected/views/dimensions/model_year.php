@@ -27,7 +27,7 @@
 			);
 			?>
 			
-			<?php foreach ($tableMap as $attribute=>$spec_title): $range=AutoModel::getMinMaxSpecs($attribute, $modelYear['id']); d($modelYear);?>
+			<?php foreach ($tableMap as $attribute=>$spec_title): $range=AutoModelYear::getMinMaxSpecs($attribute, $modelYear['id']);?>
 				<tr>
 					<td><?=$spec_title?></td>
 					<td><?php if (!empty($range) && $range['mmax']>0):?>
@@ -67,7 +67,7 @@
 				'rear_shoulder_room' => 'Shoulder Room - Rear',
 				'third_row_shoulder_room' => ' Shoulder Room - Third Room',
 			);?>	
-			<?php foreach ($tableMap as $attribute=>$spec_title): $range=AutoModel::getMinMaxSpecs($attribute, $modelYear['id'])?>
+			<?php foreach ($tableMap as $attribute=>$spec_title): $range=AutoModelYear::getMinMaxSpecs($attribute, $modelYear['id'])?>
 				<tr>
 					<td><?=$spec_title?></td>
 					<td><?php if (!empty($range) && $range['mmax']>0):?>
