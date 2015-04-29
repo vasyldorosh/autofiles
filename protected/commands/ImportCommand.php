@@ -321,7 +321,11 @@ class ImportCommand extends CConsoleCommand
 				$content = CUrlHelper::getPage($url);
 				$content = str_replace(array("\n", "\t", "\r"), "", $content);
 				
+				$file = Yii::getPathOfAlias('webroot') . "/../log/{$page}.txt";
+				file_put_contents($file, $content);
+				
 				preg_match_all('/<div class="trim__desc hidden-xs hidden-tn"><div class="h4"><a class="desc__link" href="http:\/\/www.autoblog.com\/buy\/'.$year.'\-(.*?)\-(.*?)\/">(.*?)<\/a><\/div><\/div>/', $content, $matches);
+				preg_match_all('/<a class="desc__link" href="http:\/\/www.autoblog.com\/buy\/'.$year.'\-(.*?)\-(.*?)\/">'.$year.'Kia Sorento<\/a>/', $content, $matchesTitle);
 				preg_match_all('/<div class="col col-tn-6 col-sm-3 col--photo">(.*?)src="(.*?)" alt="(.*?)"(.*?)<\/div>/', $content, $matchesImage);
 
 				$imagesData = array();
@@ -329,6 +333,7 @@ class ImportCommand extends CConsoleCommand
 					$imagesData[trim($matchesImage[3][$key])] = $matchesImage[2][$key];
 				}
 					
+				echo 'title = ' . count($matchesTitle) . "\n";	
 				echo 'matches = ' . count($matches) . "\n";	
 				echo 'images = ' . count($imagesData) . "\n";	
 				echo "-----------------------------------------\n";	

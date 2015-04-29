@@ -11,6 +11,7 @@
         'closeText'=>'&times;',
         'alerts'=>array(
             'success'=>array('block'=>true, 'fade'=>true, 'closeText'=>'&times;'),
+			'error'=>array('block'=>true, 'fade'=>true, 'closeText'=>'&times;'),
         ))); 
 	?> 	
 	

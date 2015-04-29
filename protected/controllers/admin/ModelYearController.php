@@ -41,7 +41,37 @@ class ModelYearController extends BackendController
         if (isset($_GET['AutoModelYear'])) {
             $model->attributes = $_GET['AutoModelYear'];
         }
-
+		
+		$errorParsing = Yii::app()->cache->get('errorParsingModelYear');
+		if ($errorParsing === false) {
+			$year = date('Y')+1;
+			
+			$criteria = new CDbCriteria();
+			$criteria->compare('year', $year);			
+			$countSite = AutoModelYear::model()->count($criteria);
+			$countDonor = 0;
+	
+			$url = "http://www.autoblog.com/car-finder/{$year}/";
+			$content = CUrlHelper::getPage($url);
+			$content = str_replace(array("\n", "\t", "\r"), "", $content);
+			preg_match_all('/<span class="hidden-xs hidden-tn">(.*?)Matching Vehicles<\/span>/', $content, $matches);
+			if (isset($matches[1][0])) {
+				$countDonor = $matches[1][0];
+			}
+			
+			if ($countDonor != $countSite) {
+				$errorParsing = "model {$year} <br/>autofiles.com: {$countSite} <br> autoblog.com: $countDonor";
+			} else {
+				$errorParsing = 'no';
+			}
+			
+			Yii::app()->cache->set('errorParsingModelYear', $errorParsing, 120);
+		}
+	
+		if ($errorParsing != 'no') {
+			Yii::app()->admin->setFlash('error', $errorParsing);
+		}
+		
         $this->render("index", array(
             'model' => $model,
 			'pageSize' => Yii::app()->request->getParam('pageSize', Yii::app()->params->defaultPerPage),
