@@ -21,9 +21,18 @@ class SitemapCommand extends CConsoleCommand
 
 		$mapFiles = array(
 			'/', 
-			'/0-60-times.html',
+			'/0-60-times.html/',
 			'/tires.html',
 			'/horsepower.html',
+			'/dimensions.html',
+		);
+		
+		$mapModules = array(
+			'/', 
+			'/0-60-times/',
+			'/tires/',
+			'/horsepower/',
+			'/dimensions/',
 		);
 		
 		$i=0;
@@ -47,25 +56,12 @@ class SitemapCommand extends CConsoleCommand
 				
 			foreach ($makes as $make) {
 				
-				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . '/'.$make['alias'].'/',
-					'lastmod' => time(),
-				));
-			
-				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . '/0-60-times/'.$make['alias'].'/',
-					'lastmod' => time(),
-				));	
-				
-				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . '/tires/'.$make['alias'].'/',
-					'lastmod' => time(),
-				));						
-				
-				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . '/horsepower/'.$make['alias'].'/',
-					'lastmod' => time(),
-				));						
+				foreach ($mapModules as $uri) {
+					$this->addItem($doc, $urlset, array(
+						'url' => $site_url . $uri . $make['alias'].'/',
+						'lastmod' => time(),
+					));					
+				}
 			}
 				
 			if (empty($makes))	{
@@ -104,25 +100,12 @@ class SitemapCommand extends CConsoleCommand
 				
 			foreach ($models as $model) {
 				
-				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . '/' . $model->Make->alias . '/' . $model->alias . '/',
-					'lastmod' => time(),
-				));
-			
-				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . '/0-60-times/' . $model->Make->alias . '/' . $model->alias.'/',
-					'lastmod' => time(),
-				));	
-				
-				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . '/tires/' . $model->Make->alias . '/' . $model->alias.'/',
-					'lastmod' => time(),
-				));						
-				
-				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . '/horsepower/' . $model->Make->alias . '/' . $model->alias.'/',
-					'lastmod' => time(),
-				));						
+				foreach ($mapModules as $uri) {
+					$this->addItem($doc, $urlset, array(
+						'url' => $site_url . $uri . $model->Make->alias . '/' . $model->alias . '/',
+						'lastmod' => time(),
+					));					
+				}								
 			}
 				
 			if (empty($models))	{
@@ -163,26 +146,23 @@ class SitemapCommand extends CConsoleCommand
 			$models = AutoModelYear::model()->findAll($criteria);	
 				
 			foreach ($models as $model) {
-				
-				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . '/' . $model->Model->Make->alias . '/' .  $model->Model->alias . '/' . $model->year . '/',
-					'lastmod' => time(),
-				));
-			
+							
 				$this->addItem($doc, $urlset, array(
 					'url' => $site_url . '/' . $model->Model->Make->alias . '/' . $model->Model->alias . '/' . $model->year.'/photos.html',
 					'lastmod' => time(),
 				));					
+
+				foreach ($mapModules as $uri) {
+					if (in_array($uri, array('/0-60-times/'))) {
+						continue;
+					}
+					
+					$this->addItem($doc, $urlset, array(
+						'url' => $site_url . $uri . $model->Model->Make->alias . '/' . $model->Model->alias . '/' . $model->year.'/',
+						'lastmod' => time(),
+					));					
+				}
 				
-				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . '/tires/' . $model->Model->Make->alias . '/' . $model->Model->alias . '/' . $model->year.'/',
-					'lastmod' => time(),
-				));						
-				
-				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . '/horsepower/' . $model->Model->Make->alias . '/' . $model->Model->alias . '/' . $model->year.'/',
-					'lastmod' => time(),
-				));						
 			}
 				
 			if (empty($models))	{
