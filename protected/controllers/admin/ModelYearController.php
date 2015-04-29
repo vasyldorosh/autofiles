@@ -42,7 +42,8 @@ class ModelYearController extends BackendController
             $model->attributes = $_GET['AutoModelYear'];
         }
 		
-		$errorParsing = Yii::app()->cache->get('errorParsingModelYear');
+		$key = '_errorParsingModelYear_';
+		$errorParsing = Yii::app()->cache->get($key);
 		if ($errorParsing === false) {
 			$year = date('Y')+1;
 			
@@ -50,22 +51,27 @@ class ModelYearController extends BackendController
 			$criteria->compare('year', $year);			
 			$countSite = AutoModelYear::model()->count($criteria);
 			$countDonor = 0;
-	
-			$url = "http://www.autoblog.com/car-finder/{$year}/";
-			$content = CUrlHelper::getPage($url);
-			$content = str_replace(array("\n", "\t", "\r"), "", $content);
-			preg_match_all('/<span class="hidden-xs hidden-tn">(.*?)Matching Vehicles<\/span>/', $content, $matches);
-			if (isset($matches[1][0])) {
-				$countDonor = $matches[1][0];
+			
+			for ($page=1; $page<=10; $page++) {
+				$p=($page==1)?"":"pg-{$page}/";
+				$url = "http://www.autoblog.com/car-finder/{$year}/{$p}";
+				$content = CUrlHelper::getPage($url);
+				$content = str_replace(array("\n", "\t", "\r"), "", $content);
+				preg_match_all('/<div class="col col-tn-6 col-sm-3 col--photo">(.*?)src="(.*?)" alt="(.*?)"(.*?)<\/div>/', $content, $matchesImage);
+				if (isset($matchesImage[3])) {
+					$countDonor+= count($matchesImage[3]);
+				} else {
+					break;
+				}
 			}
 			
-			if ($countDonor != $countSite) {
+			if ($countDonor > $countSite) {
 				$errorParsing = "model {$year} <br/>autofiles.com: {$countSite} <br> autoblog.com: $countDonor";
 			} else {
 				$errorParsing = 'no';
 			}
 			
-			Yii::app()->cache->set('errorParsingModelYear', $errorParsing, 120);
+			Yii::app()->cache->set($key, $errorParsing, 300);
 		}
 	
 		if ($errorParsing != 'no') {

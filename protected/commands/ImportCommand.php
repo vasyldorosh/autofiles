@@ -312,7 +312,7 @@ class ImportCommand extends CConsoleCommand
 		
 		$year = date('Y') + 1;		
 		if (true) {
-			for ($page=1; $page<=3; $page++) {
+			for ($page=1; $page<=10; $page++) {
 				$notFound = false;
 				
 				$p=($page==1)?"":"pg-{$page}/";
@@ -320,9 +320,6 @@ class ImportCommand extends CConsoleCommand
 				echo $url . "\n";
 				$content = CUrlHelper::getPage($url);
 				$content = str_replace(array("\n", "\t", "\r"), "", $content);
-				
-				$file = Yii::getPathOfAlias('webroot') . "/../log/{$page}.txt";
-				file_put_contents($file, $content);
 				
 				preg_match_all('/<div class="trim__desc hidden-xs hidden-tn"><div class="h4"><a class="desc__link" href="http:\/\/www.autoblog.com\/buy\/'.$year.'\-(.*?)\-(.*?)\/">(.*?)<\/a><\/div><\/div>/', $content, $matches);
 				preg_match_all('/<a class="desc__link" href="http:\/\/www.autoblog.com\/buy\/'.$year.'\-(.*?)\-(.*?)\/">'.$year.'Kia Sorento<\/a>/', $content, $matchesTitle);
