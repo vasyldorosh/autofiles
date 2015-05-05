@@ -54,7 +54,7 @@
 <?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
 
 		<section class="right-block">
-			<?php $this->renderPartial('_make_info', array('make'=>$make))?>
+			<?php $this->renderPartial('application.views.specs._right_make', array('make'=>$make))?>
 		</section>
 		<section class="right-block">
 			<h2 class="section-name"><a href="<?=Tire::url($tire)?>"><?=Tire::format($tire, false)?> specs</a></h2>
