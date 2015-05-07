@@ -45,6 +45,8 @@
 			)
 		));	
 		
+		$this->renderPartial('application.views.admin._form_actions', array('model'=>$model));
+		
 	$this->endWidget();?>
 
 </div>

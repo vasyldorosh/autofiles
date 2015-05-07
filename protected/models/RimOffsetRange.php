@@ -48,7 +48,7 @@ class RimOffsetRange extends CActiveRecord
 	
 	private function clearCache()
 	{
-		Yii::app()->cache->clear(Tags::TAG_RIM_CENTER_BORE);
+		Yii::app()->cache->clear(Tags::TAG_RIM_OFFSET_RANGE);
 	}
 	
 	/**
@@ -86,12 +86,12 @@ class RimOffsetRange extends CActiveRecord
 	
 	public static function getAll() 
 	{
-		$key = Tags::TAG_RIM_CENTER_BORE . '_getAll_';
+		$key = Tags::TAG_RIM_OFFSET_RANGE . '_getAll_';
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data === false) {
 			$data = CHtml::listData(self::model()->findAll(array('order'=>'value')), 'id', 'value');
-			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_RIM_CENTER_BORE));
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_RIM_OFFSET_RANGE));
 		}
 		
 		return $data;

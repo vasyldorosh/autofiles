@@ -25,7 +25,7 @@ class RimOffsetRangeController extends BackendController
         if (isset($_POST['RimOffsetRange'])) {
 			$model->attributes = $_POST['RimOffsetRange'];
 			if ($model->validate() && $model->save()) {
-				Yii::app()->admin->setFlash('success', Yii::t('admin', 'RimOffsetRange successfully added'));
+				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Rim Offset successfully added'));
 				$this->afterSaveRedirect($model);
 			}
         }		
@@ -44,7 +44,7 @@ class RimOffsetRangeController extends BackendController
 			$model->attributes = $_POST['RimOffsetRange'];
 
 			if ($model->validate() && $model->save()) {
-				Yii::app()->admin->setFlash('success', Yii::t('admin', 'RimOffsetRange successfully edited'));
+				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Rim Offset successfully edited'));
 				$this->afterSaveRedirect($model);
 			}
         }
@@ -72,7 +72,7 @@ class RimOffsetRangeController extends BackendController
     public function actionDelete($id) {
 		$model = $this->loadModel($id);
 		$model->delete();
-		Yii::app()->admin->setFlash('success', Yii::t('admin', 'RimOffsetRange successfully deleted'));
+		Yii::app()->admin->setFlash('success', Yii::t('admin', 'Rim Offset successfully deleted'));
 		$this->redirect('/admin/rimOffsetRange');
 	}
 }

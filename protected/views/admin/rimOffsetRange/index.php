@@ -1,8 +1,8 @@
-<?php $this->pageTitle = Yii::app()->name.' - ' . Yii::t('admin', 'Rim Offset Range');?>
+<?php $this->pageTitle = Yii::app()->name.' - ' . Yii::t('admin', 'Rim Offset');?>
 
 <div class="container inner-page white img-rounded">
     <div class="page-header">
-        <h3><?=Yii::t('admin', 'Rim Offset Range')?></h3>
+        <h3><?=Yii::t('admin', 'Rim Offset')?></h3>
     </div>
     
 	<?php $this->widget('AdminTbAlert', array(
