@@ -83,7 +83,7 @@
 			<div class="controls" style="margin-left: 30px;">
 			<?php 	
 				foreach ($years as $item): if($item['id']==$model->id){continue;}?>
-				<label><input type="checkbox" name="AutoModelYear[post_rims_related][]" value="<?=$item['id']?>" <?=in_array($item['id'], $model->post_rims_related)?'checked="checked"':''?>> <span <?=($modelYearTires==$item['tires'])?'style="font-weight: bold;"':''?>><?=$item['year']?></span> <?=(count($item['tires'])>0)?'('.count($item['tires']).')':''?></label>
+				<label><input type="checkbox" name="AutoModelYear[post_rims_related][]" value="<?=$item['id']?>" <?=in_array($item['id'], $model->post_rims_related)?'checked="checked"':''?>> <span><?=$item['year']?></span></label>
 			<?php endforeach;?>
 			</div>
 	</div>
