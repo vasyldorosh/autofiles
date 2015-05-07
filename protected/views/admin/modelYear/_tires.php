@@ -38,7 +38,7 @@
 	
 	<div class="control-group">
 		<div class="controls">
-			Rim Width &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			Rim Width &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			
 			<?php echo $form->dropDownList($model, 'tire_rim_diameter_from_id', TireRimDiameter::getList(),array('empty'=>'', 'style'=>'width:70px;'))?> x
 			<?php echo $form->dropDownList($model, 'rim_width_from_id', RimWidth::getAll(),array('empty'=>'', 'style'=>'width:70px;'))?> &nbsp;&nbsp;&nbsp; to &nbsp;&nbsp;&nbsp; 
@@ -49,7 +49,7 @@
 	
 	<div class="control-group">
 		<div class="controls">
-			Rim Offset &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			Rim Offset &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<?php echo $form->dropDownList($model, 'offset_range_from_id', RimOffsetRange::getAll(),array('empty'=>'', 'style'=>'width:70px;'))?> to
 			<?php echo $form->dropDownList($model, 'offset_range_to_id', RimOffsetRange::getAll(),array('empty'=>'', 'style'=>'width:70px;'))?> 
 		</div>
