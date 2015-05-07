@@ -1,3 +1,5 @@
+<?php $years = AutoModelYear::getListYears((int)$model->model_id);?>	
+	
 	<div class="control-group">
 		<?php $model->post_tires = $model->getPost_tires()?>
 			<label class="control-label required" for="AutoModelYear_post_tires"><?php echo $model->getAttributeLabel('post_tires')?></label>
@@ -25,9 +27,64 @@
 			<div class="controls" style="margin-left: 30px;">
 			<?php 	
 				$modelYearTires = $model->getPost_tires(false); 
-				foreach (AutoModelYear::getListYears($model->model_id) as $item): if($item['id']==$model->id){continue;}?>
+				foreach ($years as $item): if($item['id']==$model->id){continue;}?>
 				<label><input type="checkbox" name="AutoModelYear[post_tires_related][]" value="<?=$item['id']?>" <?=in_array($item['id'], $model->post_tires_related)?'checked="checked"':''?>> <span <?=($modelYearTires==$item['tires'])?'style="font-weight: bold;"':''?>><?=$item['year']?></span> <?=(count($item['tires'])>0)?'('.count($item['tires']).')':''?></label>
 			<?php endforeach;?>
 			</div>
 	</div>
 	<?php endif;?>
+	
+	<hr/>
+	
+	<div class="control-group">
+		<div class="controls">
+			Rim Width &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			
+			<?php echo $form->dropDownList($model, 'tire_rim_diameter_from_id', TireRimDiameter::getList(),array('empty'=>'', 'style'=>'width:70px;'))?> x
+			<?php echo $form->dropDownList($model, 'rim_width_from_id', RimWidth::getAll(),array('empty'=>'', 'style'=>'width:70px;'))?> &nbsp;&nbsp;&nbsp; to &nbsp;&nbsp;&nbsp; 
+			<?php echo $form->dropDownList($model, 'tire_rim_diameter_to_id', TireRimDiameter::getList(),array('empty'=>'', 'style'=>'width:70px;'))?> x
+			<?php echo $form->dropDownList($model, 'rim_width_to_id', RimWidth::getAll(),array('empty'=>'', 'style'=>'width:70px;'))?>
+		</div>
+	</div>	
+	
+	<div class="control-group">
+		<div class="controls">
+			Offset Range &nbsp;&nbsp;&nbsp; 
+			<?php echo $form->dropDownList($model, 'offset_range_from_id', RimOffsetRange::getAll(),array('empty'=>'', 'style'=>'width:70px;'))?> to
+			<?php echo $form->dropDownList($model, 'offset_range_to_id', RimOffsetRange::getAll(),array('empty'=>'', 'style'=>'width:70px;'))?> 
+		</div>
+	</div>	
+	
+	<div class="control-group">
+		<div class="controls">
+			<?=$model->getAttributeLabel('bolt_pattern_id')?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<?php echo $form->dropDownList($model, 'bolt_pattern_id', RimBoltPattern::getAll(),array('empty'=>'', 'style'=>'width:170px;'))?>
+		</div>
+	</div>	
+	
+	<div class="control-group">
+		<div class="controls">
+			<?=$model->getAttributeLabel('thread_size_id')?> &nbsp;&nbsp;&nbsp;&nbsp;
+			<?php echo $form->dropDownList($model, 'thread_size_id', RimThreadSize::getAll(),array('empty'=>'', 'style'=>'width:170px;'))?>
+		</div>
+	</div>	
+	
+	<div class="control-group">
+		<div class="controls">
+			<?=$model->getAttributeLabel('center_bore_id')?> &nbsp;&nbsp;&nbsp;&nbsp;
+			<?php echo $form->dropDownList($model, 'center_bore_id', RimCenterBore::getAll(),array('empty'=>'', 'style'=>'width:170px;'))?>
+		</div>
+	</div>	
+	
+	<?php if (!$model->isNewRecord):?>
+	<div class="control-group">
+		<?php $model->post_rims_related = $model->getPost_rims_related()?>
+			<label class="control-label required">Copy to</label>
+			<div class="controls" style="margin-left: 30px;">
+			<?php 	
+				foreach ($years as $item): if($item['id']==$model->id){continue;}?>
+				<label><input type="checkbox" name="AutoModelYear[post_rims_related][]" value="<?=$item['id']?>" <?=in_array($item['id'], $model->post_rims_related)?'checked="checked"':''?>> <span <?=($modelYearTires==$item['tires'])?'style="font-weight: bold;"':''?>><?=$item['year']?></span> <?=(count($item['tires'])>0)?'('.count($item['tires']).')':''?></label>
+			<?php endforeach;?>
+			</div>
+	</div>
+	<?php endif;?>	

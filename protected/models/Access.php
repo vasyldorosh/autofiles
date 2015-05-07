@@ -4,7 +4,7 @@ class Access extends CActiveRecord
 {
 	public static $_resources = null;
 
-	const CACHE_KEY = '__ACCESSS_';
+	const CACHE_KEY = '____ACCESSS_____';
 
     /**
      * Returns the static model of the specified AR class.

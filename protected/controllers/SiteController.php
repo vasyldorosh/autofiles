@@ -370,6 +370,11 @@ class SiteController extends Controller
 		Yii::app()->cache->flush();
 	}	
 	
+	public function actionConfigFlush()
+	{
+		Yii::app()->cache->delete(SiteConfig::CACHE_KEY);
+	}	
+	
 	public function actionDump()
 	{
 		$dir='C:/dump/';

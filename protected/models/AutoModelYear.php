@@ -14,6 +14,7 @@ class AutoModelYear extends CActiveRecord
 	public $post_competitors = array();
 	public $post_tires = array();
 	public $post_tires_related = array();
+	public $post_rims_related = array();
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -42,9 +43,9 @@ class AutoModelYear extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('year, model_id', 'required'),
-            array('id, chassis_id, year', 'numerical', 'integerOnly' => true,),		
+            array('center_bore_id, thread_size_id, bolt_pattern_id, offset_range_to_id, offset_range_from_id, rim_width_to_id, tire_rim_diameter_to_id, rim_width_from_id, tire_rim_diameter_from_id, id, chassis_id, year', 'numerical', 'integerOnly' => true,),		
 			array('is_active, is_deleted, is_delete_photo', 'numerical', 'integerOnly' => true),
-            array('post_tires, post_competitors, post_tires_related', 'safe',),					
+            array('post_tires, post_competitors, post_tires_related, post_rims_related', 'safe',),					
             array('description', 'safe',),		
             array('file', 'length', 'max' => 128),
 			array(
@@ -55,7 +56,7 @@ class AutoModelYear extends CActiveRecord
 			),				
 		);
 	}
-	
+
 	/**
 	 * @return array relational rules.
 	 */
@@ -88,9 +89,17 @@ class AutoModelYear extends CActiveRecord
 			'file' => 'File Name',			
 			'chassis_id' => 'Chassis',			
 			'post_tires' => 'Tires',			
+			'tire_rim_diameter_from_id' => 'Tire Rim Diameter from',			
+			'rim_width_from_id' => 'Rim Width from',			
+			'tire_rim_diameter_to_id' => 'Tire Rim Diameter to',			
+			'rim_width_to_id' => 'Rim Width to',			
+			'offset_range_from_id' => 'Offset Range from',			
+			'offset_range_to_id' => 'Offset Range to',			
+			'bolt_pattern_id' => 'Bolt Pattern',			
+			'thread_size_id' => 'Thread Size',			
+			'center_bore_id' => 'Center Bore',						
 		);
 	}
-
 		
 	protected function beforeSave()	
 	{
@@ -207,7 +216,29 @@ class AutoModelYear extends CActiveRecord
 				file_put_contents($this->getImage_directory(true) . $this->file_name, $imageContent);
 				$this->updateByPk($this->id, array('file_name'=>$this->file_name));
 			}
-		}			
+		}	
+
+		if (!empty($this->post_rims_related)) {
+			$attr = array(
+				'tire_rim_diameter_from_id' => $this->tire_rim_diameter_from_id,			
+				'rim_width_from_id' => $this->rim_width_from_id,			
+				'tire_rim_diameter_to_id' => $this->tire_rim_diameter_to_id,			
+				'rim_width_to_id' => $this->rim_width_to_id,			
+				'offset_range_from_id' => $this->offset_range_from_id,			
+				'offset_range_to_id' => $this->offset_range_to_id,			
+				'bolt_pattern_id' => $this->bolt_pattern_id,			
+				'thread_size_id' => $this->thread_size_id,			
+				'center_bore_id' => $this->center_bore_id,	
+			);
+			
+			foreach ($this->post_rims_related as $id) {
+				$modelYear = AutoModelYear::model()->findByPk($id);
+				if (!empty($modelYear)) {
+					$modelYear->attributes = $attr;
+					$modelYear->save();
+				}
+			}
+		}
 						
 		$this->_clearCache();	
 			
@@ -1027,6 +1058,15 @@ class AutoModelYear extends CActiveRecord
 	{
 		if (Yii::app()->request->isPostRequest) {
 			return $this->post_tires_related;
+		} else {
+			return array();
+		}
+	}	
+	
+	public function getPost_rims_related()
+	{
+		if (Yii::app()->request->isPostRequest) {
+			return $this->post_rims_related;
 		} else {
 			return array();
 		}
