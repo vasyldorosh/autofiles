@@ -49,7 +49,7 @@
 	
 	<div class="control-group">
 		<div class="controls">
-			Rim Offset &nbsp;&nbsp;&nbsp; 
+			Rim Offset &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<?php echo $form->dropDownList($model, 'offset_range_from_id', RimOffsetRange::getAll(),array('empty'=>'', 'style'=>'width:70px;'))?> to
 			<?php echo $form->dropDownList($model, 'offset_range_to_id', RimOffsetRange::getAll(),array('empty'=>'', 'style'=>'width:70px;'))?> 
 		</div>
