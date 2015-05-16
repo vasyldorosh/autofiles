@@ -19,7 +19,8 @@
 			<?php if (isset($dataModel['photo'])):?>
 			<div class="make__vehicle-image">
 				<a title="<?=$make['title']?> <?=$dataModel['title']?> tire size" href="/tires<?=$dataModel['url']?>">
-					<img src="<?=$dataModel['photo']?>"> 
+					<img alt="<?=$make['title']?> <?=$dataModel['title']?> tire size" src="<?=$dataModel['photo']?>"> 
+                                 </a>
 				</div>
 			<?php endif;?>	
 			<h3>
