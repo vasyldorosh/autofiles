@@ -59,10 +59,15 @@
 					),					
 				),	
 				array(
+					'name' => 'platform_id',
+					'value' => '!empty($data->Platform)?$data->Platform->getTitleRange():""',	
+					'filter' => false,				
+				),				
+				array(
 					'name' => 'chassis_id',
 					'value' => '!empty($data->Chassis)?$data->Chassis->title:""',	
 					'filter' => AutoModelYearChassis::getList(),				
-				),	
+				),		
 				array(
 					'name'=>'year',
 					'value'=>'$data->year',

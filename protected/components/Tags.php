@@ -24,6 +24,9 @@ class Tags implements ICacheDependency {
 	const TAG_RIM_CENTER_BORE = 'TAG_RIM_CENTER_BORE';
 	const TAG_RIM_OFFSET_RANGE = 'TAG_RIM_OFFSET_RANGE';
 	
+	const TAG_AUTO_PLATFORM = 'TAG_AUTO_PLATFORM';
+	const TAG_AUTO_PLATFORM_CATEGORY = 'TAG_AUTO_PLATFORM_CATEGORY';
+	
 	protected $timestamp;
 	protected $tags;
 	 

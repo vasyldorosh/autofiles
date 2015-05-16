@@ -124,6 +124,8 @@ body {
 					array('label' => Yii::t('admin', 'Chassis'), 'url' => Yii::app()->createUrl('admin/modelYearChassis'), 'visible'=>Access::is('modelYear.chassis')),
 					array('label' => Yii::t('admin', 'Empty tires'), 'url' => Yii::app()->createUrl('admin/modelYear/emptyTires'), 'visible'=>Access::is('modelYear')),
 					array('label' => Yii::t('admin', 'Empty 0-60'), 'url' => Yii::app()->createUrl('admin/modelYear/empty060'), 'visible'=>Access::is('completion')),
+					array('label' => Yii::t('admin', 'Platform'), 'url' => Yii::app()->createUrl('admin/platform'), 'visible'=>Access::is('modelYear.platform')),
+					array('label' => Yii::t('admin', 'Platform Category'), 'url' => Yii::app()->createUrl('admin/platformCategory'), 'visible'=>Access::is('modelYear.platformCategory')),
 				)),				
 				
 				array('label' => Yii::t('admin', 'Completions'), 'visible'=>(Access::is('completion')), 'items' => array(

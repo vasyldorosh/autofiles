@@ -44,7 +44,7 @@ class AutoModelYear extends CActiveRecord
 		return array(
 			array('year, model_id', 'required'),
             array('center_bore_id, thread_size_id, bolt_pattern_id, offset_range_to_id, offset_range_from_id, rim_width_to_id, tire_rim_diameter_to_id, rim_width_from_id, tire_rim_diameter_from_id, id, chassis_id, year', 'numerical', 'integerOnly' => true,),		
-			array('is_active, is_deleted, is_delete_photo', 'numerical', 'integerOnly' => true),
+			array('is_active, is_deleted, is_delete_photo, platform_id', 'numerical', 'integerOnly' => true),
             array('post_tires, post_competitors, post_tires_related, post_rims_related', 'safe',),					
             array('description', 'safe',),		
             array('file', 'length', 'max' => 128),
@@ -64,6 +64,7 @@ class AutoModelYear extends CActiveRecord
 	{
 		return array(
             'Model' => array(self::BELONGS_TO, 'AutoModel', 'model_id', 'together'=>true,),
+            'Platform' => array(self::BELONGS_TO, 'Platform', 'platform_id', 'together'=>true,),
             'Chassis' => array(self::BELONGS_TO, 'AutoModelYearChassis', 'chassis_id', 'together'=>true,),
 			'galleryPhotos' => array(self::HAS_MANY, 'AutoModelYearPhoto', 'year_id', 'order' => '`rank` ASC',),
 	    );
@@ -98,6 +99,7 @@ class AutoModelYear extends CActiveRecord
 			'bolt_pattern_id' => 'Bolt Pattern',			
 			'thread_size_id' => 'Thread Size',			
 			'center_bore_id' => 'Center Bore',						
+			'platform_id' => 'Platform',						
 		);
 	}
 		
@@ -335,6 +337,7 @@ class AutoModelYear extends CActiveRecord
 		$criteria->compare('t.is_active',$this->is_active);			
 		$criteria->compare('t.chassis_id',$this->chassis_id);						
 		$criteria->compare('t.is_tires',$this->is_tires);			
+		$criteria->compare('t.platform_id',$this->platform_id);			
 		
 		$criteria->with = array('Model' => array('together'=>true));
 

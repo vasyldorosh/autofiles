@@ -22,7 +22,9 @@
 	<?php endif;?>
 	
 	<?php echo $form->dropDownListRow($model, 'model_id', AutoModel::getAllWithMake(),array('empty'=>''))?>
-		
+	
+	<?php echo $form->dropDownListRow($model, 'platform_id', Platform::getListByModel($model->model_id),array('empty'=>''))?>
+			
 	<?php echo $form->textFieldRow($model, 'year')?>
 	
 	<?php echo $form->dropDownListRow($model, 'chassis_id', AutoModelYearChassis::getList(),array('empty'=>''))?>
@@ -49,4 +51,9 @@
 $(document).on('shown.bs.tab', function(event){
 	$('#AutoModelYear_post_tires_chosen').css('width', '500px');
 })
+</script>
+
+
+<script>
+<?=HtmlHelper::select($model, 'model_id', 'platform_id', '/admin/platform/getByModel')?>
 </script>
