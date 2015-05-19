@@ -29,7 +29,7 @@ class RimBoltPattern extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('value', 'required'),
-			array('value', 'length', 'max'=>10),			
+			array('value', 'length', 'max'=>20),			
 			array('id', 'safe', 'on' => 'search'),
 		);
 	}		
