@@ -2,6 +2,8 @@
 
 class Platform extends CActiveRecord
 {
+	public $post_models = array(); 
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -28,7 +30,7 @@ class Platform extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, alias, category_id, year_from, year_to, model_id', 'required'),
+			array('title, alias, category_id, year_from, year_to, post_models', 'required'),
 			array('alias', 'unique'),
 			array('year_from, year_to', 'numerical', 'integerOnly' => true),
 			array('id', 'safe',),	
@@ -61,7 +63,6 @@ class Platform extends CActiveRecord
 	public function relations()
 	{
 		return array(
-            'Model' => array(self::BELONGS_TO, 'AutoModel', 'model_id', 'together'=>true,),
             'Category' => array(self::BELONGS_TO, 'PlatformCategory', 'category_id', 'together'=>true,),
         );
 	}
@@ -84,7 +85,7 @@ class Platform extends CActiveRecord
 		// set platforms modelYear
 		if ($this->isNewRecord) {
 			$criteria=new CDbCriteria;
-			$criteria->compare('model_id',$this->model_id);			
+			$criteria->addInCondition('model_id',$this->post_models);			
 			$criteria->addCondition("year <= {$this->year_to} AND year >= {$this->year_from} AND platform_id IS NULL");
 			$items = AutoModelYear::model()->findAll($criteria);
 			foreach ($items as $item) {
@@ -92,6 +93,22 @@ class Platform extends CActiveRecord
 				$item->save(false);
 			}
 		}
+		
+		if ($this->scenario == 'updateAdmin') {
+			PlatformVsModel::model()->deleteAllByAttributes(array('platform_id'=>$this->id));
+		}
+		
+		if (!empty($this->post_models)) {
+			foreach ($this->post_models as $model_id) {
+				$model_id = (int) $model_id;
+				if (!$model_id) continue;
+			
+				$vs = new PlatformVsModel;
+				$vs->platform_id = $this->id;
+				$vs->model_id = $model_id;
+				$vs->save();				
+			}			
+		}			
 		
 		$this->_clearCache();
 		
@@ -104,6 +121,29 @@ class Platform extends CActiveRecord
 			
         return parent::afterDelete();
     }	
+	
+	
+	public function getPost_models()
+	{
+		if (Yii::app()->request->isPostRequest) {
+			return $this->post_models;
+		} else {
+			if ($this->isNewRecord) {
+				return array();
+			} else {
+				
+				$criteria = new CDbCriteria;
+				$criteria->compare('platform_id', $this->id);
+				$items = PlatformVsModel::model()->findAll($criteria);
+				$ids = array();
+				foreach ($items as $item) {
+					$ids[] = $item->model_id;
+				}
+				
+				return $ids;
+			}
+		}
+	}	
 	
 	/**
 	 * @return array customized attribute labels (name=>label)
@@ -136,7 +176,6 @@ class Platform extends CActiveRecord
 		$criteria->compare('title',$this->title, true);
 		$criteria->compare('alias',$this->alias, true);
 		$criteria->compare('category_id',$this->category_id);
-		$criteria->compare('model_id',$this->model_id);
 		$criteria->compare('year_from',$this->year_from);
 		$criteria->compare('year_to',$this->year_to);
 

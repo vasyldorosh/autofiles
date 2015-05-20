@@ -13,7 +13,8 @@
 			
 		<?php echo $form->dropDownListRow($model, 'category_id', PlatformCategory::getAll(),array('empty'=>''))?>	
 			
-		<?php echo $form->dropDownListRow($model, 'model_id', AutoModel::getAllWithMake(),array('empty'=>''))?>
+		<?php $model->post_models = $model->getPost_models()?>	
+		<?php echo $form->dropDownListRow($model, 'post_models', AutoModel::getAllWithMake(),array('multiple'=>true, 'size'=>30))?>
 		
 		<?php echo $form->textFieldRow($model, 'year_from', array('class'=>'span6'))?>
 		
@@ -23,7 +24,3 @@
 		
     <?php $this->endWidget()?>
 </div>
-
-<script>
-<?=HtmlHelper::select($model, 'model_id', 'model_year_id', '/admin/modelYear/getByModel')?>
-</script>

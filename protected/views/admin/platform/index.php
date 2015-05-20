@@ -45,15 +45,6 @@
 				),				
 				'title',
 				'alias',
-				array(
-					'class'=>'ELinkUpdateColumn',
-					'name' => 'model_id',
-					'value' => '$data->getModelTitle()',	
-					'filter' => AutoModel::getAllWithMake(),
-					'htmlOptions' => array(
-						'access' => 'modelYear.update', 
-					),					
-				),				
 				'year_from',
 				'year_to',
             );
