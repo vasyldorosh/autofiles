@@ -197,22 +197,16 @@ class Platform extends CActiveRecord
 		return $this->Model->Make->title . " " . $this->Model->title;
 	}	
 	
-	public function getTitleRange()
-	{
-		return "{$this->year_from}-{$this->year_to} {$this->title}";
-	}
-	
-	public static function getListByModel($model_id)
+	public static function getList()
 	{
 		$model_id = (int)$model_id;
 		
 		$criteria=new CDbCriteria;
-		$criteria->compare('model_id',$model_id);
 		$items = self::model()->findAll($criteria);
 		$data = array();
 		
 		foreach ($items as $item) {
-			$data[$item->id] = $item->getTitleRange();
+			$data[$item->id] = $item->title;
 		}
 		
 		return $data;

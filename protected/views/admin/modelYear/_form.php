@@ -23,7 +23,7 @@
 	
 	<?php echo $form->dropDownListRow($model, 'model_id', AutoModel::getAllWithMake(),array('empty'=>''))?>
 	
-	<?php echo $form->dropDownListRow($model, 'platform_id', Platform::getListByModel($model->model_id),array('empty'=>''))?>
+	<?php //echo $form->dropDownListRow($model, 'platform_id', Platform::getList(),array('empty'=>''))?>
 			
 	<?php echo $form->textFieldRow($model, 'year')?>
 	

@@ -58,11 +58,13 @@
 						'access' => 'modelYear.update', 
 					),					
 				),	
+				/*
 				array(
 					'name' => 'platform_id',
 					'value' => '!empty($data->Platform)?$data->Platform->getTitleRange():""',	
 					'filter' => false,				
-				),				
+				),
+				*/
 				array(
 					'name' => 'chassis_id',
 					'value' => '!empty($data->Chassis)?$data->Chassis->title:""',	
