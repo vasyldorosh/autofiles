@@ -45,8 +45,6 @@
 				),				
 				'title',
 				'alias',
-				'year_from',
-				'year_to',
             );
 
 		if (Access::is('modelYear.platform.update') || Access::is('modelYear.platform.delete')) {

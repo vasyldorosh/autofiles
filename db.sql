@@ -1,15 +1,13 @@
-ALTER TABLE  `platform` DROP  `model_id`;
+DROP TABLE  `platform_vs_model`;
 
-CREATE TABLE IF NOT EXISTS `platform_vs_model` (
+CREATE TABLE IF NOT EXISTS `platform_model` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `platform_id` int(11) unsigned NOT NULL,
   `model_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`platform_id`,`model_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `year_from` mediumint(4) unsigned NOT NULL,
+  `year_to` mediumint(4) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-ALTER TABLE  `platform_vs_model` ADD FOREIGN KEY (  `platform_id` ) REFERENCES  `platform` (
-`id`
-) ON DELETE CASCADE ON UPDATE RESTRICT ;
 
-ALTER TABLE  `platform_vs_model` ADD FOREIGN KEY (  `model_id` ) REFERENCES  `auto_model` (
-`id`
-) ON DELETE CASCADE ON UPDATE RESTRICT ;
+ALTER TABLE  `auto_model_year` CHANGE  `platform_id`  `platform_model_id` INT( 11 ) UNSIGNED NULL DEFAULT NULL ;

@@ -23,7 +23,7 @@
 	
 	<?php echo $form->dropDownListRow($model, 'model_id', AutoModel::getAllWithMake(),array('empty'=>''))?>
 	
-	<?php //echo $form->dropDownListRow($model, 'platform_id', Platform::getList(),array('empty'=>''))?>
+	<?php echo $form->dropDownListRow($model, 'platform_model_id', PlatformModel::getListByModel($model->model_id),array('empty'=>''))?>
 			
 	<?php echo $form->textFieldRow($model, 'year')?>
 	
@@ -55,5 +55,5 @@ $(document).on('shown.bs.tab', function(event){
 
 
 <script>
-<?=HtmlHelper::select($model, 'model_id', 'platform_id', '/admin/platform/getByModel')?>
+<?=HtmlHelper::select($model, 'model_id', 'platform_model_id', '/admin/platformModel/getByModel')?>
 </script>

@@ -30,9 +30,8 @@ class Platform extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, alias, category_id, year_from, year_to, post_models', 'required'),
+			array('title, alias, category_id', 'required'),
 			array('alias', 'unique'),
-			array('year_from, year_to', 'numerical', 'integerOnly' => true),
 			array('id', 'safe',),	
 		);
 	}
@@ -46,15 +45,6 @@ class Platform extends CActiveRecord
 		//создаем алиас к тайтлу
 		$this->buildAlias();
 		return parent::beforeValidate();
-	}
-
-	protected function afterValidate()
-	{
-		if (is_numeric($this->year_to) && is_numeric($this->year_from) && $this->year_to < $this->year_from) {
-			$this->addError('year_to', '"Year to" should be more "Year from"');
-		}
-		
-		return parent::afterValidate();
 	}
 
 	/**
@@ -82,34 +72,6 @@ class Platform extends CActiveRecord
 	
 	public function afterSave()
 	{		
-		// set platforms modelYear
-		if ($this->isNewRecord) {
-			$criteria=new CDbCriteria;
-			$criteria->addInCondition('model_id',$this->post_models);			
-			$criteria->addCondition("year <= {$this->year_to} AND year >= {$this->year_from} AND platform_id IS NULL");
-			$items = AutoModelYear::model()->findAll($criteria);
-			foreach ($items as $item) {
-				$item->platform_id = $this->id;
-				$item->save(false);
-			}
-		}
-		
-		if ($this->scenario == 'updateAdmin') {
-			PlatformVsModel::model()->deleteAllByAttributes(array('platform_id'=>$this->id));
-		}
-		
-		if (!empty($this->post_models)) {
-			foreach ($this->post_models as $model_id) {
-				$model_id = (int) $model_id;
-				if (!$model_id) continue;
-			
-				$vs = new PlatformVsModel;
-				$vs->platform_id = $this->id;
-				$vs->model_id = $model_id;
-				$vs->save();				
-			}			
-		}			
-		
 		$this->_clearCache();
 		
 		return parent::afterSave();
@@ -121,30 +83,7 @@ class Platform extends CActiveRecord
 			
         return parent::afterDelete();
     }	
-	
-	
-	public function getPost_models()
-	{
-		if (Yii::app()->request->isPostRequest) {
-			return $this->post_models;
-		} else {
-			if ($this->isNewRecord) {
-				return array();
-			} else {
-				
-				$criteria = new CDbCriteria;
-				$criteria->compare('platform_id', $this->id);
-				$items = PlatformVsModel::model()->findAll($criteria);
-				$ids = array();
-				foreach ($items as $item) {
-					$ids[] = $item->model_id;
-				}
-				
-				return $ids;
-			}
-		}
-	}	
-	
+		
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -155,9 +94,6 @@ class Platform extends CActiveRecord
 			'title' => Yii::t('admin', 'Title'),
 			'alias' => Yii::t('admin', 'Alias'),
 			'category_id' => Yii::t('admin', 'Category'),
-			'model_id' => Yii::t('admin', 'Model'),
-			'year_from' => Yii::t('admin', 'Year from'),
-			'year_to' => Yii::t('admin', 'Year to'),
 		);
 	}
 
@@ -176,9 +112,7 @@ class Platform extends CActiveRecord
 		$criteria->compare('title',$this->title, true);
 		$criteria->compare('alias',$this->alias, true);
 		$criteria->compare('category_id',$this->category_id);
-		$criteria->compare('year_from',$this->year_from);
-		$criteria->compare('year_to',$this->year_to);
-
+	
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 			'pagination'=>array(
@@ -191,22 +125,16 @@ class Platform extends CActiveRecord
 	{
 		Yii::app()->cache->clear(Tags::TAG_AUTO_PLATFORM);
 	}
-		
-	public function getModelTitle()
-	{
-		return $this->Model->Make->title . " " . $this->Model->title;
-	}	
 	
-	public static function getList()
+	
+	public static function getAll()
 	{
-		$model_id = (int)$model_id;
+		$key = Tags::TAG_AUTO_PLATFORM . '___getAll_';
+		$data = Yii::app()->cache->get($key);
 		
-		$criteria=new CDbCriteria;
-		$items = self::model()->findAll($criteria);
-		$data = array();
-		
-		foreach ($items as $item) {
-			$data[$item->id] = $item->title;
+		if ($data === false) {
+			$data = CHtml::listData(self::model()->findAll(), 'id', 'title');
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_AUTO_PLATFORM));
 		}
 		
 		return $data;
