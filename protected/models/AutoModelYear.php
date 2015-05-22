@@ -118,6 +118,10 @@ class AutoModelYear extends CActiveRecord
 			$this->chassis_id = null;
 		}
 		
+		if (empty($this->platform_model_id)) {
+			$this->platform_model_id = null;
+		}
+		
 		return parent::beforeSave()	;
 	}
 	
