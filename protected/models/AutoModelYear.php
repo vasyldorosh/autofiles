@@ -1083,6 +1083,31 @@ class AutoModelYear extends CActiveRecord
 		}
 	}	
 	
+	public function getRimModels()
+	{
+		$data = array();
+		$criteria = new CDbCriteria;
+		$criteria->compare('model_id', $this->model_id);
+		$criteria->order = 'year DESC';
+		$items = AutoModelYear::model()->findAll($criteria);
+		foreach ($items as $item) {
+			$data[$item->id] = array(
+				'year' => $item->year,
+				'tire_rim_diameter_from_id' => $item->tire_rim_diameter_from_id,
+				'rim_width_from_id' => $item->rim_width_from_id,
+				'tire_rim_diameter_to_id' => $item->tire_rim_diameter_to_id,
+				'rim_width_to_id' => $item->rim_width_to_id,
+				'offset_range_from_id' => $item->offset_range_from_id,
+				'offset_range_to_id' => $item->offset_range_to_id,
+				'bolt_pattern_id' => $item->bolt_pattern_id,
+				'thread_size_id' => $item->thread_size_id,
+				'center_bore_id' => $item->center_bore_id,
+			);
+		}
+
+		return $data;
+	}	
+	
 	public static function getTires($model_year_id)
 	{	
 		$model_year_id = (int) $model_year_id;

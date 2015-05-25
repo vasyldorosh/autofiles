@@ -81,9 +81,24 @@
 		<?php $model->post_rims_related = $model->getPost_rims_related()?>
 			<label class="control-label required">Copy to</label>
 			<div class="controls" style="margin-left: 30px;">
-			<?php 	
-				foreach ($years as $item): if($item['id']==$model->id){continue;}?>
-				<label><input type="checkbox" name="AutoModelYear[post_rims_related][]" value="<?=$item['id']?>" <?=in_array($item['id'], $model->post_rims_related)?'checked="checked"':''?>> <span><?=$item['year']?></span></label>
+			<?php $rimModels = $model->getRimModels();	
+				foreach ($years as $item): 
+				$rimData = $rimModels[$item['id']];
+				if($item['id']==$model->id){continue;}?>
+				<label><input type="checkbox" name="AutoModelYear[post_rims_related][]" value="<?=$item['id']?>" <?=in_array($item['id'], $model->post_rims_related)?'checked="checked"':''?>> <span
+				<?php if ($rimData['tire_rim_diameter_from_id'] == $model->tire_rim_diameter_from_id &&
+					      $rimData['rim_width_from_id'] == $model->rim_width_from_id &&
+					      $rimData['tire_rim_diameter_to_id'] == $model->tire_rim_diameter_to_id &&
+					      $rimData['rim_width_to_id'] == $model->rim_width_to_id &&
+					      $rimData['offset_range_from_id'] == $model->offset_range_from_id &&
+					      $rimData['offset_range_to_id'] == $model->offset_range_to_id &&
+					      $rimData['bolt_pattern_id'] == $model->bolt_pattern_id &&
+					      $rimData['thread_size_id'] == $model->thread_size_id &&
+					      $rimData['center_bore_id'] == $model->center_bore_id
+				):?>
+					style="font-weight:bold;"
+				<?php endif;?>
+				><?=$item['year']?></span></label>
 			<?php endforeach;?>
 			</div>
 	</div>
