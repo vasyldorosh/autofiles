@@ -178,7 +178,7 @@ class Iwi extends Image
         // Make sure that the image is readable and valid
         if (!is_array($image_info) OR count($image_info) < 3)  {
 			$data = explode('protected/..', $image);
-			throw new CException("{$data[0]} - image file unreadable");	
+			throw new CException("{$data[1]} - image file unreadable");	
 		}
 	    
 		// Check to make sure the image type is allowed
