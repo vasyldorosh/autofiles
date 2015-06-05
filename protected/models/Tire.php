@@ -206,9 +206,23 @@ class Tire extends CActiveRecord
 		));
 	}
 	
+	public function getTitle() 
+	{
+		$title = '';
+		
+		if (!empty($this->SectionWidth) && !empty($this->AspectRatio) && !empty($this->RimDiameter)) {
+			$title = $this->SectionWidth->value . '/' . $this->AspectRatio->value . ' R' . $this->RimDiameter->value;
+			if ($this->is_rear && !empty($this->RearSectionWidth) && !empty($this->RearAspectRatio) && !empty($this->RearRimDiameter)) {
+				$title .= ' ' .$this->RearSectionWidth->value . '/' . $this->RearAspectRatio->value . ' R' . $this->RearRimDiameter->value;
+			}
+		}
+			
+		return $title;
+	}	
+	
 	public function getList()
 	{
-		$key = Tags::TAG_TIRE . '_getList';
+		$key = Tags::TAG_TIRE . '_getList__';
 		$data = Yii::app()->cache->get($key);
 		if ($data === false) {
 			$data = array();
@@ -218,12 +232,9 @@ class Tire extends CActiveRecord
 			$criteria->order = 'SectionWidth.value, AspectRatio.value, RimDiameter.value';			
 			$items = Tire::model()->findAll($criteria);
 			foreach ($items as $item) {
-				if (!empty($item->SectionWidth) && !empty($item->AspectRatio) && !empty($item->RimDiameter)) {
-					$value = $item->SectionWidth->value . '/' . $item->AspectRatio->value . ' R' . $item->RimDiameter->value;
-					if ($item->is_rear) {
-						$value .= ' ' .$item->RearSectionWidth->value . '/' . $item->RearAspectRatio->value . ' R' . $item->RearRimDiameter->value;
-					}
-					
+				$value = $item->getTitle();
+				
+				if (!empty($value)) {
 					$data[$item->id] = $value;
 				}
 			}

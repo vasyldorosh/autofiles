@@ -153,6 +153,7 @@ body {
 					array('label' => Yii::t('admin', 'Rim Thread Size'), 'url' => Yii::app()->createUrl('admin/rimThreadSize'), 'visible'=>Access::is('tire.rim.thread_size')),
 					array('label' => Yii::t('admin', 'Rim Center Bore'), 'url' => Yii::app()->createUrl('admin/rimCenterBore'), 'visible'=>Access::is('tire.rim.center_bore')),
 					array('label' => Yii::t('admin', 'Rim Offset'), 'url' => Yii::app()->createUrl('admin/rimOffsetRange'), 'visible'=>Access::is('tire.rim.offset_range')),
+					array('label' => Yii::t('admin', 'Tire Rim Width Range'), 'url' => Yii::app()->createUrl('admin/tireRimWidthRange'), 'visible'=>Access::is('tire')),
 				)),	
 				
 				array('label' => Yii::t('admin', 'Settings'), 'url' => Yii::app()->createUrl('admin/settings'), 'visible'=>(Access::is('settings'))),
