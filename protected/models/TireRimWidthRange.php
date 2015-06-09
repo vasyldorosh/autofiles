@@ -88,6 +88,8 @@ class TireRimWidthRange extends CActiveRecord
 	
 	public function import()
 	{
+		TireRimWidthRange::model()->deleteAll();
+		
 		$filename = Yii::getPathOfAlias('webroot') . '/import/Tire_replacement_pressure.xls';
 		Yii::import('ext.phpexcelreader.JPhpExcelReader');
 		$excelReader = new JPhpExcelReader($filename);		
@@ -147,6 +149,10 @@ class TireRimWidthRange extends CActiveRecord
 					'tire_id' => $this->_importGetTireId($tire),
 				);
 				
+				if (empty($rangeAttributes['tire_id'])) {
+					d($data, 0);
+				}
+				
 				if (isset($data[3])) {
 					$expl = explode('-', $data[3]);
 					if (count($expl) == 2) {
@@ -169,6 +175,8 @@ class TireRimWidthRange extends CActiveRecord
 			$model->attributes = $attr;
 			$model->save();
 		}
+		
+		die();
 	}
 	
 	private function _importGetTire($string) {
