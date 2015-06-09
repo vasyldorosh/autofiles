@@ -51,7 +51,7 @@
 				),
 				array(
 					'name'=>'tire_id',
-					'value'=>'isset($data->Tire)?$data->Tire->getTitle():""',
+					'value'=>'isset($data->Tire)?$data->Tire->getTitle(true):""',
 					'filter' => Tire::model()->getList(),
 				),
 				'from',	
