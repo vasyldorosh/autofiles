@@ -11,22 +11,22 @@
 					<tbody>
 						<tr>
 							<td>
-								<a class="speed" title="<?=$make['title']?> <?=$model['title']?> 0-60 acceleration times, ¼ mile" href="/0-60-times/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$make['title']?> <?=$model['title']?> 0-60 times</a>
+								<a class="speed" title="<?=$make['title']?> <?=$model['title']?> 0-60 acceleration times, ¼ mile" href="/0-60-times/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$model['title']?> 0-60 times</a>
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<a class="horsepower" href="/horsepower/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$make['title']?> <?=$model['title']?> horsepower</a>
+								<a class="horsepower" href="/horsepower/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$model['title']?> horsepower</a>
 							</td>						
 						</tr>						
 						<tr>
 							<td>
-								<a class="dim" href="/dimensions/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$make['title']?> <?=$model['title']?> dimensions</a>
+								<a class="dim" href="/dimensions/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$model['title']?> dimensions</a>
 							</td>						
 						</tr>						
 						<tr>
 							<td>
-								<a class="tire" href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$make['title']?> <?=$model['title']?> tires</a>
+								<a class="tire" href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$model['title']?> tire size</a>
 							</td>						
 						</tr>
 					</tbody>
