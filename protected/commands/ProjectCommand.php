@@ -11,7 +11,7 @@ class ProjectCommand extends CConsoleCommand
 	{
 		$url = "http://www.rimtuck.com/setup/view/";
 		Project::model()->deleteAll();
-		for ($id=1;$id<=10;$id++) {
+		for ($id=1;$id<=2600;$id++) {
 			$parseUrl = $url . $id;
 			$content = CUrlHelper::getPage($parseUrl, '', '');
 			$content = str_replace(array("&nbsp;", "\n", "\t", "\r"), "", $content);
