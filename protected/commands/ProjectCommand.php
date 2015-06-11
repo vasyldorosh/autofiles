@@ -108,15 +108,16 @@ class ProjectCommand extends CConsoleCommand
 				$project = new Project;
 				$project->attributes = $attributes;
 				$project->save();
-				
-				print_r($matchImages);
-				
-				
+							
+				echo "{$project->id} \n";			
+							
 				foreach ($matchImages[2] as $matchImage) {
 					$photo = new ProjectPhoto;
 					$photo->project_id = $project->id;
 					$photo->filePath = str_replace('tn.', '.', $matchImage);
 					$photo->save();
+					
+					echo "\t {$photo->id} \n";
 				}
 			}
 		}
