@@ -217,6 +217,13 @@ class AutoModel extends CActiveRecord
 		return CHtml::listData(self::model()->with(array('Make'))->findAll(), 'id', 'title', 'Make.title');
 	}
 
+	public static function getAllByMake($make_id)
+	{
+		$make_id = (int) $make_id;
+		
+		return CHtml::listData(self::model()->findAllByAttributes(array('make_id'=>$make_id)), 'id', 'title');
+	}
+
 	public function getUrlFront()
 	{
 		return $this->Make->urlFront . $this->alias . '/';

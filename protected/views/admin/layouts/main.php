@@ -104,6 +104,7 @@ body {
 					array('label' => Yii::t('admin', 'Roles'), 'url' => Yii::app()->createUrl('admin/role'), 'visible'=>Access::is('role')),
 				)),	
 				array('label' => Yii::t('admin', 'Body Style'), 'url' => Yii::app()->createUrl('admin/bodyStyle'), 'visible'=>(Access::is('bodyStyle'))),
+				array('label' => Yii::t('admin', 'Projects'), 'url' => Yii::app()->createUrl('admin/project'), 'visible'=>(Access::is('project'))),
 				
 				
 				array('label' => Yii::t('admin', 'Makes'), 'visible'=>(Access::is('make')), 'items' => array(
@@ -155,20 +156,16 @@ body {
 					array('label' => Yii::t('admin', 'Rim Offset'), 'url' => Yii::app()->createUrl('admin/rimOffsetRange'), 'visible'=>Access::is('tire.rim.offset_range')),
 					array('label' => Yii::t('admin', 'Tire Rim Width Range'), 'url' => Yii::app()->createUrl('admin/tireRimWidthRange'), 'visible'=>Access::is('tire')),
 				)),	
-				
-				array('label' => Yii::t('admin', 'Settings'), 'url' => Yii::app()->createUrl('admin/settings'), 'visible'=>(Access::is('settings'))),
-				array('label' => Yii::t('admin', 'Parsing'), 'url' => Yii::app()->createUrl('admin/parsing'), 'visible'=>(Access::is('parsing')), 'items' => array(
-					array('label' => Yii::t('admin', 'Worldcarfans Photos'), 'url' => Yii::app()->createUrl('admin/parsing/worldcarfans')),
-				)),
-	        
-				
-			
 			),
         ),
         array(
             'class'=>'bootstrap.widgets.TbMenu',
             'htmlOptions'=>array('class'=>'pull-right'),
             'items'=>array(
+				array('label' => Yii::t('admin', 'Settings'), 'url' => Yii::app()->createUrl('admin/settings'), 'visible'=>(Access::is('settings'))),
+				array('label' => Yii::t('admin', 'Parsing'), 'url' => Yii::app()->createUrl('admin/parsing'), 'visible'=>(Access::is('parsing')), 'items' => array(
+					array('label' => Yii::t('admin', 'Worldcarfans Photos'), 'url' => Yii::app()->createUrl('admin/parsing/worldcarfans')),
+				)),			
 				array('label'=>Yii::t('admin', 'Profile'), 'url'=>Yii::app()->createUrl('admin/admin/update'),'itemOptions' => array('class' => 'underline')),
                 array('label'=>Yii::t('admin', 'Logout'), 'url'=>Yii::app()->createUrl('admin/admin/logout')),
             ),

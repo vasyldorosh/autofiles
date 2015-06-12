@@ -220,9 +220,9 @@ class ProjectPhoto extends CActiveRecord
 		$filePath = $dir . $fileName;
 		if (!is_file($filePath)) {
 			if ($mode == 'resize') {
-				Yii::app()->image->load($originFile)->resize($width, $height)->save($filePath);
+				Yii::app()->iwi->load($originFile)->resize($width, $height)->save($filePath);
 			} else {
-				Yii::app()->image->load($originFile)->crop($width, $height)->save($filePath);
+				Yii::app()->iwi->load($originFile)->crop($width, $height)->save($filePath);
 			}
 		}
 		

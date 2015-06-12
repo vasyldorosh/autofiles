@@ -8,7 +8,7 @@
 class HtmlHelper
 {
 	
-	public static function select($model, $parent, $child, $url)
+	public static function select($model, $parent, $child, $url, $function='')
 	{
 		$js = "$('#".get_class($model)."_".$parent."').change(function(e) {";
 		$js.= 	"$('#".get_class($model)."_".$child."').empty();";
@@ -17,6 +17,7 @@ class HtmlHelper
 		$js.= 		"$.each(response.items, function(value, lable){";
 		$js.= 			"$('#".get_class($model)."_".$child."').append('<option value=\"'+value+'\">'+lable+'</option>');";
 		$js.= 		"});";
+		$js.= 		"{$function}";
 		$js.= 	"}, 'json');";
 		$js.= "});";
 		

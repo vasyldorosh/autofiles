@@ -179,5 +179,11 @@ class ModelController extends BackendController
 			throw new CHttpException(404, 'Page not found');
     }
 
+	public function actionGetByMake() {
+		$id = (int)Yii::app()->getRequest()->getParam('id', 0);
+		
+		$items = AutoModel::getAllByMake($id);
+		echo json_encode(array('items'=>$items));
+	}	
 
 }
