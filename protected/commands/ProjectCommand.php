@@ -117,7 +117,7 @@ class ProjectCommand extends CConsoleCommand
 					$photo->filePath = str_replace('tn.', '.', $matchImage);
 					$photo->save();
 					
-					echo "\t {$photo->id} \n";
+					echo " - {$photo->id} \n";
 				}
 			}
 		}
