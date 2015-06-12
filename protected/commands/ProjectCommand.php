@@ -10,7 +10,7 @@ class ProjectCommand extends CConsoleCommand
 	public function actionImport()
 	{
 		$url = "http://www.rimtuck.com/setup/view/";
-		Project::model()->deleteAll();
+		//Project::model()->deleteAll();
 		for ($id=1;$id<=2060;$id++) {
 			$parseUrl = $url . $id;
 			$content = CUrlHelper::getPage($parseUrl, '', '');
@@ -47,7 +47,7 @@ class ProjectCommand extends CConsoleCommand
 					'value'=>$matchWheels[5],
 				));
 				
-				$attributes['rim_diameter_id'] = $this->_getModelId('RimWidth', array(
+				$attributes['rim_width_id'] = $this->_getModelId('RimWidth', array(
 					'value'=>$matchWheels[7],
 				));
 				
@@ -103,8 +103,19 @@ class ProjectCommand extends CConsoleCommand
 				
 				preg_match_all('/<a href="(.*?)" target=_blank><img src="(.*?)" border=0><\/a>/', $content, $matchImages);				
 				
+				$project = Project::model()->findByPk($attributes['id']);
+				if (!empty($project)) {
+					$project->attributes = $attributes;
+					$project->save();
+					echo "{$project->id} \n";	
+				} else {
+					$project = new Project;
+					$project->attributes = $attributes;
+					$project->save();					
+					echo " err {$id} \n";	
+				}
 				
-				
+				/*
 				$project = new Project;
 				$project->attributes = $attributes;
 				$project->save();
@@ -119,6 +130,7 @@ class ProjectCommand extends CConsoleCommand
 					
 					echo " - {$photo->id} \n";
 				}
+				*/
 			}
 		}
 	}
