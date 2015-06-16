@@ -137,6 +137,10 @@
 		</section>
 		<?php endif;?>
 		
+		<?php $this->renderPartial('application.views.site._reviews', array(
+			'items' => ReviewVsModelYear::getTextModelYear(ReviewVsModelYear::MARKER_TIRES, $modelYear['id']),
+		)); ?>
+		
 	</div>
 	<div class="l-col2">
 		<section class="">

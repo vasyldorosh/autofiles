@@ -119,6 +119,7 @@ body {
 				
 				array('label' => Yii::t('admin', 'Models by Year'), 'visible'=>(Access::is('modelYear')), 'items' => array(
 					array('label' => Yii::t('admin', 'Models by Year'), 'url' => Yii::app()->createUrl('admin/modelYear'), 'visible'=>(Access::is('modelYear'))),
+					array('label' => Yii::t('admin', 'Reviews'), 'url' => Yii::app()->createUrl('admin/review'), 'visible'=>Access::is('modelYear.review')),
 					array('label' => Yii::t('admin', 'Basket'), 'url' => Yii::app()->createUrl('admin/modelYear/basket'), 'visible'=>Access::is('modelYear.basket')),
 					array('label' => Yii::t('admin', 'Empty competitors'), 'url' => Yii::app()->createUrl('admin/modelYear/emptyCompetitors'), 'visible'=>Access::is('modelYear')),
 					array('label' => Yii::t('admin', 'Empty photos'), 'url' => Yii::app()->createUrl('admin/modelYear/emptyPhotos'), 'visible'=>Access::is('modelYear')),

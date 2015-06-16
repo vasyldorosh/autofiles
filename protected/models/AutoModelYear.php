@@ -415,6 +415,8 @@ class AutoModelYear extends CActiveRecord
 	
 	public static function getAllByModel($model_id) 
 	{
+		$model_id = (int) $model_id;
+		
 		$criteria=new CDbCriteria;
 		$criteria->compare('model_id',$model_id);	
 	
