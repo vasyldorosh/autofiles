@@ -165,7 +165,7 @@ class Review extends CActiveRecord
 				);
 			}
 		}
-		d($dataMarker);
+		//d($dataMarker);
 		
 		return $dataMarker;
 	}
