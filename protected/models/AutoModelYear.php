@@ -419,6 +419,7 @@ class AutoModelYear extends CActiveRecord
 		
 		$criteria=new CDbCriteria;
 		$criteria->compare('model_id',$model_id);	
+		$criteria->order = 'year DESC';	
 	
 		return CHtml::listData(self::model()->findAll($criteria), 'id', 'year');		
 	}

@@ -146,6 +146,8 @@ class Review extends CActiveRecord
 	{
 		$dataMarker = array();
 		
+		$this->description = str_replace(array("\n"), array("<br>"), $this->description);
+		
 		foreach (ReviewVsModelYear::getMarkers() as $marker) {
 			preg_match_all("/\[{$marker}\](.*?)\[\/{$marker}\]/", $this->description, $match);	
 
@@ -163,7 +165,7 @@ class Review extends CActiveRecord
 				);
 			}
 		}
-		//d($dataMarker);
+		d($dataMarker);
 		
 		return $dataMarker;
 	}
