@@ -430,7 +430,25 @@ class ImportCommand extends CConsoleCommand
 		$this->actionNotModelYear();
 		$this->actionEmptyCompletion();
 	}	
+	
+	public function actionEmptyCompletion() {
+		Yii::app()->cache->flush();
+		$sql = "SELECT * FROM  `auto_completion` WHERE  `specs_msrp` IS NULL";
+		$completionIds = array();
+		$rows = Yii::app()->db->createCommand($sql)->queryAll();
+		foreach ($rows as $row) {
+			$completionIds[]=$row['id'];
+		}
 
+		if (!empty($completionIds)) {
+			$this->actionCompletionDetails($completionIds);
+			$this->actionSpecs();
+			$this->actionCompletionData($completionIds);
+			$this->actionCompetitor();
+		}		
+	}
+	
+	/*
 	public function actionEmptyCompletion() {
 		$completionIds = array();
 		$dataGroundClearance = array();
@@ -451,7 +469,8 @@ class ImportCommand extends CConsoleCommand
 		foreach ($dataGroundClearance as $k=>$v) {
 			AutoCompletion::model()->updateByPk($k, array('specs_ground_clearance'=>$v));
 		}
-	}
+	}	
+	*/
 	
 	private function actionModelYearPhoto($ids)
 	{
