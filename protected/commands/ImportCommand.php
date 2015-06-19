@@ -441,15 +441,13 @@ class ImportCommand extends CConsoleCommand
 			$dataGroundClearance[$row['id']]=$row['specs_ground_clearance'];
 		}
 		
-		/*
 		if (!empty($completionIds)) {
 			$this->actionCompletionDetails($completionIds);
 			$this->actionSpecs();
 			$this->actionCompletionData($completionIds);
 			$this->actionCompetitor();
 		}
-		*/
-
+		
 		foreach ($dataGroundClearance as $k=>$v) {
 			AutoCompletion::model()->updateByPk($k, array('specs_ground_clearance'=>$v));
 		}
