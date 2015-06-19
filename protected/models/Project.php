@@ -128,7 +128,8 @@ class Project extends CActiveRecord
 			'criteria'=>$criteria,
 			'pagination'=>array(
 				'pageSize'=>Yii::app()->request->getParam('pageSize', Yii::app()->params->defaultPerPage),
-			),			
+			),	
+			'sort' => array('defaultOrder' => 't.id DESC',),
 		));
 	}
 	

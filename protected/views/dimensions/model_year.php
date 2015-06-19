@@ -56,18 +56,30 @@
 			<?php $tableMap = array(
 				'front_headroom' => 'Head Room - Front',
 				'rear_headroom' => 'Head Room - Rear',
-				'third_row_headroom' => 'Head Room - Third Room',
+				'third_row_headroom' => 'Head Room - Third Row',
 				'front_hip_room' => 'Hip Room - Front',
 				'rear_hip_room' => 'Hip Room - Rear',
-				'third_row_hip_room' => 'Hip Room - Third Room',
+				'third_row_hip_room' => 'Hip Room - Third Row',
 				'front_legroom' => 'Leg Room - Front',
 				'rear_legroom' => 'Leg Room - Rear',
-				'third_row_legroom' => 'Leg Room - Third Room',
+				'third_row_legroom' => 'Leg Room - Third Row',
 				'front_shoulder_room' => 'Shoulder Room - Front',
 				'rear_shoulder_room' => 'Shoulder Room - Rear',
-				'third_row_shoulder_room' => ' Shoulder Room - Third Room',
+				'third_row_shoulder_room' => ' Shoulder Room - Third Row',
 			);?>	
 			<?php foreach ($tableMap as $attribute=>$spec_title): $range=AutoModelYear::getMinMaxSpecs($attribute, $modelYear['id'])?>
+				<?php if (in_array($attribute, array('third_row_headroom','third_row_hip_room','third_row_legroom','third_row_shoulder_room'))) {
+					$rangeHeadroom=AutoModelYear::getMinMaxSpecs('third_row_headroom', $modelYear['id']);
+					$rangeHiproom=AutoModelYear::getMinMaxSpecs('third_row_hip_room', $modelYear['id']);
+					$rangeLegroom=AutoModelYear::getMinMaxSpecs('third_row_legroom', $modelYear['id']);
+					$rangeShoulderroom=AutoModelYear::getMinMaxSpecs('third_row_shoulder_room', $modelYear['id']);
+					
+					if (emm($rangeHeadroom) && emm($rangeHiproom) && emm($rangeLegroom) && emm($rangeShoulderroom)) {
+						continue;
+					} 
+				}
+				?>
+			
 				<tr>
 					<td><?=$spec_title?></td>
 					<td><?php if (!empty($range) && $range['mmax']>0):?>

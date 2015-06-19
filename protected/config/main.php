@@ -12,6 +12,16 @@ function cmpArrayYears ($a, $b) {
 		return ($a['year'] > $b['year']) ? -1 : 1;
 }
 
+function emm($data) {
+	if (empty($data)) {
+		return true;
+	} else if (empty($data['mmax']) && empty($data['mmin'])) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 

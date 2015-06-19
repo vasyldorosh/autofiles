@@ -304,6 +304,22 @@ class Tire extends CActiveRecord
 		return $tire;
 	}
 	
+	public static function formatProfile($attributes, $vehicle_class=true) 
+	{
+		$tire = $attributes['section_width'] . '/' . $attributes['aspect_ratio'] . ' R' . $attributes['rim_diameter'];
+		if ($vehicle_class)
+			$tire = $attributes['vehicle_class'] . ' ' . $tire;
+		
+
+		if ($attributes['aspect_ratio'] <= 50) {
+			$tire .= ' &ndash; low profile';
+		} else {
+			$tire .= ' &ndash; high profile';
+		}
+		
+		return $tire;
+	}
+	
 	public static function diameter($attributes) 
 	{
 		return round(($attributes['section_width'] * $attributes['aspect_ratio'] / 2540 * 2) + $attributes['rim_diameter'], 2);

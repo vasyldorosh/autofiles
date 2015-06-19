@@ -1,0 +1,2 @@
+ALTER TABLE  `tire_rim_width_range` ADD  `rear_from` DECIMAL( 3, 1 ) UNSIGNED NULL DEFAULT NULL ,
+ADD  `rear_to` DECIMAL( 3, 1 ) UNSIGNED NULL DEFAULT NULL ;

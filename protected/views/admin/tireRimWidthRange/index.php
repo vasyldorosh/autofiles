@@ -56,6 +56,8 @@
 				),
 				'from',	
 				'to',				
+				'rear_from',	
+				'rear_to',				
             );
 			
 		if (Access::is('tire.update') || Access::is('tire.delete')) {

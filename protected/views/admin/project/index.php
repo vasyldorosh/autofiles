@@ -40,8 +40,9 @@
 				),
 				array(
 					'name' => 'make_id',
-					'value' => 'isset($data->Make)?$data->Make->title:"-"',	
+					'value' => 'CHtml::link(isset($data->Make)?$data->Make->title:"-", "/admin/project/update?id=".$data->id."")',	
 					'filter' => AutoMake::getAll(),
+					'type'=>'raw',
 				),									
 				array(
 					'name' => 'model_id',

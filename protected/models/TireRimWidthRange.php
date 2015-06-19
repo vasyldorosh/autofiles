@@ -33,7 +33,7 @@ class TireRimWidthRange extends CActiveRecord
 			array('tire_id, from, to', 'required'),
 			array('tire_id', 'unique', 'message'=>'{attribute} has already been taken.'),
 			array('tire_id', 'numerical', 'integerOnly' => true),
-			array('from, to', 'numerical'),
+			array('from, to, rear_from, rear_to', 'numerical'),
 			array('id', 'safe', 'on' => 'search'),
 		);
 	}		
@@ -48,6 +48,8 @@ class TireRimWidthRange extends CActiveRecord
 			'tire_id' 	=> Yii::t('admin', 'Tire'),
 			'from'		=> Yii::t('admin', 'From'),
 			'to'		=> Yii::t('admin', 'To'),
+			'rear_from'		=> Yii::t('admin', 'Rear from'),
+			'rear_to'		=> Yii::t('admin', 'Rear to'),
 		);
 	}
 
@@ -76,6 +78,8 @@ class TireRimWidthRange extends CActiveRecord
 		$criteria->compare('t.tire_id',$this->tire_id);
 		$criteria->compare('t.from',$this->from);
 		$criteria->compare('t.to',$this->to);
+		$criteria->compare('t.rear_from',$this->rear_from);
+		$criteria->compare('t.rear_to',$this->rear_to);
 		$criteria->with = array('Tire'=>array('together'=>true));
 		
 		return new CActiveDataProvider($this, array(
@@ -225,6 +229,51 @@ class TireRimWidthRange extends CActiveRecord
 		
 		if (!empty($tire))
 			return $tire->id;
+	}
+	
+	public function afterSave()
+	{
+		$this->_clearCache();
+		
+		return parent::afterSave();
+	}
+	
+	public function afterDelete()
+	{
+		$this->_clearCache();
+		
+		return parent::afterDelete();
+	}
+	
+	private function _clearCache()
+	{
+		Yii::app()->cache->clear(Tags::TAG_TIRE_RIM_WIDTH_RANGE);
+	}
+	
+	public static function getRangeTire($tire_id)
+	{
+		$tire_id	= (int) $tire_id;
+		$key 		= Tags::TAG_TIRE_RIM_WIDTH_RANGE . '__getRangeTire_' . $tire_id;
+		$data 		= Yii::app()->cache->get($key);
+		
+		if ($data === false) {
+			$data = array();
+			
+			$model = self::model()->findByAttributes(array('tire_id'=>$tire_id));
+			if (!empty($model)) {
+				$data['front']['from']	= $model->from;
+				$data['front']['to'] 	= $model->to;				
+			
+				if (!empty($model->rear_from) && !empty($model->rear_to)) {
+					$data['rear']['from']	= $model->rear_from;
+					$data['rear']['to'] 	= $model->rear_to;					
+				}
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE_RIM_WIDTH_RANGE));
+		}
+		
+		return $data;
 	}
 			
 }
