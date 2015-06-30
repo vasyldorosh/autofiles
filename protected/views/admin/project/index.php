@@ -105,10 +105,16 @@
 					'filter' => TireAspectRatio::getList(),
 				),	
 				array(
+					'name' => 'tire_vehicle_class_id',
+					'value' => 'isset($data->TireVehicleClass)?$data->TireVehicleClass->code:"-"',	
+					'filter' => TireVehicleClass::getList(),
+				),	
+				array(
 					'name' => 'is_staggered_tires',
 					'value' => '$data->is_staggered_tires ? "Да" : "Нет"',
 					'filter' => HtmlHelper::getYesNoFilter(),
-				),				
+				),
+				'view_count',
             );
 			
 		if (Access::is('project.update') || Access::is('project.delete')) {

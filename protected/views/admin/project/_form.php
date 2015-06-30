@@ -31,6 +31,8 @@
 <?php echo $form->dropDownListRow($model, 'tire_section_width_id', TireSectionWidth::getList(),array('empty'=>''))?>	
 
 <?php echo $form->dropDownListRow($model, 'tire_aspect_ratio_id', TireAspectRatio::getList(),array('empty'=>''))?>	
+
+<?php echo $form->dropDownListRow($model, 'tire_vehicle_class_id', TireVehicleClass::getList(),array('empty'=>''))?>	
 	
 <?php echo $form->checkboxRow($model, 'is_staggered_tires')?>	
 	
@@ -38,6 +40,8 @@
 	<?php echo $form->dropDownListRow($model, 'rear_tire_section_width_id', TireSectionWidth::getList(),array('empty'=>''))?>	
 
 	<?php echo $form->dropDownListRow($model, 'rear_tire_aspect_ratio_id', TireAspectRatio::getList(),array('empty'=>''))?>	
+	
+	<?php echo $form->dropDownListRow($model, 'rear_tire_vehicle_class_id', TireVehicleClass::getList(),array('empty'=>''))?>
 </div>		
 
 <?php echo $form->textFieldRow($model, 'source')?>

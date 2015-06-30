@@ -201,7 +201,42 @@
 						'values'=>$values,
 					), 
 					true
-				)),				
+				)),	
+				
+				//Tinning
+                array(
+					'label'=>Yii::t('admin', 'Tuning'),
+					'content' => $this->renderPartial('_tuning_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+                array(
+					'label'=>Yii::t('admin', 'Tuning Make'),
+					'content' => $this->renderPartial('_tuning_make_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+                array(
+					'label'=>Yii::t('admin', 'Tuning Model'),
+					'content' => $this->renderPartial('_tuning_model_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+                array(
+					'label'=>Yii::t('admin', 'Tuning Project'),
+					'content' => $this->renderPartial('_tuning_project_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+				
 			)
 		));?>
 

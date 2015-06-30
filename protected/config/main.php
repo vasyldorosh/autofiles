@@ -93,7 +93,12 @@ return array(
 				'horsepower/<alias:[a-z0-9-_]{1,255}>' => 'horsepower/make',
 				'horsepower/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'horsepower/model',
 				'horsepower/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>/<year:[0-9]{4}>' => 'horsepower/modelYear',
-								
+					
+				'tuning.html'=>'tuning/index',
+				'tuning/<alias:[a-z0-9-_]{1,255}>' => 'tuning/make',
+				'tuning/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'tuning/model',
+				'tuning/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>/<id:[0-9]{1,11}>' => 'tuning/project',
+					
 				'site/<action:\w+>'=>'site/<action>',
 				'ajax/<action:\w+>'=>'ajax/<action>',
 				'0-60-times.html'=>'specs/060times',
@@ -108,36 +113,12 @@ return array(
 	
 		
 		'db'=> require(dirname(__FILE__).'/db.php'),
-
+		
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
 		),
-		
-		'log'=>array(
-			'class'=>'CLogRouter',
-			'routes'=>array(
-				array(
-					'class' => 'CWebLogRoute',
-                    'enabled' =>YII_DEBUG_SHOW_PROFILER,
-                    'categories' => 'system.db.*',
-				),
-			),
-		),
-	
-		/*
-		 'log'=>array(
-			'class'=>'CLogRouter',
-			'routes'=>array(      
-			  array(
-				'class'=>'CProfileLogRoute',
-				'report'=>'summary',
-			  ),			  
-			),
-		  ),
-		*/
-				
-        'file' => array(
+		'file' => array(
             'class'=>'application.extensions.file.CFile',
         ),		
 	),

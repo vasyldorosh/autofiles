@@ -243,6 +243,34 @@ class AutoMake extends CActiveRecord
 		return $data;
 	}
 
+	public static function getAllFrontFull()
+	{
+		$key	= Tags::TAG_MAKE . 'getAllFrontFull';
+		$data 	= Yii::app()->cache->get($key);
+			
+		if ($data == false) {
+			$data = array();
+			
+			$criteria=new CDbCriteria;
+			$criteria->compare('is_active', 1);	
+			$criteria->compare('is_deleted', 0);	
+			$criteria->order = 'title';	
+			
+			$items = self::model()->findAll($criteria);
+			foreach ($items as $item) {
+				$data[$item->id] = array(
+					'alias' => $item->alias,
+					'title' => $item->title,
+				);
+			}
+		
+
+		Yii::app()->cache->set(self::CACHE_KEY_LIST_FRONT, $data, 0, new Tags(Tags::TAG_MAKE));
+		}
+		
+		return $data;
+	}
+
 	private function _clearCache()
 	{
 		Yii::app()->cache->clear(Tags::TAG_MAKE);

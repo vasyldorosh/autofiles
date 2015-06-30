@@ -29,7 +29,9 @@ class Tags implements ICacheDependency {
 	const TAG_AUTO_PLATFORM_CATEGORY = 'TAG_AUTO_PLATFORM_CATEGORY';
 	const TAG_AUTO_PLATFORM_MODEL = 'TAG_AUTO_PLATFORM_MODEL';
 	
-	const TAG_REVIEW = 'TAG_REVIEW';
+	const TAG_REVIEW			= 'TAG_REVIEW';
+	const TAG_PROJECT			= 'TAG_PROJECT';
+	const TAG_PROJECT_PHOTO		= 'TAG_PROJECT_PHOTO';
 	
 	protected $timestamp;
 	protected $tags;

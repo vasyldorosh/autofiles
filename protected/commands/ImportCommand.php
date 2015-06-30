@@ -448,30 +448,6 @@ class ImportCommand extends CConsoleCommand
 		}		
 	}
 	
-	/*
-	public function actionEmptyCompletion() {
-		$completionIds = array();
-		$dataGroundClearance = array();
-		$sql = "SELECT id, specs_ground_clearance FROM  `auto_completion` WHERE  `specs_exterior_length` IS NULL";
-		$rows = Yii::app()->db->createCommand($sql)->queryAll();
-		foreach ($rows as $row) {
-			$completionIds[]=$row['id'];
-			$dataGroundClearance[$row['id']]=$row['specs_ground_clearance'];
-		}
-		
-		if (!empty($completionIds)) {
-			$this->actionCompletionDetails($completionIds);
-			$this->actionSpecs();
-			$this->actionCompletionData($completionIds);
-			$this->actionCompetitor();
-		}
-		
-		foreach ($dataGroundClearance as $k=>$v) {
-			AutoCompletion::model()->updateByPk($k, array('specs_ground_clearance'=>$v));
-		}
-	}	
-	*/
-	
 	private function actionModelYearPhoto($ids)
 	{
 		$criteria = new CDbCriteria();

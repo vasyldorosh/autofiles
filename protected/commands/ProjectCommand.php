@@ -11,7 +11,7 @@ class ProjectCommand extends CConsoleCommand
 	{
 		$url = "http://www.rimtuck.com/setup/view/";
 		//Project::model()->deleteAll();
-		for ($id=1;$id<=2060;$id++) {
+		for ($id=603;$id<=2060;$id++) {
 			$parseUrl = $url . $id;
 			$content = CUrlHelper::getPage($parseUrl, '', '');
 			$content = str_replace(array("&nbsp;", "\n", "\t", "\r"), "", $content);
@@ -107,12 +107,12 @@ class ProjectCommand extends CConsoleCommand
 				if (!empty($project)) {
 					$project->attributes = $attributes;
 					$project->save();
-					echo "{$project->id} \n";	
+					echo "updated {$project->id} \n";	
 				} else {
 					$project = new Project;
 					$project->attributes = $attributes;
 					$project->save();					
-					echo " err {$id} \n";	
+					echo "created {$id} \n";	
 				}
 				
 				/*

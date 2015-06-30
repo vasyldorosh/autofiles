@@ -663,7 +663,7 @@ class AutoModelYear extends CActiveRecord
 		$key = Tags::TAG_MODEL_YEAR . '_getMinMaxSpecs_' . $specs . '_' . $model_year_id;
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data === false || true) {
+		if ($data === false) {
 			$sql = "SELECT 
 						MAX(c.specs_{$specs}) AS mmax,  
 						MIN(c.specs_{$specs}) AS mmin 

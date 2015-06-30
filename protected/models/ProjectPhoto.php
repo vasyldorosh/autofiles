@@ -14,8 +14,6 @@
  */
 class ProjectPhoto extends CActiveRecord
 {
-	const CACHE_KEY_PHOTOS = 'PROJECT_PHOTOS_';
-
     public $file;
     public $filePath;
 	
@@ -144,17 +142,17 @@ class ProjectPhoto extends CActiveRecord
 		{ 
 			file_put_contents($this->getImage_directory(true) . '/origin.' . $this->image_extension, CUrlHelper::getPage($this->filePath, '', ''));
 		}
-		
-		Yii::app()->cache->delete(self::CACHE_KEY_PHOTOS . $this->project_id);
+				
+		$this->_clearCache();
 		
 		return parent::afterSave();
 	}	
 	
 	public function afterDelete()
-	{
-		Yii::app()->cache->delete(self::CACHE_KEY_PHOTOS . $this->project_id);
-	
+	{	
 		$this->_deleteImage();
+		
+		$this->_clearCache();
 		
 		return parent::afterDelete();
 	}
@@ -228,5 +226,10 @@ class ProjectPhoto extends CActiveRecord
 		
 		return '/photos/project/' . $this->project->id . '/' . $this->public_id . '/'. $fileName;
 	}	
+	
+	private function _clearCache()
+	{
+		Yii::app()->cache->clear(Tags::TAG_PROJECT_PHOTO . $this->project_id);
+	}		
 	
 }

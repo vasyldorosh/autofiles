@@ -100,6 +100,11 @@ class TireVehicleClass extends CActiveRecord
 		return $data;
 	}	
 	
+	public static function getList()
+	{
+		return CHtml::listData(self::getAll(), 'id', 'code');
+	}	
+	
 	public static function getListFront()
 	{
 		$key = Tags::TAG_TIRE_VEHICLE_CLASS . '_getListFront_';
