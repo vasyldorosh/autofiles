@@ -265,7 +265,7 @@ class AutoMake extends CActiveRecord
 			}
 		
 
-		Yii::app()->cache->set(self::CACHE_KEY_LIST_FRONT, $data, 0, new Tags(Tags::TAG_MAKE));
+		Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MAKE));
 		}
 		
 		return $data;
