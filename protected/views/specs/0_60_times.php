@@ -15,7 +15,7 @@
 		
 		<!-- section 2 -->
 		<section class="all-makes">
-			<h2 class="section-name">Browse by make and check your car's 0-60 times</h2>	
+			<h2 class="section-name">Browse by make and check your car's 0-60 times</h2>	<?=d($makes)?>
 			<ul>
 				<?php $key=1;foreach ($makes as $makeUrl=>$makeTitle):?>
 					<li><a title="<?=$makeTitle?> 0-60 times" href="/0-60-times<?=$makeUrl?>"><?=$makeTitle?></a></li>
