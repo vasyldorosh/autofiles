@@ -146,7 +146,7 @@ class TuningController extends Controller
 					
 			$projects = Yii::app()->db->createCommand($sql)->queryAll();	
 			foreach ($projects as $k=>$project) {
-				$project[$k]['photo'] = Project::thumb($project['id'], 300, 200, 'resize');
+				$projects[$k]['photo'] = Project::thumb($project['id'], 300, 200, 'resize');
 			}			
 			
 			if (empty($filter) && $offset==0)
