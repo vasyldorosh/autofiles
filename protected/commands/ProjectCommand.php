@@ -11,7 +11,7 @@ class ProjectCommand extends CConsoleCommand
 	{
 		$url = "http://www.rimtuck.com/setup/view/";
 		//Project::model()->deleteAll();
-		for ($id=603;$id<=2060;$id++) {
+		for ($id=1;$id<=2055;$id++) {
 			$parseUrl = $url . $id;
 			$content = CUrlHelper::getPage($parseUrl, '', '');
 			$content = str_replace(array("&nbsp;", "\n", "\t", "\r"), "", $content);
@@ -62,7 +62,7 @@ class ProjectCommand extends CConsoleCommand
 						'value'=>$matchWheels[6],
 					));
 					
-					$attributes['rear_rim_with_id'] = $this->_getModelId('RimWidth', array(
+					$attributes['rear_rim_width_id'] = $this->_getModelId('RimWidth', array(
 						'value'=>$matchWheels[8],
 					));
 					
@@ -100,22 +100,24 @@ class ProjectCommand extends CConsoleCommand
 					));				
 				}	
 				
-				
 				preg_match_all('/<a href="(.*?)" target=_blank><img src="(.*?)" border=0><\/a>/', $content, $matchImages);				
 				
 				$project = Project::model()->findByPk($attributes['id']);
 				if (!empty($project)) {
-					$project->attributes = $attributes;
-					$project->save();
-					echo "updated {$project->id} \n";	
-				} else {
+					if (isset($attributes['rear_rim_width_id'])) {
+						$project->rear_rim_width_id = $attributes['rear_rim_width_id'];
+						$project->save();
+						echo "updated {$project->id} \n";
+						}
+				} 
+				/*
+				else {
 					$project = new Project;
 					$project->attributes = $attributes;
-					$project->save();					
+					//$project->save();					
 					echo "created {$id} \n";	
 				}
-				
-				/*
+		
 				$project = new Project;
 				$project->attributes = $attributes;
 				$project->save();
