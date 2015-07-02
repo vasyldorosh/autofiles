@@ -9,11 +9,11 @@
 		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 		
 		<?php if (isset($photos[0])):?>
-		<img src="<?=$photos[0]?>">
+		<img src="<?=$photos[0]?>" alt="photo 1 <?=$this->pageTitle?>">
 		<?php endif;?>
 
 		<?php if (isset($photos[1])):?>
-		<img src="<?=$photos[1]?>">
+		<img src="<?=$photos[1]?>" alt="photo 2 <?=$this->pageTitle?>">
 		<?php endif;?>		
 
 
@@ -21,17 +21,18 @@
 <h2 class="section-name_2 mb30">Wheels & tires</h2>
 	<table>
 	<tbody>
-		</tr>
 		<tr>
 			<td>Front rim size</td>
-			<td><?=$project['rim_diameter']?>x<?=$project['rim_width']?></td>
-			
+			<td><?=$project['rim_diameter']?><?=(!empty($project['rim_width']))?'x'.$project['rim_width']:' inch'?></td>		
 		</tr>
+		<?php if (!empty($project['rim_offset_range'])):?>
 		<tr>
 			<td>Front rim offset</td>
 			<td><?=($project['rim_offset_range']>0?'+':'')?><?=$project['rim_offset_range']?></td>
-			
 		</tr>
+		<?php endif;?>
+		
+		<?php if (!empty($project['tire_section_width']) && !empty($project['tire_aspect_ratio']) && !empty($project['rim_diameter'])):?>
 		<tr>
 			<td>Front tire size</td>
 			<td><a href="<?=Tire::url(array(
@@ -46,10 +47,12 @@
 				'vehicle_class'	=> $project['tire_vehicle_class'],
 			), true)?></a></td>	
 		</tr>
+		<?php endif;?>
 		<tr>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>			
 		</tr>
+		
 		<?php if ($project['is_staggered_wheels']):?>
 		<tr>
 			<td>Rear rim size</td>
@@ -60,7 +63,8 @@
 			<td><?=($project['rear_rim_offset_range']>0?'+':'')?><?=$project['rear_rim_offset_range']?></td>			
 		</tr>
 		<?php endif;?>
-		<?php if ($project['is_staggered_tires']):?>
+	
+		<?php if (!empty($project['rear_tire_section_width']) && !empty($project['rear_tire_aspect_ratio']) && !empty($project['rear_rim_diameter']) && $project['is_staggered_tires']):?>
 		<tr>
 			<td>Rear tire size</td>
 			<td><a href="<?=Tire::url(array(
@@ -81,14 +85,20 @@
 			
 		</tr>
 		<?php endif;?>
+		
+		<?php if (!empty($project['wheel_manufacturer']) || !empty($project['wheel_model'])):?>
 		<tr>
 			<td>Rims brand</td>
 			<td><?=$project['wheel_manufacturer']?> <?=$project['wheel_model']?></td>
-			
+		</tr>		
+		<?php endif;?>
+
+		<?php if (!empty($project['tire_manufacturer']) || !empty($project['tire_model'])):?>
 		<tr>
 			<td>Tire brand</td>
 			<td><?=$project['tire_manufacturer']?> <?=$project['tire_model']?></td>	
-		</tr>
+		</tr>	
+		<?php endif;?>		
 		
 	</tbody>
 	</table>
@@ -98,29 +108,36 @@
 	<br>
 
 		<?php if (isset($photos[2])):?>
-		<img src="<?=$photos[2]?>">
+		<img src="<?=$photos[2]?>" alt="photo 3 <?=$this->pageTitle?>">
 		<?php endif;?>
 
 		<?php if (isset($photos[3])):?>
-		<img src="<?=$photos[3]?>">
+		<img src="<?=$photos[3]?>" alt="photo 4 <?=$this->pageTitle?>">
 		<?php endif;?>		
 		
-		
-	<section class="times clearfix">
-	<h2 class="section-name_2">Details</h2>
-		<?=$project['description']?>
-	</section>
+		<?php if (!empty($project['description']) || !empty($project['source'])):?>
+			<section class="times clearfix">
+			<h2 class="section-name_2">Details</h2>
+				<?php if (!empty($project['description'])):?>
+					<?=$project['description']?>
+				<?php endif;?>
+				
+				<?php if (!empty($project['source'])):?>
+					<a href="<?=$project['source']?>" target="_blank" rel="nofollow">Source</a>
+				<?php endif;?>				
+			</section>
+		<?php endif;?>
 	
 		<?php if (isset($photos[4])):?>
-		<img src="<?=$photos[4]?>">
+		<img src="<?=$photos[4]?>" alt="photo 5 <?=$this->pageTitle?>">
 		<?php endif;?>
 
 		<?php if (isset($photos[5])):?>
-		<img src="<?=$photos[5]?>">
+		<img src="<?=$photos[5]?>" alt="photo 6 <?=$this->pageTitle?>">
 		<?php endif;?>	
 	
 		<?php if (isset($photos[6])):?>
-		<img src="<?=$photos[6]?>">
+		<img src="<?=$photos[6]?>" alt="photo 7 <?=$this->pageTitle?>">
 		<?php endif;?>	
 	
 	<?php if (!empty($nextProject)):?>

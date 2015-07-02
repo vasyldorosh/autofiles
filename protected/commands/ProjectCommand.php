@@ -108,7 +108,7 @@ class ProjectCommand extends CConsoleCommand
 						$project->rear_rim_width_id = $attributes['rear_rim_width_id'];
 						$project->save();
 						echo "updated {$project->id} \n";
-						}
+					}
 				} 
 				/*
 				else {

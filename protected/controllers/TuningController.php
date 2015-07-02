@@ -79,7 +79,7 @@ class TuningController extends Controller
 		$offset = (int)Yii::app()->request->getParam('offset');
 		$limit	= 20;
 		
-		$key    	= Tags::TAG_PROJECT . '_list_' . $model['id'] . '_' . $limit;
+		$key    	= Tags::TAG_PROJECT . '__list_' . $model['id'] . '_' . $limit;
 		$projects   = Yii::app()->cache->get($key);
 		
 		if ($projects === false || !empty($filter) || $offset > 0) {
@@ -142,6 +142,7 @@ class TuningController extends Controller
 					LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
 					LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id						
 					{$where}
+					ORDER BY p.view_count DESC
 					LIMIT {$offset}, {$limit}";
 					
 			$projects = Yii::app()->db->createCommand($sql)->queryAll();	
@@ -200,7 +201,7 @@ class TuningController extends Controller
 			 throw new CHttpException(404,'Page cannot be found.');
 		}
 		
-		$project = Project::getById($id);
+		$project = Project::getById($make['id'], $model['id'], $id);
 		
 		if (empty($project)) {
 			 throw new CHttpException(404,'Page cannot be found.');
@@ -278,7 +279,7 @@ class TuningController extends Controller
 		
 		$key = Tags::TAG_PROJECT . '__nextProject__' . $project['id'];
 		$nextProject = Yii::app()->cache->get($key);
-		if ($nextProject === false || true) {
+		if ($nextProject === false) {
 			$sqlTemplate = "SELECT 
 						p.id AS id,
 						p.view_count AS view_count,

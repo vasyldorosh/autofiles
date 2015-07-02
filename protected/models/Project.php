@@ -208,10 +208,12 @@ class Project extends CActiveRecord
 		return $data;		
 	}	
 	
-	public static function getById($id)
+	public static function getById($make_id, $model_id, $id)
 	{
 		$id		= (int) $id;
-		$key 	= Tags::TAG_PROJECT . '_getById_' . $id;
+		$make_id= (int) $make_id;
+		$model_id= (int) $model_id;
+		$key 	= Tags::TAG_PROJECT . '_getById_' . $make_id . '_' . $model_id . '_'. $id;
 		$data 	= Yii::app()->cache->get($key);
 		
 		if ($data === false) {
@@ -259,7 +261,7 @@ class Project extends CActiveRecord
 					LEFT JOIN tire_aspect_ratio AS r_tar ON p.rear_tire_aspect_ratio_id = r_tar.id
 					LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
 					LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id					
-					WHERE p.id = {$id}";
+					WHERE p.id = {$id} AND m.id={$model_id} AND k.id={$make_id}";
 	
 			$data = Yii::app()->db->createCommand($sql)->queryRow();
 

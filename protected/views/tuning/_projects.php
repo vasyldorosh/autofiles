@@ -2,7 +2,7 @@
 			  <li class="js-scrolling-ajax-item">
 				<?php if (!empty($project['photo'])):?>
 					<div class="make__vehicle-image">
-					<a title="<?=$project['year']?> <?=$make['title']?> <?=$model['title']?> project" href="/<?=$make['alias']?>/<?=$model['alias']?>/<?=$project['year']?>/"><img src="<?=$project['photo']?>"></a>
+					<a title="<?=$project['year']?> <?=$make['title']?> <?=$model['title']?> project" href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/<?=$project['year']?>/"><img src="<?=$project['photo']?>"></a>
 					</div>
 				<?php endif;?>	
 					<h3><a title="<?=$project['year']?> <?=$make['title']?> <?=$model['title']?> project" href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/<?=$project['id']?>/"><?=$project['year']?> <?=$make['title']?> <?=$model['title']?></a></h3>
