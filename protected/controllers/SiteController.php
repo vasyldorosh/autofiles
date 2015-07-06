@@ -382,7 +382,18 @@ class SiteController extends Controller
 		
 		$tires = Tire::model()->findAll($criteria);
 		foreach ($tires as $tire) { 
-			echo "$tire->id <br/>";
+			$c = new CDbCriteria;
+			$c->compare('vehicle_class_id', $item->vehicle_class_id);
+			$c->compare('section_width_id', $item->section_width_id);
+			$c->compare('aspect_ratio_id', $item->aspect_ratio_id);
+			$c->compare('rim_diameter_id', $item->rim_diameter_id);
+			$c->compare('is_runflat', 0);
+		
+			$non = Tire::model()->find($criteria);
+			if (empty($non)) {
+				echo "$tire->id <br/>";
+			} 
+			
 		}
 	}
 }
