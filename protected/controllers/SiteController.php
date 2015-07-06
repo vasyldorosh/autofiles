@@ -494,6 +494,7 @@ ORDER BY c DESC")->queryAll();
 
 			$tire = Tire::model()->find($c);
 			if (empty($tire)) {
+				$tire = new Tire;
 				$item->is_runflat = 0;
 				$tire->attributes = $item->attributes;
 				$tire->id = null;
@@ -508,7 +509,7 @@ ORDER BY c DESC")->queryAll();
 			}							
 		}
 		
-		var_dump($dataCompare);
+		d($dataCompare);
 		
 		foreach($dataCompare as $tire_id => $replace_id) {
 			$c = new CDbCriteria;
