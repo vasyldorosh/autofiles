@@ -502,13 +502,13 @@ ORDER BY c DESC")->queryAll();
 			
 			if (!empty($tire)) {
 				$dataCompare[$item->id] = $tire->id;
-				echo 'OKO <br/>';
+				echo 'OK <br/>';
 			} else {
 				echo 'ERR <br/>';
 			}							
 		}
 		
-		d($dataCompare);
+		var_dump($dataCompare);
 		
 		foreach($dataCompare as $tire_id => $replace_id) {
 			$c = new CDbCriteria;
