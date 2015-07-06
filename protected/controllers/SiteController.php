@@ -428,10 +428,21 @@ ORDER BY c DESC")->queryAll();
 				
 				if (AutoModelYearTire::model()->count($c) == 0) {
 					echo "not <br/>";
-				} else {
-					echo "ok <br/>";
-				}
+					$m = new AutoModelYearTire;
+					$m->tire_id = $tire_id;
+					$m->model_year_id = $item->model_year_id;
+					$m->save();					
+				} 
 			}
+			
+			
+			$c = new CDbCriteria;
+			$c->compare('tire_id', $tire_id);
+			$items = TireRimWidthRange::model()->findAll($c);
+			$count = TireRimWidthRange::model()->count($c);
+				
+			echo "range - $count <br/>";	
+				
 		}
 		
 		
