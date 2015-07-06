@@ -467,7 +467,7 @@ ORDER BY c DESC")->queryAll();
 			
 			echo "range - $count <br/>";	
 				
-			//Tire::model()->deleteByPk($tire_id);	
+			Tire::model()->deleteByPk($tire_id);	
 		}
 		
 		
