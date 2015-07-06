@@ -381,7 +381,7 @@ class SiteController extends Controller
 		$criteria->compare('is_runflat', 1);
 		
 		$tires = Tire::model()->findAll($criteria);
-		foreach ($tires as $tire) { 
+		foreach ($tires as $item) { 
 			$c = new CDbCriteria;
 			$c->compare('vehicle_class_id', $item->vehicle_class_id);
 			$c->compare('section_width_id', $item->section_width_id);
@@ -391,7 +391,7 @@ class SiteController extends Controller
 		
 			$non = Tire::model()->find($criteria);
 			if (empty($non)) {
-				echo "$tire->id <br/>";
+				echo "$item->id <br/>";
 			} 
 			
 		}
