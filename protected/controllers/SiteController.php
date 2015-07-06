@@ -381,7 +381,7 @@ class SiteController extends Controller
 		$criteria->compare('is_runflat', 1);
 		
 		$tires = Tire::model()->findAll($criteria);
-		foreach ($tires as $tire) {
+		foreach ($tires as $tire) { 
 			echo "$tire->id <br/>";
 		}
 	}
