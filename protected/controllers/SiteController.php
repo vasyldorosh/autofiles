@@ -445,7 +445,7 @@ ORDER BY c DESC")->queryAll();
 				$attributes = array(
 					'tire_id' => $replace_id,
 				);
-				$comare = TireRimWidthRange::model()->findByAttributes($attributes);
+				$compare = TireRimWidthRange::model()->findByAttributes($attributes);
 				
 				if (empty($compare)) {
 					$attributes = array(
@@ -456,10 +456,10 @@ ORDER BY c DESC")->queryAll();
 						'rear_to' => $range->rear_to,						
 					);					
 					
-					$comare = new TireRimWidthRange;
-					$comare->attributes = $attributes;
-					if(!$comare->save()) {
-						d($comare->errors);
+					$compare = new TireRimWidthRange;
+					$compare->attributes = $attributes;
+					if(!$compare->save()) {
+						d($compare->errors);
 					}
 					echo 'TireRimWidthRange saved <br/>';
 				}
