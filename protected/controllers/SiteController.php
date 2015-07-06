@@ -431,18 +431,37 @@ ORDER BY c DESC")->queryAll();
 					$m = new AutoModelYearTire;
 					$m->tire_id = $tire_id;
 					$m->model_year_id = $item->model_year_id;
-					$m->save();					
+					$m->save();		
+					echo 'AutoModelYearTire saved <br/>';					
 				} 
 			}
 			
 			
 			$c = new CDbCriteria;
 			$c->compare('tire_id', $tire_id);
-			$items = TireRimWidthRange::model()->findAll($c);
-			$count = TireRimWidthRange::model()->count($c);
+			$range = TireRimWidthRange::model()->find($c);
 				
+			if (!empty($range)) {
+				$attributes = array(
+					'tire_id' => $replace_id,
+					'from' => $range->from,
+					'to' => $range->to,
+					'rear_from' => $range->rear_from,
+					'rear_to' => $range->rear_to,
+				);
+				$comare =  TireRimWidthRange::model()->findByAttributes($attributes);
+				
+				if (empty($compare)) {
+					$comare = new TireRimWidthRange;
+					$comare->attributes = $attributes;
+					$comare->save();
+					echo 'TireRimWidthRange saved <br/>';
+				}
+			}
+			
 			echo "range - $count <br/>";	
 				
+			//Tire::model()->deleteByPk($tire_id);	
 		}
 		
 		
