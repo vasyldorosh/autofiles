@@ -502,7 +502,7 @@ ORDER BY c DESC")->queryAll();
 			
 			if (!empty($tire)) {
 				$dataCompare[$item->id] = $tire->id;
-				echo 'OK <br/>';
+				echo 'OKO <br/>';
 			} else {
 				echo 'ERR <br/>';
 			}							
