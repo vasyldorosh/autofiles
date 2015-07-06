@@ -377,6 +377,34 @@ class SiteController extends Controller
 	
 	public function actionTest()
 	{
+		$items = Yii::app()->db->createCommand("SELECT vehicle_class_id, section_width_id, aspect_ratio_id, rim_diameter_id, load_index_id, is_rear, rear_section_width_id, rear_aspect_ratio_id, rear_rim_diameter_id, count(*) AS c FROM `tire` 
+WHERE is_runflat=0
+GROUP BY vehicle_class_id, section_width_id, aspect_ratio_id, rim_diameter_id, load_index_id, is_rear, rear_section_width_id, rear_aspect_ratio_id, rear_rim_diameter_id
+HAVING c > 1
+ORDER BY c DESC")->queryAll();
+		
+		foreach ($items as $item) {
+			$c = new CDbCriteria;
+			$c->compare('vehicle_class_id', $item->vehicle_class_id);
+			$c->compare('section_width_id', $item->section_width_id);
+			$c->compare('aspect_ratio_id', $item->aspect_ratio_id);
+			$c->compare('rim_diameter_id', $item->rim_diameter_id);
+			$c->compare('load_index_id', $item->load_index_id);
+			$c->compare('is_rear', $item->is_rear);
+			$c->compare('rear_section_width_id', $item->rear_section_width_id);
+			$c->compare('rear_aspect_ratio_id', $item->rear_aspect_ratio_id);
+			$c->compare('rear_rim_diameter_id', $item->rear_rim_diameter_id);
+			$c->compare('is_runflat', 0);	
+			$c->order = 'id';	
+
+			$rows = Tire::model()->findAll($c);
+			echo '- ' . $item['c'] . '<br/>';
+			foreach ($rows as $row) {
+				echo ' -- ' . $row->id . '<br/>';	
+			}			
+		}
+		
+		/*
 		$criteria = new CDbCriteria;
 		$criteria->compare('is_runflat', 1);
 		
@@ -395,5 +423,6 @@ class SiteController extends Controller
 			} 
 			
 		}
+		*/
 	}
 }
