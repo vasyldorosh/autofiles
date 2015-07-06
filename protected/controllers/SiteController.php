@@ -500,7 +500,12 @@ ORDER BY c DESC")->queryAll();
 				$tire->save();
 			}
 			
-			$dataCompare[$item->id] = $tire->id;				
+			if (!empty($tire)) {
+				$dataCompare[$item->id] = $tire->id;
+				echo 'OK <br/>';
+			} else {
+				echo 'ERR <br/>';
+			}							
 		}
 		
 		d($dataCompare);
