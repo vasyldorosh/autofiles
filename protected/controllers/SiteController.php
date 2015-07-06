@@ -417,9 +417,21 @@ ORDER BY c DESC")->queryAll();
 		foreach($dataCompare as $tire_id => $replace_id) {
 			$c = new CDbCriteria;
 			$c->compare('tire_id', $tire_id);
-			//$items = AutoModelYearTire::model()->findAll($c);
+			$items = AutoModelYearTire::model()->findAll($c);
 			$count = AutoModelYearTire::model()->count($c);
-			echo "$tire_id: $count <br/>";	
+			echo "$tire_id: $count <br/>";
+
+			foreach ($items as $item) {
+				$c = new CDbCriteria;
+				$c->compare('tire_id', $tire_id);				
+				$c->compare('model_year_id', $item->model_year_id);		
+				
+				if (AutoModelYearTire::model()->count($c) == 0) {
+					echo "not <br/>";
+				} else {
+					echo "ok <br/>";
+				}
+			}
 		}
 		
 		
