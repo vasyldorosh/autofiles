@@ -383,6 +383,8 @@ GROUP BY vehicle_class_id, section_width_id, aspect_ratio_id, rim_diameter_id, l
 HAVING c > 1
 ORDER BY c DESC")->queryAll();
 		
+		$dataCompare = array();
+		
 		foreach ($items as $item) {
 			$c = new CDbCriteria;
 			$c->compare('vehicle_class_id', $item['vehicle_class_id']);
@@ -399,10 +401,20 @@ ORDER BY c DESC")->queryAll();
 
 			$rows = Tire::model()->findAll($c);
 			echo '- ' . $item['c'] . '<br/>';
-			foreach ($rows as $row) {
+			$compareId = 0;
+			foreach ($rows as $key=>$row) {
+				if ($key==0) {
+					$compareId = $row->id;
+					continue;
+				}
+				
 				echo ' -- ' . $row->id . '<br/>';	
+				
+				$dataCompare[$compareId] = $row->id;
 			}			
 		}
+		
+		d($dataCompare);
 		
 		/*
 		$criteria = new CDbCriteria;
