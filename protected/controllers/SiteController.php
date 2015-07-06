@@ -494,9 +494,9 @@ ORDER BY c DESC")->queryAll();
 
 			$tire = Tire::model()->find($c);
 			if (empty($tire)) {
-				$item['id'] = null;
 				$item['is_runflat'] = 0;
 				$tire->attributes = $item;
+				$tire->id = null;
 				$tire->save();
 			}
 			
