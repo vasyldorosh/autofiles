@@ -469,29 +469,97 @@ ORDER BY c DESC")->queryAll();
 				
 			Tire::model()->deleteByPk($tire_id);	
 		}
-		
-		
-		
-		
-		/*
+	}
+	
+	public function actionTestRun()
+	{
 		$criteria = new CDbCriteria;
 		$criteria->compare('is_runflat', 1);
-		
 		$tires = Tire::model()->findAll($criteria);
-		foreach ($tires as $item) { 
-			$c = new CDbCriteria;
-			$c->compare('vehicle_class_id', $item->vehicle_class_id);
-			$c->compare('section_width_id', $item->section_width_id);
-			$c->compare('aspect_ratio_id', $item->aspect_ratio_id);
-			$c->compare('rim_diameter_id', $item->rim_diameter_id);
-			$c->compare('is_runflat', 0);
 		
-			$non = Tire::model()->find($criteria);
-			if (empty($non)) {
-				echo "$item->id <br/>";
-			} 
+		$dataCompare = array();
+		
+		foreach ($tires as $item) {
+			$c = new CDbCriteria;
+			$c->compare('vehicle_class_id', $item['vehicle_class_id']);
+			$c->compare('section_width_id', $item['section_width_id']);
+			$c->compare('aspect_ratio_id', $item['aspect_ratio_id']);
+			$c->compare('rim_diameter_id', $item['rim_diameter_id']);
+			$c->compare('load_index_id', $item['load_index_id']);
+			$c->compare('is_rear', $item['is_rear']);
+			$c->compare('rear_section_width_id', $item['rear_section_width_id']);
+			$c->compare('rear_aspect_ratio_id', $item['rear_aspect_ratio_id']);
+			$c->compare('rear_rim_diameter_id', $item['rear_rim_diameter_id']);
+			$c->compare('is_runflat', 0);	
+
+			$tire = Tire::model()->find($c);
+			if (empty($tire)) {
+				$item['id'] = null;
+				$item['is_runflat'] = 0;
+				$tire->attributes = $item;
+				$tire->save();
+			}
 			
+			$dataCompare[$item->id] = $tire->id;				
 		}
-		*/
+		
+		d($dataCompare);
+		
+		foreach($dataCompare as $tire_id => $replace_id) {
+			$c = new CDbCriteria;
+			$c->compare('tire_id', $tire_id);
+			$items = AutoModelYearTire::model()->findAll($c);
+			$count = AutoModelYearTire::model()->count($c);
+			echo "$tire_id: $count <br/>";
+
+			foreach ($items as $item) {
+				$c = new CDbCriteria;
+				$c->compare('tire_id', $tire_id);				
+				$c->compare('model_year_id', $item->model_year_id);		
+				
+				if (AutoModelYearTire::model()->count($c) == 0) {
+					echo "not <br/>";
+					$m = new AutoModelYearTire;
+					$m->tire_id = $tire_id;
+					$m->model_year_id = $item->model_year_id;
+					$m->save();		
+					echo 'AutoModelYearTire saved <br/>';					
+				} 
+			}
+			
+			
+			$c = new CDbCriteria;
+			$c->compare('tire_id', $tire_id);
+			$range = TireRimWidthRange::model()->find($c);
+				
+			if (!empty($range)) {
+				$attributes = array(
+					'tire_id' => $replace_id,
+				);
+				$compare = TireRimWidthRange::model()->findByAttributes($attributes);
+				
+				if (empty($compare)) {
+					$attributes = array(
+						'tire_id' => $replace_id,
+						'from' => $range->from,
+						'to' => $range->to,
+						'rear_from' => $range->rear_from,
+						'rear_to' => $range->rear_to,						
+					);					
+					
+					$compare = new TireRimWidthRange;
+					$compare->attributes = $attributes;
+					if(!$compare->save()) {
+						d($compare->errors);
+					}
+					echo 'TireRimWidthRange saved <br/>';
+				}
+			}
+			
+			echo "range - $count <br/>";	
+				
+			Tire::model()->deleteByPk($tire_id);	
+		}
+
 	}
 }
