@@ -375,18 +375,14 @@ class SiteController extends Controller
 		Yii::app()->cache->delete(SiteConfig::CACHE_KEY);
 	}	
 	
-	public function actionDump()
+	public function actionTest()
 	{
-		$dir='C:/dump/';
-		$items = scandir($dir);
-		foreach ($items as $file) {
-			if ($file=='.' || $file=='..') {
-				continue;
-			}
-			
-			$cmd = 'C:\OpenServer\modules\database\MySQL-5.1\bin\mysql.exe --user=root --password="" <C:/dump/'.$file;
-			exec($cmd);
-			echo "$cmd \n";
+		$criteria = new CDbCriteria;
+		$criteria->compare('is_runflat', 1);
+		
+		$tires = Tire::model()->findAll($criteria);
+		foreach ($tires as $tire) {
+			echo "$tire->id <br/>";
 		}
 	}
 }
