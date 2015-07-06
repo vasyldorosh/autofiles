@@ -410,7 +410,7 @@ ORDER BY c DESC")->queryAll();
 				
 				echo ' -- ' . $row->id . '<br/>';	
 				
-				$dataCompare[$compareId] = $row->id;
+				$dataCompare[$row->id] = $compareId;
 			}			
 		}
 		
