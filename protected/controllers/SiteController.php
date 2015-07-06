@@ -444,14 +444,18 @@ ORDER BY c DESC")->queryAll();
 			if (!empty($range)) {
 				$attributes = array(
 					'tire_id' => $replace_id,
-					'from' => $range->from,
-					'to' => $range->to,
-					'rear_from' => $range->rear_from,
-					'rear_to' => $range->rear_to,
 				);
 				$comare = TireRimWidthRange::model()->findByAttributes($attributes);
 				
 				if (empty($compare)) {
+					$attributes = array(
+						'tire_id' => $replace_id,
+						'from' => $range->from,
+						'to' => $range->to,
+						'rear_from' => $range->rear_from,
+						'rear_to' => $range->rear_to,						
+					);					
+					
 					$comare = new TireRimWidthRange;
 					$comare->attributes = $attributes;
 					if(!$comare->save()) {
