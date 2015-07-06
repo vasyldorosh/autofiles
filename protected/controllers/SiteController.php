@@ -449,12 +449,14 @@ ORDER BY c DESC")->queryAll();
 					'rear_from' => $range->rear_from,
 					'rear_to' => $range->rear_to,
 				);
-				$comare =  TireRimWidthRange::model()->findByAttributes($attributes);
+				$comare = TireRimWidthRange::model()->findByAttributes($attributes);
 				
 				if (empty($compare)) {
 					$comare = new TireRimWidthRange;
 					$comare->attributes = $attributes;
-					$comare->save();
+					if(!$comare->save()) {
+						d($comare->errors);
+					}
 					echo 'TireRimWidthRange saved <br/>';
 				}
 			}
