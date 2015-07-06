@@ -509,8 +509,6 @@ ORDER BY c DESC")->queryAll();
 			}							
 		}
 		
-		d($dataCompare);
-		
 		foreach($dataCompare as $tire_id => $replace_id) {
 			$c = new CDbCriteria;
 			$c->compare('tire_id', $tire_id);
