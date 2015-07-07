@@ -15,7 +15,7 @@
 			<h2 class="section-name_2">Car tuning by makes</h2>
 			<ul>
 				<?php $key=1;foreach ($makes as $make):?>
-					<li><a title="<?=$make['title']?> tuning" href="/tuning/<?=$make['alias']?>"><?=$make['title']?> <?php if($make['projects']):?>(<?=$make['projects']?>)<?php endif;?></a></li>
+					<li><a title="<?=$make['title']?> tuning" href="/tuning/<?=$make['alias']?>/"><?=$make['title']?> <?php if($make['projects']):?>(<?=$make['projects']?>)<?php endif;?></a></li>
 					<?php if ($key%7 ==0):?>
 					</ul><ul>
 					<?php endif;?>
