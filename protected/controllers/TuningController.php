@@ -266,8 +266,11 @@ class TuningController extends Controller
 				'anchor'=>$make['title'],
 				'title' => str_replace('[make]', $make['title'], SiteConfig::getInstance()->getValue('seo_tuning_make_title')),
 			),
-			'/tuning' . $model['url'] 	=> $model['title'],
-			'#' 						=> $this->pageTitle,
+			'/tuning' . $model['url'] 	=> array(
+				'title' => str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('seo_tuning_model_title')),
+				'anchor'=>$model['title'],
+			),
+			'#' => $this->pageTitle,
 		);	
 				
 		$key    = Tags::TAG_PROJECT_PHOTO . '_photos_' . $project['id'];		
