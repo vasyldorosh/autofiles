@@ -374,6 +374,7 @@ display: none; }
 .right-block__specs-list .engine:before { background: url('../img/icons-sc83f02760e.png') 0 -131px no-repeat; width: 36px; height: 32px; left: 4px; top: -9px; }
 .right-block__specs-list .tire:before { background: url('../img/tire.png') 0 0 no-repeat; width: 36px; height: 32px; left: 4px; top: -9px; }
 .right-block__specs-list .rim:before { background: url('../img/rim.png') 0 0 no-repeat; width: 30px; height: 30px; left: 8px; top: -7px; }
+.right-block__specs-list .tuning:before { background: url('../img/tuning.png') 0 0 no-repeat; width: 33px; height: 29px; left: 8px; top: -7px; }
 .right-block__specs-list .dim:before { background: url('../img/dimensions.png') 0 0 no-repeat; width: 26px; height: 26px; left: 9px; top: -6px; }
 .right-block__specs-list .horsepower:before { background: url('../img/icons-sc83f02760e.png') 0 -406px no-repeat; width: 37px; height: 28px; left: 4px; top: -6px; }
 .right-block__specs-list .gas:before { background: url('../img/icons-sc83f02760e.png') 0 -173px no-repeat; width: 24px; height: 24px; left: 10px; top: -5px; }
