@@ -52,7 +52,10 @@ class TuningController extends Controller
  			
 		$this->breadcrumbs = array(
 			'/' => 'Home',
-			'/tuning.html' => 'Tuning',
+			'/tuning.html' => array(
+				'anchor'=>'Tuning',
+				'title'=>SiteConfig::getInstance()->getValue('seo_tuning_title'),
+			),
 			'#' => $make['title'],
 		);	
 		
@@ -171,7 +174,10 @@ class TuningController extends Controller
 				
 		$this->breadcrumbs = array(
 			'/' => 'Home',
-			'/tuning.html' => 'Tuning',
+			'/tuning.html' => array(
+				'anchor'=>'Tuning',
+				'title'=>SiteConfig::getInstance()->getValue('seo_tuning_title'),
+			),
 			'/tuning' . $make['url'] => $make['title'],
 			'#' => $model['title'],
 		);	
@@ -249,7 +255,10 @@ class TuningController extends Controller
 		
 		$this->breadcrumbs = array(
 			'/' 						=> 'Home',
-			'/tuning.html' 				=> 'Tuning',
+			'/tuning.html' => array(
+				'anchor'=>'Tuning',
+				'title'=>SiteConfig::getInstance()->getValue('seo_tuning_title'),
+			),
 			'/tuning' . $make['url'] 	=> $make['title'],
 			'/tuning' . $model['url'] 	=> $model['title'],
 			'#' 						=> $this->pageTitle,
