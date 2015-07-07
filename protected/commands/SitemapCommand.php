@@ -365,12 +365,12 @@ class SitemapCommand extends CConsoleCommand
 			foreach ($projects as $project) {
 							
 				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . '/tuning/' . $project->Model->Make->alias . '/' . $project->Model->alias . '/' . $project->id . '/',
+					'url' => $site_url . '/tuning/' . $project->Make->alias . '/' . $project->Model->alias . '/' . $project->id . '/',
 					'lastmod' => time(),
 				));					
 			}
 				
-			if (empty($models))	{
+			if (empty($projects))	{
 				break;
 			}	
 				
