@@ -29,6 +29,11 @@
 								<a class="tire" href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$model['title']?> tire size</a>
 							</td>						
 						</tr>
+						<tr>
+							<td>
+								<a title="Souped up <?=$make['title']?> <?=$model['title']?>, tuning" class="tuning" href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/">Tuning</a>
+							</td>
+						</tr>						
 					</tbody>
 	</table>
 	
