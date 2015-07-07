@@ -57,10 +57,10 @@
 					
 					<tr>
 						<td>
-							<a title="Modified, custom <?=$make['title']?> <?=$model['title']?>, car tuning" class="tuning" href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/<?=$modelYear['year']?>/">Tuning</a>
+							<a title="Modified, custom <?=$make['title']?> <?=$model['title']?>, car tuning" class="tuning" href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/">Tuning</a>
 						</td>
 						<td class="spec-value">
-							<?php $countProjects = Project::getCountByModelYear($modelYear['id'])?>
+							<?php $countProjects = Project::getCountByModel($model['id'])?>
 							<?php if ($countProjects):?>
 								<?=$countProjects?> projects
 							<?php endif;?>
