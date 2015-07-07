@@ -25,6 +25,7 @@ class SitemapCommand extends CConsoleCommand
 			'/tires.html',
 			'/horsepower.html',
 			'/dimensions.html',
+			'/tuning.html',
 		);
 		
 		$mapModules = array(
@@ -33,6 +34,7 @@ class SitemapCommand extends CConsoleCommand
 			'/tires/',
 			'/horsepower/',
 			'/dimensions/',
+			'/tuning/',
 		);
 		
 		$i=0;
@@ -153,7 +155,7 @@ class SitemapCommand extends CConsoleCommand
 				));					
 
 				foreach ($mapModules as $uri) {
-					if (in_array($uri, array('/0-60-times/'))) {
+					if (in_array($uri, array('/0-60-times/', 'tuning'))) {
 						continue;
 					}
 					
@@ -335,6 +337,50 @@ class SitemapCommand extends CConsoleCommand
 				
 		$doc->formatOutput = true;
 		$doc->save(dirname(__FILE__) ."/../../" . $file);		
+		
+		
+		$i=0;
+		do {		
+			$file = "/sitemap/project_{$i}.xml";
+			$doc	= new DOMDocument("1.0", 'utf-8');
+			$urlset = $doc->createElement("urlset");
+			$doc->appendChild($urlset);
+			$xmlns = $doc->createAttribute("xmlns");
+			$urlset->appendChild($xmlns);
+			$value = $doc->createTextNode('http://www.sitemaps.org/schemas/sitemap/0.9');
+			$xmlns->appendChild($value);
+					
+			$criteria = new CDbCriteria();
+			//$criteria->compare('t.is_active', 1);
+			$criteria->compare('Make.is_active', 1);
+			$criteria->compare('Make.is_deleted', 0);
+			$criteria->compare('Model.is_active', 1);
+			$criteria->compare('Model.is_deleted', 0);
+			$criteria->limit = $limit/2;
+			$criteria->offset = $i*$limit/2;
+			$criteria->with = array('Model', 'Model.Make');
+			
+			$projects = Project::model()->findAll($criteria);	
+				
+			foreach ($projects as $project) {
+							
+				$this->addItem($doc, $urlset, array(
+					'url' => $site_url . '/tuning/' . $project->Model->Make->alias . '/' . $project->Model->alias . '/' . $project->id . '/',
+					'lastmod' => time(),
+				));					
+			}
+				
+			if (empty($models))	{
+				break;
+			}	
+				
+			$mapFiles[] = $file;
+				
+			$doc->formatOutput = true;
+			$doc->save(dirname(__FILE__) ."/../../" . $file);	
+			
+			$i++;
+		} while (true);		
 		
 		
 		foreach ($mapFiles as $mapFile) {
