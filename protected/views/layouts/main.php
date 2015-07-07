@@ -34,6 +34,7 @@
 		<li <?=($uri=='/tires.html')?'class="is-active"':''?>><a href="/tires.html">Tires</a></li>
 		<li <?=($uri=='/horsepower.html')?'class="is-active"':''?>><a href="/horsepower.html">HP</a></li>
 		<li <?=($uri=='/dimensions.html')?'class="is-active"':''?>><a href="/dimensions.html">Dimensions</a></li>
+		<li <?=($uri=='/tuning.html')?'class="is-active"':''?>><a href="/tuning.html">Car Tuning</a></li>
 	</ul>
 </nav>
 
