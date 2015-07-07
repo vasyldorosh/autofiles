@@ -178,7 +178,10 @@ class TuningController extends Controller
 				'anchor'=>'Tuning',
 				'title'=>SiteConfig::getInstance()->getValue('seo_tuning_title'),
 			),
-			'/tuning' . $make['url'] => $make['title'],
+			'/tuning' . $make['url'] => array(
+				'anchor'=>$make['title'],
+				'title' => str_replace('[make]', $make['title'], SiteConfig::getInstance()->getValue('seo_tuning_make_title')),
+			),
 			'#' => $model['title'],
 		);	
 		
@@ -259,7 +262,10 @@ class TuningController extends Controller
 				'anchor'=>'Tuning',
 				'title'=>SiteConfig::getInstance()->getValue('seo_tuning_title'),
 			),
-			'/tuning' . $make['url'] 	=> $make['title'],
+			'/tuning' . $make['url'] => array(
+				'anchor'=>$make['title'],
+				'title' => str_replace('[make]', $make['title'], SiteConfig::getInstance()->getValue('seo_tuning_make_title')),
+			),
 			'/tuning' . $model['url'] 	=> $model['title'],
 			'#' 						=> $this->pageTitle,
 		);	
