@@ -30,6 +30,101 @@
     <div class="grid">
         <?php 
 		
+		$actionButtons = array();
+		if (Access::is('project.update')) {
+			$actionButtons[] = 	array(
+				'id' => 'btn_activate',
+				'buttonType' => 'button',
+				'type' => 'success',
+				'size' => 'small',
+				'label' => Yii::t('admin', 'Show'),
+				'click' => 'js:function(values){	
+					var ids = new Array();
+					values.each(function(idx){
+						 ids.push($(this).val())	
+					});	
+					$.ajax({
+						type: "POST",
+						url: "/admin/project/active/?value=1",
+						data: {"ids":ids},
+						dataType:"json",
+						success: function(response){
+							if(response.status == 1){
+							   $.fn.yiiGridView.update("list-grid");
+							}else{
+								alert(response.error);
+							}
+						}
+					});		
+				}',
+			);
+			$actionButtons[] = 	array(
+				'id' => 'btn_deactivate',
+				'buttonType' => 'button',
+				'type' => 'warning',
+				'size' => 'small',
+				'label' => Yii::t('admin', 'Hide'),
+				'click' => 'js:function(values){	
+					var ids = new Array();
+					values.each(function(idx){
+						 ids.push($(this).val())	
+					});	
+					$.ajax({
+						type: "POST",
+						url: "/admin/project/active/?value=0",
+						data: {"ids":ids},
+						dataType:"json",
+						success: function(response){
+							if(response.status == 1){
+							   $.fn.yiiGridView.update("list-grid");
+							}else{
+								alert(response.error);
+							}
+						}
+					});		
+				}',
+			);
+		}	
+			
+			
+		if (Access::is('project.delete')) {
+			$actionButtons[] = array(
+						'id' => 'btn_delete',
+						'buttonType' => 'button',
+						'type' => 'danger',
+						'size' => 'small',
+						'label' => Yii::t('admin', 'Delete'),
+						'click' => 'js:function(values){
+							var ids = new Array();
+							values.each(function(idx){
+								 ids.push($(this).val())	
+							});	
+							$.ajax({
+								type: "POST",
+								url: "/admin/project/trash/?value=1",
+								data: {"ids":ids},
+								dataType:"json",
+								success: function(response){
+									if(response.status == 1){
+									   $.fn.yiiGridView.update("list-grid");
+									}else{
+										alert(response.error);
+									}
+								}
+							});								
+						}',
+					);
+		}
+		$bulkActions = array();
+		if (!empty($actionButtons)) {
+			$bulkActions = array(
+				'actionButtons' => $actionButtons,
+				'checkBoxColumnConfig' => array(
+					'name' => 'id'
+				),
+			);
+		}		
+		
 		$columns = array(
 				array(
 					'name'=>'id',
@@ -117,6 +212,19 @@
 				'view_count',
             );
 			
+		if (Access::is('project.update')) {
+			$columns[] = array(
+					'class' => 'bootstrap.widgets.TbToggleColumn',
+					'name' => 'is_active',
+					'filter' => HtmlHelper::getYesNoFilter(),
+					'htmlOptions' => array(
+						'width' => 80, 
+						'style' => 'text-align: center;', 
+					),						
+				);
+		}			
+			
+			
 		if (Access::is('project.update') || Access::is('project.delete')) {
 			$template = array();
 			if (Access::is('project.update')) $template[] = '{update}';
@@ -129,9 +237,11 @@
             );
 		}
 		
-		$this->widget('bootstrap.widgets.TbGridView', array(
+		$this->widget('bootstrap.widgets.TbExtendedGridView', array(
             'dataProvider' => $model->search(),
+			'ajaxUrl'=> $this->createUrl('/admin/project/index'),
             'filter' => $model,
+			'bulkActions' => $bulkActions,
             'type' => 'striped bordered condensed',
             'columns' => $columns,
 			'id' => 'list-grid',

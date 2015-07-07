@@ -29,6 +29,7 @@ class Project extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('make_id, model_id', 'required'),
+			array('is_active', 'numerical', 'integerOnly' => true),
 			array('tire_vehicle_class_id, rear_tire_vehicle_class_id, description, model_year_id, id, model_year_id, wheel_manufacturer, wheel_model, rim_diameter_id, rim_width_id, rim_offset_range_id, is_staggered_wheels, rear_rim_diameter_id, rear_rim_width_id, rear_rim_offset_range_id, tire_manufacturer, tire_model, tire_section_width_id, tire_aspect_ratio_id, is_staggered_tires, rear_tire_section_width_id, rear_tire_aspect_ratio_id, description, source, view_count', 'safe',),	
 		);
 	}
@@ -63,7 +64,8 @@ class Project extends CActiveRecord
 			'source' 					=> 'Source',				
 			'view_count' 				=> 'View count',				
 			'tire_vehicle_class_id' 	=> 'Tire Vehicle Class',				
-			'rear_tire_vehicle_class_id'=> 'Rear Tire Vehicle Class',				
+			'rear_tire_vehicle_class_id'=> 'Rear Tire Vehicle Class',
+			'is_active' 				=> Yii::t('admin', 'Published'),
 		);	
 	}
 
@@ -117,6 +119,7 @@ class Project extends CActiveRecord
 		$criteria->compare('t.tire_manufacturer',$this->tire_manufacturer, true);
 		$criteria->compare('t.view_count',$this->view_count);
 		$criteria->compare('t.tire_vehicle_class_id',$this->tire_vehicle_class_id);
+		$criteria->compare('t.is_active',$this->is_active);
 
 		$criteria->with = array(
 			'Make' 					=> array('together'=>true,),
@@ -189,7 +192,7 @@ class Project extends CActiveRecord
 						m.is_active = 1 AND
 						m.is_deleted = 0 AND
 						k.is_active = 1 AND
-						k.is_deleted = 0										
+						k.is_deleted = 0 AND p.is_active = 1									
 					ORDER BY p.view_count DESC
 					LIMIT {$limit}";
 	
@@ -261,7 +264,7 @@ class Project extends CActiveRecord
 					LEFT JOIN tire_aspect_ratio AS r_tar ON p.rear_tire_aspect_ratio_id = r_tar.id
 					LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
 					LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id					
-					WHERE p.id = {$id} AND m.id={$model_id} AND k.id={$make_id}";
+					WHERE p.id = {$id} AND m.id={$model_id} AND k.id={$make_id} AND p.is_active = 1";
 	
 			$data = Yii::app()->db->createCommand($sql)->queryRow();
 
@@ -325,6 +328,7 @@ class Project extends CActiveRecord
 			$criteria->compare('t.make_id', $make_id);
 			$criteria->compare('Model.is_active', 1);
 			$criteria->compare('Model.is_deleted', 0);
+			$criteria->compare('t.is_active', 1);
 			$criteria->with = array('Model'=>array('together'=>true));
 			
 			$count = self::model()->count($criteria); 
@@ -344,6 +348,7 @@ class Project extends CActiveRecord
 		if ($count === false) {
 			$criteria = new CDbCriteria;
 			$criteria->compare('model_id', $model_id);
+			$criteria->compare('is_active', 1);
 			$count = self::model()->count($criteria);
 			
 			Yii::app()->cache->get($key, $count, 0, new Tags(Tags::TAG_PROJECT));
@@ -361,6 +366,7 @@ class Project extends CActiveRecord
 		if ($count === false) {
 			$criteria = new CDbCriteria;
 			$criteria->compare('model_year_id', $model_year_id);
+			$criteria->compare('is_active', 1);
 			$count = self::model()->count($criteria);
 			
 			Yii::app()->cache->get($key, $count, 0, new Tags(Tags::TAG_PROJECT));
@@ -392,7 +398,7 @@ class Project extends CActiveRecord
 					LEFT JOIN rim_width AS rw ON p.rim_width_id = rw.id					
 					LEFT JOIN tire_rim_diameter AS r_rd ON p.rear_rim_diameter_id = r_rd.id
 					LEFT JOIN rim_width AS r_rw ON p.rear_rim_width_id = r_rw.id					
-					WHERE p.model_id = {$model_id}
+					WHERE p.model_id = {$model_id} AND p.is_active = 1
 					GROUP BY p.rim_diameter_id, p.rim_width_id, p.rear_rim_diameter_id, p.rear_rim_width_id 
 					ORDER BY c DESC
 					LIMIT 3";
@@ -437,7 +443,7 @@ class Project extends CActiveRecord
 					LEFT JOIN tire_aspect_ratio AS r_tar ON p.rear_tire_aspect_ratio_id = r_tar.id	
 					LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
 					LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id					
-					WHERE p.model_id = {$model_id}
+					WHERE p.model_id = {$model_id} AND p.is_active = 1
 					GROUP BY p.tire_vehicle_class_id, p.rear_tire_vehicle_class_id, p.rim_diameter_id, p.rear_rim_diameter_id, tire_section_width_id, rear_tire_section_width_id, tire_aspect_ratio_id, rear_tire_aspect_ratio_id
 					ORDER BY c DESC
 					LIMIT 3";

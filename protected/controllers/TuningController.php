@@ -85,8 +85,10 @@ class TuningController extends Controller
 		$key    	= Tags::TAG_PROJECT . '__list_' . $model['id'] . '_' . $limit;
 		$projects   = Yii::app()->cache->get($key);
 		
+		
+		$where = array();
+		$where[] = 'p.is_active=1';
 		if ($projects === false || !empty($filter) || $offset > 0) {
-			$where = array();
 			$where[] = "p.model_id = " . $model['id'];
 			
 			if (!empty($filter['rim_diameter_id'])) {
@@ -341,7 +343,7 @@ class TuningController extends Controller
 					LEFT JOIN tire_aspect_ratio AS r_tar ON p.rear_tire_aspect_ratio_id = r_tar.id
 					LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
 					LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id						
-					WHERE %s AND p.model_id = ".$model['id']."
+					WHERE %s AND p.model_id = ".$model['id']." AND p.is_active=1
 					ORDER BY %s
 					LIMIT 1";
 						

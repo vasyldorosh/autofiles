@@ -2,6 +2,35 @@
 
 class ProjectController extends BackendController
 {
+	
+	public function actions()
+	{
+		return array(
+			'toggle' => array(
+				'class'=>'bootstrap.actions.TbToggleAction',
+				'modelName' => 'Project',
+			),
+			'active' => array(
+				'class'=>'application.actions.MultipleCheckboxAction',
+				'modelName' => 'Project',
+				'attributeName' => 'is_active',
+				'accessAlias' => 'project.update',
+			),
+			'trash' => array(
+				'class'=>'application.actions.MultipleCheckboxAction',
+				'modelName' => 'Project',
+				'attributeName' => 'is_deleted',
+				'accessAlias' => 'project.delete',
+			),
+			'delete' => array(
+				'class'=>'application.actions.MultipleDeleteAction',
+				'modelName' => 'Project',
+				'accessAlias' => 'project.delete',
+			),
+		);
+	}	
+	
+	
     public function actionIndex()
     {
 		Access::is('project', 403);
