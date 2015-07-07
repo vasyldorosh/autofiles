@@ -155,7 +155,7 @@ class SitemapCommand extends CConsoleCommand
 				));					
 
 				foreach ($mapModules as $uri) {
-					if (in_array($uri, array('/0-60-times/', 'tuning'))) {
+					if (in_array($uri, array('/0-60-times/', '/tuning/'))) {
 						continue;
 					}
 					
