@@ -247,7 +247,7 @@ class Project extends CActiveRecord
 						k.alias AS make_alias
 					FROM project AS p
 					LEFT JOIN auto_model_year AS y ON p.model_year_id = y.id
-					LEFT JOIN auto_model AS m ON y.model_id = m.id
+					LEFT JOIN auto_model AS m ON p.model_id = m.id
 					LEFT JOIN auto_make AS k ON m.make_id = k.id
 					LEFT JOIN tire_rim_diameter AS rd ON p.rim_diameter_id = rd.id
 					LEFT JOIN rim_width AS rw ON p.rim_width_id = rw.id
