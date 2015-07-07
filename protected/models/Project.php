@@ -217,6 +217,7 @@ class Project extends CActiveRecord
 		$data 	= Yii::app()->cache->get($key);
 		
 		if ($data === false || true) {
+			
 			$sql = "SELECT 
 						p.id AS id,
 						p.view_count AS view_count,
