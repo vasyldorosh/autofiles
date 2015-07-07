@@ -202,8 +202,7 @@ class TuningController extends Controller
 		}
 		
 		$project = Project::getById($make['id'], $model['id'], $id);
-		d($project);
-		
+
 		if (empty($project)) {
 			//throw new CHttpException(404,'Page cannot be found.');
 		}
