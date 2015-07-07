@@ -352,6 +352,23 @@ class Project extends CActiveRecord
 		return $count;
 	}
 	
+	public static function getCountByModelYear($model_year_id)
+	{
+		$model_year_id	= (int) $model_year_id;
+		$key 		= Tags::TAG_PROJECT . '_getCountByModelYear_' . $model_year_id;
+		$count     	= Yii::app()->cache->get($key);
+		
+		if ($count === false) {
+			$criteria = new CDbCriteria;
+			$criteria->compare('model_year_id', $model_year_id);
+			$count = self::model()->count($criteria);
+			
+			Yii::app()->cache->get($key, $count, 0, new Tags(Tags::TAG_PROJECT));
+		}
+		
+		return $count;
+	}
+	
 	public static function getMostPopularRimSizesModel($model_id)
 	{
 		$model_id = (int) $model_id;
