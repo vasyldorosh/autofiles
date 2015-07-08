@@ -30,7 +30,7 @@
 			  <li>
 				<?php if (!empty($project['photo'])):?>
 					<div class="make__vehicle-image">
-					<a title="<?=$project['year']?> <?=$project['make_title']?> <?=$project['model_title']?> project" href="/<?=$project['make_alias']?>/<?=$project['model_alias']?>/<?=$project['year']?>/"><img src="<?=$project['photo']?>"></a>
+					<a title="<?=$project['year']?> <?=$project['make_title']?> <?=$project['model_title']?> project" href="/tuning/<?=$project['make_alias']?>/<?=$project['model_alias']?>/<?=$project['id']?>/"><img src="<?=$project['photo']?>"></a>
 					</div>
 				<?php endif;?>	
 					<h3><a title="<?=$project['year']?> <?=$project['make_title']?> <?=$project['model_title']?> project" href="/tuning/<?=$project['make_alias']?>/<?=$project['model_alias']?>/<?=$project['id']?>/"><?=$project['year']?> <?=$project['make_title']?> <?=$project['model_title']?></a></h3>

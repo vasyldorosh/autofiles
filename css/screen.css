@@ -46,7 +46,7 @@ html[xmlns*=""] body:last-child header 	 { width: 100%;  }
 
 header:after { content: " "; display: table; clear: both; }
 
-.logo { display: block; float: left; font-family: "helveticaneuecyr-roman", Arial, sans-serif; font-size: 36px; font-size: 3.6rem; text-decoration: none; margin-right: 12.41667%; }
+.logo { display: block; float: left; font-family: "helveticaneuecyr-roman", Arial, sans-serif; font-size: 28px; font-size: 2.8rem; text-decoration: none; margin-right: 12.41667%; }
 .logo span { color: #2fa4e7; }
 .logo:hover { color: #4d4d4d; }
 @media only screen and (max-width: 1090px) { .logo { margin-right: 5%; } }
@@ -96,7 +96,7 @@ nav:before{
 	color:#2fa4e7;
 	font-size:15px;
 	font-weight:600;
-	padding:5px;
+	padding:10px;
 	display:block;
 	margin:15px 0;
 	text-decoration:underline;
