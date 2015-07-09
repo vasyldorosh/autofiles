@@ -706,6 +706,156 @@ class AutoCompletion extends CActiveRecord
 		return $data;		
 	}		
 	
+	public static function getMinMaxSpecsHp($hp, $specs)
+	{
+		$hp = (int) $hp;
+	
+		$key = Tags::TAG_COMPLETION . '_getMinMaxSpecsHp_' . $hp . '_' . $specs;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data === false) {
+			$sql = "SELECT 
+						MAX(c.specs_{$specs}) AS mmax,  
+						MIN(c.specs_{$specs}) AS mmin
+					FROM auto_completion AS c
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					LEFT JOIN auto_model AS m ON y.model_id = m.id
+					LEFT JOIN auto_make AS k ON m.make_id = k.id
+					WHERE 
+						c.is_active = 1 AND 
+						c.is_deleted = 0 AND
+						m.is_active = 1 AND 
+						m.is_deleted = 0 AND
+						k.is_active = 1 AND 
+						k.is_deleted = 0 AND
+						y.is_active = 1 AND
+						y.is_deleted = 0 AND 
+						CONVERT(SUBSTRING_INDEX(c.specs_horsepower, '@', 1), SIGNED INTEGER) = {$hp}
+					";
+				
+			//d($sql);
+				
+			$data = Yii::app()->db->createCommand($sql)->queryRow();
+			if (!empty($data)) {
+				$data['mmax'] = (float) $data['mmax'];
+				$data['mmin'] = (float) $data['mmin'];				
+			} else {
+				$data = array();
+			}
+			
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		return $data;
+	}	
+	
+	public static function getMinMaxSpecsHpTorque($hp)
+	{
+		$hp = (int) $hp;
+	
+		$key = Tags::TAG_COMPLETION . '_getMinMaxSpecsHpTorque_' . $hp;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data === false) {
+			$sql = "SELECT 
+						MAX(CONVERT(SUBSTRING_INDEX(c.specs_torque, '@', 1), SIGNED INTEGER)) AS mmax,  
+						MIN(CONVERT(SUBSTRING_INDEX(c.specs_torque, '@', 1), SIGNED INTEGER)) AS mmin
+					FROM auto_completion AS c
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					LEFT JOIN auto_model AS m ON y.model_id = m.id
+					LEFT JOIN auto_make AS k ON m.make_id = k.id
+					WHERE 
+						c.is_active = 1 AND 
+						c.is_deleted = 0 AND
+						m.is_active = 1 AND 
+						m.is_deleted = 0 AND
+						k.is_active = 1 AND 
+						k.is_deleted = 0 AND
+						y.is_active = 1 AND
+						y.is_deleted = 0 AND 
+						CONVERT(SUBSTRING_INDEX(c.specs_horsepower, '@', 1), SIGNED INTEGER) = {$hp}
+					";
+				
+			//d($sql);
+				
+			$data = Yii::app()->db->createCommand($sql)->queryRow();
+			if (!empty($data)) {
+				$data['mmax'] = (float) $data['mmax'];
+				$data['mmin'] = (float) $data['mmin'];				
+			} else {
+				$data = array();
+			}
+			
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		return $data;
+	}	
+	
+	public static function getMinMaxSpecsFuelEconomy($hp)
+	{
+		$hp = (int) $hp;
+		$key = Tags::TAG_COMPLETION . '_getMinMaxSpecsFuelEconomy_' . $hp;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data === false) {
+			$data = array();
+			
+			$sql = "SELECT 
+						MAX(c.specs_fuel_economy__city) AS ec,  
+						c.specs_fuel_economy__highway AS eh
+					FROM auto_completion AS c
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					LEFT JOIN auto_model AS m ON y.model_id = m.id
+					LEFT JOIN auto_make AS k ON m.make_id = k.id
+					WHERE 
+						c.is_active = 1 AND 
+						c.is_deleted = 0 AND
+						m.is_active = 1 AND 
+						m.is_deleted = 0 AND
+						k.is_active = 1 AND 
+						k.is_deleted = 0 AND
+						y.is_active = 1 AND
+						y.is_deleted = 0 AND 
+						CONVERT(SUBSTRING_INDEX(c.specs_horsepower, '@', 1), SIGNED INTEGER) = {$hp}
+					";
+		
+			$row = Yii::app()->db->createCommand($sql)->queryRow();
+			if (!empty($row)) {
+				$data['mmax'] = (float) $row['ec'] . '/' . (float) $row['eh'];
+			} 
+			
+			$sql = "SELECT 
+						MIN(c.specs_fuel_economy__city) AS ec,  
+						c.specs_fuel_economy__highway AS eh
+					FROM auto_completion AS c
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					LEFT JOIN auto_model AS m ON y.model_id = m.id
+					LEFT JOIN auto_make AS k ON m.make_id = k.id
+					WHERE 
+						c.is_active = 1 AND 
+						c.is_deleted = 0 AND
+						m.is_active = 1 AND 
+						m.is_deleted = 0 AND
+						k.is_active = 1 AND 
+						k.is_deleted = 0 AND
+						y.is_active = 1 AND
+						y.is_deleted = 0 AND 
+						CONVERT(SUBSTRING_INDEX(c.specs_horsepower, '@', 1), SIGNED INTEGER) = {$hp}
+					";
+		
+			$row = Yii::app()->db->createCommand($sql)->queryRow();
+			if (!empty($row)) {
+				$data['mmin'] = (float) $row['ec'] . '/' . (float) $row['eh'];
+			} 		
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		return $data;
+	}	
 	
 }
 
