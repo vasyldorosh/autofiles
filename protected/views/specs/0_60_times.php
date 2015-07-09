@@ -148,55 +148,6 @@
 		<section class="right-block">				
 			<?php $this->renderPartial('application.views.specs._right_index')?>		
 		</section>		
-		
-		
-		<!--
-		<section class="right-block">
-			<h2 class="section-name">Car specs and dimensions</h2>
-			<table class="right-block__specs-list">
-				<tr>
-					<td><a class="speed" href="#">0-60 times</a></td>
-					<td class="spec-value">5.7 sec</td>
-				</tr>
-				<tr>
-					<td><a class="engine" href="#">Engine specs</a></td>
-					<td class="spec-value">3.5L V-6</td>
-				</tr>
-				<tr>
-					<td><a class="horsepower" href="#">Horsepower</a></td>
-					<td class="spec-value">273 hp</td>
-				</tr>
-				<tr>
-					<td><a class="gas" href="#">Gas mileage</a></td>
-					<td class="spec-value">19/27</td>
-				</tr>
-				<tr>
-					<td><a class="towing" href="#">Towing capacity</a></td>
-					<td class="spec-value">1500 lbs</td>
-				</tr>
-				<tr>
-					<td><a class="length" href="#">Length</a></td>
-					<td class="spec-value">183.5”</td>
-				</tr>
-				<tr>
-					<td><a class="wheelbase" href="#">Wheelbase</a></td>
-					<td class="spec-value">105.7”</td>
-				</tr>
-				<tr>
-					<td><a class="clearance" href="#">Clearance</a></td>
-					<td class="spec-value">5.4”</td>
-				</tr>
-				<tr>
-					<td><a class="weight" href="#">Curb weight</a></td>
-					<td class="spec-value">3.717 lbs</td>
-				</tr>
-				<tr>
-					<td><a class="cargo" href="#">Cargo space</a></td>
-					<td class="spec-value">61.3 cu.ft</td>
-				</tr>
-			</table>
-		</section>
-		-->
-		
+
 	</div>
 </div>

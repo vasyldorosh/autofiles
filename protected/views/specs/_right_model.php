@@ -31,7 +31,7 @@
 						</tr>
 						<tr>
 							<td>
-								<a title="Souped up <?=$make['title']?> <?=$model['title']?>, tuning" class="tuning" href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/">Tuning</a>
+								<a title="Souped up <?=$make['title']?> <?=$model['title']?>, tuning" class="tuning" href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$model['title']?> tuning</a>
 							</td>
 						</tr>						
 					</tbody>

@@ -19,7 +19,12 @@
 						</tr>
 						<tr>
 							<td>
-								<a class="tire" href="/tires<?=$make['url']?>"><?=$make['title']?> tires</a>
+								<a class="tire" href="/tires<?=$make['url']?>"><?=$make['title']?> tire size</a>
+							</td>						
+						</tr>
+                                                <tr>
+							<td>
+								<a class="tuning" href="/tuning<?=$make['url']?>"><?=$make['title']?> tuning</a>
 							</td>						
 						</tr>
 		</tbody>
