@@ -1251,7 +1251,7 @@ class AutoModelYear extends CActiveRecord
 		$limit = (int) $limit;
 		$offset = (int) $offset;
 
-		$key = Tags::TAG_MODEL_YEAR . '__getItemsByHp__'.$hp .'_'. $limit .'_'. $offset;
+		$key = Tags::TAG_MODEL_YEAR . '_getItemsByHp_'.$hp .'_'. $limit .'_'. $offset;
 		$data = Yii::app()->cache->get($key);
 
 		if ($data === false) {
@@ -1296,6 +1296,7 @@ class AutoModelYear extends CActiveRecord
 						make.is_active=1 AND
 						make.is_deleted=0 AND 					
 						SUBSTRING_INDEX(c.specs_horsepower, '@', 1) = {$hp}
+					ORDER BY y.year DESC
 					LIMIT {$offset}, {$limit}
 					";
 			

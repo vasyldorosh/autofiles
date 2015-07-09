@@ -18,13 +18,13 @@ $rangeFE = AutoCompletion ::getMinMaxSpecsFuelEconomy($hp);
 $rangeCW = AutoCompletion ::getMinMaxSpecsHp($hp, 'curb_weight');
 $rangePrice = AutoCompletion ::getMinMaxSpecsHp($hp, 'msrp');
 ?>			
-			
+	
+<?php if ($page == 1):?>	
 			<p>If you want to convert <?=$hp?> hp to watts it will be <?=$kW?> kW. <?=$hp?>-horsepower cars have an average 1/4-mile results <?php if($rangeMile['mmin'] != $rangeMile['mmax']):?>between <?=$rangeMile['mmin']?> and <?=$rangeMile['mmax']?><?php else:?><?=$rangeMile['mmax']?><?php endif?> seconds while their 0-60 times <?php if ($range0_60mph['mmin'] != $range0_60mph['mmax']):?> range from <?=$range0_60mph['mmin']?> to <?=$range0_60mph['mmax']?> <?php else:?><?=$range0_60mph['mmax']?><?php endif;?>. </p>
-			<p>As a rule, cars with <?=$kW?> kW produce <?php if($rangeTorque['mmin'] != $rangeTorque['mmax']):?><?=$rangeTorque['mmin']?> to <?=$rangeTorque['mmax']?><?php else:?><?=$rangeTorque['mmin']?><?php endif;?> lb.-ft of torque with gas mileage <?php if($rangeFE['mmin'] != $rangeFE['mmax']):?>varying from <?=$rangeFE['mmin']?> up to <?=$rangeFE['mmax']?><?php else:?><?=$rangeFE['mmin']?><?php endif;?> mpg and the autos' weight approximating f<?=$rangeCW['mmin']?><?php if($rangeCW['mmin']!=$rangeCW['mmax']):?>-<?=$rangeCW['mmax']?><?php endif;?> lbs. </p>
+			<p>As a rule, cars with <?=$kW?> kW produce <?php if($rangeTorque['mmin'] != $rangeTorque['mmax']):?><?=$rangeTorque['mmin']?> to <?=$rangeTorque['mmax']?><?php else:?><?=$rangeTorque['mmin']?><?php endif;?> lb.-ft of torque with gas mileage <?php if($rangeFE['mmin'] != $rangeFE['mmax']):?>varying from <?=$rangeFE['mmin']?> up to <?=$rangeFE['mmax']?><?php else:?><?=$rangeFE['mmin']?><?php endif;?> mpg and the autos' weight approximating <?=$rangeCW['mmin']?><?php if($rangeCW['mmin']!=$rangeCW['mmax']):?>-<?=$rangeCW['mmax']?><?php endif;?> lbs. </p>
 			<p>Prices for the cars with a <?=$hp?>-horsepower engine on board scale from <?=HtmlHelper::price($rangePrice['mmin'])?> to <?=HtmlHelper::price($rangePrice['mmax'])?> depending on many more additional specs you might want your auto to incorporate.</p>			
-			
-					
-		</section>
+<?php endif;?>
+			</section>
 		
 		<section class="make">
 			<ul class="make__vehicle">
