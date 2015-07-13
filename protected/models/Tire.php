@@ -393,7 +393,7 @@ class Tire extends CActiveRecord
 	
 	public static function getItemsByAttributes($attributes)
 	{
-		$key = Tags::TAG_TIRE . '_getItemByAttributes_'.serialize($attributes);
+		$key = Tags::TAG_TIRE . '__getItemByAttributes_'.serialize($attributes);
 		$data = Yii::app()->cache->get($key);
 		if ($data === false) {
 			$data = array();
@@ -408,6 +408,10 @@ class Tire extends CActiveRecord
 			
 			$sql = "SELECT 
 							t.id AS id, 
+							t.rim_diameter_id AS rim_diameter_id, 
+							t.section_width_id AS section_width_id, 
+							t.vehicle_class_id AS vehicle_class_id, 
+							t.aspect_ratio_id AS aspect_ratio_id,							
 							rd.value AS rim_diameter, 
 							sw.value AS section_width, 
 							vc.code AS vehicle_class, 
