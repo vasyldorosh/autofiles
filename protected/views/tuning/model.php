@@ -92,7 +92,7 @@
 					<?php foreach ($popularRimSizes as $size):?>
 					<tr>
 						<td width="180">
-							<?=$size['rim_diameter']?> x <?=$size['rim_width']?> <?php if ($size['is_staggered_wheels']):?>&ndash; <?=$size['rear_rim_diameter']?> x <?=$size['rear_rim_width']?><?php endif;?>
+							<?=$size['rim_diameter']?> <?php if(!empty($size['rim_width'])):?>x<?=$size['rim_width']?><?php else:?> - inch<?php endif;?> <?php if ($size['is_staggered_wheels']):?>&ndash; <?=$size['rear_rim_diameter']?> x <?=$size['rear_rim_width']?><?php endif;?>
 						</td>
 						<td class="spec-value">
 							<?=(int)($size['c']/$countProjects*100)?>%
