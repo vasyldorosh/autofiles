@@ -184,7 +184,7 @@ class TiresController extends Controller
 		$offset = (int)Yii::app()->request->getParam('offset', 0);
 		$limit	= 20;
 		
-		$key    	= Tags::TAG_PROJECT . '_list_by_tire_' . $model['id'] . '_' . $limit;
+		$key    	= Tags::TAG_PROJECT . '_list_by_tire_' . $vehicle_class . '_' . $section_width . '_' . $aspect_ratio . '_' . $rim_diameter . '_' . $limit;
 		$projects   = Yii::app()->cache->get($key);
 		
 		
