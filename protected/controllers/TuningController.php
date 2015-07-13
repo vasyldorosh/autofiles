@@ -35,10 +35,12 @@ class TuningController extends Controller
 		if (empty($make)) {
 			 throw new CHttpException(404,'Page cannot be found.');
 		}	
-	
-		$this->pageTitle = str_replace('[make]', $make['title'], SiteConfig::getInstance()->getValue('seo_tuning_make_title'));
-		$this->meta_keywords = str_replace('[make]', $make['title'], SiteConfig::getInstance()->getValue('seo_tuning_make_meta_keywords'));
-		$this->meta_description = str_replace('[make]', $make['title'], SiteConfig::getInstance()->getValue('seo_tuning_make_meta_description'));		
+		
+		$countProjects = Project::getCountByMake($make['id']);
+		
+		$this->pageTitle = str_replace(array('[make]', '[num]'), array($make['title'], $countProjects), SiteConfig::getInstance()->getValue('seo_tuning_make_title'));
+		$this->meta_keywords = str_replace(array('[make]', '[num]'), array($make['title'], $countProjects), SiteConfig::getInstance()->getValue('seo_tuning_make_meta_keywords'));
+		$this->meta_description = str_replace(array('[make]', '[num]'), array($make['title'], $countProjects), SiteConfig::getInstance()->getValue('seo_tuning_make_meta_description'));		
 	
 	
 		$models = AutoMake::getModels($make['id']);

@@ -1,4 +1,4 @@
-<p class="help-block">used: [make] </p>
+<p class="help-block">used: [make], [num] </p>
 
 <div class="control-group ">
 	<label class="control-label required" for="Config_seo_tuning_make_title"><?=Yii::t('admin', 'Title')?></label>
