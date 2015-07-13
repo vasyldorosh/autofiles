@@ -189,7 +189,7 @@ class TiresController extends Controller
 		
 		
 		if ($projects === false || $offset<>0) {
-			$where = "
+			$where = " WHERE
 						p.is_active = 1 AND 
 						((
 							p.rim_diameter_id=".$tire['rim_diameter_id']." AND
