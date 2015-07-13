@@ -175,9 +175,6 @@ class TiresController extends Controller
 
 		$tires = Tire::getItemsByAttributes($attributes);
 
-		d($tires);
-		
-		
 		if (empty($tires)) {
 			 throw new CHttpException(404,'Page cannot be found.');
 		}	
