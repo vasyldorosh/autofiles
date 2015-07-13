@@ -215,7 +215,7 @@ class TuningController extends Controller
 		$project = Project::getById($make['id'], $model['id'], $id);
 
 		if (empty($project)) {
-			//throw new CHttpException(404,'Page cannot be found.');
+			throw new CHttpException(404,'Page cannot be found.');
 		}
 		
 		SqlHelper::addView('Project', $project['id']);
