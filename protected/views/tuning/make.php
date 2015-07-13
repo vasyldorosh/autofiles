@@ -7,7 +7,7 @@
 		<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>
     </div>
 	<div class="text_size">
-		<?=str_replace('[make]', $make['title'], SiteConfig::getInstance()->getValue('tuning_make_description'))?>
+		<?=$description?>
 	</div>
 </section>
 

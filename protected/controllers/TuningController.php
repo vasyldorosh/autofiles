@@ -64,6 +64,7 @@ class TuningController extends Controller
 		$this->render('make', array(
 			'make' => $make,
 			'models' => $models,
+			'description' => str_replace(array('[make]', '[num]'), array($make['title'], $countProjects), SiteConfig::getInstance()->getValue('tuning_make_description')),
 		));
 	}
 	
@@ -197,7 +198,7 @@ class TuningController extends Controller
 			'make' => $make,
 			'model' => $model,
 			'countProjects' => $countProjects,
-			'description' => str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('tuning_model_description')),
+			'description' => str_replace(array('[make]', '[model]', '[num]'), array($make['title'], $model['title'], $countProjects), SiteConfig::getInstance()->getValue('tuning_model_description')),
 		));
 	}
 
