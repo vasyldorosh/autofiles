@@ -151,8 +151,13 @@
 		</div>
 	</section>
 	<?php endif;?>
-
+		
+		<?php foreach ($photos as $k=>$photo): if ($k<=6) {continue;}?>
+		<img src="<?=$photo?>" alt="photo <?=($k+1)?> <?=$this->pageTitle?>">
+		<?php endforeach;?>
+		
 	</div>
+	
 	<div class="l-col2">
 		
 		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
