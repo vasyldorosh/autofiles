@@ -44,7 +44,8 @@
 				
 				
             </section>
-		
+			
+			<?php if (!empty($projects)):?>
 			<section class="make">
 				<h2 class="section-name">Modified cars that use <?=Tire::format($tire)?> tire size</h2>
 				<ul class="make__vehicle" id="list_update">	
@@ -57,7 +58,7 @@
 
 				<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 			</section>		
-		
+			<?php endif;?>
 	</div>
 	
 	<div class="l-col2">
