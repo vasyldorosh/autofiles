@@ -168,9 +168,11 @@ class TuningController extends Controller
 			Yii::app()->end();
 		}
 		
-		$this->pageTitle = str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('seo_tuning_model_title'));
-		$this->meta_keywords = str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('seo_tuning_model_meta_keywords'));
-		$this->meta_description = str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('seo_tuning_model_meta_description'));		
+		$countProjects = Project::getCountByModel($model['id']);
+		
+		$this->pageTitle = str_replace(array('[make]', '[model]', '[num]'), array($make['title'], $model['title'], $countProjects), SiteConfig::getInstance()->getValue('seo_tuning_model_title'));
+		$this->meta_keywords = str_replace(array('[make]', '[model]', '[num]'), array($make['title'], $model['title'], $countProjects), SiteConfig::getInstance()->getValue('seo_tuning_model_meta_keywords'));
+		$this->meta_description = str_replace(array('[make]', '[model]', '[num]'), array($make['title'], $model['title'], $countProjects), SiteConfig::getInstance()->getValue('seo_tuning_model_meta_description'));		
 		
 		$lastModelYear = AutoModel::getLastYear($model['id']);
 				
@@ -186,8 +188,6 @@ class TuningController extends Controller
 			),
 			'#' => $model['title'],
 		);	
-		
-		$countProjects = Project::getCountByModel($model['id']);
 		
 		$this->render('model', array(
 			'lastModelYear' => $lastModelYear,
