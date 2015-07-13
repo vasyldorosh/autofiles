@@ -22,19 +22,20 @@
 	<table>
 	<tbody>
 		<tr>
-			<td>Front rim size</td>
+			<td><?=($project['is_staggered_wheels'])?'Front rim size':'Front & rear rim size'?></td>
 			<td><?=$project['rim_diameter']?><?=(!empty($project['rim_width']))?'x'.$project['rim_width']:' inch'?></td>		
 		</tr>
 		<?php if (!empty($project['rim_offset_range'])):?>
 		<tr>
-			<td>Front rim offset</td>
+			<td><?=($project['is_staggered_wheels'])?'Front rim offset':'Front & rear rim offset'?></td>
 			<td><?=($project['rim_offset_range']>0?'+':'')?><?=$project['rim_offset_range']?></td>
 		</tr>
 		<?php endif;?>
 		
 		<?php if (!empty($project['tire_section_width']) && !empty($project['tire_aspect_ratio']) && !empty($project['rim_diameter'])):?>
 		<tr>
-			<td>Front tire size</td>
+			<td></td>
+			<td><?=($project['is_staggered_wheels'])?'Front tire size':'Front & rear tire size'?></td>
 			<td><a href="<?=Tire::url(array(
 				'section_width' => $project['tire_section_width'],
 				'aspect_ratio' 	=> $project['tire_aspect_ratio'],
