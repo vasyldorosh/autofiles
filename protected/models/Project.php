@@ -443,7 +443,7 @@ class Project extends CActiveRecord
 					LEFT JOIN tire_aspect_ratio AS r_tar ON p.rear_tire_aspect_ratio_id = r_tar.id	
 					LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
 					LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id					
-					WHERE p.model_id = {$model_id} AND p.is_active = 1
+					WHERE p.model_id = {$model_id} AND p.is_active = 1 AND IS NOT NULL p.tire_section_width_id AND IS NOT NULL p.tire_aspect_ratio_id
 					GROUP BY p.tire_vehicle_class_id, p.rear_tire_vehicle_class_id, p.rim_diameter_id, p.rear_rim_diameter_id, tire_section_width_id, rear_tire_section_width_id, tire_aspect_ratio_id, rear_tire_aspect_ratio_id
 					ORDER BY c DESC
 					LIMIT 3";
