@@ -34,7 +34,6 @@
 		
 		<?php if (!empty($project['tire_section_width']) && !empty($project['tire_aspect_ratio']) && !empty($project['rim_diameter'])):?>
 		<tr>
-			<td></td>
 			<td><?=($project['is_staggered_wheels'])?'Front tire size':'Front & rear tire size'?></td>
 			<td><a href="<?=Tire::url(array(
 				'section_width' => $project['tire_section_width'],
