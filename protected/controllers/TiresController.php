@@ -188,7 +188,7 @@ class TiresController extends Controller
 		$projects   = Yii::app()->cache->get($key);
 		
 		
-		if ($projects === false && $offset<>0) {
+		if ($projects === false || $offset<>0) {
 			$where = "
 						p.is_active = 1 AND 
 						((
