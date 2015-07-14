@@ -291,7 +291,7 @@ class TuningController extends Controller
 			),
 			'#' => $this->pageTitle,
 		);	
-					
+				 	
 		$key    = Tags::TAG_PROJECT_PHOTO . '_photos_' . $project['id'];		
 		$photos = Yii::app()->cache->get($key);
 		if ($photos === false) {
