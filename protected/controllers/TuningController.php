@@ -244,7 +244,7 @@ class TuningController extends Controller
 				'section_width' => $project['rear_tire_section_width'],
 				'aspect_ratio' 	=> $project['rear_tire_aspect_ratio'],
 				'rim_diameter' 	=> $project['rear_rim_diameter'],
-			), false)
+			), false);
 		}
 		
 		$replaceTo = array(
