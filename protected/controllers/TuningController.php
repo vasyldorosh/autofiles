@@ -172,10 +172,14 @@ class TuningController extends Controller
 		}
 		
 		$countProjects = Project::getCountByModel($model['id']);
+		$countProjectsMake = Project::getCountByMake($make['id']);
 		
-		$this->pageTitle = str_replace(array('[make]', '[model]', '[num]'), array($make['title'], $model['title'], $countProjects), SiteConfig::getInstance()->getValue('seo_tuning_model_title'));
-		$this->meta_keywords = str_replace(array('[make]', '[model]', '[num]'), array($make['title'], $model['title'], $countProjects), SiteConfig::getInstance()->getValue('seo_tuning_model_meta_keywords'));
-		$this->meta_description = str_replace(array('[make]', '[model]', '[num]'), array($make['title'], $model['title'], $countProjects), SiteConfig::getInstance()->getValue('seo_tuning_model_meta_description'));		
+		$rFrom = array('[make]', '[model]', '[num]');
+		$rTo = array($make['title'], $model['title'], $countProjects);
+		
+		$this->pageTitle = str_replace($rFrom, $rTo, SiteConfig::getInstance()->getValue('seo_tuning_model_title'));
+		$this->meta_keywords = str_replace($rFrom, $rTo, SiteConfig::getInstance()->getValue('seo_tuning_model_meta_keywords'));
+		$this->meta_description = str_replace($rFrom, $rTo, SiteConfig::getInstance()->getValue('seo_tuning_model_meta_description'));		
 		
 		$lastModelYear = AutoModel::getLastYear($model['id']);
 				
@@ -187,7 +191,7 @@ class TuningController extends Controller
 			),
 			'/tuning' . $make['url'] => array(
 				'anchor'=>$make['title'],
-				'title' => str_replace('[make]', $make['title'], SiteConfig::getInstance()->getValue('seo_tuning_make_title')),
+				'title' => str_replace(array('[make]', '[num]'), array($make['title'], $countProjectsMake), SiteConfig::getInstance()->getValue('seo_tuning_make_title')),
 			),
 			'#' => $model['title'],
 		);	
@@ -268,6 +272,9 @@ class TuningController extends Controller
 		$this->meta_keywords 	= str_replace($replaceFrom, $replaceTo, SiteConfig::getInstance()->getValue('seo_tuning_project_meta_keywords'));
 		$this->meta_description = str_replace($replaceFrom, $replaceTo, SiteConfig::getInstance()->getValue('seo_tuning_project_meta_description'));		
 		
+		$countProjects = Project::getCountByModel($model['id']);
+		$countProjectsMake = Project::getCountByMake($make['id']);		
+		
 		$this->breadcrumbs = array(
 			'/' 						=> 'Home',
 			'/tuning.html' => array(
@@ -276,15 +283,15 @@ class TuningController extends Controller
 			),
 			'/tuning' . $make['url'] => array(
 				'anchor'=>$make['title'],
-				'title' => str_replace('[make]', $make['title'], SiteConfig::getInstance()->getValue('seo_tuning_make_title')),
+				'title' => str_replace(array('[make]', '[num]'), array($make['title'], $countProjectsMake), SiteConfig::getInstance()->getValue('seo_tuning_make_title')),
 			),
 			'/tuning' . $model['url'] 	=> array(
-				'title' => str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('seo_tuning_model_title')),
+				'title' => str_replace(array('[make]', '[model]', '[num]'), array($make['title'], $model['title'], $countProjects), SiteConfig::getInstance()->getValue('seo_tuning_model_title')),
 				'anchor'=>$model['title'],
 			),
 			'#' => $this->pageTitle,
 		);	
-				
+				 	
 		$key    = Tags::TAG_PROJECT_PHOTO . '_photos_' . $project['id'];		
 		$photos = Yii::app()->cache->get($key);
 		if ($photos === false) {
