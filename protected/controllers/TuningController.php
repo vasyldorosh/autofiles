@@ -235,6 +235,17 @@ class TuningController extends Controller
 			'[rear_offset]', 
 			'[rear_tiresize]'
 		);
+
+
+		$rearTire = '';
+			
+		if (!empty($project['rear_tire_section_width']) && !empty($project['rear_tire_section_width']) && !empty($project['rear_tire_section_width'])) {
+			$rearTire = Tire::format(array(
+				'section_width' => $project['rear_tire_section_width'],
+				'aspect_ratio' 	=> $project['rear_tire_aspect_ratio'],
+				'rim_diameter' 	=> $project['rear_rim_diameter'],
+			), false)
+		}
 		
 		$replaceTo = array(
 			$make['title'],
@@ -250,11 +261,7 @@ class TuningController extends Controller
 			$project['rear_rim_diameter'],
 			$project['rear_rim_width'],
 			(($project['rear_rim_offset_range']>0)?'+':'').$project['rear_rim_offset_range'],
-			Tire::format(array(
-				'section_width' => $project['rear_tire_section_width'],
-				'aspect_ratio' 	=> $project['rear_tire_aspect_ratio'],
-				'rim_diameter' 	=> $project['rear_rim_diameter'],
-			), false)			
+			$rearTire
 		);
 		
 		$this->pageTitle 		= str_replace($replaceFrom, $replaceTo, SiteConfig::getInstance()->getValue('seo_tuning_project_title'));
