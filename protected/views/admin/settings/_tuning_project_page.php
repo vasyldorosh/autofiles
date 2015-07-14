@@ -1,7 +1,6 @@
 <p class="help-block">used: [make], [model], [front_rim_diameter], [front_rim_width], [front_offset], [front_tiresize], [rear_rim_diameter], [rear_rim_width], [rear_offset], [rear_tiresize]
  .</p><br/>
 
-
 <div class="control-group ">
 	<label class="control-label required" for="Config_seo_tuning_project_title"><?=Yii::t('admin', 'Title')?></label>
 	<div class="controls">
