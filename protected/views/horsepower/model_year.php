@@ -81,7 +81,7 @@
 						<?php $range060 = AutoModelYear::getMinMaxSpecs('0_60mph__0_100kmh_s_', $competitor['id']);?>
 						<?php if (!empty($range060)):?>
 						<li>
-							<a href="/0-60-times/<?=$competitor['make_alias']?>/<?=$competitor['model_alias']?>/">
+							<a title="<?=$competitor['year']?> <?=$competitor['make']?>  <?=$competitor['model']?> 0-60 time" href="/0-60-times/<?=$competitor['make_alias']?>/<?=$competitor['model_alias']?>/">
 							<?=$range060['mmin']?> 
 							<?php if ($range060['mmin'] != $range060['mmax']):?> - <?=$range060['mmax']?><?php endif;?> sec
 							</a>

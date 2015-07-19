@@ -43,7 +43,7 @@
 				
 				<?php if (!empty($rangeTimes)):?>	
 					<li>
-						<a href="/0-60-times/<?=$make['alias']?>/<?=$model['alias']?>" title="<?=$make['title']?> <?=$model['title']?> acceleration times and quarter mile">
+						<a href="/0-60-times/<?=$make['alias']?>/<?=$model['alias']?>" title="<?=$make['title']?> <?=$model['title']?> 0-60 times acceleration">
 						0-60 times 
 						<?=$rangeTimes['mmin']?> 
 						<?php if ($rangeTimes['mmin'] != $rangeTimes['mmax']):?> - <?=$rangeTimes['mmax']?><?php endif;?>

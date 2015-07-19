@@ -2,7 +2,7 @@
 <div class="l-col1">
 <!-- section 1 -->
 <section class="times clearfix">
-	<h2 class="section-name pb18"><?=$make['title']?> <?=$model['title']?> tires</h2>
+	<h2 class="section-name pb18"><?=$make['title']?> <?=$model['title']?> tire size</h2>
 	<div class="google_links f_left p_rel">
                <?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
 	</div>
@@ -21,7 +21,7 @@
 				</a>
 			</div>
 			<h3>
-				<a href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/<?=$item['year']?>/"><?=$item['year']?> <?=$make['title']?> <?=$model['title']?> tires</a>
+				<a href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/<?=$item['year']?>/"><?=$item['year']?> <?=$make['title']?> <?=$model['title']?> tire size</a>
 			</h3>
 			
 			<?php $rangeTireSize = AutoModel::getMinMaxTireSizeYear($item['id']);?>

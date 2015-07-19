@@ -88,9 +88,8 @@
 						</a>
 					</div>
 					<h3>
-						<a href="/tires/<?=$competitor['make_alias']?>/<?=$competitor['model_alias']?>/<?=$competitor['year']?>/"><?=$competitor['year']?> <?=$competitor['make']?>  <?=$competitor['model']?> tire size</a>
-					</h3>
-
+	                                        <a title="<?=$competitor['year']?> <?=$competitor['make']?> <?=$competitor['model']?> tire size" href="/tires/<?=$competitor['make_alias']?>/<?=$competitor['model_alias']?>/<?=$competitor['year']?>/"><?=$competitor['year']?></a> <a title="<?=$competitor['make']?> tire size" href="/tires/<?=$competitor['make_alias']?>/"><?=$competitor['make']?></a>  <a title="<?=$competitor['make']?> <?=$competitor['model']?> tire size" href="/tires/<?=$competitor['make_alias']?>/<?=$competitor['model_alias']?>/"><?=$competitor['model']?> tire size</a>
+                                        </h3>
 					<?php $rangeTireSize = AutoModel::getMinMaxTireSizeYear($competitor['id']);?>
 					<?php if (!empty($rangeTireSize)):?>
 					<ul class="make__vehicle-specs">
@@ -111,7 +110,7 @@
 
 		<!-- years -->
 		<section class="years_box make">
-			<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> by years</h2>
+			<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> tire size by years</h2>
 			<ul class="years_list">
 			<?php foreach ($modelYears as $item):?>
 				<li class="years_list_item <?php if($item['year']==$modelYear['year']):?>current<?php endif;?>"><a href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/<?=$item['year']?>/" class="btn years_list_link" title="<?=$item['year']?> <?=$make['title']?> <?=$model['title']?> tires"><?=$item['year']?></a></li>

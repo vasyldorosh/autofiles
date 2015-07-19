@@ -36,7 +36,7 @@
 					<h3><a title="<?=$fastest['make_title']?> <?=$fastest['model_title']?> 0-60 times" href="/0-60-times/<?=$fastest['make_alias']?>/<?=$fastest['model_alias']?>/"><?=$fastest['year']?> <?=$fastest['make_title']?> <?=$fastest['model_title']?></a><span class="acceleration-time">0-60 <?=$fastest['speed']?> sec.</span></h3>
 					<ul class="make__vehicle-specs">
 						<li>1/4 mile <?=$fastest['mile_time']?> @ <?=$fastest['mile_speed']?> mph</li>
-						<li>engine <?=$fastest['engine']?></li>
+						<li>Engine <?=$fastest['engine']?></li>
 						<li><?=$fastest['horsepower']?> hp</li>
 						<li><?=$fastest['torque']?> ft. lbs.</li>
 					</ul>
@@ -51,94 +51,7 @@
 		<section class="seo-text">
 			<?=SiteConfig::getInstance()->getValue('0_60_times_footer_text_block');?>
 		</section>
-		<!--
-		<section class="news news_related-articles">
-			<h2 class="section-name">Related articles</h2>
-			<div class="news__container">
-				<ul class="news__list">
-					<li>
-						<h3><a href="#">The concept that wowed crowds at the 2009 Detroit auto show is now beautiful production car.</a></h3>
-					</li>
-					<li>
-						<h3><a href="#">The concept that wowed crowds at the 2009 Detroit auto show is now beautiful production car.</a></h3>
-					</li>
-					<li>
-						<h3><a href="#">The concept that wowed crowds at the 2009 Detroit auto show is now beautiful production car.</a></h3>
-					</li>
-					<li>
-						<h3><a href="#">The concept that wowed crowds at the 2009 Detroit auto show is now beautiful production car.</a></h3>
-					</li>
-					<li>
-						<h3><a href="#">The concept that wowed crowds at the 2009 Detroit auto show is now beautiful production car.</a></h3>
-					</li>
-				</ul>
-				<a href="#" class="btn btn_news">More articles</a>
-			</div>
-		</section>
-		-->
 		
-		<!-- 
-		<section class="parts parts_min">
-			<h2 class="section-name">Automotive Parts &amp Accessories</h2>
-		
-			<div class="parts__block">
-				<div class="parts__image">
-					<a href="#"><img src="/img/parts.jpg" alt="parts"></a>
-				</div>
-				<h2><a href="#">Replacement Parts</a></h2>
-			</div>
-			<div class="parts__block">
-				<div class="parts__image">
-					<a href="#"><img src="/img/parts.jpg" alt="parts"></a>
-				</div>
-				<h2><a href="#">Performance Parts & Accessories</a></h2>
-			</div>
-			<div class="parts__block">
-				<div class="parts__image">
-					<a href="#"><img src="/img/parts.jpg" alt="parts"></a>
-				</div>
-				<h2><a href="#">Jump Starters, Battery Chargers &amp Portable Power</a></h2>
-			</div>
-	
-			<div class="parts__block">
-				<div class="parts__image">
-					<a href="#"><img src="/img/parts.jpg" alt="parts"></a>
-				</div>
-				<h2><a href="#">Replacement Parts</a></h2>
-			</div>
-			<div class="parts__block">
-				<div class="parts__image">
-					<a href="#"><img src="/img/parts.jpg" alt="parts"></a>
-				</div>
-				<h2><a href="#">Performance Parts & Accessories</a></h2>
-			</div>
-			<div class="parts__block">
-				<div class="parts__image">
-					<a href="#"><img src="/img/parts.jpg" alt="parts"></a>
-				</div>
-				<h2><a href="#">Jump Starters, Battery Chargers &amp Portable Power</a></h2>
-			</div>
-		
-			<div class="parts__block">
-				<div class="parts__image">
-					<a href="#"><img src="/img/parts.jpg" alt="parts"></a>
-				</div>
-				<h2><a href="#">Replacement Parts</a></h2>
-			</div>
-			<div class="parts__block">
-				<div class="parts__image">
-					<a href="#"><img src="/img/parts.jpg" alt="parts"></a>
-				</div>
-				<h2><a href="#">Performance Parts & Accessories</a></h2>
-			</div>
-			<div class="parts__block">
-				<div class="parts__image">
-					<a href="#"><img src="/img/parts.jpg" alt="parts"></a>
-				</div>
-				<h2><a href="#">Jump Starters, Battery Chargers &amp Portable Power</a></h2>
-			</div>
-		</section>
-		-->
 		
 	</div>
 	<div class="l-col2">
