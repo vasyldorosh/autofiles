@@ -121,7 +121,7 @@ class TireSectionWidth extends CActiveRecord
 			}
 			
 			$items = Yii::app()->db->createCommand("SELECT DISTINCT section_width_id FROM tire $where")->queryAll();
-			$ids = array();
+			$ids = array(0);
 			foreach ($items as $item) {
 				$ids[] = $item['section_width_id'];
 			}
