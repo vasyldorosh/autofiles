@@ -13,8 +13,9 @@
 		
 		<?php if (!empty($tires)):?>
 		<section class="product_photo_box make">
-			<h2 class="section-name_2 mb30">All tire sizes for <?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?></h2>
-			
+			<h2 class="section-name_2">All tire sizes for <?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?></h2>
+			<a href="http://www.anrdoezrs.net/fi116ox52x4KSSUSNTRKMLPOROQPKMPMNRNPNLPLLL" target="_top">
+<img src="http://www.awltovhc.com/7i117r6Az42OWWYWRXVOQPTSVSUTOQTQRVRTRPTPPP" alt="TIRERACK.com - Revolutionizing Tire Buying" border="0"/></a>
 			
 			<?php 
 				$vc=array(); 
@@ -87,9 +88,8 @@
 						</a>
 					</div>
 					<h3>
-						<a href="/tires/<?=$competitor['make_alias']?>/<?=$competitor['model_alias']?>/<?=$competitor['year']?>/"><?=$competitor['year']?> <?=$competitor['make']?>  <?=$competitor['model']?> tire size</a>
-					</h3>
-
+	                                        <a title="<?=$competitor['year']?> <?=$competitor['make']?> <?=$competitor['model']?> tire size" href="/tires/<?=$competitor['make_alias']?>/<?=$competitor['model_alias']?>/<?=$competitor['year']?>/"><?=$competitor['year']?></a> <a title="<?=$competitor['make']?> tire size" href="/tires/<?=$competitor['make_alias']?>/"><?=$competitor['make']?></a>  <a title="<?=$competitor['make']?> <?=$competitor['model']?> tire size" href="/tires/<?=$competitor['make_alias']?>/<?=$competitor['model_alias']?>/"><?=$competitor['model']?> tire size</a>
+                                        </h3>
 					<?php $rangeTireSize = AutoModel::getMinMaxTireSizeYear($competitor['id']);?>
 					<?php if (!empty($rangeTireSize)):?>
 					<ul class="make__vehicle-specs">
@@ -110,7 +110,7 @@
 
 		<!-- years -->
 		<section class="years_box make">
-			<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> by years</h2>
+			<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> tire size by years</h2>
 			<ul class="years_list">
 			<?php foreach ($modelYears as $item):?>
 				<li class="years_list_item <?php if($item['year']==$modelYear['year']):?>current<?php endif;?>"><a href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/<?=$item['year']?>/" class="btn years_list_link" title="<?=$item['year']?> <?=$make['title']?> <?=$model['title']?> tires"><?=$item['year']?></a></li>
@@ -155,6 +155,9 @@
 				'modelYear'=>$modelYear,
 			))?>			
 			
+<a href="http://www.kqzyfj.com/5f108mu2-u1HPPRPKQOHJJNQKRLLHJMJKOKMKIMIII" target="_top">
+<img src="http://www.ftjcfx.com/e7102elpdjh2AACA5B92448B5C6624745957537333" alt="Tire Rack: Revolutionizing tire buying since 1979" border="0"/></a>
+
 		</section>
 
 	</div>
