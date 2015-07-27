@@ -127,7 +127,9 @@ class TireSectionWidth extends CActiveRecord
 			}
 			
 			if (!empty($ids)) {
-				$items = Yii::app()->db->createCommand("SELECT 	id, value FROM tire_section_width WHERE id IN (".implode(',', $ids).") ORDER BY value")->queryAll();
+				$sql = "SELECT 	id, value FROM tire_section_width WHERE id IN (".implode(',', $ids).") ORDER BY value";
+				echo $sql;
+				$items = Yii::app()->db->createCommand()->queryAll($sql);
 				foreach ($items as $item) {
 					$data[$item['id']] = $item['value'];
 				}							
