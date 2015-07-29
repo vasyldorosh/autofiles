@@ -113,7 +113,7 @@ class TireRimDiameter extends CActiveRecord
 			$data = array();
 			
 			$allItems = self::getList();
-			$sql = "SELECT rim_diameter_id, rear_rim_diameter_id, COUNT( * ) AS c FROM  `project` GROUP BY rim_diameter_id, rear_rim_diameter_id WHERE model_id = {$model_id}";
+			$sql = "SELECT rim_diameter_id, rear_rim_diameter_id, COUNT( * ) AS c FROM  `project` WHERE model_id = {$model_id} GROUP BY rim_diameter_id, rear_rim_diameter_id";
 			$rows = Yii::app()->db->createCommand($sql)->queryAll();
 			$dataCount = 0;
 			foreach ($rows as $row) {
