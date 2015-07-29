@@ -24,7 +24,7 @@
 									<strong>Diameter</strong>
 									<select name="filter[rim_diameter_id]">
 										<option value="">-no select-</option>
-										<?php foreach(TireRimDiameter::getList() as $k=>$v):?>
+										<?php foreach(TireRimDiameter::getListByModelProject($model['id']) as $k=>$v):?>
 										<option value="<?=$k?>"><?=$v?></option>
 										<?php endforeach;?>
 									</select>

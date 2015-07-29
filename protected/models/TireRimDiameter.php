@@ -103,6 +103,57 @@ class TireRimDiameter extends CActiveRecord
 		return CHtml::listData(self::getAll(), 'id', 'value');
 	}	
 	
+	public static function getListByModelProject($model_id)
+	{
+		$model_id = (int) $model_id;
+		
+		$key = Tags::TAG_TIRE_RIM_DIAMETER . '_getListByModelProject_' . $model_id;
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			$data = array();
+			
+			$allItems = self::getList();
+			$sql = "SELECT rim_diameter_id, rear_rim_diameter_id, COUNT( * ) AS c FROM  `project` GROUP BY rim_diameter_id, rear_rim_diameter_id WHERE model_id = {$model_id}";
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();
+			$dataCount = 0;
+			foreach ($rows as $row) {
+				if (!empty($row['rim_diameter_id']) || !empty($row['rear_rim_diameter_id'])) {
+					if ($row['rim_diameter_id'] == $row['rear_rim_diameter_id']) {
+						$dataCount[$row['rim_diameter_id']] = $row['c'];
+					} else {
+						if (!empty($row['rim_diameter_id'])) {
+							if(isset($dataCount[$row['rim_diameter_id']])) {
+								$dataCount[$row['rim_diameter_id']] += $row['c'];
+							} else {
+								$dataCount[$row['rim_diameter_id']] = $row['c'];
+							}
+						}
+						
+						if (!empty($row['rear_rim_diameter_id'])) {
+							if(isset($dataCount[$row['rear_rim_diameter_id']])) {
+								$dataCount[$row['rear_rim_diameter_id']] += $row['c'];
+							} else {
+								$dataCount[$row['rear_rim_diameter_id']] = $row['c'];
+							}
+						}
+					}
+				}
+			}
+			
+			foreach ($allItems as $id=>$title) {
+				if (isset($dataCount[$id])) {
+					$data[$id] = $title . ' ('.$dataCount[$id].')';
+				}
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE_RIM_DIAMETER, Tags::TAG_PROJECT));
+		}
+		
+		return $data;		
+		
+		return CHtml::listData(self::getAll(), 'id', 'value');
+	}	
+	
 	public static function getItemByValue($value)
 	{
 		$key = Tags::TAG_TIRE_RIM_DIAMETER . '_ITEM_'.$value;
