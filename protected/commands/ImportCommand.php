@@ -323,6 +323,8 @@ class ImportCommand extends CConsoleCommand
 		
 		$allModelYears = array();
 		$count = 0;
+		$countNotIsset = 0;
+		$countIsset = 0;
 		$modelYearIds = array();
 		$dataMake = array();
 		$dataModel = array(
@@ -409,7 +411,10 @@ class ImportCommand extends CConsoleCommand
 							} else {
 								echo "ModelYear: $year $makeTitle $modelTitle \n";
 								print_r($modelYear->errors);
-							}							
+							}	
+							$countNotIsset++;
+						} else {
+							$countIsset++;
 						}
 					}	
 				}
@@ -417,6 +422,8 @@ class ImportCommand extends CConsoleCommand
 		}
 		
 		echo "count = $count \n";
+		echo "countIsset = $countIsset \n";
+		echo "countNotIsset = $countNotIsset \n";
 		//print_r($allModelYears);
 		//print_r($modelYearIds);
 		
