@@ -17,7 +17,7 @@
 	<ul class="make__vehicle">
 	<?php foreach ($models as $model):?>	
 		<li>
-			<?php $photo = Project::getPhotoMostPopularModel($model['id'])?>
+			<?php $photo = Project::model()->getPhotoMostPopularModel($model['id'])?>
 			<?php if (!empty($photo)):?>
 			 <div class="make__vehicle-image">
 				<a title="<?=$make['title']?> <?=$model['title']?> tuning" href="/tuning<?=$model['url']?>">
