@@ -22,73 +22,9 @@
 	<table>
 	<tbody>
 		
-		<?php 
-		//есть Staggered Tires, но нет Staggered Wheels
+		<?php //есть Staggered Tires, но нет Staggered Wheels
 		if ($project['is_staggered_tires'] && !$project['is_staggered_wheels']):?>
-			<tr>
-				<td>Front rim size</td>
-				<td><?=$project['rim_diameter']?><?=(!empty($project['rim_width']))?'x'.$project['rim_width']:' inch'?></td>		
-			</tr>
-			<?php if (!empty($project['rim_offset_range'])):?>
-			<tr>
-				<td>Front rim offset</td>
-				<td><?=($project['rim_offset_range']>0?'+':'')?><?=$project['rim_offset_range']?></td>
-			</tr>
-			<?php endif;?>
-			
-			<?php if (!empty($project['tire_section_width']) && !empty($project['tire_aspect_ratio']) && !empty($project['rim_diameter'])):?>
-			<tr>
-				<td>Front tire size</td>
-				<td><a href="<?=Tire::url(array(
-					'section_width' => $project['tire_section_width'],
-					'aspect_ratio' 	=> $project['tire_aspect_ratio'],
-					'rim_diameter' 	=> $project['rim_diameter'],
-					'vehicle_class'	=> $project['tire_vehicle_class'],
-				))?>"><?=Tire::format(array(
-					'section_width' => $project['tire_section_width'],
-					'aspect_ratio' 	=> $project['tire_aspect_ratio'],
-					'rim_diameter' 	=> $project['rim_diameter'],
-					'vehicle_class'	=> $project['tire_vehicle_class'],
-				), true)?></a></td>	
-			</tr>
-			<?php endif;?>
-			<tr>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>			
-			</tr>
-			
-			<tr>
-				<td>Rear rim size</td>
-				<td><?=$project['rim_diameter']?><?=(!empty($project['rim_width']))?'x'.$project['rim_width']:' inch'?></td>
-			</tr>
-			<tr>
-				<td>Rear rim offset</td>
-				<td><?=($project['rim_offset_range']>0?'+':'')?><?=$project['rim_offset_range']?></td>	
-			</tr>
-			<?php endif;?>
-		
-			<?php if (!empty($project['rear_tire_section_width']) && !empty($project['rear_tire_aspect_ratio']) && !empty($project['rear_rim_diameter']) && $project['is_staggered_tires']):?>
-			<tr>
-				<td>Rear tire size</td>
-				<td><a href="<?=Tire::url(array(
-					'section_width' => $project['rear_tire_section_width'],
-					'aspect_ratio' 	=> $project['rear_tire_aspect_ratio'],
-					'rim_diameter' 	=> $project['rear_rim_diameter'],
-					'vehicle_class'	=> $project['rear_tire_vehicle_class'],
-				))?>"><?=Tire::format(array(
-					'section_width' => $project['rear_tire_section_width'],
-					'aspect_ratio' 	=> $project['rear_tire_aspect_ratio'],
-					'rim_diameter' 	=> $project['rear_rim_diameter'],
-					'vehicle_class'	=> $project['rear_tire_vehicle_class'],
-				), true)?></a></td>	
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				
-			</tr>
-			<?php endif;?>
-			
+
 		<?php else:?>		
 			<tr>
 				<td><?=($project['is_staggered_wheels'])?'Front rim size':'Front & rear rim size'?></td>
