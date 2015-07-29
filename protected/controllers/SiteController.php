@@ -564,6 +564,21 @@ ORDER BY c DESC")->queryAll();
 				
 			Tire::model()->deleteByPk($tire_id);	
 		}
-
 	}
+	
+	public function actionT()
+	{
+		foreach (AutoMake::getAllFront() as $make) {
+			echo $make['title'] . '<br/>';
+			foreach ( AutoMake::getModels($make['id']) as $model) {
+				echo ' -- ' . $model['title'] . '<br/>';
+				foreach (AutoModel::getYears($model['id']) as $year) {
+					echo ' -- --' . $year['year'] . '<br/>';
+				}	
+			}
+			
+			
+		}
+	}	
+	
 }
