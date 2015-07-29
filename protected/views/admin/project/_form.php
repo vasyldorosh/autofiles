@@ -63,6 +63,13 @@ $('#Project_is_staggered_tires').change(function(){
 function toogleCheckbox(attr, val) {
 	if (val) {
 		$('#container-'+attr).show();
+		
+		if (attr == 'is_staggered_tires') {
+			if ($('#Project_rear_tire_vehicle_class_id'),val() == '') {
+				alert('r');
+			}
+		}
+		
 	} else {
 		$('#container-'+attr).hide();
 	}

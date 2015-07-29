@@ -103,7 +103,7 @@ class RimWidth extends CActiveRecord
 		
 		$key = Tags::TAG_RIM_WIDTH . '_getListByModelProject_' . $model_id;
 		$data = Yii::app()->cache->get($key);
-		if ($data === false || true) {
+		if ($data === false) {
 			$data = array();
 			
 			$allItems = self::getAll();

@@ -482,7 +482,9 @@ ORDER BY c DESC")->queryAll();
 			$tires = AutoModelYear::getTires($modelYear['id']);
 			$sizes = array();
 			foreach ($tires as $tire) {
-				$sizes[]  = Tire::diameter($tire);
+				$d = Tire::diameter($tire);
+				if ($d < 22)
+				$sizes[]  = $d;
 			}
 			
 			if (!empty($sizes)) {
