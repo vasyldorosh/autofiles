@@ -15,7 +15,7 @@
 	<h2 class="section-name_2">Modified <?=$make['title']?> models</h2>
 
 	<ul class="make__vehicle">
-	<?php foreach ($models as $model):d($model);?>	
+	<?php foreach ($models as $model):?>	
 		<li>
 			<?php $photo = Project::model()->getPhotoMostPopularModel($model['id'])?>
 			<?php if (!empty($photo)):?>

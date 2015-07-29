@@ -480,7 +480,7 @@ class Project extends CActiveRecord
 			$model = $this->find($criteria);
 			
 			if (!empty($model)) {
-				self::thumb($model->id, 300, 200, 'resize');
+				$photo = self::thumb($model->id, 300, 200, 'resize');
 			}
 			
 			Yii::app()->cache->get($key, $photo, 60*60*24, new Tags(Tags::TAG_PROJECT));				
