@@ -575,11 +575,20 @@ class ImportCommand extends CConsoleCommand
 			//echo $autoModelYear->id . ' - ' . $autoModelYear->year . ' ' . $autoModelYear->Model->Make->title . ' ' .  $autoModelYear->Model->title . "\n";
 		
 			$url = "http://www.autoblog.com/buy/{$autoModelYear->year}-".str_replace(array("-", " ", '&'), array("_", "_", "_"), $autoModelYear->Model->Make->title)."-".str_replace(array(" ", "-", "&"), array("+", "_", "_"), $autoModelYear->Model->title)."/specs/";
+			$content = CUrlHelper::getPage($url, '', '');
+			preg_match_all('/<liclass="tools_first"><ahref="http:\/\/www.autoblog.com\/cars\-compare\?v1=(.*?)&amp;type=other">CompareCars<\/a><\/li>/', str_replace(array("\n", "\t", "\r"," "), "", $content), $matches);			
+						
+			if (!isset($matches[1][0]))	{
+				$makeAlias = str_replace(array("-", " ", '&'), array("_", "_", "_"), $autoModelYear->Model->Make->title);
+				$makeAlias = str_replace('_', '+', $makeAlias);
+				$url = "http://www.autoblog.com/buy/{$autoModelYear->year}-".$makeAlias."-".str_replace(array(" ", "-", "&"), array("+", "_", "_"), $autoModelYear->Model->title)."/specs/";
+				$content = CUrlHelper::getPage($url, '', '');
+				preg_match_all('/<liclass="tools_first"><ahref="http:\/\/www.autoblog.com\/cars\-compare\?v1=(.*?)&amp;type=other">CompareCars<\/a><\/li>/', str_replace(array("\n", "\t", "\r"," "), "", $content), $matches);			
+			}
+
 			//$url = str_replace(array('+'), array(''), $url);
 			echo "$url \n";
 			
-			$content = CUrlHelper::getPage($url, '', '');
-			preg_match_all('/<liclass="tools_first"><ahref="http:\/\/www.autoblog.com\/cars\-compare\?v1=(.*?)&amp;type=other">CompareCars<\/a><\/li>/', str_replace(array("\n", "\t", "\r"," "), "", $content), $matches);			
 						
 			if (isset($matches[1][0])) {					
 				$linkCompare = 'http://www.autoblog.com/cars-compare?v1='.$matches[1][0].'&type=other';
