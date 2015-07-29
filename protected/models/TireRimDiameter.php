@@ -109,7 +109,7 @@ class TireRimDiameter extends CActiveRecord
 		
 		$key = Tags::TAG_TIRE_RIM_DIAMETER . '_getListByModelProject_' . $model_id;
 		$data = Yii::app()->cache->get($key);
-		if ($data === false) {
+		if ($data === false || true) {
 			$data = array();
 			
 			$allItems = self::getList();
