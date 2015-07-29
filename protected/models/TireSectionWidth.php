@@ -131,6 +131,9 @@ class TireSectionWidth extends CActiveRecord
 				
 				if (Yii::app()->request->isAjaxRequest)
 					echo $sql;
+				
+				die();
+				
 				//die();
 				$items = Yii::app()->db->createCommand($sql)->queryAll();
 				foreach ($items as $item) {
