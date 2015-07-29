@@ -486,17 +486,21 @@ ORDER BY c DESC")->queryAll();
 			foreach ($tires as $tire) {
 				$sizes[]  = Tire::diameter($tire);
 			}
-			$min = min($sizes);
-			$max = max($sizes);
-				
-			$percent = 0;	
-			if ($min && $max && $min!=$max) {
-				$percent = ($max - $min)/$min*100;
-		
-			}
 			
-			if ($percent >= 2) {
-				echo $modelYear->Model->Make->title . ' ' . $modelYear->Model->title . ' ' . $modelYear->year . ' ' . $percent;
+			if (!empty($sizes)) {
+			
+				$min = min($sizes);
+				$max = max($sizes);
+					
+				$percent = 0;	
+				if ($min && $max && $min!=$max) {
+					$percent = ($max - $min)/$min*100;
+			
+				}
+				
+				if ($percent >= 2) {
+					echo $modelYear->Model->Make->title . ' ' . $modelYear->Model->title . ' ' . $modelYear->year . ' ' . $percent;
+				}
 			}
 		}
 	}
