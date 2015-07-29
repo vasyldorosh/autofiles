@@ -41,6 +41,38 @@ class ImportCommand extends CConsoleCommand
 		}
 	}
 
+	public function actionNotModelYearT() 
+	{
+		$sql = "SELECT DISTINCT model_year_id AS model_year_id FROM `auto_completion`";
+		$rows = Yii::app()->db->createCommand($sql)->queryAll();
+		$ids = array();
+		foreach ($rows as $row) {
+			$ids[] = $row['model_year_id'];
+		}
+		
+		if (!empty($ids)) {
+			$criteria = new CDbCriteria();
+			$criteria->addNotInCondition('id', $ids);				
+			$criteria->compare('year', 2016);				
+			$modelYears = AutoModelYear::model()->findAll($criteria);		
+			$parsedModelYearIds = array();
+			foreach ($modelYears as $modelYear) {
+				$parsedModelYearIds[] = $modelYear->id;
+			}	
+			
+			if (!empty($parsedModelYearIds)) {
+				$completionIds = $this->actionCompletion($parsedModelYearIds);
+											
+				if (!empty($completionIds)) {
+					$this->actionCompletionDetails($completionIds);
+					$this->actionSpecs();
+					$this->actionCompletionData($completionIds);
+					$this->actionCompetitor();
+				}
+			}	
+		}
+	}
+
 	protected function actionBodyStyle()
 	{
 		$url = 'http://autoblog.com/new-cars/';
