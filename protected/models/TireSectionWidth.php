@@ -105,9 +105,9 @@ class TireSectionWidth extends CActiveRecord
 	
 	public static function getListFront($attributes=array())
 	{
-		$key = Tags::TAG_TIRE_SECTION_WIDTH . '_getListFront_' . serialize($attributes);
+		$key = Tags::TAG_TIRE_SECTION_WIDTH . '_getListFront__' . serialize($attributes);
 		$data = Yii::app()->cache->get($key);
-		if ($data === false || true) {
+		if ($data === false) {
 			$data = array();
 			
 			$where = array();
@@ -123,18 +123,11 @@ class TireSectionWidth extends CActiveRecord
 			$items = Yii::app()->db->createCommand("SELECT DISTINCT section_width_id FROM tire $where")->queryAll();
 			$ids = array(0);
 			foreach ($items as $item) {
-				$ids[] = $item['section_width_id'];
+				$ids[] = (int)$item['section_width_id'];
 			}
 			
 			if (!empty($ids)) {
 				$sql = "SELECT 	id, value FROM tire_section_width WHERE id IN (".implode(',', $ids).") ORDER BY value";
-				
-				if (Yii::app()->request->isAjaxRequest)
-					echo $sql;
-				
-				die();
-				
-				//die();
 				$items = Yii::app()->db->createCommand($sql)->queryAll();
 				foreach ($items as $item) {
 					$data[$item['id']] = $item['value'];
