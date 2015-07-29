@@ -468,7 +468,7 @@ class Project extends CActiveRecord
 	public function getPhotoMostPopularModel($model_id)
 	{
 		$model_id = (int) $model_id;
-		$key	  = Tags::TAG_PROJECT . '_getPhotoMostPopularModel_' . $model_id;
+		$key	  = Tags::TAG_PROJECT . '__getPhotoMostPopularModel_' . $model_id;
 		$photo	  = Yii::app()->cache->get($key);
 		
 		if ($photo === false) {
