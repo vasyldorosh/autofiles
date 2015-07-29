@@ -101,7 +101,7 @@ class RimWidth extends CActiveRecord
 	{
 		$model_id = (int) $model_id;
 		
-		$key = Tags::TAG_TIRE_RIM_DIAMETER . '_getListByModelProject_' . $model_id;
+		$key = Tags::TAG_RIM_WIDTH . '_getListByModelProject_' . $model_id;
 		$data = Yii::app()->cache->get($key);
 		if ($data === false || true) {
 			$data = array();

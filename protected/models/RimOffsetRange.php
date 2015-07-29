@@ -97,4 +97,58 @@ class RimOffsetRange extends CActiveRecord
 		return $data;
 	}
 		
+	public static function getListByModelProject($model_id)
+	{
+		$model_id = (int) $model_id;
+		
+		$key = Tags::TAG_RIM_OFFSET_RANGE . '_getListByModelProject_' . $model_id;
+		$data = Yii::app()->cache->get($key);
+		if ($data === false || true) {
+			$data = array();
+			
+			$allItems = self::getAll();
+			$sql = "SELECT rim_offset_range_id, rear_rim_offset_range_id, COUNT( * ) AS c FROM  `project` WHERE model_id = {$model_id} GROUP BY rim_offset_range_id, rear_rim_offset_range_id";
+			
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();
+			$dataCount = array();
+			foreach ($rows as $row) {
+				if (!empty($row['rim_offset_range_id']) || !empty($row['rear_rim_offset_range_id'])) {
+					if ($row['rim_offset_range_id'] == $row['rear_rim_offset_range_id']) {
+						if(isset($dataCount[$row['rim_offset_range_id']])) {
+							$dataCount[$row['rim_offset_range_id']] += $row['c'];
+						} else {
+							$dataCount[$row['rim_offset_range_id']] = $row['c'];
+						}
+					} else {
+						if (!empty($row['rim_offset_range_id'])) {
+							if(isset($dataCount[$row['rim_offset_range_id']])) {
+								$dataCount[$row['rim_offset_range_id']] += $row['c'];
+							} else {
+								$dataCount[$row['rim_offset_range_id']] = $row['c'];
+							}
+						}
+						
+						if (!empty($row['rear_rim_offset_range_id'])) {
+							if(isset($dataCount[$row['rear_rim_offset_range_id']])) {
+								$dataCount[$row['rear_rim_offset_range_id']] += $row['c'];
+							} else {
+								$dataCount[$row['rear_rim_offset_range_id']] = $row['c'];
+							}
+						}
+					}
+				}
+			}
+
+			foreach ($allItems as $id=>$title) {
+				if (isset($dataCount[$id])) {
+					$data[$id] = $title . ' ('.$dataCount[$id].')';
+				}
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_RIM_OFFSET_RANGE, Tags::TAG_PROJECT));
+		}
+		
+		return $data;		
+	}			
+		
 }

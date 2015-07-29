@@ -42,7 +42,7 @@
 									<strong>Offset</strong>
 									<select name="filter[rim_offset_range_id]">
 										<option value="">-no select-</option>
-										<?php foreach(RimOffsetRange::getAll() as $k=>$v):?>
+										<?php foreach(RimOffsetRange::getListByModelProject($model['id']) as $k=>$v):?>
 										<option value="<?=$k?>"><?=$v?></option>
 										<?php endforeach;?>
 									</select>
