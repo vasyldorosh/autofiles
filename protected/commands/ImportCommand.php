@@ -321,7 +321,7 @@ class ImportCommand extends CConsoleCommand
 	{
 		echo "============================================== \n";
 		
-		$allModelYears = array();
+		$dataModelYears = array();
 		$count = 0;
 		$countNotIsset = 0;
 		$countIsset = 0;
@@ -384,9 +384,7 @@ class ImportCommand extends CConsoleCommand
 							$notFound = true;
 						}
 					}
-					
-					$allModelYears[] = $aliasMake . ' - ' . $modelAlias;
-					
+						
 					if (!$notFound) {
 						
 						$attr = array(
@@ -419,6 +417,7 @@ class ImportCommand extends CConsoleCommand
 							$countNotIsset++;
 						} else {
 							$countIsset++;
+							$dataModelYears[$modelAlias] = $modelYear->model_id;
 						}
 					}	
 				}
@@ -428,7 +427,7 @@ class ImportCommand extends CConsoleCommand
 		echo "count = $count \n";
 		echo "countIsset = $countIsset \n";
 		echo "countNotIsset = $countNotIsset \n";
-		//print_r($allModelYears);
+		print_r($dataModelYears);
 		//print_r($modelYearIds);
 		
 		return $modelYearIds;
