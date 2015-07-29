@@ -349,7 +349,9 @@ class ImportCommand extends CConsoleCommand
 					$imagesData[trim($matchesImage[3][$key])] = $matchesImage[2][$key];
 				}
 	
-				$count+= count($matches);
+				echo "page {$page} = " . count($matches) . "\n";
+	
+				$count+= ;
 				
 				foreach ($matches[1] as $key=>$makeTitle) {
 					$modelTitle = $matches[2][$key];
