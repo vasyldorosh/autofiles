@@ -322,6 +322,7 @@ class ImportCommand extends CConsoleCommand
 		echo "============================================== \n";
 		
 		$allModelYears = array();
+		$count = 0;
 		$modelYearIds = array();
 		$dataMake = array();
 		$dataModel = array(
@@ -347,13 +348,9 @@ class ImportCommand extends CConsoleCommand
 				foreach ($matchesImage[0] as $key=>$val) {	
 					$imagesData[trim($matchesImage[3][$key])] = $matchesImage[2][$key];
 				}
-					
-				echo 'title = ' . count($matchesTitle) . "\n";	
-				echo 'matches = ' . count($matches) . "\n";	
-				echo 'images = ' . count($imagesData) . "\n";	
-				echo "-----------------------------------------\n";	
-						
-			
+	
+				$count+= count($matches);
+				
 				foreach ($matches[1] as $key=>$makeTitle) {
 					$modelTitle = $matches[2][$key];
 					
@@ -417,6 +414,7 @@ class ImportCommand extends CConsoleCommand
 			}
 		}
 		
+		echo "count = $count \n";
 		print_r($allModelYears);
 		//print_r($modelYearIds);
 		
