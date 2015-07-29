@@ -53,7 +53,6 @@ class ImportCommand extends CConsoleCommand
 		if (!empty($ids)) {
 			$criteria = new CDbCriteria();
 			$criteria->addNotInCondition('id', $ids);				
-			$criteria->compare('year', 2016);				
 			$modelYears = AutoModelYear::model()->findAll($criteria);		
 			$parsedModelYearIds = array();
 			foreach ($modelYears as $modelYear) {
