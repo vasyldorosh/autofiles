@@ -231,7 +231,7 @@ class ImportCommand extends CConsoleCommand
 				
 				$p=($page==1)?"":"pg-{$page}/";
 				$url = "http://www.autoblog.com/car-finder/{$year}/{$p}";
-				echo $url . "\n";
+				//echo $url . "\n";
 				$content = CUrlHelper::getPage($url);
 				$content = str_replace(array("\n", "\t", "\r"), "", $content);
 				
@@ -244,11 +244,12 @@ class ImportCommand extends CConsoleCommand
 					$imagesData[trim($matchesImage[3][$key])] = $matchesImage[2][$key];
 				}
 					
+				/*	
 				echo 'title = ' . count($matchesTitle) . "\n";	
 				echo 'matches = ' . count($matches) . "\n";	
 				echo 'images = ' . count($imagesData) . "\n";	
 				echo "-----------------------------------------\n";	
-						
+				*/		
 			
 				foreach ($matches[1] as $key=>$makeTitle) {
 					$modelTitle = $matches[2][$key];
@@ -416,7 +417,7 @@ class ImportCommand extends CConsoleCommand
 			}
 		}
 		
-		print_r($allModelYearIds);
+		print_r($allModelYears);
 		//print_r($modelYearIds);
 		
 		return $modelYearIds;
