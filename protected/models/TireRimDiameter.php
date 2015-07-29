@@ -155,8 +155,6 @@ class TireRimDiameter extends CActiveRecord
 		}
 		
 		return $data;		
-		
-		return CHtml::listData(self::getAll(), 'id', 'value');
 	}	
 	
 	public static function getItemByValue($value)

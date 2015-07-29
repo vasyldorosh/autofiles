@@ -33,7 +33,7 @@
 									<strong>Width</strong>
 									<select name="filter[rim_width_id]">
 										<option value="">-no select-</option>
-										<?php foreach(RimWidth::getAll() as $k=>$v):?>
+										<?php foreach(RimWidth::getListByModelProject($model['id']) as $k=>$v):?>
 										<option value="<?=$k?>"><?=$v?></option>
 										<?php endforeach;?>
 									</select>
