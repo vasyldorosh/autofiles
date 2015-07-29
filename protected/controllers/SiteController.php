@@ -474,7 +474,7 @@ ORDER BY c DESC")->queryAll();
 	public function actionTestRun()
 	{
 		$criteria = new CDbCriteria;		
-		$criteria->with = array('Make', 'Model');
+		$criteria->with = array('Model', 'Model.Make');
 		$items = AutoModelYear::model()->findAll($criteria);
 		foreach ($items as $item) {
 			echo $item->id . '<br/>';
