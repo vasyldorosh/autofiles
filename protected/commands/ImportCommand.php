@@ -336,7 +336,7 @@ class ImportCommand extends CConsoleCommand
 				
 				$p=($page==1)?"":"pg-{$page}/";
 				$url = "http://www.autoblog.com/car-finder/{$year}/{$p}";
-				echo $url . "\n";
+				//echo $url . "\n";
 				$content = CUrlHelper::getPage($url);
 				$content = str_replace(array("\n", "\t", "\r"), "", $content);
 				
@@ -415,7 +415,7 @@ class ImportCommand extends CConsoleCommand
 		}
 		
 		echo "count = $count \n";
-		print_r($allModelYears);
+		//print_r($allModelYears);
 		//print_r($modelYearIds);
 		
 		return $modelYearIds;
