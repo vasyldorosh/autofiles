@@ -473,11 +473,31 @@ ORDER BY c DESC")->queryAll();
 	
 	public function actionTestRun()
 	{
+		ini_set('max_execution_time', 1000);
+		
 		$criteria = new CDbCriteria;		
 		$criteria->with = array('Model', 'Model.Make');
-		$items = AutoModelYear::model()->findAll($criteria);
-		foreach ($items as $item) {
-			echo $item->id . '<br/>';
+		$modelYears = AutoModelYear::model()->findAll($criteria);
+		foreach ($modelYears as $modelYear) {
+			echo $modelYear->id . '<br/>';
+			
+			$tires = AutoModelYear::getTires($modelYear['id']);
+			$sizes = array();
+			foreach ($tires as $tire) {
+				$sizes[]  = Tire::diameter($tire);
+			}
+			$min = min($sizes);
+			$max = max($sizes);
+				
+			$percent = 0;	
+			if ($min && $max && $min!=$max) {
+				$percent = ($max - $min)/$min*100;
+		
+			}
+			
+			if ($percent >= 2) {
+				echo $modelYear->Model->Make->title . ' ' . $modelYear->Model->title . ' ' . $modelYear->year . ' ' . $percent;
+			}
 		}
 	}
 }
