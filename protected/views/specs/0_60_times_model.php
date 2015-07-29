@@ -21,7 +21,8 @@
 			<?php foreach ($completionsTime as $item):?>
 				<tr>
 					<td>
-						<?=$item['title']?> 0-60
+						<?php $hp = trim(explode('@', $item['specs_horsepower']))?>
+						<?=$item['title']?> 0-60<?php if (!empty($hp)):?>, <a href="/horsepower/<?=$hp?>/"><?=$hp?></a><?php endif;?>
 					</td>
 					<td>
 						<?=(float)$item['specs_0_60mph__0_100kmh_s_']?> sec
