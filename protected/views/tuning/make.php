@@ -17,12 +17,13 @@
 	<ul class="make__vehicle">
 	<?php foreach ($models as $model):?>	
 		<li>
-			<?php if (!empty($project['photo'])):?>
+			<?php $photo = Project::getPhotoMostPopularModel($model['id'])?>
+			<?php if (!empty($photo)):?>
 			 <div class="make__vehicle-image">
 				<a title="<?=$make['title']?> <?=$model['title']?> tuning" href="/tuning<?=$model['url']?>">
-					<img alt="<?=$make['title']?> <?=$model['title']?> tuning" src="<?=$model['photo']?>"> 
+					<img alt="<?=$make['title']?> <?=$model['title']?> tuning" src="<?=$photo?>"> 
                 </a>
-			</div>
+			</div>			
 			<?php endif;?>
 			<h3>
 				<a href="/tuning<?=$model['url']?>"><?=$make['title']?> <?=$model['title']?> tuning</a>

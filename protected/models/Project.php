@@ -465,4 +465,28 @@ class Project extends CActiveRecord
 		}
 	}
 	
+	public function getPhotoMostPopularModel($model_id)
+	{
+		$model_id = (int) $model_id;
+		$key	  = Tags::TAG_PROJECT . '_getPhotoMostPopularModel_' . $model_id;
+		$photo	  = Yii::app()->cache->get($key);
+		
+		if ($photo === false) {
+			$photo = '';
+			
+			$criteria = new CDbCriteria;
+			$criteria->compare('model_id', $model_id);
+			$criteria->order = 'view_count DESC';
+			$model = $this->find($criteria);
+			
+			if (!empty($model)) {
+				self::thumb($model->id, 300, 200, 'resize');
+			}
+			
+			Yii::app()->cache->get($key, $photo, 60*60*24, new Tags(Tags::TAG_PROJECT));				
+		}
+		
+		return $photo;		
+	}
+	
 }
