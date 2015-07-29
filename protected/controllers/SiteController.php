@@ -479,8 +479,6 @@ ORDER BY c DESC")->queryAll();
 		$criteria->with = array('Model', 'Model.Make');
 		$modelYears = AutoModelYear::model()->findAll($criteria);
 		foreach ($modelYears as $modelYear) {
-			echo $modelYear->id . '<br/>';
-			
 			$tires = AutoModelYear::getTires($modelYear['id']);
 			$sizes = array();
 			foreach ($tires as $tire) {
