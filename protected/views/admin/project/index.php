@@ -128,7 +128,8 @@
 		$columns = array(
 				array(
 					'name'=>'id',
-					'value'=>'$data->id',
+					'value'=>'CHtml::link($data->id, $data->getUrl(), array("target"=>"_blank"))',
+					'type'=>'raw',
 					'htmlOptions' => array(
 						'width' => 40, 
 					),					

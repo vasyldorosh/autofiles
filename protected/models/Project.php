@@ -458,4 +458,11 @@ class Project extends CActiveRecord
 		return $data;
 	}
 	
+	public function getUrl()
+	{
+		if (isset($this->Make) && isset($this->Model)) {
+			return "/tuning/{$this->Make->alias}/{$this->Model->alias}/{$this->id}/";
+		}
+	}
+	
 }
