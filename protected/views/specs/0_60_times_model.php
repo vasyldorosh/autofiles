@@ -21,7 +21,7 @@
 			<?php foreach ($completionsTime as $item):?>
 				<tr>
 					<td>
-						<?php $hp = trim(end(explode('@', $item['specs_horsepower'])))?>
+						<?php $expl = explode('@', $item['specs_horsepower']); $hp = trim($expl[0])?>
 						<?=$item['title']?> 0-60<?php if (!empty($hp)):?>, <a href="/horsepower/<?=$hp?>/"><?=$hp?></a><?php endif;?>
 					</td>
 					<td>
