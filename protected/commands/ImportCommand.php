@@ -351,7 +351,7 @@ class ImportCommand extends CConsoleCommand
 	
 				echo "page {$page} = " . count($matches) . "\n";
 	
-				$count+= ;
+				$count+= count($matches);
 				
 				foreach ($matches[1] as $key=>$makeTitle) {
 					$modelTitle = $matches[2][$key];
