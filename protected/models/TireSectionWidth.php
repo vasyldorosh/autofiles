@@ -107,7 +107,7 @@ class TireSectionWidth extends CActiveRecord
 	{
 		$key = Tags::TAG_TIRE_SECTION_WIDTH . '_getListFront_' . serialize($attributes);
 		$data = Yii::app()->cache->get($key);
-		if ($data === false) {
+		if ($data === false || true) {
 			$data = array();
 			
 			$where = array();
