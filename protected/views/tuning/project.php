@@ -18,7 +18,7 @@
 
 
 <br><br>
-<h2 class="section-name_2 mb30">Wheels & tires</h2><?=d($project,0);?>
+<h2 class="section-name_2 mb30">Wheels & tires</h2>
 	<table>
 	<tbody>
 		
@@ -66,7 +66,7 @@
 				<td><?=($project['rim_offset_range']>0?'+':'')?><?=$project['rim_offset_range']?></td>	
 			</tr>
 		
-			<?php if (!empty($project['rear_tire_section_width']) && !empty($project['rear_tire_aspect_ratio']) && !empty($project['rear_rim_diameter']) && $project['is_staggered_tires']):?>
+			<?php if (!empty($project['rear_tire_section_width']) && !empty($project['rear_tire_aspect_ratio']) && !empty($project['rim_diameter'])):?>
 			<tr>
 				<td>Rear tire size</td>
 				<td><a href="<?=Tire::url(array(
