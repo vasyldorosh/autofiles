@@ -497,7 +497,8 @@ ORDER BY c DESC")->queryAll();
 				}
 				
 				if ($percent >= 2) {
-					echo $modelYear->Model->Make->title . ' ' . $modelYear->Model->title . ' ' . $modelYear->year . ' ' . round($percent, 2) . '<br/>';
+					echo $modelYear->Model->Make->title . ' ' . $modelYear->Model->title . ' ' . $modelYear->year . ' ' . round($percent, 2);
+					echo "<br/>";
 				}
 			}
 		}
