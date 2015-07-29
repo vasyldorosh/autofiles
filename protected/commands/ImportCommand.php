@@ -582,6 +582,7 @@ class ImportCommand extends CConsoleCommand
 				$makeAlias = str_replace(array("-", " ", '&'), array("_", "_", "_"), $autoModelYear->Model->Make->title);
 				$makeAlias = str_replace('_', '+', $makeAlias);
 				$url = "http://www.autoblog.com/buy/{$autoModelYear->year}-".$makeAlias."-".str_replace(array(" ", "-", "&"), array("+", "_", "_"), $autoModelYear->Model->title)."/specs/";
+				$url = str_replace('+_+', '_', $url);
 				$content = CUrlHelper::getPage($url, '', '');
 				preg_match_all('/<liclass="tools_first"><ahref="http:\/\/www.autoblog.com\/cars\-compare\?v1=(.*?)&amp;type=other">CompareCars<\/a><\/li>/', str_replace(array("\n", "\t", "\r"," "), "", $content), $matches);			
 			}
