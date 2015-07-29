@@ -60,9 +60,13 @@ class ImportCommand extends CConsoleCommand
 				$parsedModelYearIds[] = $modelYear->id;
 			}	
 			
+			print_r($parsedModelYearIds);
+			
 			if (!empty($parsedModelYearIds)) {
 				$completionIds = $this->actionCompletion($parsedModelYearIds);
-											
+					
+				print_r($completionIds);
+					
 				if (!empty($completionIds)) {
 					$this->actionCompletionDetails($completionIds);
 					$this->actionSpecs();
