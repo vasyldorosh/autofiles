@@ -388,10 +388,14 @@ class ImportCommand extends CConsoleCommand
 					$allModelYears[] = $aliasMake . ' - ' . $modelAlias;
 					
 					if (!$notFound) {
-						$modelYear = AutoModelYear::model()->findByAttributes(array(
+						
+						$attr = array(
 							'year' => $year,
 							'model_id' => $dataModel[$aliasMake][$modelAlias],
-						));
+						);
+						
+						$modelYear = AutoModelYear::model()->findByAttributes($attr);
+						print_r($attr);
 						
 						if (empty($modelYear)) {
 							$modelYear = new AutoModelYear;
