@@ -393,7 +393,6 @@ class ImportCommand extends CConsoleCommand
 						);
 						
 						$modelYear = AutoModelYear::model()->findByAttributes($attr);
-						print_r($attr);
 						
 						if (empty($modelYear)) {
 							$modelYear = new AutoModelYear;
