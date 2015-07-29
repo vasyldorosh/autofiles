@@ -65,7 +65,6 @@
 				<td>Rear rim offset</td>
 				<td><?=($project['rim_offset_range']>0?'+':'')?><?=$project['rim_offset_range']?></td>	
 			</tr>
-			<?php endif;?>
 		
 			<?php if (!empty($project['rear_tire_section_width']) && !empty($project['rear_tire_aspect_ratio']) && !empty($project['rear_rim_diameter']) && $project['is_staggered_tires']):?>
 			<tr>
