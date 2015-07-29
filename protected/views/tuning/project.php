@@ -62,7 +62,7 @@
 				<td><?=$project['rim_diameter']?><?=(!empty($project['rim_width']))?'x'.$project['rim_width']:' inch'?></td>
 			</tr>
 			
-			<?php if (!is_numeric($project['rim_offset_range'])):?>
+			<?php if (!empty($project['rim_offset_range'])):?>
 			<tr>
 				<td>Rear rim offset</td>
 				<td><?=($project['rim_offset_range']>0?'+':'')?><?=$project['rim_offset_range']?></td>	
@@ -131,7 +131,7 @@
 				<td><?=$project['rear_rim_diameter']?>x<?=$project['rear_rim_width']?></td>
 			</tr>
 			
-				<?php if (!is_numeric($project['rear_rim_offset_range'])):?>
+				<?php if (!empty($project['rear_rim_offset_range'])):?>
 				<tr>
 					<td>Rear rim offset</td>
 					<td><?=($project['rear_rim_offset_range']>0?'+':'')?><?=$project['rear_rim_offset_range']?></td>			
