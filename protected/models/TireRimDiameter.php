@@ -115,7 +115,7 @@ class TireRimDiameter extends CActiveRecord
 			$allItems = self::getList();
 			$sql = "SELECT rim_diameter_id, rear_rim_diameter_id, COUNT( * ) AS c FROM  `project` WHERE model_id = {$model_id} GROUP BY rim_diameter_id, rear_rim_diameter_id";
 			$rows = Yii::app()->db->createCommand($sql)->queryAll();
-			$dataCount = 0;
+			$dataCount = array();
 			foreach ($rows as $row) {
 				if (!empty($row['rim_diameter_id']) || !empty($row['rear_rim_diameter_id'])) {
 					if ($row['rim_diameter_id'] == $row['rear_rim_diameter_id']) {
