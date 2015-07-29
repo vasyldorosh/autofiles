@@ -13,7 +13,7 @@
 		</section>
 		
 		
-		<?php if (!empty($completionsTime)):?>
+		<?php if (!empty($completionsTime)):d($completionsTime);?>
 		<section class="table-container">
 			<h2 class="section-name_2"><?=$lastModelYear['year']?> <?=$make['title']?> <?=$model['title']?> 0-60 times, all trims</h2>
 
