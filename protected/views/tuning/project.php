@@ -18,7 +18,7 @@
 
 
 <br><br>
-<h2 class="section-name_2 mb30">Wheels & tires</h2>
+<h2 class="section-name_2 mb30">Wheels & tires</h2><?=d($project,0);?>
 	<table>
 	<tbody>
 		
