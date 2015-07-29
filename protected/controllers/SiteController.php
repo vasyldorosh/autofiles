@@ -473,16 +473,11 @@ ORDER BY c DESC")->queryAll();
 	
 	public function actionTestRun()
 	{
-		foreach (AutoMake::getAllFront() as $make) {
-			echo $make['title'] . '<br/>';
-			foreach ( AutoMake::getModels($make['id']) as $model) {
-				echo ' -- ' . $model['title'] . '<br/>';
-				foreach (AutoModel::getYears($model['id']) as $year) {
-					echo ' -- --' . $year['year'] . '<br/>';
-				}	
-			}
-			
-			
-		}		
+		$criteria = new CDbCriteria;		
+		$criteria->with = array('Make', 'Model');
+		$items = AutoModelYear::model()->findAll($criteria);
+		foreach ($items as $item) {
+			echo $item->id . '<br/>';
+		}
 	}
 }
