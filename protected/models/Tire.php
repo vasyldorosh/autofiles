@@ -249,9 +249,9 @@ class Tire extends CActiveRecord
 		return $data;
 	}
 	
-	public static function getPopolar()
+	public static function getPopolar($limit=10)
 	{
-		$key = Tags::TAG_TIRE . '_getPopolar_';
+		$key = Tags::TAG_TIRE . '_getPopolar_' . $limit;
 		$data = Yii::app()->cache->get($key);
 		if ($data === false) {
 			$data = array();
@@ -268,6 +268,7 @@ class Tire extends CActiveRecord
 			$criteria->with = array('VehicleClass', 'SectionWidth', 'AspectRatio', 'RimDiameter', 'RearSectionWidth', 'RearAspectRatio', 'RearRimDiameter');			
 			$criteria->addInCondition('t.id', $tireIds);			
 			$criteria->order = 'Field(t.id, ' . implode(',', $tireIds) . ')';			
+			$criteria->limit = $limit;			
 			
 			$items = Tire::model()->findAll($criteria);
 			foreach ($items as $item) {
