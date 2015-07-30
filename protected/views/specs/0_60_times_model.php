@@ -21,10 +21,10 @@
 				<tr>
 					<td>
 						<?php $expl = explode('@', $item['specs_horsepower']); $hp = trim($expl[0])?>
-						<?=$item['title']?> 0-60<?php if (!empty($hp)):?>, <a href="/horsepower/<?=$hp?>/"><?=$hp?></a><?php endif;?>
+						<?=$item['title']?><?php if (!empty($hp)):?>, <a href="/horsepower/<?=$hp?>/"><?=$hp?> hp</a><?php endif;?>
 					</td>
 					<td>
-						<?=(float)$item['specs_0_60mph__0_100kmh_s_']?> sec
+						0-60 times <?=(float)$item['specs_0_60mph__0_100kmh_s_']?> sec
 					</td>
 					<td>	
 						1/4 mile <?=(float)$item['specs_1_4_mile_time']?> @ <?=(float)$item['specs_1_4_mile_speed']?> mph
@@ -114,8 +114,8 @@
 			<table>
 			<?php foreach ($completionsCarsWithSame060Time as $item):?>
 				<tr>
-					<td><a title="<?=$item['year']?> <?=$item['make']?> <?=$item['model']?> 0-60" href="/0-60-times/<?=$item['make_alias']?>/<?=$item['model_alias']?>/"><?=$item['year']?> <?=$item['make']?> <?=$item['model']?> 0-60</a></td>
-					<td><?=(float)$item['speed']?> sec</td>
+					<td><a title="<?=$item['year']?> <?=$item['make']?> <?=$item['model']?> 0-60" href="/0-60-times/<?=$item['make_alias']?>/<?=$item['model_alias']?>/"><?=$item['year']?> <?=$item['make']?> <?=$item['model']?> </a></td>
+					<td>0-60 times <?=(float)$item['speed']?> sec</td>
 					<td>1/4 mile <?=(float)$item['mile_time']?> sec @ <?=(float)$item['mile_speed']?></td>
 				</tr>
 				
