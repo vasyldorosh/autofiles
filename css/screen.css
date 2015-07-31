@@ -240,9 +240,7 @@ display: none; }
 .make .make__vehicle-years li { display: inline-block; margin-right: 5px; }
 .make .make__vehicle-years li a { text-decoration: underline; display: inline-block; margin: 3px; padding: 3px;}
 
-.brdtop_col  .product_photo_item_top>ul{
-	display:none;
-}
+
 
 .make_competitors { margin-top: 45px; }
 .make_competitors .make__vehicle { margin-top: 35px; }
