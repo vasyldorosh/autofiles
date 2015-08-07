@@ -713,9 +713,8 @@ class Tire extends CActiveRecord
 				";
 		
 			$data = Yii::app()->db->createCommand($sql)->queryRow();
-		
-			
-			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_TIRE_SECTION_WIDTH, Tags::TAG_TIRE_ASPECT_RATIO, Tags::TAG_TIRE_RIM_DIAMETER));
+
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_MODEL_YEAR));
 		}	
 		
 		return $data;	
