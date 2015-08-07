@@ -31,7 +31,8 @@
 					<ul class="make__vehicle-years">
 					<?php foreach ($makeModel['models'] as $item):?>
 						<li>
-							<a title="<?=$makeModel['title']?> <?=$item['title']?> tire size" href="/tires/<?=$makeModel['alias']?>/<?=$item['alias']?>/"><?=$item['title']?></a>
+							<?php $yearRange = Tire::getYearRangeModel($item['id'])?>
+							<a title="<?=$makeModel['title']?> <?=$item['title']?> tire size" href="/tires/<?=$makeModel['alias']?>/<?=$item['alias']?>/"><?=$item['title']?> <?php if (is_array($yearRange))?>(<?=$yearRange['mmin']?>-<?=$yearRange['mmax']?>)<?php endif;?></a>
 						</li>
 					<?php endforeach;?>
 					</ul>

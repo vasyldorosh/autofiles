@@ -693,4 +693,31 @@ class Tire extends CActiveRecord
 		return $data;	
 	}	
 	
+	public static function getYearRangeModel($model_id)
+	{
+		$model_id = (int) $model_id;
+		
+		$key = Tags::TAG_TIRE . '_getYearRangeModel_' . $model_id;
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			$data = array();
+			
+			$sql = "SELECT 
+						MIN(y.year) AS mmin,
+						MAX(y.year) AS mmax
+					FROM auto_model_year_tire AS vs
+					LEFT JOIN auto_model_year AS y ON vs.model_year_id = y.id
+					LEFT JOIN auto_model AS m ON y.model_id = m.id
+					WHERE m.id = {$model_id}
+				";
+		
+				$data = Yii::app()->db->createCommand($sql)->queryRow();
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_TIRE_SECTION_WIDTH, Tags::TAG_TIRE_ASPECT_RATIO, Tags::TAG_TIRE_RIM_DIAMETER));
+		}	
+		
+		return $data;	
+	}	
+	
 }
