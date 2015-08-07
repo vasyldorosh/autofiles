@@ -109,6 +109,11 @@ class TuningController extends Controller
 				$where[] = "(p.rim_offset_range_id = {$rim_offset_range_id} OR p.rear_rim_offset_range_id = {$rim_offset_range_id})";
 			}
 			
+			if (!empty($filter['tire_section_width_id'])) {
+				$tire_section_width_id = (int) $filter['tire_section_width_id'];
+				$where[] = "(p.tire_section_width_id = {$tire_section_width_id} OR p.rear_tire_section_width_id = {$tire_section_width_id})";
+			}
+			
 			if (!empty($where))
 				$where = 'WHERE ' . implode(' AND ', $where);
 			else 

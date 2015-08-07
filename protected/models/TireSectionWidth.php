@@ -140,6 +140,58 @@ class TireSectionWidth extends CActiveRecord
 		return $data;			
 	}	
 	
-	
+	public static function getListByModelProject($model_id)
+	{
+		$model_id = (int) $model_id;
+		
+		$key = Tags::TAG_TIRE_SECTION_WIDTH . '_getListByModelProject_' . $model_id;
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			$data = array();
+			
+			$allItems = self::getAll();
+			$sql = "SELECT tire_section_width_id, rear_tire_section_width_id, COUNT( * ) AS c FROM  `project` WHERE model_id = {$model_id} GROUP BY tire_section_width_id, rear_tire_section_width_id";
+			
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();
+			$dataCount = array();
+			foreach ($rows as $row) {
+				if (!empty($row['tire_section_width_id']) || !empty($row['rear_tire_section_width_id'])) {
+					if ($row['tire_section_width_id'] == $row['rear_tire_section_width_id']) {
+						if(isset($dataCount[$row['tire_section_width_id']])) {
+							$dataCount[$row['tire_section_width_id']] += $row['c'];
+						} else {
+							$dataCount[$row['tire_section_width_id']] = $row['c'];
+						}
+					} else {
+						if (!empty($row['tire_section_width_id'])) {
+							if(isset($dataCount[$row['tire_section_width_id']])) {
+								$dataCount[$row['tire_section_width_id']] += $row['c'];
+							} else {
+								$dataCount[$row['tire_section_width_id']] = $row['c'];
+							}
+						}
+						
+						if (!empty($row['rear_tire_section_width_id'])) {
+							if(isset($dataCount[$row['rear_tire_section_width_id']])) {
+								$dataCount[$row['rear_tire_section_width_id']] += $row['c'];
+							} else {
+								$dataCount[$row['rear_tire_section_width_id']] = $row['c'];
+							}
+						}
+					}
+				}
+			}
+
+			foreach ($allItems as $id=>$title) {
+				if (isset($dataCount[$id])) {
+					$data[$id] = $title . ' ('.$dataCount[$id].')';
+				}
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE_SECTION_WIDTH, Tags::TAG_PROJECT));
+		}
+		
+		return $data;		
+	}		
 	
 }

@@ -39,6 +39,15 @@
 									</select>
 								</div>
 								<div class="options__item">
+									<strong>Tire Section Width</strong>
+									<select name="filter[tire_section_width_id]">
+										<option value="">-no select-</option>
+										<?php foreach(TireSectionWidth::getListByModelProject($model['id']) as $k=>$v):?>
+										<option value="<?=$k?>"><?=$v?></option>
+										<?php endforeach;?>
+									</select>
+								</div>
+								<div class="options__item">
 									<strong>Offset</strong>
 									<select name="filter[rim_offset_range_id]">
 										<option value="">-no select-</option>
