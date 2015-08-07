@@ -32,7 +32,7 @@
 					<?php foreach ($makeModel['models'] as $item):?>
 						<li>
 							<?php $yearRange = Tire::getYearRangeModel($item['id'], $tire['id'])?>
-							<a title="<?=$makeModel['title']?> <?=$item['title']?> tire size" href="/tires/<?=$makeModel['alias']?>/<?=$item['alias']?>/"><?=$item['title']?> <?php if (is_array($yearRange)):?>(<?=$yearRange['mmin']?><?php if ($yearRange['mmin']!=$yearRange['mmax']):?>-<?=$yearRange['mmax']?><?php endif;?>)<?php endif;?></a>
+							<a title="<?=$makeModel['title']?> <?=$item['title']?> tire size" href="/tires/<?=$makeModel['alias']?>/<?=$item['alias']?>/"><?=$item['title']?> <?php if (is_array($yearRange) && !empty($yearRange['mmin'])):?>(<?=$yearRange['mmin']?><?php if ($yearRange['mmin']!=$yearRange['mmax']):?>-<?=$yearRange['mmax']?><?php endif;?>)<?php endif;?></a>
 						</li>
 					<?php endforeach;?>
 					</ul>
