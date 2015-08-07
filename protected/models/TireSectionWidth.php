@@ -146,10 +146,10 @@ class TireSectionWidth extends CActiveRecord
 		
 		$key = Tags::TAG_TIRE_SECTION_WIDTH . '_getListByModelProject_' . $model_id;
 		$data = Yii::app()->cache->get($key);
-		if ($data === false) {
+		if ($data === false || true) {
 			$data = array();
 			
-			$allItems = self::getAll();
+			$allItems = self::getList();
 			$sql = "SELECT tire_section_width_id, rear_tire_section_width_id, COUNT( * ) AS c FROM  `project` WHERE model_id = {$model_id} GROUP BY tire_section_width_id, rear_tire_section_width_id";
 			
 			$rows = Yii::app()->db->createCommand($sql)->queryAll();
