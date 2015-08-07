@@ -369,8 +369,9 @@ class AutoModelYear extends CActiveRecord
 		$criteria->compare('t.chassis_id',$this->chassis_id);						
 		$criteria->compare('t.is_tires',$this->is_tires);			
 		$criteria->compare('t.platform_model_id',$this->platform_model_id);			
-		$criteria->addCondition('vs.model_year_id IS NULL');			
-		$criteria->join = "LEFT JOIN auto_model_year_tire AS vs ON t.id=vs.model_year_id";					
+		$criteria->addCondition("NOT EXISTS(SELECT * FROM auto_model_year_tire AS vs WHERE t.id = vs.model_year_id)");			
+		//$criteria->addCondition('vs.model_year_id IS NULL');			
+		//$criteria->join = "LEFT JOIN auto_model_year_tire AS vs ON t.id=vs.model_year_id";					
 		
 		$criteria->with = array(
 			'Model' => array('together'=>true),
