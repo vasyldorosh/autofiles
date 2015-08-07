@@ -357,6 +357,35 @@ class AutoModelYear extends CActiveRecord
 		));
 	}
 	
+	public function searchEmptyTires()
+	{
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('t.id',$this->id);
+		$criteria->compare('t.year',$this->year, true);
+		$criteria->compare('t.model_id',$this->model_id);
+		$criteria->compare('t.is_deleted',0);
+		$criteria->compare('t.is_active',$this->is_active);			
+		$criteria->compare('t.chassis_id',$this->chassis_id);						
+		$criteria->compare('t.is_tires',$this->is_tires);			
+		$criteria->compare('t.platform_model_id',$this->platform_model_id);			
+		$criteria->addCondition('vs.model_year_id IS NULL');			
+		$criteria->join = "LEFT JOIN auto_model_year_tire AS vs ON t.id=vs.model_year_id";					
+		
+		$criteria->with = array(
+			'Model' => array('together'=>true),
+			'PlatformModel' => array('together'=>true),
+			'PlatformModel.Platform' => array('together'=>true),
+		);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+			'pagination'=>array(
+				'pageSize'=>Yii::app()->request->getParam('pageSize', Yii::app()->params->defaultPerPage),
+			),			
+		));
+	}
+	
 	public function searchEmptyCompetitors()
 	{
 		$criteria=new CDbCriteria;
