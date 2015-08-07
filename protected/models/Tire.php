@@ -693,11 +693,12 @@ class Tire extends CActiveRecord
 		return $data;	
 	}	
 	
-	public static function getYearRangeModel($model_id)
+	public static function getYearRangeModel($model_id, $tire_id)
 	{
 		$model_id = (int) $model_id;
+		$tire_id = (int) $tire_id;
 		
-		$key = Tags::TAG_TIRE . '_getYearRangeModel_' . $model_id;
+		$key = Tags::TAG_TIRE . '_getYearRangeModel_' . $model_id . '_' . $tire_id;
 		$data = Yii::app()->cache->get($key);
 		if ($data === false) {
 			$data = array();
@@ -708,7 +709,7 @@ class Tire extends CActiveRecord
 					FROM auto_model_year_tire AS vs
 					LEFT JOIN auto_model_year AS y ON vs.model_year_id = y.id
 					LEFT JOIN auto_model AS m ON y.model_id = m.id
-					WHERE m.id = {$model_id}
+					WHERE m.id = {$model_id} AND vs.tire_id = {$tire_id}
 				";
 		
 			$data = Yii::app()->db->createCommand($sql)->queryRow();
