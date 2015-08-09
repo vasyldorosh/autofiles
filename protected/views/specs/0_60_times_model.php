@@ -22,10 +22,10 @@
 					<td>
 						<?php $expl = explode('@', $item['specs_horsepower']); $hp = trim($expl[0])?>
 						<?=$item['title']?><?php if (!empty($hp)):?>, <a href="/horsepower/<?=$hp?>/"><?=$hp?> hp</a><?php endif;?><br/>
-						<?php $engine = AutoCompletion::getSpecsOptionTitle(AutoSpecs::SPEC_ENGINE, $item['specs_engine'])?>
-						<?php if (!empty($engine)):?><?=$engine?><?php endif;?>
-						<?php $transmission = AutoCompletion::getSpecsOptionTitle(AutoSpecs::SPEC_TRANSMISSION, $item['specs_transmission'])?>
-						<?php if (!empty($transmission)):?>, <?=$transmission?><?php endif;?>
+						<?php 
+						$engine = AutoCompletion::getSpecsOptionTitle(AutoSpecs::SPEC_ENGINE, $item['specs_engine']);
+						$transmission = AutoCompletion::getSpecsOptionTitle(AutoSpecs::SPEC_TRANSMISSION, $item['specs_transmission'])?>
+						<?php if (!empty($engine)):?><?=$engine?><?php endif;?><?php if (!empty($transmission)):?>, <?=$transmission?><?php endif;?>
 					</td>
 					<td>
 						0-60 times <?=(float)$item['specs_0_60mph__0_100kmh_s_']?> sec
