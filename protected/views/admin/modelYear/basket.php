@@ -83,8 +83,8 @@
 					),					
 				),	
 				array(
-					'name' => 'image_preview',
-					'value' => 'CHtml::link("<img src=\"{$data->image_preview}\">", "#")',
+					'name' => 'preview',
+					'value' => 'CHtml::link("<img src=\"{$data->preview}\">", "#")',
 					'type' => 'raw',
 					'htmlOptions' => array(
 						'width' => 100, 
