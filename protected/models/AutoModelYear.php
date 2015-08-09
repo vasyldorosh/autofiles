@@ -443,12 +443,15 @@ class AutoModelYear extends CActiveRecord
 		return $cache;
 	}	
 	
-	public static function getAllByModel($model_id) 
+	public static function getAllByModel($model_id, $onlyNotDeleted=0) 
 	{
 		$model_id = (int) $model_id;
 		
 		$criteria=new CDbCriteria;
-		$criteria->compare('model_id',$model_id);	
+		$criteria->compare('model_id',$model_id);
+		if ($onlyNotDeleted) {
+			$criteria->compare('is_deleted', 0);
+		}
 		$criteria->order = 'year DESC';	
 	
 		return CHtml::listData(self::model()->findAll($criteria), 'id', 'year');		

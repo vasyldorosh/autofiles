@@ -296,8 +296,9 @@ class ModelYearController extends BackendController
     
 	public function actionGetByModel() {
 		$id = (int)Yii::app()->getRequest()->getParam('id', 0);
+		$onlyNotDeleted = (int)Yii::app()->getRequest()->getParam('onlyNotDeleted', 0);
 		
-		$items = AutoModelYear::getAllByModel($id);
+		$items = AutoModelYear::getAllByModel($id, $onlyNotDeleted);
 		echo json_encode(array('items'=>$items));
 	}
 }
