@@ -2,6 +2,9 @@
 
 class AutoSpecs extends CActiveRecord
 {	
+	const SPEC_ENGINE = 120;
+	const SPEC_TRANSMISSION = 141;
+
 	const CACHE_KEY_LIST = 'AUTO_SPECS_LIST__';
 	const CACHE_KEY_LIST_TYPE = 'AUTO_SPECS_LIST_TYPE_';
 	const CACHE_KEY_LIST_ALIAS = 'AUTO_SPECS_LIST_ALIAS_';

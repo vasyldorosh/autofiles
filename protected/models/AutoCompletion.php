@@ -574,6 +574,36 @@ class AutoCompletion extends CActiveRecord
 		return $data;
 	}
 	
+	public static function getSpecsOptionTitle($specs_id, $option_id)
+	{
+		$options = AutoSpecsOption::getAllBySpecs($specs_id);
+		if (isset($options[$option_id])) {
+			return $options[$option_id];
+		}
+	}
+	
+	public static function getItemSelect($completion_id)
+	{
+		$model_year_id = (int) $model_year_id;
+	
+		$key = Tags::TAG_COMPLETION . '__ITEMS_BY_YEAR_ORDER_TIME__' . $model_year_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data === false) {	
+			$items = self::getItemsByYear($model_year_id);
+			$data = array();
+			foreach ($items as $item) {
+				if ((float)$item['specs_0_60mph__0_100kmh_s_'] == 0) {continue;}
+				$data[] = $item;
+			}
+			
+			usort ($data, "cmpCompletionTimes");			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_COMPLETION));
+		}
+	
+		return $data;
+	}
+	
 	public static function getHighHorsepower()
 	{
 		$key = Tags::TAG_COMPLETION . '__getHighHorsepower__';
