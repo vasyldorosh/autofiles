@@ -23,9 +23,9 @@
 						<?php $expl = explode('@', $item['specs_horsepower']); $hp = trim($expl[0])?>
 						<?=$item['title']?><?php if (!empty($hp)):?>, <a href="/horsepower/<?=$hp?>/"><?=$hp?> hp</a><?php endif;?><br/>
 						<?php 
-						$engine = AutoCompletion::getSpecsOptionTitle(AutoSpecs::SPEC_ENGINE, $item['specs_engine']);
+						$engine = trim(AutoCompletion::getSpecsOptionTitle(AutoSpecs::SPEC_ENGINE, $item['specs_engine']));
 						$transmission = AutoCompletion::getSpecsOptionTitle(AutoSpecs::SPEC_TRANSMISSION, $item['specs_transmission'])?>
-						<?php if (!empty($engine)):?><?=str_replace('Electric Motor', '', $engine)?><?php endif;?><?php if (!empty($transmission)):?>, <?=$transmission?><?php endif;?>
+						<?php if (!empty($engine)):?><?=($engine!='Electric Motor')?str_replace('Hybrid Electric Motor', '', $engine):$engine?><?php endif;?><?php if (!empty($transmission)):?>, <?=$transmission?><?php endif;?>
 					</td>
 					<td>
 						0-60 times <?=(float)$item['specs_0_60mph__0_100kmh_s_']?> sec
