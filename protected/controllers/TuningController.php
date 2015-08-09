@@ -20,11 +20,13 @@ class TuningController extends Controller
 		}
  	
 		$projects = Project::getFastest(10);
+		$newProjects = Project::getNew(30);
 		//d($projects);	
 			
 		$this->render('index', array(
 			'makes' 	=> $makes,
 			'projects' 	=> $projects,
+			'newProjects' 	=> $newProjects,
 		));
 	}
 	

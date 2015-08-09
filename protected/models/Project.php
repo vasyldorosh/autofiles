@@ -213,6 +213,76 @@ class Project extends CActiveRecord
 		return $data;		
 	}	
 	
+	public static function getNew($limit=30)
+	{
+		$key = Tags::TAG_PROJECT . '_getNew_' . $limit;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data === false) {
+			$sql = "SELECT 
+						p.id AS id,
+						p.view_count AS view_count,
+						p.wheel_manufacturer AS wheel_manufacturer,
+						p.wheel_model AS wheel_model,
+						rd.value AS rim_diameter,
+						rw.value AS rim_width,
+						ror.value AS rim_offset_range,
+						p.is_staggered_wheels AS is_staggered_wheels,
+						r_rd.value AS rear_rim_diameter,
+						r_rw.value AS rear_rim_width,
+						r_ror.value AS rear_rim_offset_range,						
+						tsw.value AS tire_section_width,						
+						tar.value AS tire_aspect_ratio,						
+						p.is_staggered_tires AS is_staggered_tires,
+						r_tsw.value AS rear_tire_section_width,						
+						r_tar.value AS rear_tire_aspect_ratio,						
+						tvc.code AS tire_vehicle_class,						
+						r_tvc.code AS rear_tire_vehicle_class,						
+						y.year AS year,
+						y.id AS year_id,
+						m.title AS model_title,
+						m.alias AS model_alias,
+						k.title AS make_title,
+						k.alias AS make_alias
+					FROM project AS p
+					LEFT JOIN auto_model_year AS y ON p.model_year_id = y.id
+					LEFT JOIN auto_model AS m ON y.model_id = m.id
+					LEFT JOIN auto_make AS k ON m.make_id = k.id
+					LEFT JOIN tire_rim_diameter AS rd ON p.rim_diameter_id = rd.id
+					LEFT JOIN rim_width AS rw ON p.rim_width_id = rw.id
+					LEFT JOIN rim_offset_range AS ror ON p.rim_offset_range_id = ror.id
+					LEFT JOIN tire_rim_diameter AS r_rd ON p.rear_rim_diameter_id = r_rd.id
+					LEFT JOIN rim_width AS r_rw ON p.rear_rim_width_id = r_rw.id
+					LEFT JOIN rim_offset_range AS r_ror ON p.rear_rim_offset_range_id = r_ror.id
+					LEFT JOIN tire_section_width AS tsw ON p.tire_section_width_id = tsw.id
+					LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
+					LEFT JOIN tire_section_width AS r_tsw ON p.rear_tire_section_width_id = r_tsw.id
+					LEFT JOIN tire_aspect_ratio AS r_tar ON p.rear_tire_aspect_ratio_id = r_tar.id
+					LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
+					LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id
+					WHERE 
+						m.is_active = 1 AND
+						m.is_deleted = 0 AND
+						k.is_active = 1 AND
+						k.is_deleted = 0 AND p.is_active = 1									
+					ORDER BY p.id DESC
+					LIMIT {$limit}";
+	
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();
+			
+			$data = array();
+
+			foreach ($rows as $row) {
+				$row['photo'] = Project::thumb($row['id'], 120, null, 'resize');
+				$data[] = $row;
+			}
+			
+			Yii::app()->cache->set($key, $data, 60*15, new Tags(Tags::TAG_PROJECT, Tags::TAG_MAKE, Tags::TAG_MODEL));
+		}
+		
+		return $data;		
+	}	
+	
 	public static function getById($make_id, $model_id, $id)
 	{
 		$id		= (int) $id;
