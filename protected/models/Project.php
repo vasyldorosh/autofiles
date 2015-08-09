@@ -299,6 +299,15 @@ class Project extends CActiveRecord
 		return $image;
 	}
 	
+	public function beforeSave()
+	{	
+		if ($this->isNewRecord) {
+			$this->create_time = time();
+		}
+		
+		return parent::afterSave();
+	}
+
 	public function afterSave()
 	{	
 		$this->_clearCache();

@@ -104,8 +104,11 @@ body {
 					array('label' => Yii::t('admin', 'Roles'), 'url' => Yii::app()->createUrl('admin/role'), 'visible'=>Access::is('role')),
 				)),	
 				array('label' => Yii::t('admin', 'Body Style'), 'url' => Yii::app()->createUrl('admin/bodyStyle'), 'visible'=>(Access::is('bodyStyle'))),
-				array('label' => Yii::t('admin', 'Projects'), 'url' => Yii::app()->createUrl('admin/project'), 'visible'=>(Access::is('project'))),
-				
+
+				array('label' => Yii::t('admin', 'Projects'), 'visible'=>(Access::is('project')), 'items' => array(
+					array('label' => Yii::t('admin', 'Project'), 'url' => Yii::app()->createUrl('admin/project'), 'visible'=>(Access::is('project'))),
+					array('label' => Yii::t('admin', 'Statistic'), 'url' => Yii::app()->createUrl('admin/project/stat'), 'visible'=>Access::is('project')),
+				)),	
 				
 				array('label' => Yii::t('admin', 'Makes'), 'visible'=>(Access::is('make')), 'items' => array(
 					array('label' => Yii::t('admin', 'Makes'), 'url' => Yii::app()->createUrl('admin/make'), 'visible'=>(Access::is('make'))),
