@@ -241,7 +241,7 @@
 		
 		$this->widget('bootstrap.widgets.TbExtendedGridView', array(
             'dataProvider' => $model->searchEmptyTires(),
-			'ajaxUrl'=> $this->createUrl('/admin/modelYear/index'),
+			'ajaxUrl'=> $this->createUrl('/admin/modelYear/emptyTires'),
             'filter' => $model,
             'type' => 'striped bordered condensed',
             'columns' => $columns,
