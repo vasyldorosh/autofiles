@@ -27,7 +27,7 @@
 			<h2 class="section-name_2 mb30">Most popular projects</h2>
 			<ul class="make__vehicle">
 			<?php foreach ($projects as $project):?>  
-				<?php $this->renderPartial('application.view.tuning._item', array('project'=>$project));?>
+				<?php $this->renderPartial('application.views.tuning._item', array('project'=>$project));?>
 			<?php endforeach;?>
 			</ul>
 			
@@ -45,7 +45,7 @@
 			<h2 class="section-name_2 mb30">New car builds</h2>
 			<ul class="make__vehicle">
 			<?php foreach ($newProjects as $project):?>  
-				<?php $this->renderPartial('application.view.tuning._item', array('project'=>$project));?>
+				<?php $this->renderPartial('application.views.tuning._item', array('project'=>$project));?>
 			<?php endforeach;?>
 			</ul>
 			
