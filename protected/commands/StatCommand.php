@@ -4,7 +4,7 @@ class StatCommand extends CConsoleCommand
 
 	public function init() 
 	{
-		date_default_timezone_set("Ukraine/Kiev");
+		date_default_timezone_set("GMT+3");
 		ini_set('max_execution_time', 3600*12);
 		return parent::init();
 	}
