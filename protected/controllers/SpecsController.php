@@ -80,7 +80,9 @@ class SpecsController extends Controller
 		$lastModelYear = AutoModel::getLastYear($model['id']);
 		$models = AutoCompletion::getAccelerationAcrossYears($model['id']);	
 		$competitors = AutoCompletion::getCompetitorsAcceleration($model['id']);
-		$completionsTime = AutoCompletion::getItemsByYearOrderTime($lastModelYear['id']);		
+		$completionsTime = AutoCompletion::getItemsByYearOrderTime($lastModelYear['id']);	
+		if (isset($_GET['t']))
+			d($completionsTime);
 		$completionsCarsWithSame060Time = AutoCompletion::getCarsWithSame060Time($model['id'], $lastModelYear);		
 		//d($competitors);	
 			
