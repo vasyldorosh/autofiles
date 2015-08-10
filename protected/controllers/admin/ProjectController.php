@@ -71,8 +71,6 @@ class ProjectController extends BackendController
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Project successfully added'));
 				$this->afterSaveRedirect($model);
-			} else {
-				d($model->errors);
 			}
         }		
 
