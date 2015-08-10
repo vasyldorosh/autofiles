@@ -355,8 +355,8 @@ display: none; }
 .table-container table { min-width: 100%; margin-top: 15px; }
 .table-container table tr:nth-child(odd) { background: whitesmoke; }
 .table-container table td { padding: 9px; }
-.table-container table td:first-child { padding-left: 5px; width: 32.24138%; }
-.table-container table td:last-child { padding-right: 3.44%; width: 34.71264%; }
+.table-container table td:first-child { padding-left: 5px; width: 42%; }
+.table-container table td:last-child { padding-right: 3.44%; width: 33%; }
 
 .banner-ver { margin-top: 15px; margin-bottom: 10px; font-size: 0; text-align: left; }
 .banner-ver img { max-width: 100%; }

@@ -2,7 +2,7 @@
 	<div class="l-col1">
 		<!-- section 1 -->
 		<section class="times clearfix">
-			<h2 class="section-name pb18"><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> tires</h2>
+			<h2 class="section-name_2 pb18"><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> tire sizes</h2>
 			<div class="google_links f_left p_rel">
 				<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
 			</div>
@@ -13,10 +13,6 @@
 		
 		<?php if (!empty($tires)):?>
 		<section class="product_photo_box make">
-			<h2 class="section-name_2">All tire sizes for <?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?></h2>
-			<a href="http://www.anrdoezrs.net/fi116ox52x4KSSUSNTRKMLPOROQPKMPMNRNPNLPLLL" target="_top">
-<img src="http://www.awltovhc.com/7i117r6Az42OWWYWRXVOQPTSVSUTOQTQRVRTRPTPPP" alt="TIRERACK.com - Revolutionizing Tire Buying" border="0"/></a>
-			
 			<?php 
 				$vc=array(); 
 				foreach ($tires as $tire) {

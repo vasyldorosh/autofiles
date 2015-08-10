@@ -17,21 +17,22 @@
 		<section class="table-container">
 			<h2 class="section-name_2"><?=$lastModelYear['year']?> <?=$make['title']?> <?=$model['title']?> 0-60 times, all trims</h2>
 			<table>
+                                <tr><td><b>Trim, HP, Engine, Transmission</b></td><td><b>0-60 times</b></td><td><b>1/4 mile times</b></td></tr>
 			<?php foreach ($completionsTime as $item):?>
 				<tr>
 					<td>
 						<?php $expl = explode('@', $item['specs_horsepower']); $hp = trim($expl[0])?>
 						<?=$item['title']?><?php if (!empty($hp)):?>, <a href="/horsepower/<?=$hp?>/"><?=$hp?> hp</a><?php endif;?><br/>
-						<?php 
+						<small><?php 
 						$engine = trim(AutoCompletion::getSpecsOptionTitle(AutoSpecs::SPEC_ENGINE, $item['specs_engine']));
 						$transmission = AutoCompletion::getSpecsOptionTitle(AutoSpecs::SPEC_TRANSMISSION, $item['specs_transmission'])?>
-						<?php if (!empty($engine)):?><?=($engine!='Hybrid Electric Motor')?str_replace('Electric Motor', '', $engine):$engine?><?php endif;?><?php if (!empty($transmission)):?>, <?=$transmission?><?php endif;?>
+						<?php if (!empty($engine)):?><?=($engine!='Hybrid Electric Motor')?str_replace('Electric Motor', '', $engine):$engine?><?php endif;?><?php if (!empty($transmission)):?>, <?=$transmission?><?php endif;?></small>
 					</td>
 					<td>
-						0-60 times <?=(float)$item['specs_0_60mph__0_100kmh_s_']?> sec
+						<?=(float)$item['specs_0_60mph__0_100kmh_s_']?> sec
 					</td>
 					<td>	
-						1/4 mile <?=(float)$item['specs_1_4_mile_time']?> @ <?=(float)$item['specs_1_4_mile_speed']?> mph
+						<?=(float)$item['specs_1_4_mile_time']?> @ <?=(float)$item['specs_1_4_mile_speed']?> mph
 					</td>					
 				</tr>
 			<?php endforeach;?>

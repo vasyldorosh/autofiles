@@ -39,7 +39,7 @@
 									</select>
 								</div>
 								<div class="options__item">
-									<strong>Tire Section Width</strong>
+									<strong>Tire</strong>
 									<select name="filter[tire_section_width_id]">
 										<option value="">-no select-</option>
 										<?php foreach(TireSectionWidth::getListByModelProject($model['id']) as $k=>$v):?>
