@@ -375,7 +375,7 @@ class Project extends CActiveRecord
 			$this->create_time = time();
 		}
 		
-		return parent::afterSave();
+		return parent::beforeSave();
 	}
 
 	public function afterSave()
