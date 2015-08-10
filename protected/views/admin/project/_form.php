@@ -50,7 +50,7 @@
 
 <script>
 <?=HtmlHelper::select($model, 'make_id', 'model_id', '/admin/model/getByMake', '$("#Project_model_year_id").empty()')?>
-<?=HtmlHelper::select($model, 'model_id', 'model_year_id', '/admin/modelYear/getByModel&onlyNotDeleted=1')?>
+<?=HtmlHelper::select($model, 'model_id', 'model_year_id', '/admin/modelYear/getByModel?onlyNotDeleted=1')?>
 
 $('#Project_is_staggered_wheels').change(function(){
 	toogleCheckbox('is_staggered_wheels', $(this).is(':checked'));
