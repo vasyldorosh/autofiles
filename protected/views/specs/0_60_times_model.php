@@ -26,7 +26,7 @@
 						<small><?php 
 						$engine = trim(AutoCompletion::getSpecsOptionTitle(AutoSpecs::SPEC_ENGINE, $item['specs_engine']));
 						$transmission = AutoCompletion::getSpecsOptionTitle(AutoSpecs::SPEC_TRANSMISSION, $item['specs_transmission'])?>
-						<?php if (!empty($engine)):?><?=($engine!='Hybrid Electric Motor')?str_replace('Electric Motor', '', $engine):$engine?><?php endif;?><?php if (!empty($transmission)):?>, <?=$transmission?><?php endif;?></small>
+						<?=!empty($item['specs_turbocharger'])?'turbo, ':''?><?php if (!empty($engine)):?><?=($engine!='Hybrid Electric Motor')?str_replace('Electric Motor', '', $engine):$engine?><?php endif;?><?php if (!empty($transmission)):?>, <?=str_replace('w/OD', '', $transmission)?><?php endif;?></small>
 					</td>
 					<td>
 						<?=(float)$item['specs_0_60mph__0_100kmh_s_']?> sec
@@ -133,6 +133,10 @@
 		<?php $this->renderPartial('application.views.site._reviews', array(
 			'items' => ReviewVsModelYear::getTextModel(ReviewVsModelYear::MARKER_060, $model['id']),
 		)); ?>		
+		
+		<section class="seo-text">
+			<?=$descriptionFooter?>
+		</section>		
 		
 	</div>
 	<div class="l-col2">

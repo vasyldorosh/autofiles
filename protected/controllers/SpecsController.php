@@ -102,6 +102,7 @@ class SpecsController extends Controller
 			'competitors' => $competitors,
 			'completionsTime' => $completionsTime,
 			'description' => str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('0_60_times_model_description')),
+			'descriptionFooter' => str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('0_60_times_footer_seo_text')),
 		));
 	}
 	

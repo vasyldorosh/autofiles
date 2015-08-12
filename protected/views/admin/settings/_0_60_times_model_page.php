@@ -28,3 +28,10 @@
 	</div>
 </div>
 
+<div class="control-group ">
+	<label class="control-label required" for="Config_0_60_times_footer_seo_text"><?=Yii::t('admin', 'Footer seo text')?></label>
+	<div class="controls">
+		<?php echo CHtml::textArea('Config[0_60_times_footer_seo_text]',isset($values['0_60_times_footer_seo_text']) ? $values['0_60_times_footer_seo_text'] : '', array('class'=>'span6'));?>
+	</div>
+</div>
+

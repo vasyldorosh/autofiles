@@ -288,12 +288,13 @@ class Project extends CActiveRecord
 		$id		= (int) $id;
 		$make_id= (int) $make_id;
 		$model_id= (int) $model_id;
-		$key 	= Tags::TAG_PROJECT . '__getById_' . $make_id . '_' . $model_id . '_'. $id;
+		$key 	= Tags::TAG_PROJECT . '_etById_' . $make_id . '_' . $model_id . '_'. $id;
 		$data 	= Yii::app()->cache->get($key);
 		
 		if ($data === false) {
 			$sql = "SELECT 
 						p.id AS id,
+						p.source AS source,
 						p.view_count AS view_count,
 						p.description AS description,
 						p.tire_model AS tire_model,
