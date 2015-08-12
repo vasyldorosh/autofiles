@@ -197,9 +197,7 @@
 		<?php if (!empty($project['description']) || !empty($project['source'])):?>
 			<section class="times clearfix">
 			<h2 class="section-name_2">Details</h2>
-				<?php if (!empty($project['description'])):?>
-					<?=$project['description']?>
-				<?php endif;?>
+				<?=$project['description']?>
 				
 				<?php if (!empty($project['source'])):?>
 					<a href="<?=$project['source']?>" target="_blank" rel="nofollow">Source</a>

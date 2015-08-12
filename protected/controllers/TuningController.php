@@ -387,11 +387,7 @@ class TuningController extends Controller
 		if (!empty($nextProject)) {
 			$nextProject['photo'] = Project::thumb($nextProject['id'], 300, 200, 'resize');
 		}
-		
-		if (isset($_GET['t'])) {
-			d($project);
-		}
-		
+
 		$this->render('project', array(
 			'project' 		=> $project,
 			'make' 			=> $make,
