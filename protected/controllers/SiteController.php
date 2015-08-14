@@ -389,7 +389,7 @@ ORDER BY c DESC")->queryAll();
 			foreach ($rows as $row) {
 				$key .= '_' . $row['tire_id'];
 			}
-			$data[$key] = $modelYear->id;
+			$data[$key][] = $modelYear->id;
 		
 		}
 		d($data);
