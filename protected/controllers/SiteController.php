@@ -412,7 +412,7 @@ ORDER BY c DESC")->queryAll();
 				foreach ($years as $k=>$year) {
 					if (isset($years[$k+1])) {
 						if (($years[$k+1]-$years[$k]) > 1) {
-							for ($i=$years[$k]+1;$i<=($years[$k+1]-$years[$k]);$i++) {
+							for ($i=($year+1);$i<$years[$k+1];$i++) {
 								$searchData[$model_id][] = $i;							
 							}
 						}
