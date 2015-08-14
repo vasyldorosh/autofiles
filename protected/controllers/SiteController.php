@@ -393,7 +393,7 @@ ORDER BY c DESC")->queryAll();
 				$key .= '_' . $row['tire_id'];
 			}
 			if ($key!= '')
-				$data[$modelYear->model_id][$key][] = $modelYear->year;
+				$data[$modelYear->model_id][$key][] = (int)$modelYear->year;
 			
 			$dataModeYear[$modelYear->model_id][$modelYear->year] = $modelYear->id;
 		}
