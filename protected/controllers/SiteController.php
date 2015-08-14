@@ -380,8 +380,10 @@ ORDER BY c DESC")->queryAll();
 		
 		$criteria = new CDbCriteria;		
 		$criteria->with = array('Model', 'Model.Make');
+		$criteria->index = 'id';
 		$modelYears = AutoModelYear::model()->findAll($criteria);
 		$data = array();
+		$dataModeYear = array();
 		foreach ($modelYears as $modelYear) {
 			$sql = "SELECT tire_id FROM  auto_model_year_tire WHERE model_year_id = {$modelYear->id} ORDER BY tire_id";
 			$rows = Yii::app()->db->createCommand($sql)->queryAll();
@@ -391,7 +393,8 @@ ORDER BY c DESC")->queryAll();
 				$key .= '_' . $row['tire_id'];
 			}
 			$data[$modelYear->model_id][$key][] = $modelYear->year;
-		
+			
+			$dataModeYear[$modelYear->model_id][$modelYear->year] = $modelYear->id;
 		}
 		
 		foreach ($data as $model_id=>$tires) {
@@ -401,6 +404,19 @@ ORDER BY c DESC")->queryAll();
 			}			
 		}
 		
-		d($data);
+		$searchData = array();
+		foreach ($data as $model_id=>$tires) {
+			foreach ($tires as $tire_key=>$years) {
+				foreach ($years as $k=>$year) {
+					if (isset($years[$k+1])) {
+						if (($years[$k+1]-$years[$k]) > 1) {
+							$searchData[$model_id][] $years[$k]+1;
+						}
+					}
+				}
+			}			
+		}
+		
+		d($searchData);
 	}
 }
