@@ -386,10 +386,11 @@ ORDER BY c DESC")->queryAll();
 			$sql = "SELECT tire_id FROM  auto_model_year_tire WHERE model_year_id = {$modelYear->id}";
 			$rows = Yii::app()->db->createCommand($sql)->queryAll();
 			$key = $modelYear->model_id . '_';
+			$key = '';
 			foreach ($rows as $row) {
 				$key .= '_' . $row['tire_id'];
 			}
-			$data[$key][] = $modelYear->year;
+			$data[$modelYear->model_id][$key][] = $modelYear->year;
 		
 		}
 		d($data);
