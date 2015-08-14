@@ -404,6 +404,8 @@ ORDER BY c DESC")->queryAll();
 			}			
 		}
 		
+		d($data,0);
+		
 		$searchData = array();
 		foreach ($data as $model_id=>$tires) {
 			foreach ($tires as $tire_key=>$years) {
