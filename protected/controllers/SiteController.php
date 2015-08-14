@@ -430,9 +430,11 @@ ORDER BY c DESC")->queryAll();
 		//d($searchData);
 		
 		foreach ($searchData as $model_id=>$year) {
-			$modelYear = $dataModeYear[$model_id][$year];
-			echo $modelYear->Model->Make->title . ' ' . $modelYear->Model->title . ' ' . $modelYear->year;
-			echo "<br/>";
+			if (isset($dataModeYear[$model_id][$year])) {
+				$modelYear = $dataModeYear[$model_id][$year];
+				echo $modelYear->Model->Make->title . ' ' . $modelYear->Model->title . ' ' . $modelYear->year;
+				echo "<br/>";
+			}
 		}
 	}
 }
