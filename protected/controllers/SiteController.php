@@ -411,7 +411,7 @@ ORDER BY c DESC")->queryAll();
 			foreach ($tires as $tire_key=>$years) {
 				
 				if (count($years) == 1) {
-					$searchData[$model_id][] = $years[$k];
+					$searchData[$model_id][] = $years[0];
 					continue;
 				}
 				
