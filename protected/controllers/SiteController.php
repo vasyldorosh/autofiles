@@ -403,16 +403,14 @@ ORDER BY c DESC")->queryAll();
 				$data[$model_id][$tire_key] = $years;
 			}			
 		}
-		
-		d($data,0);
-		
+
 		$searchData = array();
 		foreach ($data as $model_id=>$tires) {
 			foreach ($tires as $tire_key=>$years) {
 				foreach ($years as $k=>$year) {
 					if (isset($years[$k+1])) {
 						if (($years[$k+1]-$years[$k]) > 1) {
-							$searchData[$model_id][] $years[$k]+1;
+							$searchData[$model_id][] = $years[$k]+1;
 						}
 					}
 				}
