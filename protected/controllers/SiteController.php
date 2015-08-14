@@ -192,138 +192,6 @@ class SiteController extends Controller
 		}
 	}	
 		
-	/*	
-	public function actionT()
-	{
-		ini_set('max_execution_time', 3600*12);
-		$limit = 1000;
-		for ($offset = 0; $offset <= 30000; $offset+=$limit) {
-	
-			$criteria=new CDbCriteria;
-			$criteria->limit = $limit;		
-			$criteria->offset = $offset;		
-			$items = AutoCompletion::model()->findAll($criteria);
-			if (empty($items)) {
-				die();
-			}
-			
-			foreach ($items as $item) {
-			
-				$sql = "UPDATE  auto_completion SET specs_0_60mph__0_100kmh_s_ =  '{$item->specs_0_60mph__0_100kmh_s_}', specs_1_4_mile_time =  '{$item->specs_1_4_mile_time}' WHERE  id={$item->id};<br/>";
-				echo $sql;
-			}
-		}
-	}
-	*/
-	
-	/*
-	public function actionPhoto()
-	{
-		$dir = Yii::getPathOfAlias('webroot') . '/photos/model_year_item/';
-		$list = scandir($dir);
-		foreach ($list as $file) {
-			if (is_file($dir.$file)) {
-				$image_info = getimagesize($dir.$file);
-				if (!is_array($image_info) OR count($image_info) < 3) {
-					echo $file . '<br/>';
-					unlink($dir.$file);
-				}
-			}
-		}	
-	}
-	*/
-	
-	public function actionTire()
-	{
-		Tire::model()->deleteAll();
-		$data = array();
-		$limit = 100;
-		$count = AutoCompletion::model()->count();
-		
-		
-		for ($offset = 0; $offset <= $count; $offset+=$limit) {
-			
-			$sql = "SELECT specs_front_tires AS tire, id, model_year_id FROM  `auto_completion` LIMIT $offset, $limit";
-			$rows = Yii::app()->db->createCommand($sql)->queryAll();
-			foreach ($rows as $row) {
-			
-				$tireTitle = trim($row['tire']);
-
-				if (!isset($data[$tireTitle])) {
-			
-					preg_match_all('/([A-Z].*?)([0-9].*?)\/([0-9].*?)([A-Z].*?)R([0-9]{1,2}.*?)/', $tireTitle, $match);
-						
-					$attributes = array();
-						
-					$noMatch = true;						
-					foreach ($match as $m) {
-						if (empty($m)) {
-							$noMatch = false;
-						}
-					}
-					
-					if (!$noMatch) {
-						preg_match_all('/([A-Z].*?)([0-9].*?)\/([A-Z].*?)R([0-9]{1,2}.*?)/', $tireTitle, $match);
-						$attributes = array(
-							'vehicle_class' => $match[1][0],
-							'section_width' => $match[2][0],
-							'rim_diameter' => $match[4][0],
-							'aspect_ratio_id' => null,
-						);
-					} else {
-						//d($match, 0);
-						$attributes = array(
-							'vehicle_class' => $match[1][0],
-							'section_width' => $match[2][0],
-							'aspect_ratio' => $match[3][0],
-							'rim_diameter' => $match[5][0],
-						);				
-					}
-							
-					$tireAttr = array();
-					
-					if (strpos($row['tire'], 'flat')) {
-						$tireAttr['is_runflat'] = 1;
-					}
-					
-					$tireAttr['vehicle_class_id'] = $this->_getModelId('TireVehicleClass', array('code'=>$attributes['vehicle_class']));
-					$tireAttr['section_width_id'] = $this->_getModelId('TireSectionWidth', array('value'=>$attributes['section_width']));
-					if (isset($attributes['aspect_ratio']))
-						$tireAttr['aspect_ratio_id'] = $this->_getModelId('TireAspectRatio', array('value'=>$attributes['aspect_ratio']));
-					
-					$tireAttr['rim_diameter_id'] = $this->_getModelId('TireRimDiameter', array('value'=>$attributes['rim_diameter']));
-					
-					$data[$tireTitle] = $this->_getModelId('Tire', $tireAttr);
-				}
-				
-				$criteria=new CDbCriteria;
-				$criteria->compare('model_year_id', $row['model_year_id']);		
-				$criteria->compare('tire_id', $data[$tireTitle]);		
-				$modelYearVsTire = AutoModelYearTire::model()->find($criteria);
-				if (empty($modelYearVsTire)) {
-					$modelYearVsTire = new AutoModelYearTire;
-					$modelYearVsTire->model_year_id = $row['model_year_id'];
-					$modelYearVsTire->tire_id = $data[$tireTitle];
-					$modelYearVsTire->save();
-				}
-				
-				//save model_year_tire
-				
-				echo $row['id'] . ' ' . $tireTitle .  '<br/>';
-			}
-		}
-		
-		$modelYears = AutoModelYear::model()->findAll();
-		foreach ($modelYears as $modelYear) {
-			$criteria=new CDbCriteria;
-			$criteria->compare('model_year_id', $modelYear->id);		
-			$count = AutoModelYearTire::model()->count($criteria);	
-		    $modelYear->is_tires = $count?1:0;
-		    $modelYear->save(false);
-		}
-		
-	}
-	
 	private function _getModelId($modelName, $attributes) {
 
 		$criteria=new CDbCriteria;
@@ -504,5 +372,26 @@ ORDER BY c DESC")->queryAll();
 				}
 			}
 		}
+	}
+	
+	public function actionT()
+	{
+		ini_set('max_execution_time', 1000);
+		
+		$criteria = new CDbCriteria;		
+		$criteria->with = array('Model', 'Model.Make');
+		$modelYears = AutoModelYear::model()->findAll($criteria);
+		$data = array();
+		foreach ($modelYears as $modelYear) {
+			$sql = "SELECT tire_id FROM  auto_model_year_tire WHERE model_year_id = {$modelYear->id}";
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();
+			$key = $modelYear->model_id . '_';
+			foreach ($rows as $row) {
+				$key .= '_' . $row['tire_id'];
+			}
+			$data[$key] = $modelYear->id;
+		
+		}
+		d($data);
 	}
 }
