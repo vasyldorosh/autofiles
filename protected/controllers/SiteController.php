@@ -395,7 +395,7 @@ ORDER BY c DESC")->queryAll();
 			if ($key!= '')
 				$data[$modelYear->model_id][$key][] = (int)$modelYear->year;
 			
-			$dataModeYear[$modelYear->model_id][$modelYear->year] = $modelYear->id;
+			$dataModeYear[$modelYear->model_id][$modelYear->year] = $modelYear;
 		}
 		
 		foreach ($data as $model_id=>$tires) {
@@ -427,6 +427,12 @@ ORDER BY c DESC")->queryAll();
 			}			
 		}
 		
-		d($searchData);
+		//d($searchData);
+		
+		foreach ($searchData as $model_id=>$year) {
+			$modelYear = $dataModeYear[$model_id][$year];
+			echo $modelYear->Model->Make->title . ' ' . $modelYear->Model->title . ' ' . $modelYear->year;
+			echo "<br/>";
+		}
 	}
 }
