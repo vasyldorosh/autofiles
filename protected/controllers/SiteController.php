@@ -392,7 +392,8 @@ ORDER BY c DESC")->queryAll();
 			foreach ($rows as $row) {
 				$key .= '_' . $row['tire_id'];
 			}
-			$data[$modelYear->model_id][$key][] = $modelYear->year;
+			if ($key!= '')
+				$data[$modelYear->model_id][$key][] = $modelYear->year;
 			
 			$dataModeYear[$modelYear->model_id][$modelYear->year] = $modelYear->id;
 		}
