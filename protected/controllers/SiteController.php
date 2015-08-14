@@ -398,9 +398,11 @@ ORDER BY c DESC")->queryAll();
 			$dataModeYear[$modelYear->model_id][$modelYear->year] = $modelYear->id;
 		}
 		
+		d($data);
+		
 		foreach ($data as $model_id=>$tires) {
 			foreach ($tires as $tire_key=>$years) {
-				asort($years);
+				sort($years);
 				$data[$model_id][$tire_key] = $years;
 			}			
 		}
