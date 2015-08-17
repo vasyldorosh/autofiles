@@ -85,7 +85,7 @@ class TuningController extends Controller
 		
 		$filter = Yii::app()->request->getParam('filter');
 		$offset = (int)Yii::app()->request->getParam('offset');
-		$limit	= 20;
+		$limit	= 50;
 		
 		$key    	= Tags::TAG_PROJECT . '__list_' . $model['id'] . '_' . $limit;
 		$projects   = Yii::app()->cache->get($key);

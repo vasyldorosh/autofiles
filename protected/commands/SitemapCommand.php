@@ -13,7 +13,7 @@ class SitemapCommand extends CConsoleCommand
 	
 	public function actionRun()
 	{
-		$limit = (int)SiteConfig::getInstance()->getValue('count_items_in_file');	
+		$limit = 10000; //(int)SiteConfig::getInstance()->getValue('count_items_in_file');	
 
 		if ($limit <= 1) $limit = 1000;
 		
