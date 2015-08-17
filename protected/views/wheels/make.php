@@ -31,16 +31,25 @@
 					<?php 
 						$rwd_to = array();
 						$rwd_from = array();
+						$or = array();
+						
 						if (!empty($dataWheels['trd_min'])) { $rwd_from[] = $dataWheels['trd_min'];}
 						if (!empty($dataWheels['trw_min'])) { $rwd_from[] = $dataWheels['trw_min'];}
+						
 						if (!empty($dataWheels['trd_max'])) { $rwd_to[] = $dataWheels['trd_max'];}
 						if (!empty($dataWheels['trw_max'])) { $rwd_to[] = $dataWheels['trw_max'];}
+						
+						if (!empty($dataWheels['or_min'])) { $or[] = $dataWheels['or_min'];}
+						if (!empty($dataWheels['or_max'])) { $or[] = $dataWheels['or_max'];}
 					?>	
 					<?php if (!empty($rwd_from) || !empty($rwd_to)):?>	
 						<li>Stock rim width <?=implode('x', $rwd_from)?><?php if(!empty($rwd_to) && $rwd_to!==$rwd_from):?><?=(!empty($rwd_from) && !empty($rwd_to))?' &ndash; ':''?><?=implode('x', $rwd_to)?><?php endif;?></li>
 					<?php endif;?>	
-						<li>Offset range 40 &ndash; 50</li>
+					
+					<?php if (!empty($or)):?>
+						<li>Offset range <?=implode(' &ndash; ', $or)?></li>
 					</ul>
+					<?php endif;?>
 					<ul class="make__vehicle-specs">
 						<li>Custom rim width 17x7.5 &ndash; 20x10.0</li>
 						<li>Offset range 20 &ndash; 45</li>
