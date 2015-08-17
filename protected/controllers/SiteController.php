@@ -465,8 +465,10 @@ ORDER BY c DESC")->queryAll();
 			
 			$k = implode('_', $k);
 			
-			$data[$modelYear->model_id][$k][] = (int)$modelYear->year;
-			$dataModeYear[$modelYear->model_id][$modelYear->year] = $modelYear;
+			if ($k!='0_0_0_0_0_0_0_0_0') {
+				$data[$modelYear->model_id][$k][] = (int)$modelYear->year;
+				$dataModeYear[$modelYear->model_id][$modelYear->year] = $modelYear;
+			}
 		}
 		
 		foreach ($data as $model_id=>$tires) {
