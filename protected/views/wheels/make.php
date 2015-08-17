@@ -43,12 +43,12 @@
 						
 						if (!empty($dataWheels['or_min'])) { $or[] = $dataWheels['or_min'];}
 						if (!empty($dataWheels['or_max'])) { $or[] = $dataWheels['or_max'];}
+
+						if (!empty($dataWheels['p_rd_min'])) { $p_rwd_from[] = $dataWheels['p_rd_min'];}
+						if (!empty($dataWheels['p_rw_min'])) { $p_rwd_from[] = $dataWheels['p_rw_min'];}
 						
-						if (!empty($dataWheels['p_rd_min'])) { $p_rwd_to[] = $dataWheels['p_rd_min'];}
-						if (!empty($dataWheels['p_rw_min'])) { $p_rwd_to[] = $dataWheels['p_rw_min'];}
-						
-						if (!empty($dataWheels['p_rd_max'])) { $p_rwd_from[] = $dataWheels['p_rd_max'];}
-						if (!empty($dataWheels['p_rw_max'])) { $p_rwd_from[] = $dataWheels['p_rw_max'];}
+						if (!empty($dataWheels['p_rd_max'])) { $p_rwd_to[] = $dataWheels['p_rd_max'];}
+						if (!empty($dataWheels['p_rw_max'])) { $p_rwd_to[] = $dataWheels['p_rw_max'];}
 						
 						if (!empty($dataWheels['p_or_min'])) { $p_or[] = $dataWheels['p_or_min'];}
 						if (!empty($dataWheels['p_or_max'])) { $p_or[] = $dataWheels['p_or_max'];}
