@@ -203,7 +203,7 @@
 					true
 				)),	
 				
-				//Tinning
+				//Tuning
                 array(
 					'label'=>Yii::t('admin', 'Tuning'),
 					'content' => $this->renderPartial('_tuning_page', array(
@@ -236,6 +236,23 @@
 					), 
 					true
 				)),
+				//Wheels
+                array(
+					'label'=>Yii::t('admin', 'Wheels'),
+					'content' => $this->renderPartial('_wheels', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+                array(
+					'label'=>Yii::t('admin', 'Wheels Make'),
+					'content' => $this->renderPartial('_wheels_make', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
 				
 			)
 		));?>

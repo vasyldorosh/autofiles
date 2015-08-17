@@ -13,10 +13,20 @@ class AjaxController extends Controller
 	public function actionGetModelsByMake()
 	{
 		$alias = Yii::app()->request->getParam('alias');
-		$year = Yii::app()->request->getParam('year');
+		$year = (int)Yii::app()->request->getParam('year');
 		$make = AutoMake::getMakeByAlias($alias);
 		
 		$data = AutoModel::getModelsByMake($make['id'], $year);
+		$response['items'] = $data;
+		echo json_encode($response);
+	}
+	
+	public function actionGetModelsMake()
+	{
+		$alias = Yii::app()->request->getParam('alias');
+		$make = AutoMake::getMakeByAlias($alias);
+		
+		$data = AutoModel::getModelsMake($make['id']);
 		$response['items'] = $data;
 		echo json_encode($response);
 	}

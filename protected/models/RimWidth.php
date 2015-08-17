@@ -86,7 +86,7 @@ class RimWidth extends CActiveRecord
 	
 	public static function getAll() 
 	{
-		$key = Tags::TAG_RIM_WIDTH . '__getAll__';
+		$key = Tags::TAG_RIM_WIDTH . '___getAll__';
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data === false || true) {

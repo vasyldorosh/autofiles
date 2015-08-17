@@ -81,6 +81,10 @@ return array(
 				'tires/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'tires/model',
 				'tires/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>/<year:[0-9]{4}>' => 'tires/modelYear',
 
+				'wheels.html'=>'wheels/index',
+				'wheels/<alias:[a-z0-9-_]{1,255}>' => 'wheels/make',
+				'wheels/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'wheels/model',
+			
 				'dimensions.html'=>'dimensions/index',
 				'dimensions/<alias:[a-z0-9-_]{1,255}>' => 'dimensions/make',
 				'dimensions/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'dimensions/model',
