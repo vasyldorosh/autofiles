@@ -3,7 +3,11 @@
 		<section class="years_box make">
 			<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> wheel bolt pattern. Select the year</h2>
 			<ul class="years_list">
-				<li class="years_list_item"><a href="#2015" class="btn years_list_link">2015</a></li>
+			<?php foreach ($wheelsData as $wheelsDataItem):?>
+				<?php foreach ($wheelsDataItem as $y):?>
+					<li class="years_list_item"><a href="#<?=$y?>" class="btn years_list_link"><?=$y?></a></li>
+				<?php endforeach;?>
+			<?php endforeach;?>
 			</ul>
 		</section>
 			

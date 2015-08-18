@@ -80,7 +80,7 @@ class WheelsController extends Controller
 		
 		$wheelsData = AutoModel::getWheelsDataFull($model['id']);
 		
-		d($wheelsData);
+		//d($wheelsData);
 		
 		$this->render('model', array(
 			'lastModelYear' => $lastModelYear,
