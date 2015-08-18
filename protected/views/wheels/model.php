@@ -4,7 +4,7 @@
 			<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> wheel bolt pattern. Select the year</h2>
 			<ul class="years_list">
 			<?php foreach ($wheelsData as $wheelsDataItem):?>
-				<?php foreach ($wheelsDataItem as $y):?>
+				<?php foreach ($wheelsDataItem['years'] as $y):?>
 					<li class="years_list_item"><a href="#<?=$y?>" class="btn years_list_link"><?=$y?></a></li>
 				<?php endforeach;?>
 			<?php endforeach;?>
