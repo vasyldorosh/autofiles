@@ -75,14 +75,20 @@ class WheelsController extends Controller
 			
 		$modelByYears = AutoModel::getYears($model['id']);
 		$lastModelYear = AutoModel::getLastYear($model['id']);
-
+		
+		//d($modelByYears);
+		
+		$wheelsData = AutoModel::getWheelsDataFull($model['id']);
+		
+		d($wheelsData);
+		
 		$this->render('model', array(
 			'lastModelYear' => $lastModelYear,
 			'make' => $make,
 			'model' => $model,
 			'modelByYears' => $modelByYears,
 			'header_text_block' => $header_text_block,
-			'lastYear' => AutoModel::getLastYear($model['id']),
+			'wheelsData' => $wheelsData,
 		));
 	}
 	

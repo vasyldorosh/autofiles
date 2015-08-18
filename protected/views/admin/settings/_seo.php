@@ -253,6 +253,14 @@
 					), 
 					true
 				)),				
+                array(
+					'label'=>Yii::t('admin', 'Wheels Model'),
+					'content' => $this->renderPartial('_wheels_model', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
 				
 			)
 		));?>

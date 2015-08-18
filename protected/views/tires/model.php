@@ -4,7 +4,7 @@
 <section class="times clearfix">
 	<h2 class="section-name pb18"><?=$make['title']?> <?=$model['title']?> tire size</h2>
 	<div class="google_links f_left p_rel">
-               <?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
+          <?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
 	</div>
 	<div class="text_size">
 		<?=$header_text_block?>
@@ -41,16 +41,17 @@
 </section>
 
 </div>
-<div class="l-col2">
 
-<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
+	<div class="l-col2">
 
-<?php $this->renderPartial('application.views.specs._right_model', array(
-	'make'=>$make,
-	'model'=>$model,
-	'lastModelYear'=>$lastModelYear,
-))?>
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
+
+		<?php $this->renderPartial('application.views.specs._right_model', array(
+			'make'=>$make,
+			'model'=>$model,
+			'lastModelYear'=>$lastModelYear,
+		))?>
 
 
-</div>
+	</div>
 </main>
