@@ -78,7 +78,7 @@ class WheelsController extends Controller
 		
 		//d($modelByYears);
 		
-		$wheelsData = AutoModel::getWheelsDataFull($model['id']);
+		$wheelsData = AutoModel::getWheelsData($model['id']);
 		
 		d($wheelsData);
 		
