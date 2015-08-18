@@ -699,7 +699,7 @@ class AutoModel extends CActiveRecord
 		$data = array();
 		
 		$listRimDiameter = TireRimDiameter::getList();
-		$listRimWidth = TireRimDiameter::getAll();
+		$listRimWidth = RimWidth::getAll();
 		$listOffsetRange = RimOffsetRange::getAll();
 		$listBoltPattern = RimBoltPattern::getAll();
 		$listCenterBore = RimCenterBore::getAll();
@@ -707,15 +707,15 @@ class AutoModel extends CActiveRecord
 		
 		foreach ($items as $key=>$item) {
 			$data[$key]['years'] = explode(',', $item['years']);
-			$data[$key]['tire_rim_diameter_from'] = isset($listRimDiameter['tire_rim_diameter_from_id'])?$listRimDiameter['tire_rim_diameter_from_id']:'';
-			$data[$key]['rim_width_from'] = isset($listRimWidth['rim_width_from_id'])?$listRimWidth['rim_width_from_id']:'';
-			$data[$key]['tire_rim_diameter_to'] = isset($listRimDiameter['tire_rim_diameter_to_id'])?$listRimDiameter['tire_rim_diameter_to_id']:'';
-			$data[$key]['rim_width_to'] = isset($listRimWidth['rim_width_to_id'])?$listRimWidth['rim_width_to_id']:'';
-			$data[$key]['offset_range_from'] = isset($listOffsetRange['offset_range_from_id'])?$listOffsetRange['offset_range_from_id']:'';
-			$data[$key]['offset_range_to'] = isset($listOffsetRange['offset_range_to_id'])?$listOffsetRange['offset_range_to_id']:'';
-			$data[$key]['bolt_pattern'] = isset($listBoltPattern['bolt_pattern_id'])?$listBoltPattern['bolt_pattern_id']:'';
-			$data[$key]['center_bore'] = isset($listCenterBore['center_bore_id'])?$listCenterBore['center_bore_id']:'';
-			$data[$key]['thread_size'] = isset($listThreadSize['thread_size_id'])?$listThreadSize['thread_size_id']:'';	
+			$data[$key]['tire_rim_diameter_from'] = isset($listRimDiameter[$item['tire_rim_diameter_from_id']])?$listRimDiameter[$item['tire_rim_diameter_from_id']]:'';
+			$data[$key]['rim_width_from'] = isset($listRimWidth[$item['rim_width_from_id']])?$listRimWidth[$item['rim_width_from_id']]:'';
+			$data[$key]['tire_rim_diameter_to'] = isset($listRimDiameter[$item['tire_rim_diameter_to_id']])?$listRimDiameter[$item['tire_rim_diameter_to_id']]:'';
+			$data[$key]['rim_width_to'] = isset($listRimWidth[$item['rim_width_to_id']])?$listRimWidth[$item['rim_width_to_id']]:'';
+			$data[$key]['offset_range_from'] = isset($listOffsetRange[$item['offset_range_from_id']])?$listOffsetRange[$item['offset_range_from_id']]:'';
+			$data[$key]['offset_range_to'] = isset($listOffsetRange[$item['offset_range_to_id']])?$listOffsetRange[$item['offset_range_to_id']]:'';
+			$data[$key]['bolt_pattern'] = isset($listBoltPattern[$item['bolt_pattern_id']])?$listBoltPattern[$item['bolt_pattern_id']]:'';
+			$data[$key]['center_bore'] = isset($listCenterBore[$item['center_bore_id']])?$listCenterBore[$item['center_bore_id']]:'';
+			$data[$key]['thread_size'] = isset($listThreadSize[$item['thread_size_id']])?$listThreadSize[$item['thread_size_id']]:'';	
 		}
 		
 		return $data;
