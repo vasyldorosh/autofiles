@@ -694,7 +694,7 @@ class Project extends CActiveRecord
 							WHERE pp.id IN(CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8))
 						) AS rear_ror_max,						
 						rd.value AS rim_diameter, 
-						rw.value AS section_width,
+						CAST(rw.value AS UNSIGNED) AS section_width,
 						p.is_staggered_wheels AS is_staggered,
 						rear_rd.value AS rear_rim_diameter, 
 						rear_rw.value AS rear_section_width
@@ -705,7 +705,7 @@ class Project extends CActiveRecord
 					LEFT JOIN rim_width AS rear_rw ON p.rim_width_id = rear_rw.id
 					WHERE rd.value IS NOT NULL AND rw.value IS NOT NULL AND p.model_year_id IN(".implode(',', $model_year_ids).")
 					GROUP BY rim_diameter, section_width, p.is_staggered_wheels
-					ORDER BY rd.value, rw.value";
+					ORDER BY rd.value, CAST(rw.value AS UNSIGNED)";
 			
 			$data = Yii::app()->db->createCommand($sql)->queryAll();				
 			
