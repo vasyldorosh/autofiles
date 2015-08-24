@@ -669,11 +669,16 @@ class Project extends CActiveRecord
 		$key	  = Tags::TAG_PROJECT . '_getCustomRimSizes_' . implode('_', $model_year_ids);
 		$data	  = Yii::app()->cache->get($key);
 		
-		if ($data === false) {
+		if ($data === false || true) {
 			$data = '';
 			$sql = "SELECT
 						count(*) AS c, 
-						CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8) AS `ids`, 
+						@ids:=CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8), 
+						(SELECT MIN(ror.value)  
+							FROM project AS pp
+							LEFT JOIN rim_offset_range AS ror ON pp.rim_offset_range_id = ror.id
+							WHERE pp.id IN(@ids)
+						) AS ror_min,						
 						rd.value AS rim_diameter, 
 						rw.value AS section_width,
 						p.is_staggered_wheels AS is_staggered,
