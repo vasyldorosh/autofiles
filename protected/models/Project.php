@@ -679,6 +679,11 @@ class Project extends CActiveRecord
 							LEFT JOIN rim_offset_range AS ror ON pp.rim_offset_range_id = ror.id
 							WHERE pp.id IN(@ids) AND pp.rim_offset_range_id IS NOT NULL
 						) AS ror_min,						
+						(SELECT MAX(ror.value)  
+							FROM project AS pp
+							LEFT JOIN rim_offset_range AS ror ON pp.rim_offset_range_id = ror.id
+							WHERE pp.id IN(@ids) AND pp.rim_offset_range_id IS NOT NULL
+						) AS ror_max,						
 						rd.value AS rim_diameter, 
 						rw.value AS section_width,
 						p.is_staggered_wheels AS is_staggered,
