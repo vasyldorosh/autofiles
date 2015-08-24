@@ -723,4 +723,26 @@ class AutoModel extends CActiveRecord
 		return $data;
 	}	
 	
+	public static function getTireRange($tireIds, $dir)
+	{
+		$sql = "SELECT 
+							vc.code AS vehicle_class, 
+							rd.value AS rim_diameter, 
+							sw.value AS section_width, 
+							ar.value AS aspect_ratio
+						FROM tire AS t
+						LEFT JOIN tire_vehicle_class AS vc ON t.vehicle_class_id = vc.id
+						LEFT JOIN tire_rim_diameter AS rd ON t.rim_diameter_id = rd.id
+						LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
+						LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
+						WHERE t.id IN (".implode(',', $tireIds).")
+						ORDER BY rim_diameter {$dir}, section_width {$dir}, aspect_ratio {$dir} 
+		";
+		
+		$row = Yii::app()->db->createCommand($sql)->queryRow();	
+		if (!empty($row)) {
+			return Tire::format($row, false);
+		}
+	}	
+	
 }

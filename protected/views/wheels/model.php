@@ -75,8 +75,7 @@
 					
 				<tr>
 					<td>Tire sizes</td>
-					<td><a href="/tires/honda/accord/">205/70 R15 &ndash; 245/35 R20</a></td>
-					
+					<td><a href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/<?=$wheelsDataItem['years'][0]?>/"><?=$wheelsDataItem['tires_range_from']?> &ndash; <?=$wheelsDataItem['tires_range_to']?></a></td>
 				</tr>
 				
 			</tbody>

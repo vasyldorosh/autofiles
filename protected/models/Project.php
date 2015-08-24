@@ -569,10 +569,9 @@ class Project extends CActiveRecord
 		return $photo;		
 	}
 	
-	public static function getCustomRimSizesRangeByModelYears($model_id, $model_year_ids)
+	public static function getCustomRimSizesRangeByModelYears($model_year_ids)
 	{
-		$model_id = (int) $model_id;
-		$key	  = Tags::TAG_PROJECT . '_getCustomRimSizesRangeByModelYears_' . $model_id . '_' . implode('_', $model_year_ids);
+		$key	  = Tags::TAG_PROJECT . '_getCustomRimSizesRangeByModelYears_' . implode('_', $model_year_ids);
 		$data	  = Yii::app()->cache->get($key);
 		
 		if ($data === false) {
@@ -584,7 +583,6 @@ class Project extends CActiveRecord
 					FROM  project AS p
 					LEFT JOIN tire_rim_diameter AS rd ON p.rim_diameter_id = rd.id
 					WHERE 
-						p.model_id = {$model_id} AND 
 						p.is_active = 1 AND 
 						p.model_year_id IN (".implode(',', $model_year_ids).") AND
 						p.rim_diameter_id IS NOT NULL						 
@@ -605,7 +603,6 @@ class Project extends CActiveRecord
 					FROM  project AS p
 					LEFT JOIN rim_width AS rw ON p.rim_width_id = rw.id
 					WHERE 
-						p.model_id = {$model_id} AND 
 						p.is_active = 1 AND 
 						p.model_year_id IN (".implode(',', $model_year_ids).") AND
 						p.rim_diameter_id IS NOT NULL						 
@@ -629,6 +626,35 @@ class Project extends CActiveRecord
 			}
 			
 			$data = implode(' &ndash; ', $_arr);
+			
+			Yii::app()->cache->get($key, $data, 0, new Tags(Tags::TAG_PROJECT));				
+		}
+		
+		return $data;		
+	}
+	
+	public static function getTireRangeByModelYears($model_year_ids, $dir)
+	{
+		$key	  = Tags::TAG_PROJECT . '_getTireRangeByModelYears_' . $dir . '_' . implode('_', $model_year_ids);
+		$data	  = Yii::app()->cache->get($key);
+		
+		if ($data === false) {
+			
+			$sql = "SELECT 
+								vc.code AS vehicle_class, 
+								rd.value AS rim_diameter, 
+								sw.value AS section_width, 
+								ar.value AS aspect_ratio
+							FROM project AS p
+							LEFT JOIN tire_vehicle_class AS vc ON p.tire_vehicle_class_id = vc.id
+							LEFT JOIN tire_rim_diameter AS rd ON p.rim_diameter_id = rd.id
+							LEFT JOIN tire_section_width AS sw ON p.tire_section_width_id = sw.id
+							LEFT JOIN tire_aspect_ratio AS ar ON p.tire_aspect_ratio_id = ar.id
+							WHERE p.model_year_id IN (".implode(',', $model_year_ids).")
+							ORDER BY rim_diameter {$dir}, section_width {$dir}, aspect_ratio {$dir} 
+			";
+			
+			$row = Yii::app()->db->createCommand($sql)->queryRow();				
 			
 			Yii::app()->cache->get($key, $data, 0, new Tags(Tags::TAG_PROJECT));				
 		}
