@@ -690,7 +690,7 @@ class Project extends CActiveRecord
 						) AS rear_ror_min,			 
 						(SELECT MAX(rear_ror.value)  
 							FROM project AS pp
-							LEFT JOIN rim_offset_range AS ror ON pp.rear_rim_offset_range_id = rear_ror.id
+							LEFT JOIN rim_offset_range AS rear_ror ON pp.rear_rim_offset_range_id = rear_ror.id
 							WHERE pp.id IN(CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8))
 						) AS rear_ror_max,						
 						rd.value AS rim_diameter, 
