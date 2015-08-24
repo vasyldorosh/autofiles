@@ -677,7 +677,7 @@ class Project extends CActiveRecord
 						(SELECT MIN(ror.value)  
 							FROM project AS pp
 							LEFT JOIN rim_offset_range AS ror ON pp.rim_offset_range_id = ror.id
-							WHERE pp.id IN(@ids)
+							WHERE pp.id IN(@ids) AND pp.rim_offset_range_id IS NOT NULL
 						) AS ror_min,						
 						rd.value AS rim_diameter, 
 						rw.value AS section_width,
