@@ -79,8 +79,8 @@ class WheelsController extends Controller
 		$wheelsDataItems = AutoModel::getWheelsDataFull($model['id']);
 		foreach ($wheelsDataItems as $k => $v) {
 			$wheelsDataItems[$k]['custom_rim_sizes_range'] = Project::getCustomRimSizesRangeByModelYears($v['ids']);
-			$wheelsDataItems[$k]['tires_range_from'] = Project::getTireRangeByModelYears($v['ids'], 'ACS');
-			$wheelsDataItems[$k]['tires_range_to'] = Project::getTireRangeByModelYears($v['ids'], 'DECS');
+			$wheelsDataItems[$k]['tires_range_from'] = Project::getTireRangeByModelYears($v['ids'], 'ASC');
+			$wheelsDataItems[$k]['tires_range_to'] = Project::getTireRangeByModelYears($v['ids'], 'DESC');
 		}
 		
 		

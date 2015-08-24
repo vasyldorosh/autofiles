@@ -639,7 +639,7 @@ class Project extends CActiveRecord
 		$data	  = Yii::app()->cache->get($key);
 		
 		if ($data === false) {
-			
+			$data = '';
 			$sql = "SELECT 
 								vc.code AS vehicle_class, 
 								rd.value AS rim_diameter, 
@@ -651,10 +651,12 @@ class Project extends CActiveRecord
 							LEFT JOIN tire_section_width AS sw ON p.tire_section_width_id = sw.id
 							LEFT JOIN tire_aspect_ratio AS ar ON p.tire_aspect_ratio_id = ar.id
 							WHERE p.model_year_id IN (".implode(',', $model_year_ids).")
-							ORDER BY rim_diameter {$dir}, section_width {$dir}, aspect_ratio {$dir} 
-			";
+							ORDER BY rim_diameter {$dir}, section_width {$dir}, aspect_ratio {$dir}";
 			
 			$row = Yii::app()->db->createCommand($sql)->queryRow();				
+			if (!empty($row)) {
+				$data = Tire::format($row, false);
+			}	
 			
 			Yii::app()->cache->get($key, $data, 0, new Tags(Tags::TAG_PROJECT));				
 		}
