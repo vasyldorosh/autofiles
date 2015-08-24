@@ -654,13 +654,14 @@ class AutoModel extends CActiveRecord
 	public static function getWheelsData($model_id)
 	{
 		$model_id = (int) $model_id;
-		$key = Tags::TAG_MODEL_YEAR . '_getWheelsData_'.$model_id;
+		$key = Tags::TAG_MODEL_YEAR . '__getWheelsData__'.$model_id;
 		$data = Yii::app()->cache->get($key);
 		if ($data === false) {
 			$data = array();
 
 			$sql = "SELECT  
 						CAST( GROUP_CONCAT(DISTINCT `year` ORDER BY `year` DESC) AS CHAR(10000) CHARACTER SET utf8) AS `years`, 
+						CAST( GROUP_CONCAT(DISTINCT `id` ORDER BY `id` DESC) AS CHAR(10000) CHARACTER SET utf8) AS `ids`, 
 						tire_rim_diameter_from_id, 
 						rim_width_from_id, 
 						tire_rim_diameter_to_id, 
@@ -706,6 +707,7 @@ class AutoModel extends CActiveRecord
 		$listThreadSize = RimThreadSize::getAll();
 		
 		foreach ($items as $key=>$item) {
+			$data[$key]['ids'] = explode(',', $item['ids']);
 			$data[$key]['years'] = explode(',', $item['years']);
 			$data[$key]['tire_rim_diameter_from'] = isset($listRimDiameter[$item['tire_rim_diameter_from_id']])?$listRimDiameter[$item['tire_rim_diameter_from_id']]:'';
 			$data[$key]['rim_width_from'] = isset($listRimWidth[$item['rim_width_from_id']])?$listRimWidth[$item['rim_width_from_id']]:'';

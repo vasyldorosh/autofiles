@@ -3,7 +3,7 @@
 		<section class="years_box make">
 			<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> wheel bolt pattern. Select the year</h2>
 			<ul class="years_list">
-			<?php foreach ($wheelsData as $wheelsDataItem):?>
+			<?php foreach ($wheelsDataItems as $wheelsDataItem):?>
 				<?php foreach ($wheelsDataItem['years'] as $y):?>
 					<li class="years_list_item"><a href="#<?=$y?>" class="btn years_list_link"><?=$y?></a></li>
 				<?php endforeach;?>
@@ -21,16 +21,22 @@
 			</div>
 		</section>
 		
-		
+		<?php foreach ($wheelsDataItems as $wheelsDataItem):?>
 		<section class="table-container">
-			<a name="2015"></a><img src="http://autofiles.com/photos/model_year_item/150/honda-accord-2015.jpg"><h4 class="title_tire">Honda Accord wheels</h4>  <small>2015 2014 2013 2012 2011</small>
+			<a name="2015"></a><img src="http://autofiles.com/photos/model_year_item/150/honda-accord-2015.jpg"><h4 class="title_tire"><?=$make['title']?> <?=$model['title']?> wheels</h4>  
+			<?php foreach ($wheelsDataItem['years'] as $y):?>
+			<a name="<?=$y?>" style="color:#000;"><small><?=$y?></small></a>
+			<?php endforeach;?>
+			
 			<table>
 			<tbody>
+				<?php if (!empty($wheelsDataItem['bolt_pattern'])):?>
 				<tr>
 					<td>Bolt pattern</td>
-					<td>5х114.3 (5x4.5)</td>
+					<td><?=$wheelsDataItem['bolt_pattern']?></td>
 					
 				</tr>
+				<?php endif;?>
 				<tr>
 					<td>Stock wheel offset</td>
 					<td>35 to 50 mm</td>
@@ -40,27 +46,33 @@
 					<td><a href="/tuning/honda/accord/">10 to 45 mm</a></td>
 					
 				</tr>
+
+				<?php if (!empty($wheelsDataItem['center_bore'])):?>
 				<tr>
 					<td>Center bore</td>
-					<td>57.1 mm</td>
-					
+					<td><?=$wheelsDataItem['center_bore']?></td>
 				</tr>
+				<?php endif;?>	
+				
+				<?php if (!empty($wheelsDataItem['thread_size'])):?>
 				<tr>
 					<td>Thread size</td>
-					<td>M12 x 15</td>
-					
+					<td><?=$wheelsDataItem['thread_size']?></td>					
 				</tr>
+				<?php endif;?>				
+				
 				<tr>
 					<td>Stock rim sizes range</td>
-					<td>17x8.0 &ndash; 20x9.0</td>
-					
-				</tr>
-				<tr>
-					<td>Custom rim sizes range</td>
-					<td><a href="/tuning/honda/accord/">17x7.5 &ndash; 20x10.0</a></td>
-					
+					<td><?=$wheelsDataItem['tire_rim_diameter_from']?>x<?=$wheelsDataItem['rim_width_from']?> &ndash; <?=$wheelsDataItem['tire_rim_diameter_to']?>x<?=$wheelsDataItem['rim_width_to']?></td>					
 				</tr>
 				
+				<?php if (!empty($wheelsDataItem['custom_rim_sizes_range'])):?>
+				<tr>
+					<td>Custom rim sizes range</td>
+					<td><a href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$wheelsDataItem['custom_rim_sizes_range']?></a></td>
+				</tr>
+				<?php endif;?>	
+					
 				<tr>
 					<td>Tire sizes</td>
 					<td><a href="/tires/honda/accord/">205/70 R15 &ndash; 245/35 R20</a></td>
@@ -117,6 +129,8 @@
 				</tbody>
 			</table>
 		</section>
+		<?php endforeach;?>
+		
 <br><br>		
 <hr>
 

@@ -569,4 +569,71 @@ class Project extends CActiveRecord
 		return $photo;		
 	}
 	
+	public static function getCustomRimSizesRangeByModelYears($model_id, $model_year_ids)
+	{
+		$model_id = (int) $model_id;
+		$key	  = Tags::TAG_PROJECT . '_getCustomRimSizesRangeByModelYears_' . $model_id . '_' . implode('_', $model_year_ids);
+		$data	  = Yii::app()->cache->get($key);
+		
+		if ($data === false) {
+			$data = '';
+			
+			$sql = "SELECT 
+						MIN(rd.value) AS rd_min,
+						MAX(rd.value) AS rd_max
+					FROM  project AS p
+					LEFT JOIN tire_rim_diameter AS rd ON p.rim_diameter_id = rd.id
+					WHERE 
+						p.model_id = {$model_id} AND 
+						p.is_active = 1 AND 
+						p.model_year_id IN (".implode(',', $model_year_ids).") AND
+						p.rim_diameter_id IS NOT NULL						 
+				";
+				
+			$row = Yii::app()->db->createCommand($sql)->queryRow();	
+			$rd = array();
+			if (!empty($row['rd_min'])) {
+				$rd[] = $row['rd_min'];
+			}
+			if (!empty($row['rd_max'])) {
+				$rd[] = $row['rd_max'];
+			}
+			
+			$sql = "SELECT 
+						MIN(rw.value) AS rw_min,
+						MAX(rw.value) AS rw_max
+					FROM  project AS p
+					LEFT JOIN rim_width AS rw ON p.rim_width_id = rw.id
+					WHERE 
+						p.model_id = {$model_id} AND 
+						p.is_active = 1 AND 
+						p.model_year_id IN (".implode(',', $model_year_ids).") AND
+						p.rim_diameter_id IS NOT NULL						 
+				";
+				
+			$row = Yii::app()->db->createCommand($sql)->queryRow();	
+			$rw = array();
+			if (!empty($row['rw_min'])) {
+				$rw[] = $row['rw_min'];
+			}
+			if (!empty($row['rw_max'])) {
+				$rw[] = $row['rw_max'];
+			}			
+			
+			$_arr = array();
+			if (!empty($rd)) {
+				$_arr[] = implode('x', $rd);
+			}
+			if (!empty($rw)) {
+				$_arr[] = implode('x', $rw);
+			}
+			
+			$data = implode(' &ndash; ', $_arr);
+			
+			Yii::app()->cache->get($key, $data, 0, new Tags(Tags::TAG_PROJECT));				
+		}
+		
+		return $data;		
+	}
+	
 }
