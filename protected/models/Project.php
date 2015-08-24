@@ -687,10 +687,7 @@ class Project extends CActiveRecord
 					GROUP BY rim_diameter, section_width, p.is_staggered_wheels
 					ORDER BY rd.value, rw.value";
 			
-			$row = Yii::app()->db->createCommand($sql)->queryRow();				
-			if (!empty($row)) {
-				$data = Tire::format($row, false);
-			}	
+			$data = Yii::app()->db->createCommand($sql)->queryAll();				
 			
 			Yii::app()->cache->get($key, $data, 0, new Tags(Tags::TAG_PROJECT));				
 		}
