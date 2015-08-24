@@ -673,6 +673,7 @@ class Project extends CActiveRecord
 			$data = '';
 			$sql = "SELECT
 						count(*) AS c, 
+						CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8) AS `ids`, 
 						rd.value AS rim_diameter, 
 						rw.value AS section_width,
 						p.is_staggered_wheels AS is_staggered,
