@@ -81,10 +81,10 @@ class WheelsController extends Controller
 			$wheelsDataItems[$k]['custom_rim_sizes_range'] = Project::getCustomRimSizesRangeByModelYears($v['ids']);
 			$wheelsDataItems[$k]['tires_range_from'] = Project::getTireRangeByModelYears($v['ids'], 'ASC');
 			$wheelsDataItems[$k]['tires_range_to'] = Project::getTireRangeByModelYears($v['ids'], 'DESC');
+			$wheelsDataItems[$k]['custom_rim_sizes'] = Project::getCustomRimSizes($v['ids']);
 		}
 		
-		
-		//d($wheelsDataItems);
+		d($wheelsDataItems);
 		
 		$this->render('model', array(
 			'lastModelYear' => $lastModelYear,

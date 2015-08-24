@@ -83,7 +83,7 @@
 		</section>
  
 		<section class="table-container">
-			<h4 class="title_tire"><a name="r17"></a>Custom rim sizes for a Honda Accord 2011-2015</h4>
+			<h4 class="title_tire"><a name="r17"></a>Custom rim sizes for a <?=$make['title']?> <?=$model['title']?> <?=$wheelsDataItem['years'][0]?><?php if (end($wheelsDataItem['years'])!=$wheelsDataItem['years'][0]):?>-<?=end($wheelsDataItem['years'])?><?php endif;?></h4>
 			<table>
 				<tbody>
 					<tr>
