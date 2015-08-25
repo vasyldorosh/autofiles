@@ -81,7 +81,8 @@
 			</tbody>
 			</table>
 		</section>
- 
+		
+		<?php if (!empty($wheelsDataItem['custom_rim_sizes'])):?>
 		<section class="table-container">
 			<h4 class="title_tire"><a name="r17"></a>Custom rim sizes for a <?=$make['title']?> <?=$model['title']?> <?=$wheelsDataItem['years'][0]?><?php if (end($wheelsDataItem['years'])!=$wheelsDataItem['years'][0]):?>-<?=end($wheelsDataItem['years'])?><?php endif;?></h4>
 			<table>
@@ -92,42 +93,18 @@
 						<td><b>Projects</b></td>
 						
 					</tr>
+					<?php foreach ($wheelsDataItem['custom_rim_sizes'] as $item):?>
 					<tr>
-						<td><a href="/wheels/honda/accord/17x7.0/">17x7.0</a></td>
-						<td>25-34</td>
-						<td><a href="/tuning/honda/accord/">7</a></td>
+						<td><a href="/wheels/honda/accord/<?=$item['rim_diameter']?>x<?=$item['section_width']?>/<?php if ($item['is_staggered']):?><?=(!empty($item['rear_rim_diameter']))?$item['rear_rim_diameter']:$item['rim_diameter']?>x<?=(!empty($item['rear_rim_width']))?$item['rear_rim_width']:$item['rim_width']?>/<?php endif;?>"><?=$item['rim_diameter']?>x<?=$item['section_width']?><?php if ($item['is_staggered']):?> / <?=(!empty($item['rear_rim_diameter']))?$item['rear_rim_diameter']:$item['rim_diameter']?>x<?=(!empty($item['rear_rim_width']))?$item['rear_rim_width']:$item['rim_width']?><?php endif;?></a></td>
+						<td><?=$item['ror_min']?>-<?=$item['ror_max']?></td>
+						<td><a href="/tuning/honda/accord/"><?=$item['c']?></a></td>
 					</tr>
-					<tr>
-						<td><a href="/wheels/honda/accord/17x7.5/">17x7.5</a></td>
-						<td>16-40</td>
-						<td><a href="/tuning/honda/accord/">4</a></td>
-					</tr>
-					<tr>
-						<td><a href="/wheels/honda/accord/17x8.0/">17x8.0</a> <small>(popular)</small></td>
-						<td>28-33</td>
-						<td><a href="/tuning/honda/accord/">23</a></td>
-					</tr>
-					
-					<tr>
-						<td><a href="/wheels/honda/accord/17x9.0/">17x9.0</a></td>
-						<td>36</td>
-						<td><a href="/tuning/honda/accord/">1</a></td>
-					</tr>
-					
-					<tr>
-						<td><a href="/wheels/honda/accord/18x7.0/">18x7.0</a></td>
-						<td>25-34</td>
-						<td><a href="/tuning/honda/accord/">7</a></td>
-					</tr>
-					<tr>
-						<td><a href="/wheels/honda/accord/18x7.5/">18x7.5</a></td>
-						<td>16-40</td>
-						<td><a href="/tuning/honda/accord/">4</a></td>
-					</tr>
-					
+					<?php endforeach;?>
 				</tbody>
 			</table>
 		</section>
+		<?php endforeach;?>
+		
 		<?php endforeach;?>
 		
 <br><br>		

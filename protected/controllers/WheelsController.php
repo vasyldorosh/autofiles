@@ -84,7 +84,8 @@ class WheelsController extends Controller
 			$wheelsDataItems[$k]['custom_rim_sizes'] = Project::getCustomRimSizes($v['ids']);
 		}
 		
-		d($wheelsDataItems);
+		if (isset($_GET['t']))
+			d($wheelsDataItems);
 		
 		$this->render('model', array(
 			'lastModelYear' => $lastModelYear,
