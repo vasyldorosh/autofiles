@@ -662,21 +662,19 @@ class Project extends CActiveRecord
 							LEFT JOIN rim_offset_range AS rear_ror ON pp.rear_rim_offset_range_id = rear_ror.id
 							WHERE pp.id IN(CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8))
 						) AS rear_ror_max,						
-						rd.value AS rim_diameter, 
-						CAST(rw.value AS UNSIGNED) AS section_width,
 						p.is_staggered_wheels AS is_staggered,
 						rd.value AS rim_diameter, 
-						rw.value AS rim_width,
 						rear_rd.value AS rear_rim_diameter, 
-						rear_rw.value AS rear_rim_width
+						CAST(rw.value AS FLOAT) AS rim_width,
+						CAST(rear_rw.value AS FLOAT) AS rear_rim_width
 					FROM project AS p
 					LEFT JOIN tire_rim_diameter AS rd ON p.rim_diameter_id = rd.id
 					LEFT JOIN rim_width AS rw ON p.rim_width_id = rw.id
 					LEFT JOIN tire_rim_diameter AS rear_rd ON p.rear_rim_diameter_id = rear_rd.id
 					LEFT JOIN rim_width AS rear_rw ON p.rim_width_id = rear_rw.id
 					WHERE rd.value IS NOT NULL AND rw.value IS NOT NULL AND p.model_year_id IN(".implode(',', $model_year_ids).")
-					GROUP BY rim_diameter, section_width, p.is_staggered_wheels
-					ORDER BY rd.value, CAST(rw.value AS UNSIGNED)";
+					GROUP BY rim_diameter, rim_width, p.is_staggered_wheels
+					ORDER BY rd.value, CAST(rw.value AS FLOAT)";
 			
 			$data = Yii::app()->db->createCommand($sql)->queryAll();				
 			
