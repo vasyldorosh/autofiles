@@ -665,8 +665,10 @@ class Project extends CActiveRecord
 						rd.value AS rim_diameter, 
 						CAST(rw.value AS UNSIGNED) AS section_width,
 						p.is_staggered_wheels AS is_staggered,
+						rd.value AS rim_diameter, 
+						rw.value AS rim_width,
 						rear_rd.value AS rear_rim_diameter, 
-						rear_rw.value AS rear_section_width
+						rear_rw.value AS rear_rim_width
 					FROM project AS p
 					LEFT JOIN tire_rim_diameter AS rd ON p.rim_diameter_id = rd.id
 					LEFT JOIN rim_width AS rw ON p.rim_width_id = rw.id
