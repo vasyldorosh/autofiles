@@ -662,15 +662,15 @@ class AutoModel extends CActiveRecord
 			$sql = "SELECT  
 						CAST( GROUP_CONCAT(DISTINCT y.year ORDER BY y.year DESC) AS CHAR(10000) CHARACTER SET utf8) AS `years`, 
 						CAST( GROUP_CONCAT(DISTINCT y.id ORDER BY y.id DESC) AS CHAR(10000) CHARACTER SET utf8) AS `ids`, 
-						tire_rim_diameter_from_id, 
-						rim_width_from_id, 
-						tire_rim_diameter_to_id, 
-						rim_width_to_id, 
-						offset_range_from_id, 
-						offset_range_to_id, 
-						bolt_pattern_id, 
-						thread_size_id, 
-						center_bore_id,
+						y.tire_rim_diameter_from_id AS tire_rim_diameter_from_id, 
+						y.rim_width_from_id AS rim_width_from_id, 
+						y.tire_rim_diameter_to_id AS tire_rim_diameter_to_id, 
+						y.rim_width_to_id AS rim_width_to_id, 
+						y.offset_range_from_id AS offset_range_from_id, 
+						y.offset_range_to_id AS offset_range_to_id, 
+						y.bolt_pattern_id AS bolt_pattern_id, 
+						y.thread_size_id AS thread_size_id, 
+						y.center_bore_id AS center_bore_id,
 						(SELECT MAX(ror.value)
 							FROM auto_model_year AS yy
 							LEFT JOIN rim_offset_range AS ror ON y.rim_offset_range_id = ror.id
@@ -681,17 +681,17 @@ class AutoModel extends CActiveRecord
 							LEFT JOIN rim_offset_range AS ror ON y.rim_offset_range_id = ror.id
 							WHERE FIND_IN_SET(yy.id, CAST( GROUP_CONCAT(DISTINCT y.id ORDER BY y.id DESC) AS CHAR(10000) CHARACTER SET utf8))
 						) AS y_ror_min				
-					FROM auto_model_year
-					WHERE model_id={$model_id} AND is_active=1 AND is_deleted=0
-					GROUP BY 	tire_rim_diameter_from_id, 
-								rim_width_from_id, 
-								tire_rim_diameter_to_id, 
-								rim_width_to_id, 
-								offset_range_from_id, 
-								offset_range_to_id, 
-								bolt_pattern_id, 
-								thread_size_id, 
-								center_bore_id
+					FROM auto_model_year AS y
+					WHERE y.model_id={$model_id} AND y.is_active=1 AND y.is_deleted=0
+					GROUP BY 	y.tire_rim_diameter_from_id, 
+								y.rim_width_from_id, 
+								y.tire_rim_diameter_to_id, 
+								y.rim_width_to_id, 
+								y.offset_range_from_id, 
+								y.offset_range_to_id, 
+								y.bolt_pattern_id, 
+								y.thread_size_id, 
+								y.center_bore_id
 					ORDER BY years DESC
 			";
 			
