@@ -642,11 +642,10 @@ class Project extends CActiveRecord
 			$data = '';
 			$sql = "SELECT
 						count(*) AS c,
-						CONCAT(',', CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8), ',') AS ppp,
 						(SELECT MIN(ror.value)  
 							FROM project AS pp
 							LEFT JOIN rim_offset_range AS ror ON pp.rim_offset_range_id = ror.id
-							WHERE CONCAT(',', pp.id, ',') LIKE ppp AND pp.rim_offset_range_id IS NOT NULL
+							WHERE CONCAT(',', pp.id, ',') LIKE CONCAT(',', CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8), ',') AND pp.rim_offset_range_id IS NOT NULL
 						) AS ror_min,			 
 						(SELECT MAX(ror.value)  
 							FROM project AS pp
