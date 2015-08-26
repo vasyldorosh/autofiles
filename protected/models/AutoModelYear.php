@@ -328,7 +328,6 @@ class AutoModelYear extends CActiveRecord
 		
 		return self::PHOTO_DIR .$subdir.'/'. $this->file_name;
 	}	
-		
 
 	public function search()
 	{
