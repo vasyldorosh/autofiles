@@ -1414,6 +1414,8 @@ class AutoModelYear extends CActiveRecord
 							FROM auto_model_year_tire
 							WHERE model_year_id IN (".implode(',', $model_year_ids).")";
 			
+			echo $sql . '<br>';
+			
 			$rows = Yii::app()->db->createCommand($sql)->queryAll();				
 			foreach ($rows as $row) {
 				$data[] = $row['tire_id'];
