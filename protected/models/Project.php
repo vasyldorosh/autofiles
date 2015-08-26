@@ -644,18 +644,19 @@ class Project extends CActiveRecord
 						
 			
 			$sql = "
+					DECLARE v_ListOfIDs VARCHAR(1024); 
 					SELECT
 						count(*) AS c,
-						@ids:=CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8),
+						CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8) INTO v_ListOfIDs,
 						(SELECT	MIN(ror.value)
 							FROM project AS pp
 							LEFT JOIN rim_offset_range AS ror ON pp.rim_offset_range_id = ror.id
-							WHERE pp.id IN(CAST( GROUP_CONCAT(p.id) AS CHAR(100) CHARACTER SET utf8)) AND pp.rim_offset_range_id IS NOT NULL
+							WHERE pp.id IN(v_ListOfIDs) AND pp.rim_offset_range_id IS NOT NULL
 						) AS ror_min,			 
 						(SELECT MAX(ror.value)  
 							FROM project AS pp
 							LEFT JOIN rim_offset_range AS ror ON pp.rim_offset_range_id = ror.id
-							WHERE pp.id IN(CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8)) AND pp.rim_offset_range_id IS NOT NULL
+							WHERE pp.id IN(v_ListOfIDs) AND pp.rim_offset_range_id IS NOT NULL
 						) AS ror_max,						
 						(SELECT MIN(rear_ror.value)  
 							FROM project AS pp
