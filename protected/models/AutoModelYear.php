@@ -1407,12 +1407,12 @@ class AutoModelYear extends CActiveRecord
 		$key	  = Tags::TAG_MODEL_YEAR . '_getTireIdsByModelYears_' . '_' . implode('_', $model_year_ids);
 		$data	  = Yii::app()->cache->get($key);
 		
-		if ($data === false) {
+		if ($data === false || true) {
 			$data = array();
 			$sql = "SELECT 
 							DISTINCT tire_id AS tire_id
 							FROM auto_model_year_tire
-							WHERE auto_model_year_tire.model_year_id IN (".implode(',', $model_year_ids).")";
+							WHERE model_year_id IN (".implode(',', $model_year_ids).")";
 			
 			$rows = Yii::app()->db->createCommand($sql)->queryAll();				
 			foreach ($rows as $row) {
