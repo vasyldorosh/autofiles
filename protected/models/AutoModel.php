@@ -671,16 +671,16 @@ class AutoModel extends CActiveRecord
 						y.bolt_pattern_id AS bolt_pattern_id, 
 						y.thread_size_id AS thread_size_id, 
 						y.center_bore_id AS center_bore_id,
-						(SELECT MAX(ror.value)
-							FROM auto_model_year AS yy
-							LEFT JOIN rim_offset_range AS ror ON yy.rim_offset_range_id = ror.id
-							WHERE FIND_IN_SET(yy.id, CAST( GROUP_CONCAT(DISTINCT y.id ORDER BY y.id DESC) AS CHAR(10000) CHARACTER SET utf8))
-						) AS y_ror_max,						
 						(SELECT MIN(ror.value)
 							FROM auto_model_year AS yy
-							LEFT JOIN rim_offset_range AS ror ON yy.rim_offset_range_id = ror.id
+							LEFT JOIN rim_offset_range AS ror ON yy.offset_range_from_id = ror.id
 							WHERE FIND_IN_SET(yy.id, CAST( GROUP_CONCAT(DISTINCT y.id ORDER BY y.id DESC) AS CHAR(10000) CHARACTER SET utf8))
-						) AS y_ror_min				
+						) AS y_ror_min,						
+						(SELECT MAX(ror.value)
+							FROM auto_model_year AS yy
+							LEFT JOIN rim_offset_range AS ror ON yy.offset_range_from_to = ror.id
+							WHERE FIND_IN_SET(yy.id, CAST( GROUP_CONCAT(DISTINCT y.id ORDER BY y.id DESC) AS CHAR(10000) CHARACTER SET utf8))
+						) AS y_ror_max				
 					FROM auto_model_year AS y
 					WHERE y.model_id={$model_id} AND y.is_active=1 AND y.is_deleted=0
 					GROUP BY 	y.tire_rim_diameter_from_id, 
