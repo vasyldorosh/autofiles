@@ -643,7 +643,7 @@ class Project extends CActiveRecord
 			$sql = "SELECT
 						count(*) AS c,
 						CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8),
-						(SELECT MIN(ror.value)  
+						(SELECT SUM(ror.value)  
 							FROM project AS pp
 							LEFT JOIN rim_offset_range AS ror ON pp.rim_offset_range_id = ror.id
 							WHERE pp.id IN(CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8)) AND pp.rim_offset_range_id IS NOT NULL
