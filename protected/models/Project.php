@@ -644,7 +644,7 @@ class Project extends CActiveRecord
 						
 			
 			$sql = "
-					DECLARE v_ListOfIDs VARCHAR(1024); 
+					DECLARE v_ListOfIDs CHAR(10000); 
 					SELECT
 						count(*) AS c,
 						CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8) INTO v_ListOfIDs,
