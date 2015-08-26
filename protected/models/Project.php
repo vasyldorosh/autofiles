@@ -633,38 +633,6 @@ class Project extends CActiveRecord
 		return $data;		
 	}
 	
-	public static function getTireRangeByModelYears($model_year_ids, $dir)
-	{
-		$key	  = Tags::TAG_PROJECT . '__getTireRangeByModelYears_' . $dir . '_' . implode('_', $model_year_ids);
-		$data	  = Yii::app()->cache->get($key);
-		
-		if ($data === false) {
-			$data = '';
-			$sql = "SELECT 
-								vc.code AS vehicle_class, 
-								rd.value AS rim_diameter, 
-								sw.value AS section_width, 
-								ar.value AS aspect_ratio
-							FROM project AS p
-							LEFT JOIN tire_vehicle_class AS vc ON p.tire_vehicle_class_id = vc.id
-							LEFT JOIN tire_rim_diameter AS rd ON p.rim_diameter_id = rd.id
-							LEFT JOIN tire_section_width AS sw ON p.tire_section_width_id = sw.id
-							LEFT JOIN tire_aspect_ratio AS ar ON p.tire_aspect_ratio_id = ar.id
-							WHERE p.model_year_id IN (".implode(',', $model_year_ids).")
-							ORDER BY rim_diameter {$dir}, section_width {$dir}, aspect_ratio {$dir}";
-			
-			$row = Yii::app()->db->createCommand($sql)->queryRow();				
-			if (!empty($row)) {
-				if (!empty($row['section_width']) && !empty($row['aspect_ratio']) && !empty($row['rim_diameter']))
-				$data = Tire::format($row, false);
-			}	
-			
-			Yii::app()->cache->get($key, $data, 0, new Tags(Tags::TAG_PROJECT));				
-		}
-		
-		return $data;		
-	}
-	
 	public static function getCustomRimSizes($model_year_ids)
 	{
 		$key	  = Tags::TAG_PROJECT . '_getCustomRimSizes_' . implode('_', $model_year_ids);

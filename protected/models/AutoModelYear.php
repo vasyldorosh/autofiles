@@ -1402,4 +1402,63 @@ class AutoModelYear extends CActiveRecord
 		}
 	}	
 	
+	private static function getTireIdsByModelYears($model_year_ids) 
+	{
+		$key	  = Tags::TAG_MODEL_YEAR . '_getTireIdsByModelYears_' . '_' . implode('_', $model_year_ids);
+		$data	  = Yii::app()->cache->get($key);
+		
+		if ($data === false) {
+			$data = array();
+			$sql = "SELECT 
+							DISTINCT tire_id AS tire_id
+							FROM auto_model_year_tire
+							WHERE auto_model_year_tire.model_year_id IN (".implode(',', $model_year_ids).")";
+			
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();				
+			foreach ($rows as $row) {
+				$data[] = $row['tire_id'];
+			}	
+			
+			Yii::app()->cache->get($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR));				
+		}
+		
+		return $data;			
+	}
+	
+	public static function getTireRangeByModelYears($model_year_ids, $dir)
+	{
+		$key	  = Tags::TAG_MODEL_YEAR . '__getTireRangeByModelYears_' . $dir . '_' . implode('_', $model_year_ids);
+		$data	  = Yii::app()->cache->get($key);
+		$ids      = self::getTireIdsByModelYears($model_year_ids);
+		
+		if ($data === false) {
+			$data = '';
+			
+			if (!empty($ids)) {
+				$sql = "SELECT 
+									vc.code AS vehicle_class, 
+									rd.value AS rim_diameter, 
+									sw.value AS section_width, 
+									ar.value AS aspect_ratio
+								FROM tire AS t
+								LEFT JOIN tire_vehicle_class AS vc ON t.vehicle_class_id = vc.id
+								LEFT JOIN tire_rim_diameter AS rd ON t.rim_diameter_id = rd.id
+								LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
+								LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
+								WHERE t.id IN (".implode(',', $ids).")
+								ORDER BY rim_diameter {$dir}, section_width {$dir}, aspect_ratio {$dir}";
+				
+				$row = Yii::app()->db->createCommand($sql)->queryRow();				
+				if (!empty($row)) {
+					if (!empty($row['section_width']) && !empty($row['aspect_ratio']) && !empty($row['rim_diameter']))
+					$data = Tire::format($row, false);
+				}	
+			}
+			
+			Yii::app()->cache->get($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR, Tags::TAG_TIRE));				
+		}
+		
+		return $data;		
+	}	
+	
 }
