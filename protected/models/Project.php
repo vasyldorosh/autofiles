@@ -644,7 +644,7 @@ class Project extends CActiveRecord
 					SELECT
 						count(*) AS c,
 						@ids:=CONCAT(',', CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8), ','),
-						(SELECT CONCAT(',', MIN(pp.id), ',')  
+						(SELECT CAST( GROUP_CONCAT(pp.id) AS CHAR(10000) CHARACTER SET utf8)  
 							FROM project AS pp
 							LEFT JOIN rim_offset_range AS ror ON pp.rim_offset_range_id = ror.id
 							WHERE CONCAT(',', pp.id, ',') LIKE @ids AND pp.rim_offset_range_id IS NOT NULL
