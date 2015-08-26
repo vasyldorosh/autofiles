@@ -673,7 +673,7 @@ class Project extends CActiveRecord
 					LEFT JOIN rim_width AS rw ON p.rim_width_id = rw.id
 					LEFT JOIN tire_rim_diameter AS rear_rd ON p.rear_rim_diameter_id = rear_rd.id
 					LEFT JOIN rim_width AS rear_rw ON p.rim_width_id = rear_rw.id
-					WHERE rd.value IS NOT NULL AND rw.value IS NOT NULL AND p.model_year_id IN(".implode(',', $model_year_ids).")
+					WHERE rd.value IS NOT NULL AND rw.value IS NOT NULL AND p.model_year_id IN(".implode(',', $model_year_ids).") AND p.id<>3755
 					GROUP BY rim_diameter, rim_width, p.is_staggered_wheels
 					ORDER BY rd.value, CAST(rw.value AS DECIMAL(5,2))";
 			
