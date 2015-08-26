@@ -635,7 +635,7 @@ class Project extends CActiveRecord
 	
 	public static function getTireRangeByModelYears($model_year_ids, $dir)
 	{
-		$key	  = Tags::TAG_PROJECT . '_getTireRangeByModelYears_' . $dir . '_' . implode('_', $model_year_ids);
+		$key	  = Tags::TAG_PROJECT . '__getTireRangeByModelYears_' . $dir . '_' . implode('_', $model_year_ids);
 		$data	  = Yii::app()->cache->get($key);
 		
 		if ($data === false) {
@@ -655,6 +655,7 @@ class Project extends CActiveRecord
 			
 			$row = Yii::app()->db->createCommand($sql)->queryRow();				
 			if (!empty($row)) {
+				if (!empty($row['section_width']) && !empty($row['aspect_ratio']) && !empty($row['rim_diameter']))
 				$data = Tire::format($row, false);
 			}	
 			

@@ -73,10 +73,17 @@
 				</tr>
 				<?php endif;?>	
 					
+				<?php $rangeTire = array();
+				if (!empty($wheelsDataItem['tires_range_from'])) $rangeTire[] = $wheelsDataItem['tires_range_from'];
+				if (!empty($wheelsDataItem['tires_range_to'])) $rangeTire[] = $wheelsDataItem['tires_range_to'];
+				?>	
+					
+				<?php if (!empty($rangeTire)):?>	
 				<tr>
 					<td>Tire sizes</td>
-					<td><a href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/<?=$wheelsDataItem['years'][0]?>/"><?=$wheelsDataItem['tires_range_from']?> &ndash; <?=$wheelsDataItem['tires_range_to']?></a></td>
+					<td><a href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/<?=$wheelsDataItem['years'][0]?>/"><?=implode(' &ndash; ', $rangeTire)?></a></td>
 				</tr>
+				<?php endif;?>
 				
 			</tbody>
 			</table>
