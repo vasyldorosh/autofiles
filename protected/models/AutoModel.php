@@ -678,7 +678,7 @@ class AutoModel extends CActiveRecord
 						) AS y_ror_min,						
 						(SELECT MAX(ror.value)
 							FROM auto_model_year AS yy
-							LEFT JOIN rim_offset_range AS ror ON yy.offset_range_from_to = ror.id
+							LEFT JOIN rim_offset_range AS ror ON yy.offset_range_to_id = ror.id
 							WHERE FIND_IN_SET(yy.id, CAST( GROUP_CONCAT(DISTINCT y.id ORDER BY y.id DESC) AS CHAR(10000) CHARACTER SET utf8))
 						) AS y_ror_max				
 					FROM auto_model_year AS y
