@@ -37,10 +37,21 @@
 					
 				</tr>
 				<?php endif;?>
+				
+				<?php 
+					$stockWheelOffset = array();
+					if (!empty($wheelsDataItem['y_ror_min'])) $stockWheelOffset[] = $wheelsDataItem['y_ror_min'];
+					if (!empty($wheelsDataItem['y_ror_max']) && $wheelsDataItem['y_ror_min'] != $wheelsDataItem['y_ror_max']) $stockWheelOffset[] = $wheelsDataItem['y_ror_max'];
+				
+				?>
+				
+				<?php if (!empty($stockWheelOffset)):?>
 				<tr>
 					<td>Stock wheel offset</td>
-					<td><?=$wheelsDataItem['y_ror_min']?> to <?=$wheelsDataItem['y_ror_max']?> mm</td>
+					<td><?=implode(' to ', $stockWheelOffset)?> mm</td>
 				</tr>
+				<?php endif;?>
+				
 				<tr>
 					<td>Custom offset range</td>
 					<td><a href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/">10 to 45 mm</a></td>
