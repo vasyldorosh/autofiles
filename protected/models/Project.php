@@ -635,14 +635,10 @@ class Project extends CActiveRecord
 	
 	public static function getCustomRimSizes($model_year_ids)
 	{
-		$key	  = Tags::TAG_PROJECT . '_getCustomRimSizes_' . implode('_', $model_year_ids);
+		$key	  = Tags::TAG_PROJECT . '_getCustomRimSizes__' . implode('_', $model_year_ids);
 		$data	  = Yii::app()->cache->get($key);
 		
-		if ($data === false || true) {
-			
-			//@ids:=CONCAT(',', CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8), ','),
-						
-			
+		if ($data === false) {
 			$sql = "
 					SELECT
 						count(*) AS c,
@@ -659,12 +655,12 @@ class Project extends CActiveRecord
 						(SELECT MIN(rear_ror.value)  
 							FROM project AS pp
 							LEFT JOIN rim_offset_range AS rear_ror ON pp.rear_rim_offset_range_id = rear_ror.id
-							WHERE pp.id IN(CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8))
+							WHERE FIND_IN_SET(pp.id, CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8))
 						) AS rear_ror_min,			 
 						(SELECT MAX(rear_ror.value)  
 							FROM project AS pp
 							LEFT JOIN rim_offset_range AS rear_ror ON pp.rear_rim_offset_range_id = rear_ror.id
-							WHERE pp.id IN(CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8))
+							WHERE FIND_IN_SET(pp.id, CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8))
 						) AS rear_ror_max,						
 						p.is_staggered_wheels AS is_staggered,
 						rd.value AS rim_diameter, 
