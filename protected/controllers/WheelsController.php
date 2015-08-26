@@ -87,6 +87,7 @@ class WheelsController extends Controller
 		if (isset($_GET['t']))
 			d($wheelsDataItems);
 		
+		
 		$this->render('model', array(
 			'lastModelYear' => $lastModelYear,
 			'make' => $make,
