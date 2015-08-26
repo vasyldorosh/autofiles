@@ -52,11 +52,24 @@
 				</tr>
 				<?php endif;?>
 				
+				<?php 
+					$customOffsetRange = array();
+					
+					if (is_numeric($wheelsDataItem['p_ror_min']) || is_numeric($wheelsDataItem['p_rear_ror_min'])) {
+						$customOffsetRange[] = min($wheelsDataItem['p_ror_min'], $wheelsDataItem['p_rear_ror_min']);
+					}
+					if (is_numeric($wheelsDataItem['p_ror_max']) || is_numeric($wheelsDataItem['p_rear_ror_max'])) {
+						$customOffsetRange[] = max($wheelsDataItem['p_ror_max'], $wheelsDataItem['p_rear_ror_max']);
+					}
+				?>
+				
+				<?php if (!empty($customOffsetRange)):?>
 				<tr>
 					<td>Custom offset range</td>
-					<td><a href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/">10 to 45 mm</a></td>
+					<td><a href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/"><?=implode(' to ', $customOffsetRange)?> mm</a></td>
 					
 				</tr>
+				<?php endif;?>
 
 				<?php if (!empty($wheelsDataItem['center_bore'])):?>
 				<tr>
