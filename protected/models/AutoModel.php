@@ -691,12 +691,12 @@ class AutoModel extends CActiveRecord
 							LEFT JOIN rim_offset_range AS ror ON pp.rim_offset_range_id = ror.id
 							WHERE FIND_IN_SET(pp.model_year_id, CAST( GROUP_CONCAT(DISTINCT y.id ORDER BY y.id DESC) AS CHAR(10000) CHARACTER SET utf8)) AND pp.rim_offset_range_id <> 0
 						) AS p_ror_max,							
-						(SELECT MIN(ror.value)
+						(SELECT MIN(rear_ror.value)
 							FROM project AS pp
 							LEFT JOIN rim_offset_range AS rear_ror ON pp.rear_rim_offset_range_id = rear_ror.id
 							WHERE FIND_IN_SET(pp.model_year_id, CAST( GROUP_CONCAT(DISTINCT y.id ORDER BY y.id DESC) AS CHAR(10000) CHARACTER SET utf8)) AND pp.rear_rim_offset_range_id <> 0 AND pp.is_staggered_wheels=1
 						) AS p_rear_ror_min,							
-						(SELECT MAX(ror.value)
+						(SELECT MAX(rear_ror.value)
 							FROM project AS pp
 							LEFT JOIN rim_offset_range AS rear_ror ON pp.rear_rim_offset_range_id = rear_ror.id
 							WHERE FIND_IN_SET(pp.model_year_id, CAST( GROUP_CONCAT(DISTINCT y.id ORDER BY y.id DESC) AS CHAR(10000) CHARACTER SET utf8)) AND pp.rear_rim_offset_range_id <> 0 AND pp.is_staggered_wheels=1
