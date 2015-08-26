@@ -63,7 +63,7 @@
 					}
 				?>
 				
-				<?php if (!empty($customOffsetRange)):?>
+				<?php if (!empty($customOffsetRange)):d($customOffsetRange,0);?>
 				<tr>
 					<td>Custom offset range</td>
 					<td><a href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/"><?=implode(' to ', $customOffsetRange)?> mm</a></td>
