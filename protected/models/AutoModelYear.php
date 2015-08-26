@@ -1431,6 +1431,8 @@ class AutoModelYear extends CActiveRecord
 		$data	  = Yii::app()->cache->get($key);
 		$ids      = self::getTireIdsByModelYears($model_year_ids);
 		
+		d($ids,0);
+		
 		if ($data === false) {
 			$data = '';
 			
