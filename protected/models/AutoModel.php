@@ -660,8 +660,8 @@ class AutoModel extends CActiveRecord
 			$data = array();
 
 			$sql = "SELECT  
-						CAST( GROUP_CONCAT(DISTINCT `year` ORDER BY `year` DESC) AS CHAR(10000) CHARACTER SET utf8) AS `years`, 
-						CAST( GROUP_CONCAT(DISTINCT `id` ORDER BY `id` DESC) AS CHAR(10000) CHARACTER SET utf8) AS `ids`, 
+						CAST( GROUP_CONCAT(DISTINCT y.year ORDER BY y.year DESC) AS CHAR(10000) CHARACTER SET utf8) AS `years`, 
+						CAST( GROUP_CONCAT(DISTINCT y.id ORDER BY y.id DESC) AS CHAR(10000) CHARACTER SET utf8) AS `ids`, 
 						tire_rim_diameter_from_id, 
 						rim_width_from_id, 
 						tire_rim_diameter_to_id, 
@@ -674,12 +674,12 @@ class AutoModel extends CActiveRecord
 						(SELECT MAX(ror.value)
 							FROM auto_model_year AS yy
 							LEFT JOIN rim_offset_range AS ror ON y.rim_offset_range_id = ror.id
-							WHERE FIND_IN_SET(yy.id, CAST( GROUP_CONCAT(DISTINCT `id` ORDER BY `id` DESC) AS CHAR(10000) CHARACTER SET utf8))
+							WHERE FIND_IN_SET(yy.id, CAST( GROUP_CONCAT(DISTINCT y.id ORDER BY y.id DESC) AS CHAR(10000) CHARACTER SET utf8))
 						) AS y_ror_max,						
 						(SELECT MIN(ror.value)
 							FROM auto_model_year AS yy
 							LEFT JOIN rim_offset_range AS ror ON y.rim_offset_range_id = ror.id
-							WHERE FIND_IN_SET(yy.id, CAST( GROUP_CONCAT(DISTINCT `id` ORDER BY `id` DESC) AS CHAR(10000) CHARACTER SET utf8))
+							WHERE FIND_IN_SET(yy.id, CAST( GROUP_CONCAT(DISTINCT y.id ORDER BY y.id DESC) AS CHAR(10000) CHARACTER SET utf8))
 						) AS y_ror_min				
 					FROM auto_model_year
 					WHERE model_id={$model_id} AND is_active=1 AND is_deleted=0
