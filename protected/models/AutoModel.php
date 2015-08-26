@@ -680,8 +680,8 @@ class AutoModel extends CActiveRecord
 							FROM auto_model_year AS yy
 							LEFT JOIN rim_offset_range AS ror ON y.rim_offset_range_id = ror.id
 							WHERE FIND_IN_SET(yy.id, CAST( GROUP_CONCAT(DISTINCT `id` ORDER BY `id` DESC) AS CHAR(10000) CHARACTER SET utf8))
-						) AS y_ror_min,						
-					FROM `auto_model_year`
+						) AS y_ror_min				
+					FROM auto_model_year
 					WHERE model_id={$model_id} AND is_active=1 AND is_deleted=0
 					GROUP BY 	tire_rim_diameter_from_id, 
 								rim_width_from_id, 
