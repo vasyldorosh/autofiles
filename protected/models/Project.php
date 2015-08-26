@@ -641,17 +641,7 @@ class Project extends CActiveRecord
 		if ($data === false || true) {
 			$data = '';
 			$sql = "
-			delimiter //
-			CREATE FUNCTION testing (field INT)
-			RETURNS INT                              --> тип возвращаемого значения.
-			BEGIN
-				DECLARE myvar INT;                --> объявление переменных.
-				SET myvar = field + 1;
-				RETURN myvar;
-			END//	
-			
-			SELECT
-						testing(1) AS t
+					SELECT
 						count(*) AS c,
 						@ids:=CONCAT(',', CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8), ','),
 						(SELECT MIN(ror.value)  
