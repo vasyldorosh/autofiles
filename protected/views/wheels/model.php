@@ -39,11 +39,11 @@
 				<?php endif;?>
 				<tr>
 					<td>Stock wheel offset</td>
-					<td>35 to 50 mm</td>
+					<td><?=$wheelsDataItem['y_ror_min']?> to <?=$wheelsDataItem['y_ror_max']?> mm</td>
 				</tr>
 				<tr>
 					<td>Custom offset range</td>
-					<td><a href="/tuning/honda/accord/">10 to 45 mm</a></td>
+					<td><a href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/">10 to 45 mm</a></td>
 					
 				</tr>
 

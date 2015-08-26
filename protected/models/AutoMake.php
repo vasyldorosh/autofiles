@@ -408,7 +408,7 @@ class AutoMake extends CActiveRecord
 		$make_id = (int) $make_id;
 		$key = Tags::TAG_MODEL . '_getWheelsData_'.$make_id;
 		$data = Yii::app()->cache->get($key);
-		if ($data === false || 1) {
+		if ($data === false) {
 			$data = array();
 			$sql = "
 				SELECT 

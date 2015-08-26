@@ -686,4 +686,111 @@ class Project extends CActiveRecord
 		return $data;		
 	}
 	
+	public static function getWheelsRangeDataByModelYears($model_year_ids)
+	{
+		$key = Tags::TAG_PROJECT . '_getWheelsRangeDataByModelYears_'.implode('_', $model_year_ids);
+		$data = Yii::app()->cache->get($key);
+		if ($data === false || 1) {
+			$data = array();
+			$sql = "
+				SELECT 
+					@model_id:=m.id,
+					m.id AS model_id,
+					(SELECT MIN(trd_from.value)  
+						FROM auto_model_year AS y
+						LEFT JOIN tire_rim_diameter AS trd_from ON y.tire_rim_diameter_from_id = trd_from.id AND y.model_id=@model_id
+						WHERE y.tire_rim_diameter_from_id IS NOT NULL AND y.is_active=1 AND y.is_deleted=0
+					) AS trd_min,
+					(SELECT MIN(CAST(trw_from.value AS UNSIGNED))
+						FROM auto_model_year AS y
+						LEFT JOIN rim_width AS trw_from ON y.rim_width_from_id = trw_from.id AND y.model_id=@model_id 
+						WHERE y.rim_width_from_id IS NOT NULL AND y.is_active=1 AND y.is_deleted=0
+					) AS trw_min,	
+					
+					(SELECT MAX(trd_to.value)  
+						FROM auto_model_year AS y
+						LEFT JOIN tire_rim_diameter AS trd_to ON y.tire_rim_diameter_to_id = trd_to.id AND y.model_id=@model_id
+						WHERE y.tire_rim_diameter_to_id IS NOT NULL AND y.is_active=1 AND y.is_deleted=0
+					) AS trd_max,
+
+					(SELECT MAX(CAST(trw_to.value AS UNSIGNED))
+						FROM auto_model_year AS y
+						LEFT JOIN rim_width AS trw_to ON y.rim_width_to_id = trw_to.id AND y.model_id=@model_id
+						WHERE y.rim_width_to_id IS NOT NULL AND y.is_active=1 AND y.is_deleted=0
+					) AS trw_max,
+					
+					(SELECT MIN(or_from.value)
+						FROM auto_model_year AS y
+						LEFT JOIN rim_offset_range AS or_from ON y.offset_range_from_id = or_from.id AND y.model_id=@model_id
+						WHERE y.offset_range_from_id IS NOT NULL AND y.is_active=1 AND y.is_deleted=0
+					) AS or_min,
+					(SELECT MAX(or_to.value)
+						FROM auto_model_year AS y
+						LEFT JOIN rim_offset_range AS or_to ON y.offset_range_to_id = or_to.id AND y.model_id=@model_id
+						WHERE y.offset_range_to_id IS NOT NULL AND y.is_active=1 AND y.is_deleted=0
+					) AS or_max,
+					
+					(SELECT MIN(p_trd_from.value)  
+						FROM project AS p
+						LEFT JOIN tire_rim_diameter AS p_trd_from ON p.rim_diameter_id = p_trd_from.id 
+						WHERE p.model_id=@model_id AND p.rim_diameter_id IS NOT NULL
+					) AS p_rd_min,
+					(SELECT MAX(p_trd_to.value)  
+						FROM project AS p
+						LEFT JOIN tire_rim_diameter AS p_trd_to ON p.rim_diameter_id = p_trd_to.id
+						WHERE p.model_id=@model_id AND p.rim_diameter_id IS NOT NULL
+					) AS p_rd_max,
+					
+					(SELECT MIN(CAST(p_rw_from.value AS UNSIGNED))
+						FROM project AS p
+						LEFT JOIN rim_width AS p_rw_from ON p.rim_width_id = p_rw_from.id 
+						WHERE p.model_id=@model_id AND p.rim_width_id IS NOT NULL
+					) AS p_rw_min,
+					(SELECT MAX(CAST(p_rw_to.value AS UNSIGNED))
+						FROM project AS p
+						LEFT JOIN rim_width AS p_rw_to ON p.rim_width_id = p_rw_to.id
+						WHERE p.model_id=@model_id AND p.rim_width_id IS NOT NULL
+					) AS p_rw_max,
+					
+					(SELECT MIN(p_or_from.value)
+						FROM project AS p
+						LEFT JOIN rim_offset_range AS p_or_from ON p.rim_offset_range_id = p_or_from.id 
+						WHERE p.model_id=@model_id AND p.rim_offset_range_id IS NOT NULL
+					) AS p_or_min,
+					(SELECT MAX(p_or_to.value)
+						FROM project AS p
+						LEFT JOIN rim_offset_range AS p_or_to ON p.rim_offset_range_id = p_or_to.id
+						WHERE p.model_id=@model_id AND p.rim_offset_range_id IS NOT NULL
+					) AS p_or_max
+					
+				FROM auto_model_year AS y
+				WHERE y.id IN ({$model_year_ids}) AND y.is_active=1 AND y.is_deleted=0		
+
+			";
+
+			$items = Yii::app()->db->createCommand($sql)->queryAll();	
+			foreach ($items as $item) {
+				$data[$item['model_id']] = array(
+					'trd_min' => $item['trd_min'],
+					'trw_min' => $item['trw_min'],
+					'trd_max' => $item['trd_max'],
+					'trw_max' => $item['trw_max'],
+					'or_min' => $item['or_min'],
+					'or_max' => $item['or_max'],
+					'p_rd_min' => $item['p_rd_min'],
+					'p_rd_max' => $item['p_rd_max'],
+					'p_rw_min' => $item['p_rw_min'],
+					'p_rw_max' => $item['p_rw_max'],
+					'p_or_min' => $item['p_or_min'],
+					'p_or_max' => $item['p_or_max'],
+				);
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR, Tags::TAG_PROJECT));
+		}	
+		
+		return $data;
+	}	
+	
+	
 }

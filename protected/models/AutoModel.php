@@ -656,7 +656,7 @@ class AutoModel extends CActiveRecord
 		$model_id = (int) $model_id;
 		$key = Tags::TAG_MODEL_YEAR . '__getWheelsData__'.$model_id;
 		$data = Yii::app()->cache->get($key);
-		if ($data === false) {
+		if ($data === false || true) {
 			$data = array();
 
 			$sql = "SELECT  
@@ -670,7 +670,17 @@ class AutoModel extends CActiveRecord
 						offset_range_to_id, 
 						bolt_pattern_id, 
 						thread_size_id, 
-						center_bore_id 
+						center_bore_id,
+						(SELECT MAX(ror.value)
+							FROM auto_model_year AS yy
+							LEFT JOIN rim_offset_range AS ror ON y.rim_offset_range_id = ror.id
+							WHERE FIND_IN_SET(yy.id, CAST( GROUP_CONCAT(DISTINCT `id` ORDER BY `id` DESC) AS CHAR(10000) CHARACTER SET utf8))
+						) AS y_ror_max,						
+						(SELECT MIN(ror.value)
+							FROM auto_model_year AS yy
+							LEFT JOIN rim_offset_range AS ror ON y.rim_offset_range_id = ror.id
+							WHERE FIND_IN_SET(yy.id, CAST( GROUP_CONCAT(DISTINCT `id` ORDER BY `id` DESC) AS CHAR(10000) CHARACTER SET utf8))
+						) AS y_ror_min,						
 					FROM `auto_model_year`
 					WHERE model_id={$model_id} AND is_active=1 AND is_deleted=0
 					GROUP BY 	tire_rim_diameter_from_id, 
@@ -706,6 +716,7 @@ class AutoModel extends CActiveRecord
 		$listCenterBore = RimCenterBore::getAll();
 		$listThreadSize = RimThreadSize::getAll();
 		
+		$data = $items;
 		foreach ($items as $key=>$item) {
 			$data[$key]['ids'] = explode(',', $item['ids']);
 			$data[$key]['years'] = explode(',', $item['years']);
