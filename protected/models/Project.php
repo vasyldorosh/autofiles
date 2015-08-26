@@ -635,7 +635,7 @@ class Project extends CActiveRecord
 	
 	public static function getCustomRimSizes($model_year_ids)
 	{
-		$key	  = Tags::TAG_PROJECT . '_getCustomRimSizes__' . implode('_', $model_year_ids);
+		$key	  = Tags::TAG_PROJECT . '___getCustomRimSizes__' . implode('_', $model_year_ids);
 		$data	  = Yii::app()->cache->get($key);
 		
 		if ($data === false) {
@@ -664,8 +664,10 @@ class Project extends CActiveRecord
 						) AS rear_ror_max,						
 						p.is_staggered_wheels AS is_staggered,
 						rd.value AS rim_diameter, 
+						rd.id AS rim_diameter_id, 
 						rear_rd.value AS rear_rim_diameter, 
 						CAST(rw.value AS DECIMAL(5,2)) AS rim_width,
+						rw.id AS rim_width_id,
 						CAST(rear_rw.value AS DECIMAL(5,2)) AS rear_rim_width
 					FROM project AS p
 					LEFT JOIN tire_rim_diameter AS rd ON p.rim_diameter_id = rd.id

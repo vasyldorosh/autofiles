@@ -14,8 +14,7 @@
 
 <section class="section_tabs">
 				<section class="reviews">
-					
-						<h4 class="title_tire pt20">Modified <?=$make['title']?> <?=$model['title']?> models</h4>
+					<h4 class="title_tire pt20">Modified <?=$make['title']?> <?=$model['title']?> models</h4>
 						<p><?=$countProjects?> projects</p>
 						<div class="options">
 						<form id="form-filter" onsubmit="submitFilterForm();return false;">
@@ -25,7 +24,7 @@
 									<select name="filter[rim_diameter_id]">
 										<option value="">-no select-</option>
 										<?php foreach(TireRimDiameter::getListByModelProject($model['id']) as $k=>$v):?>
-										<option value="<?=$k?>"><?=$v?></option>
+										<option <?=(isset($fiilter['rim_diameter_id']) && $fiilter['rim_diameter_id']==$k)?'selected="selected"':''?> value="<?=$k?>"><?=$v?></option>
 										<?php endforeach;?>
 									</select>
 								</div>
@@ -34,7 +33,7 @@
 									<select name="filter[rim_width_id]">
 										<option value="">-no select-</option>
 										<?php foreach(RimWidth::getListByModelProject($model['id']) as $k=>$v):?>
-										<option value="<?=$k?>"><?=$v?></option>
+										<option <?=(isset($fiilter['rim_width_id']) && $fiilter['rim_width_id']==$k) value="<?=$k?>"><?=$v?></option>
 										<?php endforeach;?>
 									</select>
 								</div>

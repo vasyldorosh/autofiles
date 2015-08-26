@@ -204,6 +204,7 @@ class TuningController extends Controller
 		);	
 		
 		$this->render('model', array(
+			'filter' => $filter,
 			'lastModelYear' => $lastModelYear,
 			'projects' => $projects,
 			'make' => $make,
