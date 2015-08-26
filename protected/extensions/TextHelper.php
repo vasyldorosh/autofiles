@@ -460,4 +460,13 @@ class TextHelper {
     public static function getDayOfWeek(){
         return array(1=>'Понедельник',2=>'Вторник',3=>'Среда',4=>'Четверг',5=>'Пятница',6=>'Субота',7=>'Воскресенье');
     }
+	
+    public static function f($v)
+	{
+		if (substr($v, -1) == '0') {
+			$v =  substr($v, 0, -1);
+		}
+		
+		return $v;
+	}
 }

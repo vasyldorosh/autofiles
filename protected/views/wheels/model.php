@@ -102,7 +102,7 @@
 					</tr>
 					<?php foreach ($wheelsDataItem['custom_rim_sizes'] as $item):?>
 					<tr>
-						<td><a href="/wheels/honda/accord/<?=$item['rim_diameter']?>x<?=$item['rim_width']?>/<?php if ($item['is_staggered']):?><?=(!empty($item['rear_rim_diameter']))?$item['rear_rim_diameter']:$item['rim_diameter']?>x<?=(!empty($item['rear_rim_width']))?$item['rear_rim_width']:$item['rim_width']?>/<?php endif;?>"><?=$item['rim_diameter']?>x<?=$item['rim_width']?><?php if ($item['is_staggered']):?> / <?=(!empty($item['rear_rim_diameter']))?$item['rear_rim_diameter']:$item['rim_diameter']?>x<?=(!empty($item['rear_rim_width']))?$item['rear_rim_width']:$item['rim_width']?><?php endif;?></a></td>
+						<td><a href="/wheels/honda/accord/<?=$item['rim_diameter']?>x<?=TextHelper::f($item['rim_width'])?>/<?php if ($item['is_staggered']):?><?=(!empty($item['rear_rim_diameter']))?$item['rear_rim_diameter']:$item['rim_diameter']?>x<?=(!empty($item['rear_rim_width']))?TextHelper::f($item['rear_rim_width']):TextHelper::f($item['rim_width'])?>/<?php endif;?>"><?=$item['rim_diameter']?>x<?=$item['rim_width']?><?php if ($item['is_staggered']):?> / <?=(!empty($item['rear_rim_diameter']))?$item['rear_rim_diameter']:$item['rim_diameter']?>x<?=(!empty($item['rear_rim_width']))?TextHelper::f($item['rear_rim_width']):TextHelper::f($item['rim_width'])?><?php endif;?></a></td>
 						<td><?=$item['ror_min']?>-<?=$item['ror_max']?></td>
 						<td><a href="/tuning/honda/accord/"><?=$item['c']?></a></td>
 					</tr>
