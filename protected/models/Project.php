@@ -649,10 +649,10 @@ class Project extends CActiveRecord
 							LEFT JOIN rim_offset_range AS ror ON pp.rim_offset_range_id = ror.id
 							WHERE pp.id IN(@ids) AND pp.rim_offset_range_id IS NOT NULL
 						) AS ror_min,			 
-						(SELECT MAX(pp.id)  
+						(SELECT MAX(ror.value)  
 							FROM project AS pp
 							LEFT JOIN rim_offset_range AS ror ON pp.rim_offset_range_id = ror.id
-							WHERE CONCAT(',', pp.id, ',') LIKE @ids AND pp.rim_offset_range_id IS NOT NULL
+							WHERE pp.id IN(@ids) AND pp.rim_offset_range_id IS NOT NULL
 						) AS ror_max,						
 						(SELECT MIN(rear_ror.value)  
 							FROM project AS pp
