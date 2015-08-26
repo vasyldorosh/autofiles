@@ -642,26 +642,26 @@ class Project extends CActiveRecord
 			$data = '';
 			$sql = "SELECT
 						count(*) AS c,
-						CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8),
-						(SELECT SUM(ror.value)  
+						CONCAT('%', CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8), '%') AS ppp,
+						(SELECT MIN(ror.value)  
 							FROM project AS pp
 							LEFT JOIN rim_offset_range AS ror ON pp.rim_offset_range_id = ror.id
-							WHERE CONCAT(',', pp.id, ',') LIKE CONCAT('%', CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8), '%') AND pp.rim_offset_range_id IS NOT NULL
+							WHERE pp.id IN(CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8)) AND pp.rim_offset_range_id IS NOT NULL
 						) AS ror_min,			 
 						(SELECT MAX(ror.value)  
 							FROM project AS pp
 							LEFT JOIN rim_offset_range AS ror ON pp.rim_offset_range_id = ror.id
-							WHERE CONCAT(',', pp.id, ',') LIKE CONCAT('%', CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8), '%') AND pp.rim_offset_range_id IS NOT NULL
+							WHERE pp.id IN(CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8)) AND pp.rim_offset_range_id IS NOT NULL
 						) AS ror_max,						
 						(SELECT MIN(rear_ror.value)  
 							FROM project AS pp
 							LEFT JOIN rim_offset_range AS rear_ror ON pp.rear_rim_offset_range_id = rear_ror.id
-							WHERE CONCAT(',', pp.id, ',') LIKE CONCAT('%', CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8), '%')
+							WHERE pp.id IN(CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8))
 						) AS rear_ror_min,			 
 						(SELECT MAX(rear_ror.value)  
 							FROM project AS pp
 							LEFT JOIN rim_offset_range AS rear_ror ON pp.rear_rim_offset_range_id = rear_ror.id
-							WHERE CONCAT(',', pp.id, ',') LIKE CONCAT('%', CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8), '%')
+							WHERE pp.id IN(CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8))
 						) AS rear_ror_max,						
 						p.is_staggered_wheels AS is_staggered,
 						rd.value AS rim_diameter, 
@@ -673,7 +673,7 @@ class Project extends CActiveRecord
 					LEFT JOIN rim_width AS rw ON p.rim_width_id = rw.id
 					LEFT JOIN tire_rim_diameter AS rear_rd ON p.rear_rim_diameter_id = rear_rd.id
 					LEFT JOIN rim_width AS rear_rw ON p.rim_width_id = rear_rw.id
-					WHERE rd.value IS NOT NULL AND rw.value IS NOT NULL AND p.model_year_id IN(".implode(',', $model_year_ids).") AND p.id<>3755
+					WHERE rd.value IS NOT NULL AND rw.value IS NOT NULL AND p.model_year_id IN(".implode(',', $model_year_ids).")
 					GROUP BY rim_diameter, rim_width, p.is_staggered_wheels
 					ORDER BY rd.value, CAST(rw.value AS DECIMAL(5,2))";
 			
