@@ -103,7 +103,7 @@
 				</tbody>
 			</table>
 		</section>
-		<?php endforeach;?>
+		<?php endif;?>
 		
 		<?php endforeach;?>
 		
