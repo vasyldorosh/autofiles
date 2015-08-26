@@ -644,12 +644,12 @@ class Project extends CActiveRecord
 					SELECT
 						count(*) AS c,
 						@ids:=CONCAT(',', CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8), ','),
-						(SELECT	pp.id
+						(SELECT	MIN(pp.id)
 							FROM project AS pp
 							LEFT JOIN rim_offset_range AS ror ON pp.rim_offset_range_id = ror.id
 							WHERE CONCAT(',', pp.id, ',') LIKE @ids AND pp.rim_offset_range_id IS NOT NULL
 						) AS ror_min,			 
-						(SELECT MAX(ror.value)  
+						(SELECT MAX(pp.id)  
 							FROM project AS pp
 							LEFT JOIN rim_offset_range AS ror ON pp.rim_offset_range_id = ror.id
 							WHERE CONCAT(',', pp.id, ',') LIKE @ids AND pp.rim_offset_range_id IS NOT NULL
