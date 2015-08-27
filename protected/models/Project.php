@@ -621,13 +621,13 @@ class Project extends CActiveRecord
 			
 			$_arr = array();
 			if (!empty($min)) {
-				if (count($min)==1)
+				if (count($min)==2)
 					$_arr[] = implode('x', $min);
 				else
 					$_arr[] = 'R'.$min[0];
 			}
 			if (!empty($max)) {
-				if (count($max)==1)
+				if (count($max)==2)
 					$_arr[] = implode('x', $max);
 				else
 					$_arr[] = 'R'.$max[0];
