@@ -19,6 +19,11 @@
 						</tr>
 						<tr>
 							<td>
+								<a class="rim" href="/wheels<?=$make['url']?>"><?=$make['title']?> wheels</a>
+							</td>						
+						</tr>						
+						<tr>
+							<td>
 								<a class="tire" href="/tires<?=$make['url']?>"><?=$make['title']?> tire size</a>
 							</td>						
 						</tr>

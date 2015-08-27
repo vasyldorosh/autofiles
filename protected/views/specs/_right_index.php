@@ -18,10 +18,15 @@
 						</tr>
 						<tr>
 							<td>
+								<a class="rim" href="/wheels.html">Wheels</a>
+							</td>						
+						</tr>
+						<tr>
+							<td>
 								<a class="tire" href="/tires.html">Tire size</a>
 							</td>						
 						</tr>
-                                                <tr>
+                        <tr>
 							<td>
 								<a class="tuning" href="/tuning.html">Car tuning</a>
 							</td>						

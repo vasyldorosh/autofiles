@@ -31,6 +31,7 @@
 	<?php $uri = Yii::app()->request->requestUri;?>
 		<li <?=($uri=='/')?'class="is-active"':''?>><a href="/">All cars</a></li>
 		<li <?=($uri=='/0-60-times.html')?'class="is-active"':''?>><a href="/0-60-times.html">0-60 times</a></li>
+		<li <?=($uri=='/wheels.html')?'class="is-active"':''?>><a href="/wheels.html">Wheels</a></li>
 		<li <?=($uri=='/tires.html')?'class="is-active"':''?>><a href="/tires.html">Tires</a></li>
 		<li <?=($uri=='/horsepower.html')?'class="is-active"':''?>><a href="/horsepower.html">HP</a></li>
 		<li <?=($uri=='/dimensions.html')?'class="is-active"':''?>><a href="/dimensions.html">Dimensions</a></li>

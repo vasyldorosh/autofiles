@@ -89,7 +89,7 @@ class RimWidth extends CActiveRecord
 		$key = Tags::TAG_RIM_WIDTH . 'getAll';
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data === false || true) {
+		if ($data === false) {
 			$data = array();
 			$criteria = new CDbCriteria;
 			$criteria->select = "id,  CAST(value AS DECIMAL(5,2)) AS value";
