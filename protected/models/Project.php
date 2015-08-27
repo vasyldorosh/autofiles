@@ -574,7 +574,7 @@ class Project extends CActiveRecord
 		$key	  = Tags::TAG_PROJECT . '__getCustomRimSizesRangeByModelYears_' . implode('_', $model_year_ids);
 		$data	  = Yii::app()->cache->get($key);
 		
-		if ($data === false) {
+		if ($data === false || 1) {
 			$data = '';
 			
 			$sql = "SELECT 
@@ -621,16 +621,16 @@ class Project extends CActiveRecord
 			
 			$_arr = array();
 			if (!empty($min)) {
-				if (!empty($min['rw_min']))
+				if (count($min)==1)
 					$_arr[] = implode('x', $min);
 				else
 					$_arr[] = 'R'.$min[0];
 			}
 			if (!empty($max)) {
-				if (!empty($min['rw_max']))
-					$_arr[] = implode('x', $min);
+				if (count($max)==1)
+					$_arr[] = implode('x', $max);
 				else
-					$_arr[] = 'R'.$min[0];
+					$_arr[] = 'R'.$max[0];
 			}
 			
 			$data = implode(' &ndash; ', $_arr);
