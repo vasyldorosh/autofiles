@@ -179,7 +179,7 @@ $(document).scroll(function(e){
 	if (element_in_scroll(".js-scrolling-ajax-item:last") && !sendScrolingRequest) {
 		sendScrolingRequest = true;
 		offset = $('.js-scrolling-ajax-item').size();
-		$.post('<?=Yii::app()->request->requestUri?>', $('#form-filter').serialize()+'&offset='+offset, function(response){
+		$.post('/tuning/<?=$make['alias']?>/<?=$model['alias']?>/', $('#form-filter').serialize()+'&offset='+offset, function(response){
 			html = $.trim(response);
 			if (html != '') {
 				$('#list_update').append(response);
