@@ -22,8 +22,8 @@
 		</section>
 		
 		<?php foreach ($wheelsDataItems as $wheelsDataItem):?>
-		<section class="table-container">1111
-			<a name="2015"></a><img src="<?=AutoModelYear::thumb($wheelsDataItem['ids'][0, 150, null, 'resize'])?>"><h4 class="title_tire"><?=$make['title']?> <?=$model['title']?> wheels</h4>  
+		<section class="table-container">
+			<a name="2015"></a><img src="<?=AutoModelYear::thumb($wheelsDataItem['ids'][0], 150, null, 'resize')?>"><h4 class="title_tire"><?=$make['title']?> <?=$model['title']?> wheels</h4>  
 			<?php foreach ($wheelsDataItem['years'] as $y):?>
 			<a name="<?=$y?>" style="color:#000;"><small><?=$y?></small></a>
 			<?php endforeach;?>
