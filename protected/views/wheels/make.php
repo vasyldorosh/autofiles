@@ -68,7 +68,7 @@
 					<?php if (!empty($p_rwd_from) || !empty($p_rwd_to)):?>	
 						<li>Custom rim width <?=implode('x', $p_rwd_from)?><?php if(!empty($p_rwd_to) && $p_rwd_to!==$p_rwd_from):?><?=(!empty($p_rwd_from) && !empty($p_rwd_to))?' &ndash; ':''?><?=implode('x', $p_rwd_to)?><?php endif;?></li>
 					<?php endif;?>						
-					<?php if (!empty($p_or)):?>
+					<?php if (!empty($p_or)):d($p_or,0);?>
 						<li>Offset <?=(count($p_or)==2)?'range ':'';?><?=implode(' &ndash; ', $p_or)?></li>
 					<?php endif;?>
 					</ul>
