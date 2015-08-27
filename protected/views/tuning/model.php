@@ -24,7 +24,7 @@
 									<select name="filter[rim_diameter_id]">
 										<option value="">-no select-</option>
 										<?php foreach(TireRimDiameter::getListByModelProject($model['id']) as $k=>$v):?>
-										<option <?=(isset($fiilter['rim_diameter_id']) && $fiilter['rim_diameter_id']==$k)?'selected="selected"':''?> value="<?=$k?>"><?=$v?></option>
+										<option <?=(isset($filter['rim_diameter_id']) && $filter['rim_diameter_id']==$k)?'selected="selected"':''?> value="<?=$k?>"><?=$v?></option>
 										<?php endforeach;?>
 									</select>
 								</div>
@@ -33,7 +33,7 @@
 									<select name="filter[rim_width_id]">
 										<option value="">-no select-</option>
 										<?php foreach(RimWidth::getListByModelProject($model['id']) as $k=>$v):?>
-										<option <?=(isset($fiilter['rim_width_id']) && $fiilter['rim_width_id']==$k)?'selected="selected"':''?> value="<?=$k?>"><?=$v?></option>
+										<option <?=(isset($filter['rim_width_id']) && $filter['rim_width_id']==$k)?'selected="selected"':''?> value="<?=$k?>"><?=$v?></option>
 										<?php endforeach;?>
 									</select>
 								</div>
