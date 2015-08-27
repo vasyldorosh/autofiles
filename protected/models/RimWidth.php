@@ -90,11 +90,16 @@ class RimWidth extends CActiveRecord
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data === false || true) {
+			$data = array();
 			$criteria = new CDbCriteria;
 			$criteria->select = "id,  CAST(value AS DECIMAL(5,2)) AS value";
 			$criteria->order = 'value';
 			
-			$data = CHtml::listData(self::model()->findAll($criteria), 'id', 'value');
+			$items = CHtml::listData(self::model()->findAll($criteria), 'id', 'value');
+			foreach ($items as $k=>$v) {
+				$data[$k] = TextHelper::f($v);
+			}
+			
 			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_RIM_WIDTH));
 		}
 		
