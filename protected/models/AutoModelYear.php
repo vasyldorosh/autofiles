@@ -207,7 +207,7 @@ class AutoModelYear extends CActiveRecord
 			}		
 		
 			$this->file_name = "{$this->Model->Make->alias}-{$this->Model->alias}-{$this->year}.jpg";
-			$this->file->saveAs($this->getImage_directory(true) . $this->file_name);
+			$this->file->saveAs(self::getImage_directory(true) . $this->file_name);
 			$this->updateByPk($this->id, array('file_name'=>$this->file_name));
 		}
 		
@@ -219,7 +219,7 @@ class AutoModelYear extends CActiveRecord
 			$imageContent = CUrlHelper::getPage($this->file_url, '', '');	
 
 			if (!empty($imageContent)) {
-				file_put_contents($this->getImage_directory(true) . $this->file_name, $imageContent);
+				file_put_contents(self::getImage_directory(true) . $this->file_name, $imageContent);
 				$this->updateByPk($this->id, array('file_name'=>$this->file_name));
 			}
 		}	
@@ -285,7 +285,7 @@ class AutoModelYear extends CActiveRecord
     }	
 	
 	
-    public function getImage_directory($mkdir=false) {
+    public static function getImage_directory($mkdir=false) {
 		return Yii::app()->basePath . '/..'. self::PHOTO_DIR;
     }
 
@@ -296,7 +296,7 @@ class AutoModelYear extends CActiveRecord
 	
 	public function getThumb($width=null, $height=null, $mode='origin')
 	{
-		$dir = $this->getImage_directory();
+		$dir = self::getImage_directory();
 		$originFile = $dir . $this->file_name;
 
 		if (!is_file($originFile)) {
@@ -327,6 +327,24 @@ class AutoModelYear extends CActiveRecord
 		}
 		
 		return self::PHOTO_DIR .$subdir.'/'. $this->file_name;
+	}	
+
+	public static function thumb($id, $width=null, $height=null, $mode='origin')
+	{
+		$id = (int) $id;
+		$key = Tags::TAG_MODEL_YEAR . "_thumb_{$id}_{$width}_{$height}_{$mode}";
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			$data = '';
+			$model = self::model()->findByPk($id);
+			if (!empty($model)) {
+				$data = $model->getThumb($width, $height, $mode);
+			}
+			
+			Yii::app()->cache->set($data, $key, 0, new Tags(Tags::TAG_MODEL_YEAR.'_thumb_'.$id));
+		}
+		
+		return $data;
 	}	
 
 	public function search()
@@ -530,6 +548,7 @@ class AutoModelYear extends CActiveRecord
 	private function _clearCache()
 	{
 		Yii::app()->cache->clear(Tags::TAG_MODEL_YEAR);
+		Yii::app()->cache->clear(Tags::TAG_MODEL_YEAR.'_thumb_'.$this->id);
 	}	
 
 	public static function getYearByMakeAndModelAndAlias($make_id, $model_id, $year)
