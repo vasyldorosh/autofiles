@@ -607,17 +607,17 @@ class Project extends CActiveRecord
 			
 			
 			if (!empty($rowRD['rd_min'])) {
-				$min[] = $row['rd_min'];
+				$min[] = $rowRD['rd_min'];
 			}
-			if (!empty($row['rw_min'])) {
-				$min[] = $row['rw_min'];
+			if (!empty($rowRW['rw_min'])) {
+				$min[] = $rowRW['rw_min'];
 			}			
 			
 			if (!empty($rowRD['rd_max'])) {
-				$max[] = $row['rd_max'];
+				$max[] = $rowRD['rd_max'];
 			}
-			if (!empty($row['rw_max'])) {
-				$max[] = $row['rw_max'];
+			if (!empty($rowRW['rw_max'])) {
+				$max[] = $rowRW['rw_max'];
 			}			
 			
 			$_arr = array();
