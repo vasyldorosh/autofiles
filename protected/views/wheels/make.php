@@ -41,8 +41,8 @@
 						if (!empty($dataWheels['trd_max'])) { $rwd_to[] = $dataWheels['trd_max'];}
 						if (!empty($dataWheels['trw_max'])) { $rwd_to[] = $dataWheels['trw_max'];}
 						
-						if (!empty($dataWheels['or_min'])) { $or[] = $dataWheels['or_min'];}
-						if (!empty($dataWheels['or_max'])) { $or[] = $dataWheels['or_max'];}
+						if (!empty($dataWheels['or_min'])) { $or[$dataWheels['or_min']] = $dataWheels['or_min'];}
+						if (!empty($dataWheels['or_max'])) { $or[$dataWheels['or_max']] = $dataWheels['or_max'];}
 
 						if (!empty($dataWheels['p_rd_min'])) { $p_rwd_from[] = $dataWheels['p_rd_min'];}
 						if (!empty($dataWheels['p_rw_min'])) { $p_rwd_from[] = $dataWheels['p_rw_min'];}
@@ -60,7 +60,7 @@
 					<?php endif;?>	
 					
 					<?php if (!empty($or)):?>
-						<li>Offset range <?=implode(' &ndash; ', $or)?></li>
+						<li>Offset <?=(count($or)==2)?'range ':'';?><?=implode(' &ndash; ', $or)?></li>
 					<?php endif;?>
 					</ul>
 					
@@ -68,7 +68,7 @@
 					<?php if (!empty($p_rwd_from) || !empty($p_rwd_to)):?>	
 						<li>Custom rim width <?=implode('x', $p_rwd_from)?><?php if(!empty($p_rwd_to) && $p_rwd_to!==$p_rwd_from):?><?=(!empty($p_rwd_from) && !empty($p_rwd_to))?' &ndash; ':''?><?=implode('x', $p_rwd_to)?><?php endif;?></li>
 					<?php endif;?>						
-					<?php if (!empty($p_or)):d($p_or,0);?>
+					<?php if (!empty($p_or)):?>
 						<li>Offset <?=(count($p_or)==2)?'range ':'';?><?=implode(' &ndash; ', $p_or)?></li>
 					<?php endif;?>
 					</ul>
