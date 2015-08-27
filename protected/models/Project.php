@@ -605,7 +605,6 @@ class Project extends CActiveRecord
 			$min = array();
 			$max = array();
 			
-			
 			if (!empty($rowRD['rd_min'])) {
 				$min[] = $rowRD['rd_min'];
 			}
@@ -625,13 +624,13 @@ class Project extends CActiveRecord
 				if (!empty($min['rw_min']))
 					$_arr[] = implode('x', $min);
 				else
-					$_arr[] = 'R'.$min['rd_min'];
+					$_arr[] = 'R'.$min[0];
 			}
 			if (!empty($max)) {
 				if (!empty($min['rw_max']))
 					$_arr[] = implode('x', $min);
 				else
-					$_arr[] = 'R'.$min['rd_max'];
+					$_arr[] = 'R'.$min[0];
 			}
 			
 			$data = implode(' &ndash; ', $_arr);
