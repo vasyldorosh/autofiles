@@ -574,7 +574,7 @@ class Project extends CActiveRecord
 		$key	  = Tags::TAG_PROJECT . '__getCustomRimSizesRangeByModelYears_' . implode('_', $model_year_ids);
 		$data	  = Yii::app()->cache->get($key);
 		
-		if ($data === false || 1) {
+		if ($data === false) {
 			$data = '';
 			
 			$sql = "SELECT 
