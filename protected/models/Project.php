@@ -571,7 +571,7 @@ class Project extends CActiveRecord
 	
 	public static function getCustomRimSizesRangeByModelYears($model_year_ids)
 	{
-		$key	  = Tags::TAG_PROJECT . '_getCustomRimSizesRangeByModelYears_' . implode('_', $model_year_ids);
+		$key	  = Tags::TAG_PROJECT . '__getCustomRimSizesRangeByModelYears_' . implode('_', $model_year_ids);
 		$data	  = Yii::app()->cache->get($key);
 		
 		if ($data === false) {
@@ -588,14 +588,7 @@ class Project extends CActiveRecord
 						p.rim_diameter_id IS NOT NULL						 
 				";
 				
-			$row = Yii::app()->db->createCommand($sql)->queryRow();	
-			$rd = array();
-			if (!empty($row['rd_min'])) {
-				$rd[] = $row['rd_min'];
-			}
-			if (!empty($row['rd_max'])) {
-				$rd[] = $row['rd_max'];
-			}
+			$rowRD = Yii::app()->db->createCommand($sql)->queryRow();	
 			
 			$sql = "SELECT 
 						MIN(rw.value) AS rw_min,
@@ -608,21 +601,37 @@ class Project extends CActiveRecord
 						p.rim_diameter_id IS NOT NULL						 
 				";
 				
-			$row = Yii::app()->db->createCommand($sql)->queryRow();	
-			$rw = array();
+			$rowRW = Yii::app()->db->createCommand($sql)->queryRow();	
+			$min = array();
+			$max = array();
+			
+			
+			if (!empty($rowRD['rd_min'])) {
+				$min[] = $row['rd_min'];
+			}
 			if (!empty($row['rw_min'])) {
-				$rw[] = $row['rw_min'];
+				$min[] = $row['rw_min'];
+			}			
+			
+			if (!empty($rowRD['rd_max'])) {
+				$max[] = $row['rd_max'];
 			}
 			if (!empty($row['rw_max'])) {
-				$rw[] = $row['rw_max'];
+				$max[] = $row['rw_max'];
 			}			
 			
 			$_arr = array();
-			if (!empty($rd)) {
-				$_arr[] = implode('x', $rd);
+			if (!empty($min)) {
+				if (!empty($min['rw_min']))
+					$_arr[] = implode('x', $min);
+				else
+					$_arr[] = 'R'.$min['rd_min'];
 			}
-			if (!empty($rw)) {
-				$_arr[] = implode('x', $rw);
+			if (!empty($max)) {
+				if (!empty($min['rw_max']))
+					$_arr[] = implode('x', $min);
+				else
+					$_arr[] = 'R'.$min['rd_max'];
 			}
 			
 			$data = implode(' &ndash; ', $_arr);
