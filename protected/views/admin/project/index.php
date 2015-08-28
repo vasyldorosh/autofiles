@@ -171,7 +171,6 @@
 					'value' => '$data->is_staggered_wheels ? "Да" : "Нет"',
 					'filter' => HtmlHelper::getYesNoFilter(),
 				),
-				/*
 				array(
 					'name' => 'rear_rim_diameter_id',
 					'value' => 'isset($data->RearTireRimDiameter)?$data->RearTireRimDiameter->value:"-"',	
@@ -181,7 +180,8 @@
 					'name' => 'rear_rim_width_id',
 					'value' => 'isset($data->RearRimWidth)?$data->RearRimWidth->value:"-"',	
 					'filter' => RimWidth::getAll(),
-				),				
+				),
+				/*
 				array(
 					'name' => 'rear_rim_offset_range_id',
 					'value' => 'isset($data->RearRimOffsetRange)?$data->RearRimOffsetRange->value:"-"',	
