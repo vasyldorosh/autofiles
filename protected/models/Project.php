@@ -677,12 +677,13 @@ class Project extends CActiveRecord
 							WHERE FIND_IN_SET(pp.id, CAST( GROUP_CONCAT(p.id) AS CHAR(10000) CHARACTER SET utf8))
 						) AS rear_ror_max,						
 						p.is_staggered_wheels AS is_staggered,
-						rd.value AS rim_diameter, 
 						rd.id AS rim_diameter_id, 
-						rear_rd.value AS rear_rim_diameter, 
+						
+						rd.value AS rim_diameter, 
 						CAST(rw.value AS DECIMAL(5,2)) AS rim_width,
-						rw.id AS rim_width_id,
-						CAST(rear_rw.value AS DECIMAL(5,2)) AS rear_rim_width
+						rear_rd.value AS rear_rim_diameter, 
+						CAST(rear_rw.value AS DECIMAL(5,2)) AS rear_rim_width,
+						rw.id AS rim_width_id
 					FROM project AS p
 					LEFT JOIN tire_rim_diameter AS rd ON p.rim_diameter_id = rd.id
 					LEFT JOIN rim_width AS rw ON p.rim_width_id = rw.id
