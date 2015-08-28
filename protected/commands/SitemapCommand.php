@@ -14,19 +14,17 @@ class SitemapCommand extends CConsoleCommand
 	public function actionRun()
 	{
 		$limit = 10000; //(int)SiteConfig::getInstance()->getValue('count_items_in_file');	
-
-		if ($limit <= 1) $limit = 1000;
 		
 		$site_url = 'http://autofiles.com';//SiteConfig::getInstance()->getValue('sitemap_domain_url');	
 
 		$mapFiles = array(
 			'/', 
 			'/0-60-times.html/',
+			'/wheels.html',
 			'/tires.html',
 			'/horsepower.html',
 			'/dimensions.html',
 			'/tuning.html',
-			'/wheels.html',
 		);
 		
 		$mapModules = array(
