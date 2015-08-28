@@ -376,6 +376,12 @@ class Project extends CActiveRecord
 			$this->create_time = time();
 		}
 		
+		foreach (array('rear_rim_diameter_id', 'rear_rim_width_id','rear_rim_offset_range_id', 'rear_tire_section_width_id','rear_tire_aspect_ratio_id') as $attr) {
+			if (empty($this->$attr)) {
+				$this->$attr = null;
+			}
+		}
+ 		
 		return parent::beforeSave();
 	}
 
@@ -646,7 +652,7 @@ class Project extends CActiveRecord
 		$key	  = Tags::TAG_PROJECT . '___getCustomRimSizes__' . implode('_', $model_year_ids);
 		$data	  = Yii::app()->cache->get($key);
 		
-		if ($data === false) {
+		if ($data === false || 1) {
 			$sql = "
 					SELECT
 						count(*) AS c,
