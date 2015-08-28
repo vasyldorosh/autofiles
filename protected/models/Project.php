@@ -689,7 +689,7 @@ class Project extends CActiveRecord
 					LEFT JOIN tire_rim_diameter AS rear_rd ON p.rear_rim_diameter_id = rear_rd.id
 					LEFT JOIN rim_width AS rear_rw ON p.rim_width_id = rear_rw.id
 					WHERE rd.value IS NOT NULL AND rw.value IS NOT NULL AND p.model_year_id IN(".implode(',', $model_year_ids).") AND p.is_active=1
-					GROUP BY rim_diameter, rim_width, p.is_staggered_wheels
+					GROUP BY rim_diameter, rim_width, p.is_staggered_wheels, rear_rim_diameter, rear_rim_width
 					ORDER BY rd.value, CAST(rw.value AS DECIMAL(5,2))";
 			
 			$data = Yii::app()->db->createCommand($sql)->queryAll();				
