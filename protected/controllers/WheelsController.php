@@ -98,4 +98,39 @@ class WheelsController extends Controller
 		));
 	}
 	
+	public function actionDiametrWidth($diametr, $width)
+	{	
+		$diametrList =  array_flip (TireRimDiameter::getList());
+		$diametr_id = null;
+		if (isset($diametrList[$diametr])) {
+			$diametr_id = $diametrList[$diametr];
+		}
+
+		$widthList =  array_flip(RimWidth::getAll());
+		$width_id = null;
+		if (isset($widthList[$width])) {
+			$width_id = $widthList[$width];
+		}
+		
+		if (empty($diametr_id) || empty($width_id)) {
+			 throw new CHttpException(404,'Page cannot be found.');
+		}	
+
+		$rim = "{$diametr}x{$width}";
+				
+		$this->pageTitle = str_replace(array('[diametr]', '[width]'), array($diametr, $width), SiteConfig::getInstance()->getValue('seo_wheels_diametr_width_title'));
+		$this->meta_keywords = str_replace(array('[diametr]', '[width]'), array($diametr, $width), SiteConfig::getInstance()->getValue('seo_wheels_diametr_width_meta_keywords'));
+		$this->meta_description = str_replace(array('[diametr]', '[width]'), array($diametr, $width), SiteConfig::getInstance()->getValue('seo_wheels_diametr_width_meta_description'));		
+		$header_text_block = str_replace(array('[diametr]', '[width]'), array($diametr, $width), SiteConfig::getInstance()->getValue('wheels_model_header_text_block'));		
+			
+		$this->breadcrumbs = array(
+			'/' => 'Home',
+			'/wheels.html' => 'Wheels',
+			'#' => $rim,
+		);
+					
+		$this->render('diametr_width', array(
+		));
+	}
+	
 }
