@@ -24,7 +24,7 @@
 							'section_width' => $item['tire_section_width'],
 							'aspect_ratio' => $item['tire_aspect_ratio'],
 							'vehicle_class' => $item['tire_vehicle_class'],
-							'rim_diameter' => $diameter,
+							'rim_diameter' => $diametr,
 						);?>
 						<td><a href="/wheels/<?=$rim?>/<?=Tire::url($tire)?>/"><?=Tire::format($tire)?></a></td>
 						<td>7.0 - 8.0"</td>
