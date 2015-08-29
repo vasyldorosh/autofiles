@@ -261,6 +261,23 @@
 					), 
 					true
 				)),				
+                array(
+					'label'=>Yii::t('admin', 'Wheels Diametr Width'),
+					'content' => $this->renderPartial('_wheels_diametr_width', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+                array(
+					'label'=>Yii::t('admin', 'Wheels Diametr Width Tire'),
+					'content' => $this->renderPartial('_wheels_diametr_width_tire', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+			
 				
 			)
 		));?>
