@@ -828,8 +828,7 @@ class Project extends CActiveRecord
 				LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
 				LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id
 				WHERE 
-					p.rim_diameter_id = {$diametr_id} AND 
-					p.rim_width_id = {$width_id} AND 
+					((p.rim_diameter_id = {$diametr_id} AND p.rim_width_id = {$width_id}) OR  (p.rear_rim_diameter_id = {$diametr_id} AND p.rear_rim_width_id = {$width_id})) AND
 					p.is_active=1 AND 
 					p.tire_section_width_id IS NOT NULL AND 
 					p.tire_aspect_ratio_id IS NOT NULL AND 
