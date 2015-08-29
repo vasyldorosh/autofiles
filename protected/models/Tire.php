@@ -224,6 +224,24 @@ class Tire extends CActiveRecord
 		return $title;
 	}	
 	
+	public function getTitleAttr($tire, $vc=false) 
+	{
+		$title = '';
+		
+		if (!empty($tire['section_width']) && !empty($tire['aspect_ratio']) && !empty($tire['rim_diameter'])) {
+			
+			if ($vc)
+				$title = $tire['vehicle_class'] . ' ';
+			
+			$title.= $tire['section_width'] . '/' . $tire['aspect_ratio'] . ' R' . $tire['rim_diameter'];
+			if ($tire['is_rear'] && !empty($tire['rear_section_width']) && !empty($tire['rear_aspect_ratio'] && !empty($tire['rear_rim_diameter']) {
+				$title .= ' ' .$tire['rear_section_width'] . '/' . $tire['rear_aspect_ratio'] . ' R' . $tire['rear_rim_diameter'];
+			}
+		}
+			
+		return $title;
+	}	
+	
 	public function getList()
 	{
 		$key = Tags::TAG_TIRE . '__getList__';

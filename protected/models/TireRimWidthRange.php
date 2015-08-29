@@ -276,4 +276,58 @@ class TireRimWidthRange extends CActiveRecord
 		return $data;
 	}
 			
+	public static function getData()
+	{
+		$key 		= Tags::TAG_TIRE_RIM_WIDTH_RANGE . '_getData_';
+		$data 		= Yii::app()->cache->get($key);
+		
+		if ($data === false) {
+			$data = array();
+			
+				$sql = "SELECT 
+							t.is_rear AS is_rear, 
+							vc.code AS vehicle_class, 
+							rd.value AS rim_diameter, 
+							sw.value AS section_width, 
+							ar.value AS aspect_ratio,
+							r_rd.value AS rear_rim_diameter, 
+							r_sw.value AS rear_section_width, 
+							r_ar.value AS rear_aspect_ratio,
+							r.from AS front_from,
+							r.to AS front_to,
+							r.rear_from AS rear_from,
+							r.rear_to AS rear_to
+						FROM tire_rim_width_range AS r
+						LEFT JOIN tire AS t ON r.tire_id = t.id
+						LEFT JOIN tire_vehicle_class AS vc ON t.vehicle_class_id = vc.id
+						LEFT JOIN tire_rim_diameter AS rd ON t.rim_diameter_id = rd.id
+						LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
+						LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
+						LEFT JOIN tire_rim_diameter AS r_rd ON t.rear_rim_diameter_id = r_rd.id
+						LEFT JOIN tire_section_width AS r_sw ON t.rear_section_width_id = r_sw.id
+						LEFT JOIN tire_aspect_ratio AS r_ar ON t.rear_aspect_ratio_id = r_ar.id
+				";
+		
+			$items = Yii::app()->db->createCommand($sql)->queryAll();
+			foreach ($items as $tire) {
+				$data[self::getTitleAttr($tire,true)] = array(
+					'is_rear' => $tire['is_rear'],
+					'front' => array(
+						'from' => $tire['front_from'],
+						'to' => $tire['front_to'],
+					),
+					'rear' => array(
+						'from' => $tire['rear_from'],
+						'to' => $tire['rear_to'],
+					),
+				);
+			}
+			
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
+		}
+		
+		return $data;
+	}
+			
 }

@@ -130,10 +130,14 @@ class WheelsController extends Controller
 		);
 			
 		$possibleTireSizes = Project::getPossibleTireSizesByRim($diametr_id, $width_id);
+		
+		$tireRangeData = TireRimWidthRange::getData();
+
 		if (isset($_GET['t'])) {
-			d($possibleTireSizes);
+			d($tireRangeData);
+			//d($possibleTireSizes);
 		}	
-			
+		
 		$this->render('diametr_width', array(
 			'header_text_block' => $header_text_block,
 			'rim' => $rim,
