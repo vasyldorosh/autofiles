@@ -845,11 +845,12 @@ class Project extends CActiveRecord
 		return $data;
 	}	
 	
-	public static function getRecommendedTireSizes($diametr)
+	public static function getRecommendedTireSizes($diametr_id, $width)
 	{
-		$diametr = (float) $diametr;
+		$width = (float) $width;
+		$diametr_id = (int) $diametr_id;
 		
-		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_'. $diametr;
+		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_'. $diametr_id . '_' . $width;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data === false || 1) {
@@ -863,7 +864,7 @@ class Project extends CActiveRecord
 				LEFT JOIN tire AS t ON r.tire_id = t.id
 				LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
 				LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
-				WHERE r.from <= {$diametr} AND r.to >= {$diametr}
+				WHERE r.`from` <= {$width} AND r.`to` >= {$width} AND t.rim_diameter_id = {$diametr_id}
 			";
 
 			$data = Yii::app()->db->createCommand($sql)->queryAll();	
