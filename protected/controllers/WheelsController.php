@@ -137,6 +137,8 @@ class WheelsController extends Controller
 		$this->render('diametr_width', array(
 			'header_text_block' => $header_text_block,
 			'rim' => $rim,
+			'diametr' => $diametr,
+			'width' => $width,
 			'possibleTireSizes' => $possibleTireSizes,
 		));
 	}

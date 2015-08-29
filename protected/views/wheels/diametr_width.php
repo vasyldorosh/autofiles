@@ -6,7 +6,8 @@
 			<div class="google_links f_left p_rel"><?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?></div>
 			<div class="text_size"><?=$header_text_block?></div>
 		</section>
-
+		
+		<?php if (!empty($possibleTireSizes)):?>
 		<section class="table-container">
 			<h4 class="title_tire">Possible tire sizes for a <?=$rim?> rim</h4>
 			<table>
@@ -17,32 +18,23 @@
 						<td><b>Projects</b></td>
 						
 					</tr>
-										<tr>
-						<td><a href="/wheels/honda/accord/15x7.0/">205/40 R17</a></td>
+					<?php foreach ($possibleTireSizes as $item):?>	
+					<tr>
+						<?php $tire = array(
+							'section_width' => $item['tire_section_width'],
+							'aspect_ratio' => $item['tire_aspect_ratio'],
+							'vehicle_class' => $item['tire_vehicle_class'],
+							'rim_diameter' => $diameter,
+						);?>
+						<td><a href="/wheels/<?=$rim?>/<?=Tire::url($tire)?>/"><?=Tire::format($tire)?></a></td>
 						<td>7.0 - 8.0"</td>
-						<td>44</td>
+						<td><?=$item['c']?></td>
 					</tr>
-										<tr>
-						<td><a href="/wheels/honda/accord/15x7.0/">225/45 R17</a></td>
-						<td>6.0 - 8.0"</td>
-						<td>17</td>
-					</tr>
-						
-						<tr>
-						<td><a href="/wheels/honda/accord/16x7.0/">235/45 R17</a></td>
-						<td>6.0 - 8.5"</td>
-						<td>114</td>
-					</tr>
-	
-						<tr>
-						<td><a href="/wheels/honda/accord/16x7.0/">255/40 R17</a></td>
-						<td>8.5 - 10.0"</td>
-						<td></td>
-					</tr>
-
-									</tbody>
+					<?php endforeach;?>						
+				</tbody>
 			</table>
 		</section>
+		<?php endif;?>
 		
 	
 	<section class="table-chart">
