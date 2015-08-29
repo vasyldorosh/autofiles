@@ -26,7 +26,7 @@
 							'vehicle_class' => $item['tire_vehicle_class'],
 							'rim_diameter' => $diametr,
 						);?>
-						<td><a href="/wheels/<?=$rim?>/<?=Tire::url($tire)?>/"><?=Tire::format($tire)?></a></td>
+						<td><a href="/wheels/<?=$rim?>/<?=Tire::url($tire, true)?>/"><?=Tire::format($tire)?></a></td>
 						<td>7.0 - 8.0"</td>
 						<td><?=$item['c']?></td>
 					</tr>
