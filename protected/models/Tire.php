@@ -234,7 +234,7 @@ class Tire extends CActiveRecord
 				$title = $tire['vehicle_class'] . ' ';
 			
 			$title.= $tire['section_width'] . '/' . $tire['aspect_ratio'] . ' R' . $tire['rim_diameter'];
-			if ($tire['is_rear'] && !empty($tire['rear_section_width']) && !empty($tire['rear_aspect_ratio'] && !empty($tire['rear_rim_diameter']) {
+			if ($tire['is_rear'] && !empty($tire['rear_section_width']) && !empty($tire['rear_aspect_ratio']) && !empty($tire['rear_rim_diameter'])) {
 				$title .= ' ' .$tire['rear_section_width'] . '/' . $tire['rear_aspect_ratio'] . ' R' . $tire['rear_rim_diameter'];
 			}
 		}
