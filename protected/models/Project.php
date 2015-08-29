@@ -376,12 +376,12 @@ class Project extends CActiveRecord
 			$this->create_time = time();
 		}
 		
-		foreach (array('rear_rim_diameter_id', 'rear_rim_width_id','rear_rim_offset_range_id', 'rear_tire_section_width_id','rear_tire_aspect_ratio_id') as $attr) {
+		foreach (array('rear_tire_vehicle_class_id', 'tire_vehicle_class_id', 'rear_tire_aspect_ratio_id', 'rear_tire_section_width_id', 'tire_aspect_ratio_id', 'tire_section_width_id', 'rear_rim_offset_range_id', 'rear_rim_width_id', 'rear_rim_diameter_id','rim_offset_range_id', 'rim_width_id','rim_diameter_id') as $attr) {
 			if (empty($this->$attr)) {
 				$this->$attr = null;
 			}
 		}
- 		
+
 		return parent::beforeSave();
 	}
 
