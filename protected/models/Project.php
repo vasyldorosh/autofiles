@@ -859,7 +859,9 @@ class Project extends CActiveRecord
 			$sql = "
 				SELECT 
 					sw.value AS tire_section_width,
-					ar.value AS tire_aspect_ratio
+					ar.value AS tire_aspect_ratio,
+					t.section_width_id AS section_width_id,
+					t.aspect_ratio_id AS aspect_ratio_id
 				FROM tire_rim_width_range AS r
 				LEFT JOIN tire AS t ON r.tire_id = t.id
 				LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
