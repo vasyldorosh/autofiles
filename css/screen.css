@@ -857,3 +857,7 @@ table.right-block__specs-list{table-layout: fixed;}
 	.reviews_container_col_left{float: none;width: auto;}
 	.reviews_container_col_right{margin-left: 0;}
 }
+
+ .table-chart table { max-width:400px; width: 100%; border:#f7f7f7 1px solid;}
+ .table-chart td {  text-align:center; padding:5px; border: 5px solid #f7f7f7;}
+ .table-chart { margin-top: 45px; }

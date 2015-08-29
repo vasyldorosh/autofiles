@@ -705,7 +705,7 @@ class Project extends CActiveRecord
 	{
 		$key = Tags::TAG_PROJECT . '_getWheelsRangeDataByModelYears_'.implode('_', $model_year_ids);
 		$data = Yii::app()->cache->get($key);
-		if ($data === false || 1) {
+		if ($data === false) {
 			$data = array();
 			$sql = "
 				SELECT 
@@ -800,6 +800,38 @@ class Project extends CActiveRecord
 					'p_or_max' => $item['p_or_max'],
 				);
 			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR, Tags::TAG_PROJECT));
+		}	
+		
+		return $data;
+	}	
+	
+	public static function getPossibleTireSizesByRim($diametr_id, $width_id)
+	{
+		$diametr_id = (int) $diametr_id;
+		$width_id 	= (int) $width_id;
+		
+		$key = Tags::TAG_PROJECT . 'getPossibleTireSizesByRim_'. $diametr_id . '_' . $width_id;
+		$data = Yii::app()->cache->get($key);
+		if ($data === false || 1) {
+			$data = array();
+			$sql = "
+				SELECT 
+					COUNT(*) AS c,
+					tsw.value AS tire_section_width,
+					tar.value AS tire_aspect_ratio,
+					tvc.code AS tire_vehicle_class
+				FROM project AS p
+				LEFT JOIN tire_section_width AS tsw ON p.tire_section_width_id = tsw.id
+				LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
+				LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id
+				WHERE p.rim_diameter_id = {$diametr_id} AND p.rim_width_id = {$width_id} AND p.is_active=1
+				GROUP BY p.tire_section_width_id, p.tire_aspect_ratio_id, p.tire_vehicle_class_id
+				ORDER BY tire_section_width, tire_aspect_ratio
+			";
+
+			$data = Yii::app()->db->createCommand($sql)->queryAll();	
 			
 			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR, Tags::TAG_PROJECT));
 		}	
