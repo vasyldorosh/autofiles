@@ -815,6 +815,7 @@ class Project extends CActiveRecord
 		$key = Tags::TAG_PROJECT . 'getPossibleTireSizesByRim_'. $diametr_id . '_' . $width_id;
 		$data = Yii::app()->cache->get($key);
 		if ($data === false || 1) {
+			
 			$data = array();
 			$sql = "
 				SELECT 
