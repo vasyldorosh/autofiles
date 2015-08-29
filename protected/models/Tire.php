@@ -351,6 +351,13 @@ class Tire extends CActiveRecord
 		return $url; 
 	}
 	
+	public static function urlFormat($attributes) 
+	{
+		$url = $attributes['vehicle_class'] . '-' . $attributes['section_width'].'-'.$attributes['aspect_ratio'].'r'.$attributes['rim_diameter'];
+
+		return $url; 
+	}
+	
 	public static function getItemsByRimDiameterNonRunflat($rim_diameter_id)
 	{
 		$rim_diameter_id = (int) $rim_diameter_id;
