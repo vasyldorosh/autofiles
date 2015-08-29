@@ -814,7 +814,7 @@ class Project extends CActiveRecord
 		
 		$key = Tags::TAG_PROJECT . 'getPossibleTireSizesByRim_'. $diametr_id . '_' . $width_id;
 		$data = Yii::app()->cache->get($key);
-		if ($data === false || 1) {
+		if ($data === false) {
 			
 			$data = array();
 			$sql = "
@@ -839,7 +839,36 @@ class Project extends CActiveRecord
 
 			$data = Yii::app()->db->createCommand($sql)->queryAll();	
 			
-			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR, Tags::TAG_PROJECT));
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE));
+		}	
+		
+		return $data;
+	}	
+	
+	public static function getRecommendedTireSizes($diametr)
+	{
+		$diametr = (float) $diametr;
+		
+		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_'. $diametr;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data === false || 1) {
+			
+			$data = array();
+			$sql = "
+				SELECT 
+					sw.value AS tire_section_width,
+					ar.value AS tire_aspect_ratio
+				FROM tire_rim_width_range AS r
+				LEFT JOIN tire AS t ON r.tire_id = t.id
+				LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
+				LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
+				WHERE (r.from <= {$diametr} AND r.to >= {$diametr})
+			";
+
+			$data = Yii::app()->db->createCommand($sql)->queryAll();	
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
 		}	
 		
 		return $data;
