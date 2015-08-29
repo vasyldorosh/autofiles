@@ -863,10 +863,11 @@ class Project extends CActiveRecord
 				LEFT JOIN tire AS t ON r.tire_id = t.id
 				LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
 				LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
-				WHERE (r.from <= {$diametr} AND r.to >= {$diametr})
+				WHERE r.from <= {$diametr} AND r.to >= {$diametr}
 			";
 
 			$data = Yii::app()->db->createCommand($sql)->queryAll();	
+
 			
 			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
 		}	
