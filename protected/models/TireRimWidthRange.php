@@ -310,7 +310,7 @@ class TireRimWidthRange extends CActiveRecord
 		
 			$items = Yii::app()->db->createCommand($sql)->queryAll();
 			foreach ($items as $tire) {
-				$data[self::getTitleAttr($tire,true)] = array(
+				$data[Tire::getTitleAttr($tire,true)] = array(
 					'is_rear' => $tire['is_rear'],
 					'front' => array(
 						'from' => $tire['front_from'],

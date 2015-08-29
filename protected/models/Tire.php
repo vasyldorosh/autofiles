@@ -224,7 +224,7 @@ class Tire extends CActiveRecord
 		return $title;
 	}	
 	
-	public function getTitleAttr($tire, $vc=false) 
+	public static function getTitleAttr($tire, $vc=false) 
 	{
 		$title = '';
 		
