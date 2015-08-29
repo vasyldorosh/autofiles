@@ -20,14 +20,24 @@
 					</tr>
 					<?php foreach ($possibleTireSizes as $item):?>	
 					<tr>
-						<?php $tire = array(
+						<?php 
+						$tire = array(
 							'section_width' => $item['tire_section_width'],
 							'aspect_ratio' => $item['tire_aspect_ratio'],
 							'vehicle_class' => $item['tire_vehicle_class'],
 							'rim_diameter' => $diametr,
-						);?>
-						<td><a href="/wheels/<?=$rim?>/<?=Tire::urlFormat($tire, true)?>/"><?=Tire::format($tire)?></a></td>
-						<td>7.0 - 8.0"</td>
+						);
+						$tireTitle = Tire::format($tire);
+						?>
+						<td><a href="/wheels/<?=$rim?>/<?=Tire::urlFormat($tire, true)?>/"><?=$tireTitle?></a></td>
+						<td>
+							<?php if (isset($tireRangeData[$tireTitle])):
+							$r=array(); $r[]=$tireRangeData[$tireTitle]['front']['from']; 
+							if ($tireRangeData[$tireTitle]['front']['from']!=$tireRangeData[$tireTitle]['front']['to']) {$r[]=$tireRangeData[$tireTitle]['front']['to']; }
+							?>
+							<?=implode(' - ', $r)?>"
+							<?php endif;?>
+						</td>
 						<td><?=$item['c']?></td>
 					</tr>
 					<?php endforeach;?>						

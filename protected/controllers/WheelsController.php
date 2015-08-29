@@ -128,15 +128,16 @@ class WheelsController extends Controller
 			'/wheels.html' => 'Wheels',
 			'#' => $rim,
 		);
-			
-		$possibleTireSizes = Project::getPossibleTireSizesByRim($diametr_id, $width_id);
 		
 		$tireRangeData = TireRimWidthRange::getData();
-
+		$possibleTireSizes = Project::getPossibleTireSizesByRim($diametr_id, $width_id);
+		
 		if (isset($_GET['t'])) {
 			d($tireRangeData);
 			//d($possibleTireSizes);
 		}	
+		
+		
 		
 		$this->render('diametr_width', array(
 			'header_text_block' => $header_text_block,
@@ -144,6 +145,7 @@ class WheelsController extends Controller
 			'diametr' => $diametr,
 			'width' => $width,
 			'possibleTireSizes' => $possibleTireSizes,
+			'tireRangeData' => $tireRangeData,
 		));
 	}
 	
