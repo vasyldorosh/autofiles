@@ -63,7 +63,7 @@
 					<td><?=$sw_val?></td>
 					<?php foreach ($recommendedTireSizes['aspect_ratio'] as $ar_id=>$ar_val):?>
 						<?php if (isset($recommendedTireSizes['counters'][$sw_id.'_'.$ar_id])):?>
-						<td bgcolor="#FFC37A" style="cursor:pointer" onClick="document.location='#'"><a href="#"><?=$recommendedTireSizes['counters'][$sw_id.'_'.$ar_id]?></a></td>
+						<td bgcolor="#FFC37A" style="cursor:pointer"><a href="/tuning/<?=$rim?>/<?=Tire::urlFormat(array('vehicle_class'=>'P', 'section_width'=>$sw_val, 'aspect_ratio'=>$ar_val, 'rim_diameter'=>$diametr))?>/"><?=$recommendedTireSizes['counters'][$sw_id.'_'.$ar_id]?></a></td>
 						<?php else:?>
 						<td></td>
 						<?php endif?>
