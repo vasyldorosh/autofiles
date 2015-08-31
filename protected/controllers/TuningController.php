@@ -178,7 +178,7 @@ class TuningController extends Controller
 			Yii::app()->end();
 		}
 		
-		$countProjects = Project::getCountByModel($model['id']);
+		$countProjects = Project::getCountByModel($model['id'], $filter);
 		$countProjectsMake = Project::getCountByMake($make['id']);
 		
 		$rim_diameter = !empty($filter['rim_diameter_id'])?TireRimDiameter::getValueById($filter['rim_diameter_id']):'';

@@ -427,17 +427,69 @@ class Project extends CActiveRecord
 		return $count;
 	}
 	
-	public static function getCountByModel($model_id)
+	public static function getCountByModel($model_id, $filter=array())
 	{
 		$model_id	= (int) $model_id;
-		$key 		= Tags::TAG_PROJECT . '_getCountByModel_' . $model_id;
+		$key 		= Tags::TAG_PROJECT . '_getCountByModel_' . $model_id . '_' . unserialize($filter);
 		$count     	= Yii::app()->cache->get($key);
 		
 		if ($count === false) {
-			$criteria = new CDbCriteria;
-			$criteria->compare('model_id', $model_id);
-			$criteria->compare('is_active', 1);
-			$count = self::model()->count($criteria);
+			
+			if (empty($filter)) {			
+				$criteria = new CDbCriteria;
+				$criteria->compare('model_id', $model_id);
+				$criteria->compare('is_active', 1);
+				$count = self::model()->count($criteria);
+			} else {
+				$where = array();
+				$where[] = 'p.is_active=1';
+				$where[] = "p.model_id = " . $model['id'];
+					
+					if (!empty($filter['rim_diameter_id'])) {
+						$rim_diameter_id = (int) $filter['rim_diameter_id'];
+						$where[] = "(p.rim_diameter_id = {$rim_diameter_id} OR p.rear_rim_diameter_id = {$rim_diameter_id})";
+					}
+					
+					if (!empty($filter['rim_width_id'])) {
+						$rim_width_id = (float) $filter['rim_width_id'];
+						$where[] = "(p.rim_width_id = {$rim_width_id} OR p.rear_rim_width_id = {$rim_width_id})";
+					}
+					
+					if (!empty($filter['rim_offset_range_id'])) {
+						$rim_offset_range_id = (int) $filter['rim_offset_range_id'];
+						$where[] = "(p.rim_offset_range_id = {$rim_offset_range_id} OR p.rear_rim_offset_range_id = {$rim_offset_range_id})";
+					}
+					
+					if (!empty($filter['tire_section_width_id'])) {
+						$tire_section_width_id = (int) $filter['tire_section_width_id'];
+						$where[] = "(p.tire_section_width_id = {$tire_section_width_id} OR p.rear_tire_section_width_id = {$tire_section_width_id})";
+					}
+					
+					if (!empty($where))
+						$where = 'WHERE ' . implode(' AND ', $where);
+					else 
+						$where = '';
+					
+					$sql = "SELECT 
+								COUNT(*) AS c
+							FROM project AS p
+							LEFT JOIN auto_model_year AS y ON p.model_year_id = y.id
+							LEFT JOIN tire_rim_diameter AS rd ON p.rim_diameter_id = rd.id
+							LEFT JOIN rim_width AS rw ON p.rim_width_id = rw.id
+							LEFT JOIN rim_offset_range AS ror ON p.rim_offset_range_id = ror.id
+							LEFT JOIN tire_rim_diameter AS r_rd ON p.rear_rim_diameter_id = r_rd.id
+							LEFT JOIN rim_width AS r_rw ON p.rear_rim_width_id = r_rw.id
+							LEFT JOIN rim_offset_range AS r_ror ON p.rear_rim_offset_range_id = r_ror.id
+							LEFT JOIN tire_section_width AS tsw ON p.tire_section_width_id = tsw.id
+							LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
+							LEFT JOIN tire_section_width AS r_tsw ON p.rear_tire_section_width_id = r_tsw.id
+							LEFT JOIN tire_aspect_ratio AS r_tar ON p.rear_tire_aspect_ratio_id = r_tar.id
+							LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
+							LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id						
+							{$where}"
+							
+					$count = Yii::app()->db->createCommand($sql)->queryScalar();				
+			}
 			
 			Yii::app()->cache->get($key, $count, 0, new Tags(Tags::TAG_PROJECT));
 		}
