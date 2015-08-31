@@ -968,14 +968,8 @@ class Project extends CActiveRecord
 			$aspect_ratio[$tire['aspect_ratio_id']] = $tire['tire_aspect_ratio'];
 		}
 
-		uasort($section_width, function($a, $b){
-			if ($a == $b) return 0;
-			return ($a > $b) ? -1 : 1;
-        });		
-		uasort($aspect_ratio, function($a, $b){
-			if ($a == $b) return 0;
-			return ($a > $b) ? -1 : 1;
-        });		
+		uasort($section_width, 'uasort_acs');		
+		uasort($aspect_ratio, 'uasort_acs');		
 		
 		$data['section_width'] = $section_width;
 		$data['aspect_ratio'] = $aspect_ratio;
