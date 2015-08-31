@@ -430,7 +430,7 @@ class Project extends CActiveRecord
 	public static function getCountByModel($model_id, $filter=array())
 	{
 		$model_id	= (int) $model_id;
-		$key 		= Tags::TAG_PROJECT . '_getCountByModel_' . $model_id . '_' . unserialize($filter);
+		$key 		= Tags::TAG_PROJECT . '_getCountByModel_' . $model_id . '_' . serialize($filter);
 		$count     	= Yii::app()->cache->get($key);
 		
 		if ($count === false) {
@@ -443,7 +443,7 @@ class Project extends CActiveRecord
 			} else {
 				$where = array();
 				$where[] = 'p.is_active=1';
-				$where[] = "p.model_id = " . $model['id'];
+				$where[] = "p.model_id = " . $model_id;
 					
 					if (!empty($filter['rim_diameter_id'])) {
 						$rim_diameter_id = (int) $filter['rim_diameter_id'];
@@ -486,7 +486,7 @@ class Project extends CActiveRecord
 							LEFT JOIN tire_aspect_ratio AS r_tar ON p.rear_tire_aspect_ratio_id = r_tar.id
 							LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
 							LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id						
-							{$where}"
+							{$where}";
 							
 					$count = Yii::app()->db->createCommand($sql)->queryScalar();				
 			}
