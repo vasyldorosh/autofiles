@@ -875,6 +875,33 @@ class Project extends CActiveRecord
 			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
 		}	
 		
+		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_p_'. $diametr_id . '_' . $width;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data === false || 1) {
+			
+			$data = array();
+			$sql = "
+				SELECT 
+					sw.value AS tire_section_width,
+					ar.value AS tire_aspect_ratio,
+					t.section_width_id AS section_width_id,
+					t.aspect_ratio_id AS aspect_ratio_id
+				FROM project AS p
+				LEFT JOIN tire AS t ON r.tire_id = t.id
+				LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
+				LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
+				WHERE r.`from` <= {$width} AND r.`to` >= {$width} AND t.rim_diameter_id = {$diametr_id}
+			";
+
+			$data = Yii::app()->db->createCommand($sql)->queryAll();	
+
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
+		}	
+		
+		
+		
 		return $data;
 	}	
 	

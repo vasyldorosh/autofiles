@@ -229,6 +229,14 @@
 					true
 				)),
                 array(
+					'label'=>Yii::t('admin', 'Tuning Model Filter'),
+					'content' => $this->renderPartial('_tuning_model_filter_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+                array(
 					'label'=>Yii::t('admin', 'Tuning Project'),
 					'content' => $this->renderPartial('_tuning_project_page', array(
 						'form'=>$form,

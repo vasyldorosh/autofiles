@@ -181,12 +181,21 @@ class TuningController extends Controller
 		$countProjects = Project::getCountByModel($model['id']);
 		$countProjectsMake = Project::getCountByMake($make['id']);
 		
-		$rFrom = array('[make]', '[model]', '[num]');
-		$rTo = array($make['title'], $model['title'], $countProjects);
+		$rim_diameter = !empty($filter['rim_diameter_id'])?TireRimDiameter::getValueById($filter['rim_diameter_id']):'';
+		$rim_width = !empty($filter['rim_width_id'])?RimWidth::getValueById($filter['rim_width_id']):'';
 		
-		$this->pageTitle = str_replace($rFrom, $rTo, SiteConfig::getInstance()->getValue('seo_tuning_model_title'));
-		$this->meta_keywords = str_replace($rFrom, $rTo, SiteConfig::getInstance()->getValue('seo_tuning_model_meta_keywords'));
-		$this->meta_description = str_replace($rFrom, $rTo, SiteConfig::getInstance()->getValue('seo_tuning_model_meta_description'));		
+		$rFrom = array('[make]', '[model]', '[num]', '[rim_diameter]', '[rim_width]');
+		$rTo = array($make['title'], $model['title'], $countProjects, $rim_diameter, $rim_width);
+		
+		$key_seo = 'tuning_model';
+		if (!empty($filter)) {
+			$key_seo = 'tuning_model_filter';
+		}
+		
+		$this->pageTitle = str_replace($rFrom, $rTo, SiteConfig::getInstance()->getValue('seo_'.$key_seo.'_title'));
+		$this->meta_keywords = str_replace($rFrom, $rTo, SiteConfig::getInstance()->getValue('seo_'.$key_seo.'_meta_keywords'));
+		$this->meta_description = str_replace($rFrom, $rTo, SiteConfig::getInstance()->getValue('seo_'.$key_seo.'_meta_description'));		
+		$description = str_replace($rFrom, $rTo, SiteConfig::getInstance()->getValue('tuning_'.$key_seo.'_description'));		
 		
 		$lastModelYear = AutoModel::getLastYear($model['id']);
 				
@@ -210,7 +219,7 @@ class TuningController extends Controller
 			'make' => $make,
 			'model' => $model,
 			'countProjects' => $countProjects,
-			'description' => str_replace(array('[make]', '[model]', '[num]'), array($make['title'], $model['title'], $countProjects), SiteConfig::getInstance()->getValue('tuning_model_description')),
+			'description' => $description,
 		));
 	}
 

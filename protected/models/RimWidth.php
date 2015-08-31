@@ -106,6 +106,16 @@ class RimWidth extends CActiveRecord
 		return $data;
 	}	
 	
+	public static function getValueById($value)
+	{
+		$list = self::getAll();
+		if (isset($list[$value])) {
+			return $list[$value];
+		} else {
+			return false;
+		}
+	}	
+	
 	public static function getListByModelProject($model_id)
 	{
 		$model_id = (int) $model_id;
