@@ -948,7 +948,7 @@ class Project extends CActiveRecord
 						p.is_active=1 AND 
 						p.rim_diameter_id = {$diametr_id} AND 
 						p.section_width_id IS NOT NULL AND 
-						p.aspect_ratio_id IS NOT NULL AND 
+						p.aspect_ratio_id IS NOT NULL
 					HAVING sa IN ('".implode("','", $sa)."')
 					GROUP BY sa				
 				";
