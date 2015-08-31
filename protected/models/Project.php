@@ -903,11 +903,11 @@ class Project extends CActiveRecord
 		$diametr_id = (int) $diametr_id;
 		
 		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_'. $diametr_id . '_' . $width;
-		$data = Yii::app()->cache->get($key);
+		$tires = Yii::app()->cache->get($key);
 		
-		if ($data === false || 1) {
+		if ($tires === false || 1) {
 			
-			$data = array();
+			$tires = array();
 			$sql = "
 				SELECT 
 					sw.value AS tire_section_width,
@@ -921,31 +921,39 @@ class Project extends CActiveRecord
 				WHERE r.`from` <= {$width} AND r.`to` >= {$width} AND t.rim_diameter_id = {$diametr_id}
 			";
 
-			$data = Yii::app()->db->createCommand($sql)->queryAll();	
+			$tires = Yii::app()->db->createCommand($sql)->queryAll();	
 
 			
-			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
+			Yii::app()->cache->set($key, $tires, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
 		}	
 		
 		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_p_'. $diametr_id . '_' . $width;
 		$data = Yii::app()->cache->get($key);
+		
+		$sa = array();
+		foreach ($tires as $item) {
+			$sa[] = $item['tire_section_width'] . '_' . $tire['tire_aspect_ratio'];
+		}
 		
 		if ($data === false || 1) {
 			
 			$data = array();
 			$sql = "
 				SELECT 
-					sw.value AS tire_section_width,
-					ar.value AS tire_aspect_ratio,
-					t.section_width_id AS section_width_id,
-					t.aspect_ratio_id AS aspect_ratio_id
+					COUNT(*) AS c
+					CONCAT(p.section_width_id, '_', p.aspect_ratio_id) AS sa
 				FROM project AS p
-				LEFT JOIN tire AS t ON r.tire_id = t.id
-				LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
-				LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
-				WHERE r.`from` <= {$width} AND r.`to` >= {$width} AND t.rim_diameter_id = {$diametr_id}
+				WHERE 
+					p.is_active=1 AND 
+					p.rim_diameter_id = {$diametr_id} AND 
+					p.section_width_id IS NOT NULL AND 
+					p.aspect_ratio_id IS NOT NULL AND 
+				HAVING sa IN (".implode(',', $sa).")
+				GROUP BY sa				
 			";
 
+			d($sql);
+			
 			$data = Yii::app()->db->createCommand($sql)->queryAll();	
 
 			
