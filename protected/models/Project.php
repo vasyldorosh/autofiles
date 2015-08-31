@@ -953,7 +953,26 @@ class Project extends CActiveRecord
 					HAVING ".implode(' OR ', $sa)."
 				";				
 
-				$counters = Yii::app()->db->createCommand($sql)->queryAll();	
+				$countersFront = Yii::app()->db->createCommand($sql)->queryAll();	
+				
+				$sql = "
+					SELECT 
+						COUNT(*) AS c,
+						CONCAT(p.rear_tire_section_width_id, '_', p.rear_tire_aspect_ratio_id) AS sa
+					FROM project AS p
+					WHERE 
+						p.is_active=1 AND 
+						p.rear_rim_diameter_id = {$diametr_id} AND 
+						p.rear_tire_section_width_id IS NOT NULL AND 
+						p.rear_tire_aspect_ratio_id IS NOT NULL AND
+						p.is_staggered_tires = 1
+					GROUP BY sa
+					HAVING ".implode(' OR ', $sa)."
+				";				
+
+				$countersRear = Yii::app()->db->createCommand($sql)->queryAll();
+
+				$counters = array_merge($countersFront, $countersRear);
 			}
 					
 			Yii::app()->cache->set($key, $counters, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
