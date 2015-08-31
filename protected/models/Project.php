@@ -959,7 +959,13 @@ class Project extends CActiveRecord
 			Yii::app()->cache->set($key, $counters, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
 		}	
 		
-		$data['counters'] = $counters;
+		$sa = array();
+		foreach ($counters as $counter) {
+			$sa[$counter['sa']] = $counter['c'];
+		}
+		
+		$data['counters'] = $sa;
+		
 		
 		$section_width = array();
 		$aspect_ratio = array();
@@ -973,6 +979,7 @@ class Project extends CActiveRecord
 		
 		$data['section_width'] = $section_width;
 		$data['aspect_ratio'] = $aspect_ratio;
+		$data['counters'] = $counters;
 		
 		d($data);
 		
