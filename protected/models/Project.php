@@ -953,7 +953,7 @@ class Project extends CActiveRecord
 						p.tire_section_width_id IS NOT NULL AND 
 						p.tire_aspect_ratio_id IS NOT NULL
 					GROUP BY sa
-					HAVING ".implode(' AND ', $sa)."
+					HAVING ".implode(' OR ', $sa)."
 				";
 				
 				d($sql,0);
