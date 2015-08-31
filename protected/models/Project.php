@@ -946,7 +946,7 @@ class Project extends CActiveRecord
 					FROM project AS p
 					WHERE 
 						p.is_active=1 AND 
-						p.tire_rim_diameter_id = {$diametr_id} AND 
+						p.rim_diameter_id = {$diametr_id} AND 
 						p.tire_section_width_id IS NOT NULL AND 
 						p.tire_aspect_ratio_id IS NOT NULL
 					GROUP BY sa
