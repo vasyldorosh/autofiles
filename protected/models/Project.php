@@ -955,6 +955,9 @@ class Project extends CActiveRecord
 					GROUP BY sa
 					HAVING sa IN ('".implode("','", $sa)."')
 				";
+				
+				d($sql);
+				
 				$data = Yii::app()->db->createCommand($sql)->queryAll();	
 			}
 			
