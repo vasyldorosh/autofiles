@@ -952,11 +952,10 @@ class Project extends CActiveRecord
 				GROUP BY sa				
 			";
 
-			d($sql);
-			
 			$data = Yii::app()->db->createCommand($sql)->queryAll();	
 
-			
+			d($data);		
+					
 			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
 		}	
 		
