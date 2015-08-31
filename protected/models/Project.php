@@ -942,13 +942,13 @@ class Project extends CActiveRecord
 				$sql = "
 					SELECT 
 						COUNT(*) AS c,
-						CONCAT(p.section_width_id, '_', p.aspect_ratio_id) AS sa
+						CONCAT(p.tire_section_width_id, '_', p.tire_aspect_ratio_id) AS sa
 					FROM project AS p
 					WHERE 
 						p.is_active=1 AND 
-						p.rim_diameter_id = {$diametr_id} AND 
-						p.section_width_id IS NOT NULL AND 
-						p.aspect_ratio_id IS NOT NULL
+						p.tire_rim_diameter_id = {$diametr_id} AND 
+						p.tire_section_width_id IS NOT NULL AND 
+						p.tire_aspect_ratio_id IS NOT NULL
 					GROUP BY sa
 					HAVING sa IN ('".implode("','", $sa)."')
 				";
