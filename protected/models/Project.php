@@ -927,7 +927,7 @@ class Project extends CActiveRecord
 			Yii::app()->cache->set($key, $tires, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
 		}	
 		
-		d($tires);
+		//d($tires);
 		
 		
 		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_p_'. $diametr_id . '_' . $width;
