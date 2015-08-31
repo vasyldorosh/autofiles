@@ -931,8 +931,8 @@ class Project extends CActiveRecord
 		$data = Yii::app()->cache->get($key);
 		
 		$sa = array();
-		foreach ($tires as $item) {
-			$sa[] = $item['tire_section_width'] . '_' . $tire['tire_aspect_ratio'];
+		foreach ($tires as $tire) {
+			$sa[] = $tire['tire_section_width'] . '_' . $tire['tire_aspect_ratio'];
 		}
 		
 		if ($data === false || 1) {
