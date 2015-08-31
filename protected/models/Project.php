@@ -938,22 +938,23 @@ class Project extends CActiveRecord
 		if ($data === false || 1) {
 			
 			$data = array();
-			$sql = "
-				SELECT 
-					COUNT(*) AS c
-					CONCAT(p.section_width_id, '_', p.aspect_ratio_id) AS sa
-				FROM project AS p
-				WHERE 
-					p.is_active=1 AND 
-					p.rim_diameter_id = {$diametr_id} AND 
-					p.section_width_id IS NOT NULL AND 
-					p.aspect_ratio_id IS NOT NULL AND 
-				HAVING sa IN ('".implode("','", $sa)."')
-				GROUP BY sa				
-			";
-
-			$data = Yii::app()->db->createCommand($sql)->queryAll();	
-
+			if (!empty($sa)) {
+				$sql = "
+					SELECT 
+						COUNT(*) AS c,
+						CONCAT(p.section_width_id, '_', p.aspect_ratio_id) AS sa
+					FROM project AS p
+					WHERE 
+						p.is_active=1 AND 
+						p.rim_diameter_id = {$diametr_id} AND 
+						p.section_width_id IS NOT NULL AND 
+						p.aspect_ratio_id IS NOT NULL AND 
+					HAVING sa IN ('".implode("','", $sa)."')
+					GROUP BY sa				
+				";
+				$data = Yii::app()->db->createCommand($sql)->queryAll();	
+			}
+			
 			d($data);		
 					
 			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
