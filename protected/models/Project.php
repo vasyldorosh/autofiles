@@ -927,20 +927,17 @@ class Project extends CActiveRecord
 			Yii::app()->cache->set($key, $tires, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
 		}	
 		
-		d($tires,0);
-		
-		
 		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_p_'. $diametr_id . '_' . $width;
-		$data = Yii::app()->cache->get($key);
+		$counters = Yii::app()->cache->get($key);
 		
 		$sa = array();
 		foreach ($tires as $tire) {
 			$sa[] = "sa = '" . $tire['section_width_id'] . '_' . $tire['aspect_ratio_id'] . "'";
 		}
 		
-		if ($data === false || 1) {
+		if ($counters === false || 1) {
 			
-			$data = array();
+			$counters = array();
 			if (!empty($sa)) {
 				$sql = "
 					SELECT 
@@ -954,19 +951,27 @@ class Project extends CActiveRecord
 						p.tire_aspect_ratio_id IS NOT NULL
 					GROUP BY sa
 					HAVING ".implode(' OR ', $sa)."
-				";
-				
-				d($sql,0);
-				
-				$data = Yii::app()->db->createCommand($sql)->queryAll();	
+				";				
+
+				$counters = Yii::app()->db->createCommand($sql)->queryAll();	
 			}
-			
-			d($data);		
 					
-			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
+			Yii::app()->cache->set($key, $counters, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
 		}	
 		
+		$data['counters'] = $counters;
 		
+		$section_width = array();
+		$aspect_ratio = array();
+		foreach ($tires as $tire) {
+			$aspect_ratio[$tire['section_width_id']] = $tire['tire_section_width'];
+			$aspect_ratio[$tire['aspect_ratio_id']] = $tire['tire_aspect_ratio'];
+		}
+		
+		$data['aspect_ratio'] = $aspect_ratio;
+		$data['aspect_ratio'] = $aspect_ratio;
+		
+		d($data);
 		
 		return $data;
 	}	
