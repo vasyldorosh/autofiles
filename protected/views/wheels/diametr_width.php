@@ -58,21 +58,15 @@
 					<td><?=$ar_val?></td>
 					<?php endforeach;?>
 				</tr><tr>
-				<tr><td>185</td>
-				
-				<td style="cursor:pointer" onClick="document.location='#'"><a href="#">15</a></td>	
-				<td></td><td></td><td></td><td></td><td></td><td></td><td></td><tr>
-				<tr><td>195</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><tr>
-				<tr><td>205</td><td></td><td bgcolor="#FFC37A" style="cursor:pointer" onClick="document.location='#'"><a href="#">27</a></td><td></td><td></td><td></td><td></td><td></td><td></td><tr>
-				<tr><td>215</td><td></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td style="cursor:pointer" onClick="document.location='#'"><a href="#">8</a></td><td></td><td bgcolor="#FFC37A"></td><td></td><td></td><tr>
-				<tr><td>225</td><td></td><td></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td></td><tr>
-				<tr><td>235</td><td></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td></td><tr>
-				<tr><td>245</td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td></td><td></td><td bgcolor="#FFC37A"></td><td></td><tr>
-				<tr><td>255</td><td></td><td></td><td></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td></td><tr>
-				<tr><td>265</td><td></td><td></td><td></td><td></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><tr>
-				<tr><td>275</td><td></td><td></td><td></td><td></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td></td><td></td><tr>
-				<tr><td>285</td><td></td><td></td><td></td><td></td><td></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><td bgcolor="#FFC37A"></td><tr>
-				
+				<?php foreach ($recommendedTireSizes['section_width'] as $sw_id=>$sw_val):?>
+				<tr>
+					<td><?=$sw_val?></td>
+					<?php foreach ($recommendedTireSizes['aspect_ratio'] as $ar_id=>$ar_val):?>
+					<td bgcolor="#FFC37A" style="cursor:pointer" onClick="document.location='#'"><a href="#">27</a></td>
+					<?php endforeach;?>
+				</tr>
+					
+				<?php endforeach;?>
 			</tbody>
 		</table><br>
 		<p>Recommended tire sizes are marked with <font color="#FFC37A"><b>orange color</b></font>.</p>
