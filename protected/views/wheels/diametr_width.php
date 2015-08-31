@@ -52,7 +52,12 @@
 		<br>
 		<table>
 			<tbody>
-				<tr><td>%<br>Width</td><td>35</td><td>40</td><td>45</td><td>50</td><td>55</td><td>60</td><td>65</td><td>70</td><tr>
+				<tr>
+					<td>%<br>Width</td>
+					<?php foreach ($recommendedTireSizes['aspect_ratio'] as $ar_id=>$ar_val):?>
+					<td><?=$ar_val?></td>
+					<?php endforeach;?>
+				</tr><tr>
 				<tr><td>185</td>
 				
 				<td style="cursor:pointer" onClick="document.location='#'"><a href="#">15</a></td>	

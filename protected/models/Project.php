@@ -979,9 +979,7 @@ class Project extends CActiveRecord
 		
 		$data['section_width'] = $section_width;
 		$data['aspect_ratio'] = $aspect_ratio;
-		
-		d($data);
-		
+			
 		return $data;
 	}	
 	
