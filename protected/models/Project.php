@@ -935,7 +935,7 @@ class Project extends CActiveRecord
 		
 		$sa = array();
 		foreach ($tires as $tire) {
-			$sa[] = $tire['tire_section_width'] . '_' . $tire['tire_aspect_ratio'];
+			$sa[] = "sa = '" . $tire['tire_section_width'] . '_' . $tire['tire_aspect_ratio'] . "'";
 		}
 		
 		if ($data === false || 1) {
@@ -953,10 +953,10 @@ class Project extends CActiveRecord
 						p.tire_section_width_id IS NOT NULL AND 
 						p.tire_aspect_ratio_id IS NOT NULL
 					GROUP BY sa
-					HAVING sa IN ('".implode("','", $sa)."')
+					HAVING ".implode(' AND ', $sa)."
 				";
 				
-				d($sql);
+				d($sql,0);
 				
 				$data = Yii::app()->db->createCommand($sql)->queryAll();	
 			}
