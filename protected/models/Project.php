@@ -964,11 +964,11 @@ class Project extends CActiveRecord
 		$section_width = array();
 		$aspect_ratio = array();
 		foreach ($tires as $tire) {
-			$aspect_ratio[$tire['section_width_id']] = $tire['tire_section_width'];
+			$section_width[$tire['section_width_id']] = $tire['tire_section_width'];
 			$aspect_ratio[$tire['aspect_ratio_id']] = $tire['tire_aspect_ratio'];
 		}
 		
-		$data['aspect_ratio'] = $aspect_ratio;
+		$data['section_width'] = $section_width;
 		$data['aspect_ratio'] = $aspect_ratio;
 		
 		d($data);
