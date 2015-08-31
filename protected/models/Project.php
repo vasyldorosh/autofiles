@@ -968,6 +968,9 @@ class Project extends CActiveRecord
 			$aspect_ratio[$tire['aspect_ratio_id']] = $tire['tire_aspect_ratio'];
 		}
 		
+		sort($section_width);
+		sort($aspect_ratio);
+		
 		$data['section_width'] = $section_width;
 		$data['aspect_ratio'] = $aspect_ratio;
 		
