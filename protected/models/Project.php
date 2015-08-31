@@ -949,8 +949,8 @@ class Project extends CActiveRecord
 						p.rim_diameter_id = {$diametr_id} AND 
 						p.section_width_id IS NOT NULL AND 
 						p.aspect_ratio_id IS NOT NULL
+					GROUP BY sa
 					HAVING sa IN ('".implode("','", $sa)."')
-					GROUP BY sa				
 				";
 				$data = Yii::app()->db->createCommand($sql)->queryAll();	
 			}
