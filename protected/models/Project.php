@@ -935,7 +935,7 @@ class Project extends CActiveRecord
 		
 		$sa = array();
 		foreach ($tires as $tire) {
-			$sa[] = "sa = '" . $tire['tire_section_width'] . '_' . $tire['tire_aspect_ratio'] . "'";
+			$sa[] = "sa = '" . $tire['section_width_id'] . '_' . $tire['aspect_ratio_id'] . "'";
 		}
 		
 		if ($data === false || 1) {
