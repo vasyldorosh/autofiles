@@ -704,7 +704,7 @@ class Project extends CActiveRecord
 		$key	  = Tags::TAG_PROJECT . '___getCustomRimSizes__' . implode('_', $model_year_ids);
 		$data	  = Yii::app()->cache->get($key);
 		
-		if ($data === false || 1) {
+		if ($data === false) {
 			$sql = "
 					SELECT
 						count(*) AS c,
@@ -897,6 +897,43 @@ class Project extends CActiveRecord
 		return $data;
 	}	
 	
+	public static function getModifiedCarsByRim($diametr_id, $width_id)
+	{
+		$diametr_id = (int) $diametr_id;
+		$width_id 	= (int) $width_id;
+		
+		$key = Tags::TAG_PROJECT . '_getModifiedCarsByRim_'. $diametr_id . '_' . $width_id;
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			
+			$data = array();
+			$sql = "
+				SELECT 
+					COUNT(*) AS c,
+					tsw.value AS tire_section_width,
+					tar.value AS tire_aspect_ratio,
+					tvc.code AS tire_vehicle_class
+				FROM project AS p
+				LEFT JOIN tire_section_width AS tsw ON p.tire_section_width_id = tsw.id
+				LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
+				LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id
+				WHERE 
+					((p.rim_diameter_id = {$diametr_id} AND p.rim_width_id = {$width_id}) OR  (p.rear_rim_diameter_id = {$diametr_id} AND p.rear_rim_width_id = {$width_id})) AND
+					p.is_active=1 AND 
+					p.tire_section_width_id IS NOT NULL AND 
+					p.tire_aspect_ratio_id IS NOT NULL AND 
+					p.tire_vehicle_class_id IS NOT NULL 
+				ORDER BY p.view_count DESC
+			";
+
+			$data = Yii::app()->db->createCommand($sql)->queryAll();	
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE));
+		}	
+		
+		return $data;
+	}	
+	
 	public static function getRecommendedTireSizes($diametr_id, $width)
 	{
 		$width = (float) $width;
@@ -905,7 +942,7 @@ class Project extends CActiveRecord
 		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_'. $diametr_id . '_' . $width;
 		$tires = Yii::app()->cache->get($key);
 		
-		if ($tires === false || 1) {
+		if ($tires === false) {
 			
 			$tires = array();
 			$sql = "
@@ -935,7 +972,7 @@ class Project extends CActiveRecord
 			$sa[] = "sa = '" . $tire['section_width_id'] . '_' . $tire['aspect_ratio_id'] . "'";
 		}
 		
-		if ($counters === false || 1) {
+		if ($counters === false) {
 			
 			$counters = array();
 			if (!empty($sa)) {

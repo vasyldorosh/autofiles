@@ -132,6 +132,7 @@ class WheelsController extends Controller
 		$tireRangeData = TireRimWidthRange::getData();
 		$recommendedTireSizes = Project::getRecommendedTireSizes($diametr_id, $width);
 		$possibleTireSizes = Project::getPossibleTireSizesByRim($diametr_id, $width_id);
+		$projects = Project::getModifiedCarsByRim($diametr_id, $width_id);
 		
 		if (isset($_GET['t'])) {
 			d($recommendedTireSizes);
@@ -145,6 +146,7 @@ class WheelsController extends Controller
 			'width' => $width,
 			'possibleTireSizes' => $possibleTireSizes,
 			'recommendedTireSizes' => $recommendedTireSizes,
+			'projects' => $projects,
 		));
 	}
 	
