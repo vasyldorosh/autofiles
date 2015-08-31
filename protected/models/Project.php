@@ -953,8 +953,9 @@ class Project extends CActiveRecord
 					HAVING ".implode(' OR ', $sa)."
 				";				
 
-				$countersFront = Yii::app()->db->createCommand($sql)->queryAll();	
+				$counters = Yii::app()->db->createCommand($sql)->queryAll();	
 				
+				/*
 				$sql = "
 					SELECT 
 						COUNT(*) AS c,
@@ -973,6 +974,7 @@ class Project extends CActiveRecord
 				$countersRear = Yii::app()->db->createCommand($sql)->queryAll();
 
 				$counters = array_merge($countersFront, $countersRear);
+				*/
 			}
 					
 			Yii::app()->cache->set($key, $counters, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
