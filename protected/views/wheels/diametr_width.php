@@ -62,7 +62,11 @@
 				<tr>
 					<td><?=$sw_val?></td>
 					<?php foreach ($recommendedTireSizes['aspect_ratio'] as $ar_id=>$ar_val):?>
-					<td bgcolor="#FFC37A" style="cursor:pointer" onClick="document.location='#'"><a href="#">27</a></td>
+						<?php if (isset($recommendedTireSizes['counters'][$sw_id.'_'.$ar_id])):?>
+						<td bgcolor="#FFC37A" style="cursor:pointer" onClick="document.location='#'"><a href="#"><?=$recommendedTireSizes['counters'][$sw_id.'_'.$ar_id]?></a></td>
+						<?php else:?>
+						<td></td>
+						<?php endif?>
 					<?php endforeach;?>
 				</tr>
 					
