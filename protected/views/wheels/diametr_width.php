@@ -85,51 +85,14 @@
 	
 	<section class="make">
 	<h4 class="title_tire">Modified cars with <?=$rim?> wheels</h4>
-	<ul class="make__vehicle">	
-		<li>
-			<div class="make__vehicle-image">
-				<a title="Acura RDX tire size" href="/tuning/honda/civic/1158/">
-					<img alt="Acura RDX tire size" src="http://autofiles.com/photos/project/2067/11880/resize_w300_h200.jpg"> 
-                 </a>
-			</div>	
-			<h3>
-				<a href="/tuning/honda/civic/1158/">2005 Acura TL <?=$rim?></a>
-			</h3>
-			<ul class="make__vehicle-specs">
-				<li>245/35 R17</li><li>17 views</li>
-			</ul>
-		</li>
-		
-		<li>
-			<div class="make__vehicle-image">
-				<a title="Acura ILX tire size" href="/tuning/honda/civic/1158/">
-					<img alt="Acura ILX tire size" src="http://autofiles.com/photos/project/2066/11882/resize_w300_h200.jpg"> 
-                </a>
-			</div>	
-			<h3>
-				<a href="/tuning/honda/civic/1158/">2006 Acura TL <?=$rim?>, 18x10</a>
-			</h3>
-			
-			<ul class="make__vehicle-specs">
-				<li>215/40 R17, rear 225/40 R17</li><li>53 views</li>
-			</ul>		
-		</li>
-		<li>
-			<div class="make__vehicle-image">
-				<a title="Acura RDX tire size" href="/tuning/honda/civic/1158/">
-					<img alt="Acura RDX tire size" src="http://autofiles.com/photos/project/2067/11880/resize_w300_h200.jpg"> 
-                 </a>
-			</div>	
-			<h3>
-				<a href="/tuning/honda/civic/1158/">2005 Honda Accord <?=$rim?></a>
-			</h3>
-			<ul class="make__vehicle-specs">
-				<li>245/35 R17</li><li>127 views</li>
-			</ul>
-		</li>
+	<ul class="make__vehicle">
+		<?php $this->renderPartial('application.views.wheels._projects', array('projects'=>$projects))?>
 	</ul>
+	<?php if ($count > size($projects)):?>
 	<br>
 	<p><a href="#">See all <?=$count?> car projects with</a> <?=$rim?> rims</p>
+	<?php endif;?>
+	
 <br>
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- autof_580_adapt -->

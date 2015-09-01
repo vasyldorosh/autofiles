@@ -948,11 +948,10 @@ class Project extends CActiveRecord
 	{
 		$diametr_id = (int) $diametr_id;
 		$width_id 	= (int) $width_id;
-		$offset 	= (int) $offset;
 		
 		$key = Tags::TAG_PROJECT . '_getModifiedCarsByRim_'. $diametr_id . '_' . $width_id;
 		$data = Yii::app()->cache->get($key);
-		if ($data === false || $offset > 0) {
+		if ($data === false) {
 			
 			$data = array();
 			$sql = "
