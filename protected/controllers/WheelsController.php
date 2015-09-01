@@ -132,7 +132,7 @@ class WheelsController extends Controller
 		$tireRangeData = TireRimWidthRange::getData();
 		$recommendedTireSizesItems = array();
 		foreach (array(1=>'P', 2=>'LT') as $k=>$v) {
-			$recommendedTireSizesItems[$k]['title'] = v;	
+			$recommendedTireSizesItems[$k]['title'] = $v;	
 			$recommendedTireSizesItems[$k]['items'] = Project::getRecommendedTireSizes($diametr_id, $width, $k);	
 		}
 		
