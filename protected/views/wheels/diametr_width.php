@@ -86,7 +86,7 @@
 	<section class="make">
 	<h4 class="title_tire">Modified cars with <?=$rim?> wheels</h4>
 	<ul class="make__vehicle">
-		<?php $this->renderPartial('application.views.wheels._projects', array('projects'=>$projects))?>
+		<?php $this->renderPartial('application.views.wheels._projects', array('projects'=>$projects, 'rim'=>$rim))?>
 	</ul>
 	<?php if ($count > size($projects)):?>
 	<br>
