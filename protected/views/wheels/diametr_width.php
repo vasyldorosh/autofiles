@@ -47,8 +47,9 @@
 		<?php endif;?>
 		
 	
+	<?php foreach ($recommendedTireSizesItems as $item): $recommendedTireSizes = $item['items']?>
 	<section class="table-chart">
-		<h4 class="title_tire">Recommended tire sizes that fit <?=$rim?> rim</h4>
+		<h4 class="title_tire">Recommended <?=$item['title']?> tire sizes that fit <?=$rim?> rim</h4>
 		<br>
 		<table>
 			<tbody>
@@ -80,6 +81,7 @@
 		<p>Recommended tire sizes are marked with <font color="#FFC37A"><b>orange color</b></font>.</p>
 		<p>Square boxes with numbers (<font color="#2fa4e7"><b>12</b></font>) stand for custom car projects. Click the number to browse them.</p>
 	</section>
+	<?php endforeach;?>
 	
 	<section class="make">
 	<h4 class="title_tire">Modified cars with <?=$rim?> wheels</h4>

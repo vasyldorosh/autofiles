@@ -934,12 +934,13 @@ class Project extends CActiveRecord
 		return $data;
 	}	
 	
-	public static function getRecommendedTireSizes($diametr_id, $width)
+	public static function getRecommendedTireSizes($diametr_id, $width, $vehicle_class_id)
 	{
 		$width = (float) $width;
 		$diametr_id = (int) $diametr_id;
+		$vehicle_class_id = (int) $vehicle_class_id;
 		
-		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_'. $diametr_id . '_' . $width;
+		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_'. $diametr_id . '_' . $width . '_' . $vehicle_class_id;
 		$tires = Yii::app()->cache->get($key);
 		
 		if ($tires === false) {
@@ -955,7 +956,7 @@ class Project extends CActiveRecord
 				LEFT JOIN tire AS t ON r.tire_id = t.id
 				LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
 				LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
-				WHERE r.`from` <= {$width} AND r.`to` >= {$width} AND t.rim_diameter_id = {$diametr_id}
+				WHERE r.`from` <= {$width} AND r.`to` >= {$width} AND t.rim_diameter_id = {$diametr_id} AND t.vehicle_class_id = {$vehicle_class_id}
 			";
 
 			$tires = Yii::app()->db->createCommand($sql)->queryAll();	
@@ -968,14 +969,14 @@ class Project extends CActiveRecord
 		foreach ($tires as $tire) {
 			$range[] = $tire['section_width_id'] . '_' . $tire['aspect_ratio_id'];
 		}
-		
-		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_p_'. $diametr_id . '_' . $width;
-		$counters = Yii::app()->cache->get($key);
-		
+
 		$sa = array();
 		foreach ($tires as $tire) {
 			$sa[] = "sa = '" . $tire['section_width_id'] . '_' . $tire['aspect_ratio_id'] . "'";
 		}
+		
+		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_p_'. $diametr_id . '_' . $width . '_' . $vehicle_class_id;
+		$counters = Yii::app()->cache->get($key);
 		
 		if ($counters === false) {
 			
@@ -989,6 +990,7 @@ class Project extends CActiveRecord
 					WHERE 
 						p.is_active=1 AND 
 						p.rim_diameter_id = {$diametr_id} AND 
+						p.tire_vehicle_class_id = {$vehicle_class_id} AND 
 						p.tire_section_width_id IS NOT NULL AND 
 						p.tire_aspect_ratio_id IS NOT NULL
 					GROUP BY sa
@@ -1036,7 +1038,7 @@ class Project extends CActiveRecord
 			$section_width[$tire['section_width_id']] = $tire['tire_section_width'];
 			$aspect_ratio[$tire['aspect_ratio_id']] = $tire['tire_aspect_ratio'];
 		}
-
+		
 		uasort($section_width, 'uasort_acs');		
 		uasort($aspect_ratio, 'uasort_acs');		
 		
