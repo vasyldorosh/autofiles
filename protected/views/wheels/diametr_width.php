@@ -93,18 +93,9 @@
 	<p><a href="#" id="link-see-all">See all <?=$count?> car projects with</a> <?=$rim?> rims</p>
 	<?php endif;?>
 	
-<br>
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- autof_580_adapt -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-3243264408777652"
-     data-ad-slot="9538761250"
-     data-ad-format="auto"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-</section>
+		
+	<?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>	
+	</section>
 
 
 <section class="years_box make">
@@ -135,7 +126,7 @@ $('#link-see-all').click(function(e) {
 
 function getProjects() {
 	offset = $('.js-scrolling-ajax-item').size();
-	$.post('<?=Yii::app()->request->requestUri?>&offset='+offset, function(response){
+	$.post('<?=Yii::app()->request->requestUri?>?offset='+offset, function(response){
 		html = $.trim(response);
 		if (html != '') {
 			$('#list_update').append(response);
