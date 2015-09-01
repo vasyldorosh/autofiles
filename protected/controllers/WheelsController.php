@@ -117,7 +117,17 @@ class WheelsController extends Controller
 		}	
 
 		$rim = "{$diametr}x{$width}";
-				
+			
+		if (Yii::app()->request->isAjaxrequest) {
+			$projects = Project::getModifiedCarsByRim($diametr_id, $width_id, Yii::app()->request->getParam('offset'));
+			$this->renderPartial('_projects', array(
+				'rim' => $rim,
+				'diametr' => $diametr,
+				'projects' => $projects,
+			));
+			Yii::app()->end();
+		}
+			
 		$this->pageTitle = str_replace(array('[diametr]', '[width]'), array($diametr, $width), SiteConfig::getInstance()->getValue('seo_wheels_diametr_width_title'));
 		$this->meta_keywords = str_replace(array('[diametr]', '[width]'), array($diametr, $width), SiteConfig::getInstance()->getValue('seo_wheels_diametr_width_meta_keywords'));
 		$this->meta_description = str_replace(array('[diametr]', '[width]'), array($diametr, $width), SiteConfig::getInstance()->getValue('seo_wheels_diametr_width_meta_description'));		
