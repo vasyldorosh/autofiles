@@ -938,7 +938,41 @@ class Project extends CActiveRecord
 			$data = Yii::app()->db->createCommand($sql)->queryAll();	
 			
 			if ($offset == 0)
-				Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE));
+				Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_MAKE, Tags::TAG_MODEL));
+		}	
+		
+		return $data;
+	}	
+	
+	public static function getCountModifiedCarsByRim($diametr_id, $width_id)
+	{
+		$diametr_id = (int) $diametr_id;
+		$width_id 	= (int) $width_id;
+		$offset 	= (int) $offset;
+		
+		$key = Tags::TAG_PROJECT . '_getModifiedCarsByRim_'. $diametr_id . '_' . $width_id;
+		$data = Yii::app()->cache->get($key);
+		if ($data === false || $offset > 0) {
+			
+			$data = array();
+			$sql = "
+				SELECT 
+					COUNT(*) AS c
+				FROM project AS p
+				LEFT JOIN auto_make AS k ON p.make_id = k.id
+				LEFT JOIN auto_model AS m ON p.model_id = m.id
+				WHERE 
+					((p.rim_diameter_id = {$diametr_id} AND p.rim_width_id = {$width_id}) OR  (p.rear_rim_diameter_id = {$diametr_id} AND p.rear_rim_width_id = {$width_id})) AND
+					p.is_active=1 AND 
+					k.is_active = 1 AND
+					k.is_deleted = 0 AND
+					m.is_active = 1 AND
+					m.is_deleted = 0
+			";
+
+			$data = Yii::app()->db->createCommand($sql)->queryScalar();	
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_MAKE, Tags::TAG_MODEL));
 		}	
 		
 		return $data;

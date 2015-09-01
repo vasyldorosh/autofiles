@@ -129,7 +129,7 @@
 		</li>
 	</ul>
 	<br>
-	<p><a href="#">See all 168 car projects with</a> <?=$rim?> rims</p>
+	<p><a href="#">See all <?=$count?> car projects with</a> <?=$rim?> rims</p>
 <br>
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- autof_580_adapt -->
