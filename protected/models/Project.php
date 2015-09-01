@@ -905,7 +905,7 @@ class Project extends CActiveRecord
 		
 		$key = Tags::TAG_PROJECT . '_getModifiedCarsByRim_'. $diametr_id . '_' . $width_id;
 		$data = Yii::app()->cache->get($key);
-		if ($data === false || $offset > 0) {
+		if ($data === false || $offset > 0 || 1) {
 			
 			$data = array();
 			$sql = "
@@ -917,7 +917,8 @@ class Project extends CActiveRecord
 					k.alias AS make_alias,
 					m.title AS model_title,
 					m.alias AS model_alias,
-					p.view_count AS view_count
+					p.view_count AS view_count,
+					p.id AS id
 				FROM project AS p
 				LEFT JOIN auto_make AS k ON p.make_id = k.id
 				LEFT JOIN auto_model AS m ON p.model_id = m.id

@@ -1,12 +1,12 @@
 		<?php foreach ($projects as $project):?>
 		<li>
 			<div class="make__vehicle-image">
-				<a title="Acura RDX tire size" href="/tuning/honda/civic/1158/">
-					<img alt="Acura RDX tire size" src="http://autofiles.com/photos/project/2067/11880/resize_w300_h200.jpg"> 
+				<a title="<?=$project['make_title']?> RDX tire size" href="/tuning/<?=$project['make_alias']?>/<?=$project['model_alias']?>/1158/">
+					<img alt="<?=$project['make_title']?> RDX tire size" src="<?=Project::thumb($project['id'], 300, 200, 'resize')?>"> 
                  </a>
 			</div>	
 			<h3>
-				<a href="/tuning/honda/civic/1158/">2005 Acura TL <?=$rim?></a>
+				<a href="/tuning/<?=$project['make_alias']?>/<?=$project['model_alias']?>/1158/">2005 <?=$project['make_title']?> TL <?=$rim?></a>
 			</h3>
 			<ul class="make__vehicle-specs">
 				<li>245/35 R17</li><li>17 views</li>
