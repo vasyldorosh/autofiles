@@ -951,7 +951,7 @@ class Project extends CActiveRecord
 		
 		$key = Tags::TAG_PROJECT . '_getModifiedCarsByRim_'. $diametr_id . '_' . $width_id;
 		$data = Yii::app()->cache->get($key);
-		if ($data === false) {
+		if ($data === false || 1) {
 			
 			$data = array();
 			$sql = "

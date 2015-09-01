@@ -88,7 +88,7 @@
 	<ul class="make__vehicle">
 		<?php $this->renderPartial('application.views.wheels._projects', array('projects'=>$projects, 'rim'=>$rim))?>
 	</ul>
-	<?php if ($count > size($projects)):?>
+	<?php if ($count > sizeof($projects)):?>
 	<br>
 	<p><a href="#">See all <?=$count?> car projects with</a> <?=$rim?> rims</p>
 	<?php endif;?>
