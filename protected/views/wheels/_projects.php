@@ -1,15 +1,20 @@
 		<?php foreach ($projects as $project):?>
 		<li>
 			<div class="make__vehicle-image">
-				<a title="<?=$project['make_title']?> RDX tire size" href="/tuning/<?=$project['make_alias']?>/<?=$project['model_alias']?>/1158/">
+				<a title="<?=$project['make_title']?> RDX tire size" href="/tuning/<?=$project['make_alias']?>/<?=$project['model_alias']?>/<?=$project['id']?>/">
 					<img alt="<?=$project['make_title']?> RDX tire size" src="<?=Project::thumb($project['id'], 300, 200, 'resize')?>"> 
                  </a>
 			</div>	
 			<h3>
-				<a href="/tuning/<?=$project['make_alias']?>/<?=$project['model_alias']?>/1158/">2005 <?=$project['make_title']?> TL <?=$rim?></a>
+				<a href="/tuning/<?=$project['make_alias']?>/<?=$project['model_alias']?>/<?=$project['id']?>/"><?=$project['year']?> <?=$project['make_title']?> <?=$project['model_title']?> <?=$rim?></a>
 			</h3>
 			<ul class="make__vehicle-specs">
-				<li>245/35 R17</li><li>17 views</li>
+				<li><?=Tire::format(array(
+						'section_width' => $project['tire_section_width'],
+						'aspect_ratio' => $project['tire_aspect_ratio'],
+						'vehicle_class' => $project['tire_vehicle_class'],
+						'rim_diameter' => $diametr,
+				))?></li><li><?=$project['view_count']?> views</li>
 			</ul>
 		</li>
 		<?php endforeach;?>

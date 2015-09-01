@@ -86,11 +86,11 @@
 	<section class="make">
 	<h4 class="title_tire">Modified cars with <?=$rim?> wheels</h4>
 	<ul class="make__vehicle">
-		<?php $this->renderPartial('application.views.wheels._projects', array('projects'=>$projects, 'rim'=>$rim))?>
+		<?php $this->renderPartial('application.views.wheels._projects', array('projects'=>$projects, 'rim'=>$rim, 'diametr'=>$diametr))?>
 	</ul>
 	<?php if ($count > sizeof($projects)):?>
 	<br>
-	<p><a href="#">See all <?=$count?> car projects with</a> <?=$rim?> rims</p>
+	<p><a href="#" id="link-see-all">See all <?=$count?> car projects with</a> <?=$rim?> rims</p>
 	<?php endif;?>
 	
 <br>
@@ -123,3 +123,17 @@
 		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
 	</div>
 </main>
+
+<script>
+var globalOffset = 0;
+
+$('#link-see-all').click(function(e) {
+	e.preventDefault()
+	$(this).hide();
+	getProjects();
+})
+
+function getProjects() {
+	globalOffset+=50;
+}
+</script>

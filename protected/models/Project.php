@@ -918,10 +918,12 @@ class Project extends CActiveRecord
 					m.title AS model_title,
 					m.alias AS model_alias,
 					p.view_count AS view_count,
-					p.id AS id
+					p.id AS id,
+					y.year AS year
 				FROM project AS p
 				LEFT JOIN auto_make AS k ON p.make_id = k.id
 				LEFT JOIN auto_model AS m ON p.model_id = m.id
+				LEFT JOIN auto_model AS m ON y.model_id = m.id
 				LEFT JOIN tire_section_width AS tsw ON p.tire_section_width_id = tsw.id
 				LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
 				LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id
