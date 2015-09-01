@@ -930,7 +930,7 @@ class Project extends CActiveRecord
 					k.is_active = 1 AND
 					k.is_deleted = 0 AND
 					m.is_active = 1 AND
-					m.is_deleted = 0 AND
+					m.is_deleted = 0
 				ORDER BY p.view_count DESC
 				LIMIT {$offset}, 50
 			";
