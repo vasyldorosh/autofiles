@@ -137,10 +137,10 @@ class WheelsController extends Controller
 		}
 		
 		$possibleTireSizes = Project::getPossibleTireSizesByRim($diametr_id, $width_id);
-		$projects = Project::getModifiedCarsByRim($diametr_id, $width_id);
+		$projects = Project::getModifiedCarsByRim($diametr_id, $width_id, 0);
 		
 		if (isset($_GET['t'])) {
-			d($recommendedTireSizes);
+			d($projects);
 			//d($possibleTireSizes);
 		}	
 		

@@ -897,38 +897,48 @@ class Project extends CActiveRecord
 		return $data;
 	}	
 	
-	public static function getModifiedCarsByRim($diametr_id, $width_id)
+	public static function getModifiedCarsByRim($diametr_id, $width_id, $offset=0)
 	{
 		$diametr_id = (int) $diametr_id;
 		$width_id 	= (int) $width_id;
+		$offset 	= (int) $offset;
 		
 		$key = Tags::TAG_PROJECT . '_getModifiedCarsByRim_'. $diametr_id . '_' . $width_id;
 		$data = Yii::app()->cache->get($key);
-		if ($data === false) {
+		if ($data === false || $offset > 0) {
 			
 			$data = array();
 			$sql = "
 				SELECT 
-					COUNT(*) AS c,
 					tsw.value AS tire_section_width,
 					tar.value AS tire_aspect_ratio,
-					tvc.code AS tire_vehicle_class
+					tvc.code AS tire_vehicle_class,
+					k.title AS make_title,
+					k.alias AS make_alias,
+					m.title AS model_title,
+					m.alias AS model_alias,
+					p.view_count AS view_count
 				FROM project AS p
+				LEFT JOIN auto_make AS k ON p.make_id = k.id
+				LEFT JOIN auto_model AS m ON p.model_id = m.id
 				LEFT JOIN tire_section_width AS tsw ON p.tire_section_width_id = tsw.id
 				LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
 				LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id
 				WHERE 
 					((p.rim_diameter_id = {$diametr_id} AND p.rim_width_id = {$width_id}) OR  (p.rear_rim_diameter_id = {$diametr_id} AND p.rear_rim_width_id = {$width_id})) AND
 					p.is_active=1 AND 
-					p.tire_section_width_id IS NOT NULL AND 
-					p.tire_aspect_ratio_id IS NOT NULL AND 
-					p.tire_vehicle_class_id IS NOT NULL 
+					k.is_active = 1 AND
+					k.is_deleted = 0 AND
+					m.is_active = 1 AND
+					m.is_deleted = 0 AND
 				ORDER BY p.view_count DESC
+				LIMIT {$offset}, 50
 			";
 
 			$data = Yii::app()->db->createCommand($sql)->queryAll();	
 			
-			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE));
+			if ($offset == 0)
+				Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE));
 		}	
 		
 		return $data;
