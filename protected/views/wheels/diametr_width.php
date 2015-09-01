@@ -85,7 +85,7 @@
 	
 	<section class="make">
 	<h4 class="title_tire">Modified cars with <?=$rim?> wheels</h4>
-	<ul class="make__vehicle">
+	<ul class="make__vehicle" id="list_update">
 		<?php $this->renderPartial('application.views.wheels._projects', array('projects'=>$projects, 'rim'=>$rim, 'diametr'=>$diametr))?>
 	</ul>
 	<?php if ($count > sizeof($projects)):?>
@@ -126,15 +126,43 @@
 
 <script src="http://autofiles.com/js/lib/jquery.js"></script>
 <script>
-var globalOffset = 0;
-
 $('#link-see-all').click(function(e) {
 	e.preventDefault()
-	$(this).hide();
+	$(this).parent().hide();
+	sendScrolingRequest = false;
 	getProjects();
 })
 
 function getProjects() {
-	globalOffset+=50;
+	offset = $('.js-scrolling-ajax-item').size();
+	$.post('<?=Yii::app()->request->requestUri?>&offset='+offset, function(response){
+		html = $.trim(response);
+		if (html != '') {
+			$('#list_update').append(response);
+			sendScrolingRequest=false;
+		} 
+	}, 'text');	
 }
+
+function element_in_scroll(elem) {
+    var docViewTop = $(window).scrollTop();
+    var docViewBottom = docViewTop + $(window).height();
+    if($(elem).length) {
+        var elemTop = $(elem).offset().top;
+        var elemBottom = elemTop + $(elem).height();
+
+        return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+    } else {
+        return false
+    }
+}
+
+
+var sendScrolingRequest = true;
+$(document).scroll(function(e){
+	if (element_in_scroll(".js-scrolling-ajax-item:last") && !sendScrolingRequest) {
+		sendScrolingRequest = true;
+		getProjects();		
+    };
+});
 </script>
