@@ -62,8 +62,12 @@
 				<tr>
 					<td><?=$sw_val?></td>
 					<?php foreach ($recommendedTireSizes['aspect_ratio'] as $ar_id=>$ar_val):?>
-						<?php if (isset($recommendedTireSizes['counters'][$sw_id.'_'.$ar_id])):?>
-						<td bgcolor="#FFC37A" style="cursor:pointer"><a href="/tuning/<?=$rim?>/<?=Tire::urlFormat(array('vehicle_class'=>'P', 'section_width'=>$sw_val, 'aspect_ratio'=>$ar_val, 'rim_diameter'=>$diametr))?>/"><?=$recommendedTireSizes['counters'][$sw_id.'_'.$ar_id]?></a></td>
+						<?php if (isset($recommendedTireSizes['counters'][$sw_id.'_'.$ar_id]) || in_array($sw_id.'_'.$ar_id, $recommendedTireSizes['range'])):?>
+						<td <?=in_array($sw_id.'_'.$ar_id, $recommendedTireSizes['range'])?'bgcolor="#FFC37A" style="cursor:pointer"':''?>>
+							<?php if (isset($recommendedTireSizes['counters'][$sw_id.'_'.$ar_id])):?>
+							<a href="/tuning/<?=$rim?>/<?=Tire::urlFormat(array('vehicle_class'=>'P', 'section_width'=>$sw_val, 'aspect_ratio'=>$ar_val, 'rim_diameter'=>$diametr))?>/"><?=$recommendedTireSizes['counters'][$sw_id.'_'.$ar_id]?></a>
+							<?php endif;?>
+						</td>
 						<?php else:?>
 						<td></td>
 						<?php endif?>

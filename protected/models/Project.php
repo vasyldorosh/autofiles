@@ -962,7 +962,12 @@ class Project extends CActiveRecord
 
 			
 			Yii::app()->cache->set($key, $tires, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
-		}	
+		}
+
+		$range = array();
+		foreach ($tires as $tire) {
+			$range[] = $tire['section_width_id'] . '_' . $tire['aspect_ratio_id'];
+		}
 		
 		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_p_'. $diametr_id . '_' . $width;
 		$counters = Yii::app()->cache->get($key);
@@ -1037,6 +1042,7 @@ class Project extends CActiveRecord
 		
 		$data['section_width'] = $section_width;
 		$data['aspect_ratio'] = $aspect_ratio;
+		$data['range'] = $range;
 			
 		return $data;
 	}	
