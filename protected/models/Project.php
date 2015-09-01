@@ -943,7 +943,7 @@ class Project extends CActiveRecord
 		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_'. $diametr_id . '_' . $width . '_' . $vehicle_class_id;
 		$tires = Yii::app()->cache->get($key);
 		
-		if ($tires === false || 1) {
+		if ($tires === false) {
 			
 			$tires = array();
 			$sql = "
@@ -978,7 +978,7 @@ class Project extends CActiveRecord
 		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_p_'. $diametr_id . '_' . $width . '_' . $vehicle_class_id;
 		$counters = Yii::app()->cache->get($key);
 		
-		if ($counters === false || 1) {
+		if ($counters === false) {
 			
 			$counters = array();
 			if (!empty($sa)) {
