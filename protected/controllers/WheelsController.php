@@ -116,9 +116,7 @@ class WheelsController extends Controller
 		
 		if (empty($diametr_id) || empty($width_id) || !in_array($rim, $allRims)) {
 			throw new CHttpException(404,'Page cannot be found.');
-		}	
-
-		
+		}		
 			
 		if (Yii::app()->request->isAjaxrequest) {
 			$projects = Project::getModifiedCarsByRim($diametr_id, $width_id, Yii::app()->request->getParam('offset'));
@@ -165,11 +163,117 @@ class WheelsController extends Controller
 		$key_d = array_search($diametr, $dataDiametr);
 		$key_w = array_search($width, $dataWidth);
 		
-		/*
-		d($listWidth,0);
-		d($dataWidth,0);
-		d($key_w);
-		*/
+		$rimsNavigation = array();		
+		//-1 position width
+		if (isset($dataWidth[$key_w-1])) {
+			$rimItem = $diametr . 'x'. $dataWidth[$key_w-1];
+			if (in_array($rimItem, $allRims)) {
+				$rimsNavigation[$rimItem] = 'Narrower rim';
+			}
+		}
+		//+1 position width
+		if (isset($dataWidth[$key_w+1])) {
+			$rimItem = $diametr . 'x'. $dataWidth[$key_w+1];
+			if (in_array($rimItem, $allRims)) {
+				$rimsNavigation[$rimItem] = 'Wider rim';
+			}
+		}
+		//-1 position diametr
+		if (isset($dataDiametr[$key_d-1])) {
+			$rimItem = $dataDiametr[$key_d-1] . 'x'. $width;
+			if (in_array($rimItem, $allRims)) {
+				$rimsNavigation[$rimItem] = 'Smaller rim';
+			}
+		}
+		//+1 position diametr
+		if (isset($dataDiametr[$key_d+1])) {
+			$rimItem = $dataDiametr[$key_d+1] . 'x'. $width;
+			if (in_array($rimItem, $allRims)) {
+				$rimsNavigation[$rimItem] = 'Larger rim';
+			}
+		}	
+
+		$this->render('diametr_width', array(
+			'header_text_block' => $header_text_block,
+			'rim' => $rim,
+			'diametr' => $diametr,
+			'width' => $width,
+			'possibleTireSizes' => $possibleTireSizes,
+			'recommendedTireSizesItems' => $recommendedTireSizesItems,
+			'rimsNavigation' => $rimsNavigation,
+			'projects' => $projects,
+			'count' => Project::getCountModifiedCarsByRim($diametr_id, $width_id),
+		));
+	}
+	
+	public function actionDiametrWidthTire($diametr, $width)
+	{	
+		$listDiameter 	= TireRimDiameter::getList();
+		$listWidth 		= RimWidth::getAll();
+		$allRims 		= Project::getAllRims();
+		
+		$diametrList =  array_flip ($listDiameter);
+		$diametr_id = null;
+		if (isset($diametrList[$diametr])) {
+			$diametr_id = $diametrList[$diametr];
+		}
+	
+		$widthList =  array_flip(RimWidth::getAll());
+		$width_id = null;
+		if (isset($widthList[$width])) {
+			$width_id = $widthList[$width];
+		}
+		
+		$rim = "{$diametr}x{$width}";
+		
+		if (empty($diametr_id) || empty($width_id) || !in_array($rim, $allRims)) {
+			throw new CHttpException(404,'Page cannot be found.');
+		}		
+			
+		if (Yii::app()->request->isAjaxrequest) {
+			$projects = Project::getModifiedCarsByRim($diametr_id, $width_id, Yii::app()->request->getParam('offset'));
+			$this->renderPartial('_projects', array(
+				'rim' => $rim,
+				'diametr' => $diametr,
+				'projects' => $projects,
+			));
+			Yii::app()->end();
+		}
+			
+		$this->pageTitle = str_replace(array('[diametr]', '[width]'), array($diametr, $width), SiteConfig::getInstance()->getValue('seo_wheels_diametr_width_title'));
+		$this->meta_keywords = str_replace(array('[diametr]', '[width]'), array($diametr, $width), SiteConfig::getInstance()->getValue('seo_wheels_diametr_width_meta_keywords'));
+		$this->meta_description = str_replace(array('[diametr]', '[width]'), array($diametr, $width), SiteConfig::getInstance()->getValue('seo_wheels_diametr_width_meta_description'));		
+		$header_text_block = str_replace(array('[diametr]', '[width]'), array($diametr, $width), SiteConfig::getInstance()->getValue('wheels_model_header_text_block'));		
+			
+		$this->breadcrumbs = array(
+			'/' => 'Home',
+			'/wheels.html' => 'Wheels',
+			'#' => $rim,
+		);
+		
+		$tireRangeData = TireRimWidthRange::getData();
+		$recommendedTireSizesItems = array();
+		foreach (array(1=>'P', 2=>'LT') as $k=>$v) {
+			$recommendedTireSizesItems[$k]['title'] = $v;	
+			$recommendedTireSizesItems[$k]['items'] = Project::getRecommendedTireSizes($diametr_id, $width, $k);	
+		}
+		
+		$possibleTireSizes = Project::getPossibleTireSizesByRim($diametr_id, $width_id);
+		$projects = Project::getModifiedCarsByRim($diametr_id, $width_id, 0);
+		
+		//rims navifations
+		$dataDiametr = array();
+		foreach ($listDiameter as $k=>$v) {
+			$dataDiametr[] = $v;
+		}
+
+		$dataWidth = array();
+		foreach ($listWidth as $k=>$v) {
+			$dataWidth[] = $v;
+		}
+		
+		$key_d = array_search($diametr, $dataDiametr);
+		$key_w = array_search($width, $dataWidth);
 		
 		$rimsNavigation = array();		
 		//-1 position width
@@ -199,14 +303,7 @@ class WheelsController extends Controller
 			if (in_array($rimItem, $allRims)) {
 				$rimsNavigation[$rimItem] = 'Larger rim';
 			}
-		}
-		
-		
-		if (isset($_GET['t'])) {
-			d($allRims, 0);
-			d($listDiameter, 0);
-			d($listWidth, 0);
-		}			
+		}	
 
 		$this->render('diametr_width', array(
 			'header_text_block' => $header_text_block,
