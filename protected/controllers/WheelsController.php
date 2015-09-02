@@ -164,9 +164,38 @@ class WheelsController extends Controller
 		
 		$key_d = array_search($diametr, $dataDiametr);
 		$key_w = array_search($width, $dataWidth);
+
+
 		
 		$rimsNavigation = array();		
-		
+		//-1 position width
+		if (isset($dataWidth[$key_w-1])) {
+			$rimItem = $diametr . 'x'. $dataWidth[$key_w-1];
+			if (in_array($rimItem, $allRims)) {
+				$rimsNavigation[$rimItem] = 'Narrower rim';
+			}
+		}
+		//+1 position width
+		if (isset($dataWidth[$key_w+1])) {
+			$rimItem = $diametr . 'x'. $dataWidth[$key_w+1];
+			if (in_array($rimItem, $allRims)) {
+				$rimsNavigation[$rimItem] = 'Wider rim'
+			}
+		}
+		//-1 position diametr
+		if (isset($dataDiametr[$key_d-1])) {
+			$rimItem = $dataDiametr[$key_d-1] . 'x'. $width;
+			if (in_array($rimItem, $allRims)) {
+				$rimsNavigation[$rimItem] = 'Smaller rim';
+			}
+		}
+		//+1 position diametr
+		if (isset($dataDiametr[$key_d+1])) {
+			$rimItem = $dataDiametr[$key_d+1] . 'x'. $width;
+			if (in_array($rimItem, $allRims)) {
+				$rimsNavigation[$rimItem] = 'Larger rim';
+			}
+		}
 		
 		
 		if (isset($_GET['t'])) {

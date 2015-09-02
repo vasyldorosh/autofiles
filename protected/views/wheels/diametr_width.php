@@ -99,17 +99,17 @@
 	<?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>	
 	</section>
 
-
+	
+	<?php if (!empty($rimsNavigation)):?>
 		<section class="years_box make">
 			<h2 class="section-name_2">Rims navigation</h2>
 			<ul class="years_list">
-				<li class="years_list_item"><a href="/tires/honda/accord/2015/" class="btn years_list_link" title="2015 Honda Accord tires">17x7.5 - Narrower rim</a></li>
-				<li class="years_list_item"><a href="/tires/honda/accord/2013/" class="btn years_list_link" title="2013 Honda Accord tires"><?=$rim?>.5 - Wider rim</a></li>
-				<li class="years_list_item"><a href="/tires/honda/accord/2013/" class="btn years_list_link" title="2013 Honda Accord tires">16x8.0 - Smaller rim</a></li>
-				<li class="years_list_item"><a href="/tires/honda/accord/2012/" class="btn years_list_link" title="2012 Honda Accord tires">18x8.0 - Larger rim</a></li>
+			<?php foreach ($rimsNavigation as $k=>$v):?>	
+				<li class="years_list_item"><a href="/wheels/<?=$k?>" class="btn years_list_link" title="rim <?=$k?>"><?=$k?> - <?=$v?></a></li>
+			<?php endforeach;?>
 			</ul>
 		</section>
-	
+	<?php endif;?>
 	</div>
 	
 	<div class="l-col2">
