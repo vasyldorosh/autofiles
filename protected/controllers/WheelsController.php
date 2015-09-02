@@ -154,21 +154,22 @@ class WheelsController extends Controller
 		//rims navifations
 		$dataDiametr = array();
 		foreach ($listDiameter as $k=>$v) {
-			$dataDiametr[] = $k;
+			$dataDiametr[] = $v;
 		}
 
 		$dataWidth = array();
 		foreach ($listWidth as $k=>$v) {
-			$dataWidth[] = $k;
+			$dataWidth[] = $v;
 		}
 		
 		$key_d = array_search($diametr, $dataDiametr);
 		$key_w = array_search($width, $dataWidth);
 		
+		/*
 		d($listWidth,0);
 		d($dataWidth,0);
 		d($key_w);
-
+		*/
 		
 		$rimsNavigation = array();		
 		//-1 position width
