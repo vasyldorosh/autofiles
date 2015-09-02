@@ -106,7 +106,7 @@ class WheelsController extends Controller
 			$diametr_id = $diametrList[$diametr];
 		}
 	
-		$widthList =  array_flip($listWidth);
+		$widthList =  array_flip(RimWidth::getAll());
 		$width_id = null;
 		if (isset($widthList[$width])) {
 			$width_id = $widthList[$width];
