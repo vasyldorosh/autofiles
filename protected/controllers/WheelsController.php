@@ -96,23 +96,29 @@ class WheelsController extends Controller
 	
 	public function actionDiametrWidth($diametr, $width)
 	{	
-		$diametrList =  array_flip (TireRimDiameter::getList());
+		$listDiameter 	= TireRimDiameter::getList();
+		$listWidth 		= RimWidth::getAll();
+		$allRims 		= Project::getAllRims();
+		
+		$diametrList =  array_flip ($listDiameter);
 		$diametr_id = null;
 		if (isset($diametrList[$diametr])) {
 			$diametr_id = $diametrList[$diametr];
 		}
-
-		$widthList =  array_flip(RimWidth::getAll());
+	
+		$widthList =  array_flip($listWidth);
 		$width_id = null;
 		if (isset($widthList[$width])) {
 			$width_id = $widthList[$width];
 		}
 		
-		if (empty($diametr_id) || empty($width_id)) {
+		$rim = "{$diametr}x{$width}";
+		
+		if (empty($diametr_id) || empty($width_id) || !in_array($rim, $allRims)) {
 			 throw new CHttpException(404,'Page cannot be found.');
 		}	
 
-		$rim = "{$diametr}x{$width}";
+		
 			
 		if (Yii::app()->request->isAjaxrequest) {
 			$projects = Project::getModifiedCarsByRim($diametr_id, $width_id, Yii::app()->request->getParam('offset'));
@@ -146,12 +152,14 @@ class WheelsController extends Controller
 		$projects = Project::getModifiedCarsByRim($diametr_id, $width_id, 0);
 		
 		$rimsNavigation = array();		
-		$allRims = Project::getAllRims();
+		
 
 		if (isset($_GET['t'])) {
-			d($allRims);
+			d($allRims, 0);
+			d($listDiameter, 0);
+			d($listWidth, 0);
 		}			
-		
+
 		$this->render('diametr_width', array(
 			'header_text_block' => $header_text_block,
 			'rim' => $rim,
