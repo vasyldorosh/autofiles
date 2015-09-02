@@ -195,8 +195,7 @@ class TuningController extends Controller
 		$this->pageTitle = str_replace($rFrom, $rTo, SiteConfig::getInstance()->getValue('seo_'.$key_seo.'_title'));
 		$this->meta_keywords = str_replace($rFrom, $rTo, SiteConfig::getInstance()->getValue('seo_'.$key_seo.'_meta_keywords'));
 		$this->meta_description = str_replace($rFrom, $rTo, SiteConfig::getInstance()->getValue('seo_'.$key_seo.'_meta_description'));		
-		$description = str_replace($rFrom, $rTo, SiteConfig::getInstance()->getValue('tuning_'.$key_seo.'_description'));		
-		
+		$description = str_replace($rFrom, $rTo, SiteConfig::getInstance()->getValue($key_seo.'_description'));		
 		$lastModelYear = AutoModel::getLastYear($model['id']);
 				
 		$this->breadcrumbs = array(
