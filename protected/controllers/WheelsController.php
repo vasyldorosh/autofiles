@@ -84,10 +84,6 @@ class WheelsController extends Controller
 			$wheelsDataItems[$k]['custom_rim_sizes'] = Project::getCustomRimSizes($v['ids']);
 		}
 		
-		if (isset($_GET['t']))
-			d($wheelsDataItems);
-		
-		
 		$this->render('model', array(
 			'lastModelYear' => $lastModelYear,
 			'make' => $make,
@@ -149,10 +145,12 @@ class WheelsController extends Controller
 		$possibleTireSizes = Project::getPossibleTireSizesByRim($diametr_id, $width_id);
 		$projects = Project::getModifiedCarsByRim($diametr_id, $width_id, 0);
 		
+		$rimsNavigation = array();		
+		$allRims = Project::getAllRims();
+
 		if (isset($_GET['t'])) {
-			d($projects);
-			//d($possibleTireSizes);
-		}	
+			d($allRims);
+		}			
 		
 		$this->render('diametr_width', array(
 			'header_text_block' => $header_text_block,
@@ -161,6 +159,7 @@ class WheelsController extends Controller
 			'width' => $width,
 			'possibleTireSizes' => $possibleTireSizes,
 			'recommendedTireSizesItems' => $recommendedTireSizesItems,
+			'rimsNavigation' => $rimsNavigation,
 			'projects' => $projects,
 			'count' => Project::getCountModifiedCarsByRim($diametr_id, $width_id),
 		));

@@ -84,13 +84,15 @@
 	<?php endforeach;?>
 	
 	<section class="make">
-	<h4 class="title_tire">Modified cars with <?=$rim?> wheels</h4>
-	<ul class="make__vehicle" id="list_update">
-		<?php $this->renderPartial('application.views.wheels._projects', array('projects'=>$projects, 'rim'=>$rim, 'diametr'=>$diametr))?>
-	</ul>
-	<?php if ($count > sizeof($projects)):?>
-	<br>
-	<p><a href="#" id="link-see-all">See all <?=$count?> car projects with</a> <?=$rim?> rims</p>
+	<?php if (!empty($projects)):?>	
+		<h4 class="title_tire">Modified cars with <?=$rim?> wheels</h4>
+		<ul class="make__vehicle" id="list_update">
+			<?php $this->renderPartial('application.views.wheels._projects', array('projects'=>$projects, 'rim'=>$rim, 'diametr'=>$diametr))?>
+		</ul>
+		<?php if ($count > sizeof($projects)):?>
+		<br>
+		<p><a href="#" id="link-see-all">See all <?=$count?> car projects with</a> <?=$rim?> rims</p>
+		<?php endif;?>
 	<?php endif;?>
 	
 		
@@ -98,14 +100,14 @@
 	</section>
 
 
-<section class="years_box make">
+		<section class="years_box make">
 			<h2 class="section-name_2">Rims navigation</h2>
 			<ul class="years_list">
-							<li class="years_list_item"><a href="/tires/honda/accord/2015/" class="btn years_list_link" title="2015 Honda Accord tires">17x7.5 - Narrower rim</a></li>
-							<li class="years_list_item"><a href="/tires/honda/accord/2013/" class="btn years_list_link" title="2013 Honda Accord tires"><?=$rim?>.5 - Wider rim</a></li>
-							<li class="years_list_item"><a href="/tires/honda/accord/2013/" class="btn years_list_link" title="2013 Honda Accord tires">16x8.0 - Smaller rim</a></li>
-							<li class="years_list_item"><a href="/tires/honda/accord/2012/" class="btn years_list_link" title="2012 Honda Accord tires">18x8.0 - Larger rim</a></li>
-						</ul>
+				<li class="years_list_item"><a href="/tires/honda/accord/2015/" class="btn years_list_link" title="2015 Honda Accord tires">17x7.5 - Narrower rim</a></li>
+				<li class="years_list_item"><a href="/tires/honda/accord/2013/" class="btn years_list_link" title="2013 Honda Accord tires"><?=$rim?>.5 - Wider rim</a></li>
+				<li class="years_list_item"><a href="/tires/honda/accord/2013/" class="btn years_list_link" title="2013 Honda Accord tires">16x8.0 - Smaller rim</a></li>
+				<li class="years_list_item"><a href="/tires/honda/accord/2012/" class="btn years_list_link" title="2012 Honda Accord tires">18x8.0 - Larger rim</a></li>
+			</ul>
 		</section>
 	
 	</div>

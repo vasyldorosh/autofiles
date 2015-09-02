@@ -905,7 +905,7 @@ class Project extends CActiveRecord
 		
 		$key = Tags::TAG_PROJECT . '_getModifiedCarsByRim_'. $diametr_id . '_' . $width_id;
 		$data = Yii::app()->cache->get($key);
-		if ($data === false || $offset > 0 || 1) {
+		if ($data === false || $offset > 0) {
 			
 			$data = array();
 			$sql = "
@@ -954,7 +954,7 @@ class Project extends CActiveRecord
 		
 		$key = Tags::TAG_PROJECT . '_getModifiedCarsByRim_'. $diametr_id . '_' . $width_id;
 		$data = Yii::app()->cache->get($key);
-		if ($data === false || 1) {
+		if ($data === false) {
 			
 			$data = array();
 			$sql = "
@@ -1093,7 +1093,72 @@ class Project extends CActiveRecord
 		$data['range'] = $range;
 			
 		return $data;
+	}
+
+	public static function getAllRims()
+	{
+		$key = Tags::TAG_PROJECT . '_getAllRims_';
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			
+			$data = array();
+			$sql = "
+				SELECT 
+					CONCAT(rd.value, 'x', rw.value) AS rim
+				FROM project AS p
+				LEFT JOIN auto_make AS k ON p.make_id = k.id
+				LEFT JOIN auto_model AS m ON p.model_id = m.id
+				LEFT JOIN tire_rim_diameter AS rd ON p.rim_diameter_id = rd.id
+				LEFT JOIN rim_width AS rw ON p.rim_width_id = rw.id				
+				WHERE 
+					p.is_active=1 AND 
+					k.is_active = 1 AND
+					k.is_deleted = 0 AND
+					m.is_active = 1 AND
+					m.is_deleted = 0 AND
+					p.rim_diameter_id IS NOT NULL AND
+					p.rim_width_id IS NOT NULL 
+				GROUP BY rim	
+			";
+
+			$items = Yii::app()->db->createCommand($sql)->queryAll();	
+			foreach ($items as $item) {
+				if (!empty($item['rim'])) {
+					$data[] = $item['rim'];
+				}
+			}
+			
+			$sql = "
+				SELECT 
+					CONCAT(rd.value, 'x', rw.value) AS rim
+				FROM project AS p
+				LEFT JOIN auto_make AS k ON p.make_id = k.id
+				LEFT JOIN auto_model AS m ON p.model_id = m.id
+				LEFT JOIN tire_rim_diameter AS rd ON p.rear_rim_diameter_id = rd.id
+				LEFT JOIN rim_width AS rw ON p.rear_rim_width_id = rw.id				
+				WHERE 
+					p.is_active=1 AND 
+					k.is_active = 1 AND
+					k.is_deleted = 0 AND
+					m.is_active = 1 AND
+					m.is_deleted = 0 AND
+					p.rear_rim_diameter_id IS NOT NULL AND
+					p.rear_rim_width_id IS NOT NULL 
+				GROUP BY rim";
+
+			$items = Yii::app()->db->createCommand($sql)->queryAll();	
+			foreach ($items as $item) {
+				if (!empty($item['rim'])) {
+					$data[] = $item['rim'];
+				}
+			}				
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_MAKE, Tags::TAG_MODEL));
+		}	
+		
+		return $data;
 	}	
+	
 	
 	
 }

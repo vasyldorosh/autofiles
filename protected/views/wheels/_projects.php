@@ -1,8 +1,8 @@
 		<?php foreach ($projects as $project):?>
 		<li class="js-scrolling-ajax-item">
 			<div class="make__vehicle-image">
-				<a title="<?=$project['make_title']?> RDX tire size" href="/tuning/<?=$project['make_alias']?>/<?=$project['model_alias']?>/<?=$project['id']?>/">
-					<img alt="<?=$project['make_title']?> RDX tire size" src="<?=Project::thumb($project['id'], 300, 200, 'resize')?>"> 
+				<a title="<?=$project['make_title']?> <?=$project['model_title']?> tire size" href="/tuning/<?=$project['make_alias']?>/<?=$project['model_alias']?>/<?=$project['id']?>/">
+					<img alt="<?=$project['make_title']?> <?=$project['model_title']?> tire size" src="<?=Project::thumb($project['id'], 300, 200, 'resize')?>"> 
                  </a>
 			</div>	
 			<h3>
