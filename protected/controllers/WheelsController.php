@@ -165,6 +165,7 @@ class WheelsController extends Controller
 		$key_d = array_search($diametr, $dataDiametr);
 		$key_w = array_search($width, $dataWidth);
 		
+		d($$listWidth,0);
 		d($dataWidth,0);
 		d($key_w);
 
