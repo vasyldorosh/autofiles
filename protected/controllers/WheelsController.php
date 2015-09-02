@@ -151,9 +151,24 @@ class WheelsController extends Controller
 		$possibleTireSizes = Project::getPossibleTireSizesByRim($diametr_id, $width_id);
 		$projects = Project::getModifiedCarsByRim($diametr_id, $width_id, 0);
 		
+		//rims navifations
+		$dataDiametr = array();
+		foreach ($listDiameter as $k=>$v) {
+			$dataDiametr[] = $k;
+		}
+
+		$dataWidth = array();
+		foreach ($listWidth as $k=>$v) {
+			$dataWidth[] = $k;
+		}
+		
+		$key_d = array_search($diametr, $dataDiametr);
+		$key_w = array_search($width, $dataWidth);
+		
 		$rimsNavigation = array();		
 		
-
+		
+		
 		if (isset($_GET['t'])) {
 			d($allRims, 0);
 			d($listDiameter, 0);
