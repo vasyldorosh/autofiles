@@ -179,7 +179,7 @@ class WheelsController extends Controller
 		if (isset($dataWidth[$key_w+1])) {
 			$rimItem = $diametr . 'x'. $dataWidth[$key_w+1];
 			if (in_array($rimItem, $allRims)) {
-				$rimsNavigation[$rimItem] = 'Wider rim'
+				$rimsNavigation[$rimItem] = 'Wider rim';
 			}
 		}
 		//-1 position diametr
