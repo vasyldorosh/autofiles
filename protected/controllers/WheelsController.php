@@ -115,7 +115,7 @@ class WheelsController extends Controller
 		$rim = "{$diametr}x{$width}";
 		
 		if (empty($diametr_id) || empty($width_id) || !in_array($rim, $allRims)) {
-			 throw new CHttpException(404,'Page cannot be found.');
+			throw new CHttpException(404,'Page cannot be found.');
 		}	
 
 		
