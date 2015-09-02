@@ -952,7 +952,7 @@ class Project extends CActiveRecord
 		$diametr_id = (int) $diametr_id;
 		$width_id 	= (int) $width_id;
 		
-		$key = Tags::TAG_PROJECT . '_getModifiedCarsByRim_'. $diametr_id . '_' . $width_id;
+		$key = Tags::TAG_PROJECT . '_getCountModifiedCarsByRim_'. $diametr_id . '_' . $width_id;
 		$data = Yii::app()->cache->get($key);
 		if ($data === false) {
 			
