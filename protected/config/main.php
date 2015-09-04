@@ -122,11 +122,7 @@ return array(
 				'tuning/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>/<filter:wheels-[0-9]{1,2}.[0-9]{1,2}-width\/tire-[0-9]{3}\/offset[-]{0,1}[0-9]{1,2}>' => 'tuning/model',
 				'tuning/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>/<filter:wheels-[0-9]{2}x[0-9]{1,2}.[0-9]{1,2}\/offset[-]{0,1}[0-9]{1,2}>' => 'tuning/model',
 				'tuning/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>/<filter:wheels-[0-9]{2}x[0-9]{1,2}.[0-9]{1,2}\/tire-[0-9]{3}>' => 'tuning/model',
-										
-				
 				'tuning/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'tuning/model',
-				
-				
 				'tuning/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>/<id:[0-9]{1,11}>' => 'tuning/project',
 					
 				'site/<action:\w+>'=>'site/<action>',
