@@ -13,8 +13,8 @@ class FilterHelper
 		$filterData = array();
 		
 		//fetch diameter
-		preg_match('/wheels\-([0-9]{2}?)/', $filter, $matches);
-		if (isset($matches[1])) {
+		preg_match('/wheels\-((\d*){2}?)/', $filter, $matches);
+		if (isset($matches[1]) && is_int($matches[1])) {
 			$filterData['diameter'] = $matches[1];
 		}
 		
@@ -29,6 +29,8 @@ class FilterHelper
 			}
 		}
 		
+		//d($filterData);
+		
 		//fetch tire
 		preg_match('/tire-(\d*)/', $filter, $matches);
 		if (isset($matches[1])) {
@@ -41,12 +43,11 @@ class FilterHelper
 			$filterData['offset'] = $matches[1];
 		}
 		
-		
 		$listDiameter 		= TireRimDiameter::getList();
 		$listWidth 			= RimWidth::getAll();		
 		$listTire 			= TireSectionWidth::getList();		
 		$listOffset 		= RimOffsetRange::getAll();		
-				
+
 		if (isset($filterData['diameter'])) {
 			$list = array_flip($listDiameter);
 			if (isset($list[$filterData['diameter']])) {
