@@ -116,6 +116,8 @@
 			</table>
 			</section>
 			<?php endif;?>
+			
+		<?php if ($countProjects < 0):?>
 		<section class="right-block w78">
 		
 			<?php $popularTireSizes = Project::getMostPopularTireSizesModel($model['id']);?>
@@ -147,6 +149,7 @@
 			</table>
 			<br/>
 		</section>
+		<?php endif;?>
 			
 			
 
