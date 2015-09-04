@@ -86,7 +86,7 @@ class FilterHelper
 		return $filterData;
 	}
 	
-	function getFirstExpl($string, $del) {
+	function getFirstExpl($del, $string) {
 		$expl = explode($del, $string);
 		return trim($expl[0]);
 	}
