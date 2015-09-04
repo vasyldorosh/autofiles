@@ -85,5 +85,9 @@ class FilterHelper
 		
 		return $filterData;
 	}
-
+	
+	function getFirstExpl($string, $del) {
+		$expl = explode($del, $string);
+		return trim($expl[0]);
+	}
 }
