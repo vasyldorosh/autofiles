@@ -217,11 +217,12 @@ function getProjects(offset, append) {
 		
 		$.post(url, 'offset='+offset, function(response){
 			html = $.trim(response);
-			if (html != '') {
-				if (append)
-					$('#list_update').append(response);
+			if (append)
+				$('#list_update').append(response);
 				else 
-					$('#list_update').html(response);
+			$('#list_update').html(response);
+				
+			if (html != '') {	
 				sendScrolingRequest=false;
 			} 
 			history.pushState(null, '', url);
