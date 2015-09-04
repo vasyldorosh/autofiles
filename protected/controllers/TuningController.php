@@ -70,8 +70,183 @@ class TuningController extends Controller
 		));
 	}
 	
-	public function actionModel($makeAlias, $modelAlias)
+	public function actionModel($makeAlias, $modelAlias, $filter='')
 	{
+		$make = AutoMake::getMakeByAlias($makeAlias);
+		if (empty($make)) {
+			 throw new CHttpException(404,'Page cannot be found.');
+		}	
+	
+		$model = AutoModel::getModelByMakeAndAlias($make['id'], $modelAlias);
+
+		if (empty($model)) {
+			 throw new CHttpException(404,'Page cannot be found.');
+		}
+		
+		$filter = FilterHelper::tuningParse($filter);
+		
+		$offset = (int)Yii::app()->request->getParam('offset');
+		$limit	= 50;
+		
+		$key    	= Tags::TAG_PROJECT . '__list_' . $model['id'] . '_' . $limit;
+		$projects   = Yii::app()->cache->get($key);
+		
+		
+		$where = array();
+		$where[] = 'p.is_active=1';
+		if ($projects === false || !empty($filter) || $offset > 0) {
+			$where[] = "p.model_id = " . $model['id'];
+			
+			if (!empty($filter['rim_diameter_id'])) {
+				$rim_diameter_id = (int) $filter['rim_diameter_id'];
+				$where[] = "(p.rim_diameter_id = {$rim_diameter_id} OR p.rear_rim_diameter_id = {$rim_diameter_id})";
+			}
+			
+			if (!empty($filter['rim_width_id'])) {
+				$rim_width_id = (float) $filter['rim_width_id'];
+				$where[] = "(p.rim_width_id = {$rim_width_id} OR p.rear_rim_width_id = {$rim_width_id})";
+			}
+			
+			if (!empty($filter['rim_offset_range_id'])) {
+				$rim_offset_range_id = (int) $filter['rim_offset_range_id'];
+				$where[] = "(p.rim_offset_range_id = {$rim_offset_range_id} OR p.rear_rim_offset_range_id = {$rim_offset_range_id})";
+			}
+			
+			if (!empty($filter['tire_section_width_id'])) {
+				$tire_section_width_id = (int) $filter['tire_section_width_id'];
+				$where[] = "(p.tire_section_width_id = {$tire_section_width_id} OR p.rear_tire_section_width_id = {$tire_section_width_id})";
+			}
+			
+			if (!empty($where))
+				$where = 'WHERE ' . implode(' AND ', $where);
+			else 
+				$where = '';
+			
+			$sql = "SELECT 
+						p.id AS id,
+						p.view_count AS view_count,
+						p.wheel_manufacturer AS wheel_manufacturer,
+						p.wheel_model AS wheel_model,
+						rd.value AS rim_diameter,
+						rw.value AS rim_width,
+						ror.value AS rim_offset_range,
+						p.is_staggered_wheels AS is_staggered_wheels,
+						r_rd.value AS rear_rim_diameter,
+						r_rw.value AS rear_rim_width,
+						tvc.code AS tire_vehicle_class,						
+						r_tvc.code AS rear_tire_vehicle_class,							
+						r_ror.value AS rear_rim_offset_range,						
+						tsw.value AS tire_section_width,						
+						tar.value AS tire_aspect_ratio,						
+						p.is_staggered_tires AS is_staggered_tires,
+						r_tsw.value AS rear_tire_section_width,						
+						r_tar.value AS rear_tire_aspect_ratio,						
+						y.year AS year,
+						y.id AS year_id
+					FROM project AS p
+					LEFT JOIN auto_model_year AS y ON p.model_year_id = y.id
+					LEFT JOIN tire_rim_diameter AS rd ON p.rim_diameter_id = rd.id
+					LEFT JOIN rim_width AS rw ON p.rim_width_id = rw.id
+					LEFT JOIN rim_offset_range AS ror ON p.rim_offset_range_id = ror.id
+					LEFT JOIN tire_rim_diameter AS r_rd ON p.rear_rim_diameter_id = r_rd.id
+					LEFT JOIN rim_width AS r_rw ON p.rear_rim_width_id = r_rw.id
+					LEFT JOIN rim_offset_range AS r_ror ON p.rear_rim_offset_range_id = r_ror.id
+					LEFT JOIN tire_section_width AS tsw ON p.tire_section_width_id = tsw.id
+					LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
+					LEFT JOIN tire_section_width AS r_tsw ON p.rear_tire_section_width_id = r_tsw.id
+					LEFT JOIN tire_aspect_ratio AS r_tar ON p.rear_tire_aspect_ratio_id = r_tar.id
+					LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
+					LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id						
+					{$where}
+					ORDER BY p.view_count DESC
+					LIMIT {$offset}, {$limit}";
+					
+			$projects = Yii::app()->db->createCommand($sql)->queryAll();	
+			foreach ($projects as $k=>$project) {
+				$projects[$k]['photo'] = Project::thumb($project['id'], 300, 200, 'resize');
+			}			
+			
+			if (empty($filter) && $offset==0)
+				Yii::app()->cache->get($key, $projects, 0, new Tags(Tags::TAG_PROJECT));			
+		}
+		
+		if (Yii::app()->request->isAjaxRequest) {
+			$this->renderPartial('_projects', array(
+				'projects' => $projects,
+				'make' => $make,
+				'model' => $model,
+			));
+			Yii::app()->end();
+		}
+		
+		$countProjects = Project::getCountByModel($model['id'], $filter);
+		$countProjectsMake = Project::getCountByMake($make['id']);
+		
+			
+			
+		$rFrom = array(
+			'[make]', 
+			'[model]', 
+			'[num]', 
+			'[diameter]', 
+			'[width]', 
+			'[tire]', 
+			'[offset]'
+		);
+		
+		$rTo = array(
+			$make['title'], 
+			$model['title'], 
+			$countProjects, 
+			isset($filter['diameter'])?$filter['diameter']:'',
+			isset($filter['width'])?$filter['width']:'',
+			isset($filter['tire'])?$filter['tire']:'',
+			isset($filter['offset'])?$filter['offset']:'',
+		);
+		
+		$key_seo = 'tuning_model';
+		if (!empty($filter)) {
+			if (isset($filter['diameter'])) { $key_seo.= '_diameter';}
+			if (isset($filter['width'])) { $key_seo.= '_width';}
+			if (isset($filter['tire'])) { $key_seo.= '_tire';}
+			if (isset($filter['offset'])) { $key_seo.= '_offset';}
+		}
+		
+		$this->pageTitle = str_replace($rFrom, $rTo, SiteConfig::getInstance()->getValue('seo_'.$key_seo.'_title'));
+		$this->meta_keywords = str_replace($rFrom, $rTo, SiteConfig::getInstance()->getValue('seo_'.$key_seo.'_meta_keywords'));
+		$this->meta_description = str_replace($rFrom, $rTo, SiteConfig::getInstance()->getValue('seo_'.$key_seo.'_meta_description'));		
+		$description = str_replace($rFrom, $rTo, SiteConfig::getInstance()->getValue($key_seo.'_description'));		
+		$lastModelYear = AutoModel::getLastYear($model['id']);
+				
+		$this->breadcrumbs = array(
+			'/' => 'Home',
+			'/tuning.html' => array(
+				'anchor'=>'Tuning',
+				'title'=>SiteConfig::getInstance()->getValue('seo_tuning_title'),
+			),
+			'/tuning' . $make['url'] => array(
+				'anchor'=>$make['title'],
+				'title' => str_replace(array('[make]', '[num]'), array($make['title'], $countProjectsMake), SiteConfig::getInstance()->getValue('seo_tuning_make_title')),
+			),
+			'#' => $model['title'],
+		);	
+		
+		$this->render('model', array(
+			'filter' => $filter,
+			'lastModelYear' => $lastModelYear,
+			'projects' => $projects,
+			'make' => $make,
+			'model' => $model,
+			'countProjects' => $countProjects,
+			'description' => $description,
+		));
+	}
+
+	public function _actionModel($makeAlias, $modelAlias, $filter='')
+	{
+		d($filter);
+		
+		
 		$make = AutoMake::getMakeByAlias($makeAlias);
 		if (empty($make)) {
 			 throw new CHttpException(404,'Page cannot be found.');

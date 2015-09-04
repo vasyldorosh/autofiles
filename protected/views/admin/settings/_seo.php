@@ -229,8 +229,129 @@
 					true
 				)),
                 array(
-					'label'=>Yii::t('admin', 'Tuning Model Filter'),
-					'content' => $this->renderPartial('_tuning_model_filter_page', array(
+					'label'=>Yii::t('admin', 'Tuning Model Diameter'),
+					'content' => $this->renderPartial('_tuning_model_diameter_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+                array(
+					'label'=>Yii::t('admin', 'Tuning Model Width'),
+					'content' => $this->renderPartial('_tuning_model_width_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+                array(
+					'label'=>Yii::t('admin', 'Tuning Model Tire'),
+					'content' => $this->renderPartial('_tuning_model_tire_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+                array(
+					'label'=>Yii::t('admin', 'Tuning Model Offset'),
+					'content' => $this->renderPartial('_tuning_model_offset_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+                array(
+					'label'=>Yii::t('admin', 'Tuning Model Diameter Width'),
+					'content' => $this->renderPartial('_tuning_model_diameter_width_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+                array(
+					'label'=>Yii::t('admin', 'Tuning Model Tire Offset'),
+					'content' => $this->renderPartial('_tuning_model_tire_offset_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+                array(
+					'label'=>Yii::t('admin', 'Tuning Model Diameter Tire'),
+					'content' => $this->renderPartial('_tuning_model_diameter_tire_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+                array(
+					'label'=>Yii::t('admin', 'Tuning Model Diameter Offset'),
+					'content' => $this->renderPartial('_tuning_model_diameter_offset_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+                array(
+					'label'=>Yii::t('admin', 'Tuning Model Width Tire'),
+					'content' => $this->renderPartial('_tuning_model_width_tire_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+                array(
+					'label'=>Yii::t('admin', 'Tuning Model Width Offset'),
+					'content' => $this->renderPartial('_tuning_model_width_offset_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+                array(
+					'label'=>Yii::t('admin', 'Tuning Model Diameter Tire Offset'),
+					'content' => $this->renderPartial('_tuning_model_diameter_tire_offset_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+                array(
+					'label'=>Yii::t('admin', 'Tuning Model Width Tire Offset'),
+					'content' => $this->renderPartial('_tuning_model_width_tire_offset_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+				array(
+					'label'=>Yii::t('admin', 'Tuning Model Diameter Width Offset'),
+					'content' => $this->renderPartial('_tuning_model_diameter_width_offset_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+				array(
+					'label'=>Yii::t('admin', 'Tuning Model Diameter Width Tire'),
+					'content' => $this->renderPartial('_tuning_model_diameter_width_tire_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+				array(
+					'label'=>Yii::t('admin', 'Tuning Model Diameter Width Tire Offset'),
+					'content' => $this->renderPartial('_tuning_model_diameter_width_tire_offset_page', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),
+				
+                array(
+					'label'=>Yii::t('admin', 'Tuning Model Width'),
+					'content' => $this->renderPartial('_tuning_model_width_page', array(
 						'form'=>$form,
 						'values'=>$values,
 					), 

@@ -21,37 +21,41 @@
 							<div class="options__block">
 								<div class="options__item">
 									<strong>Diameter</strong>
-									<select name="filter[rim_diameter_id]">
+									<select id="filter_diameter">
 										<option value="">-no select-</option>
-										<?php foreach(TireRimDiameter::getListByModelProject($model['id']) as $k=>$v):?>
-										<option <?=(isset($filter['rim_diameter_id']) && $filter['rim_diameter_id']==$k)?'selected="selected"':''?> value="<?=$k?>"><?=$v?></option>
+										<?php //foreach(TireRimDiameter::getListByModelProject($model['id']) as $k=>$v):?>
+										<?php foreach(TireRimDiameter::getList() as $k=>$v):?>
+										<option <?=(isset($filter['rim_diameter_id']) && $filter['rim_diameter_id']==$k)?'selected="selected"':''?> value="<?=$v?>"><?=$v?></option>
 										<?php endforeach;?>
 									</select>
 								</div>
 								<div class="options__item">
 									<strong>Width</strong>
-									<select name="filter[rim_width_id]">
+									<select id="filter_width">
 										<option value="">-no select-</option>
-										<?php foreach(RimWidth::getListByModelProject($model['id']) as $k=>$v):?>
-										<option <?=(isset($filter['rim_width_id']) && $filter['rim_width_id']==$k)?'selected="selected"':''?> value="<?=$k?>"><?=$v?></option>
+										<?php //foreach(RimWidth::getListByModelProject($model['id']) as $k=>$v):?>
+										<?php foreach(RimWidth::getAll() as $k=>$v):?>
+										<option <?=(isset($filter['rim_width_id']) && $filter['rim_width_id']==$k)?'selected="selected"':''?> value="<?=$v?>"><?=$v?></option>
 										<?php endforeach;?>
 									</select>
 								</div>
 								<div class="options__item">
 									<strong>Tire</strong>
-									<select name="filter[tire_section_width_id]">
+									<select id="filter_tire">
 										<option value="">-no select-</option>
-										<?php foreach(TireSectionWidth::getListByModelProject($model['id']) as $k=>$v):?>
-										<option value="<?=$k?>"><?=$v?></option>
+										<?php //foreach(TireSectionWidth::getListByModelProject($model['id']) as $k=>$v):?>
+										<?php foreach(TireSectionWidth::getList() as $k=>$v):?>
+										<option <?=(isset($filter['tire_section_width_id']) && $filter['tire_section_width_id']==$k)?'selected="selected"':''?> value="<?=$v?>"><?=$v?></option>
 										<?php endforeach;?>
 									</select>
 								</div>
 								<div class="options__item">
 									<strong>Offset</strong>
-									<select name="filter[rim_offset_range_id]">
+									<select id="filter_offset">
 										<option value="">-no select-</option>
-										<?php foreach(RimOffsetRange::getListByModelProject($model['id']) as $k=>$v):?>
-										<option value="<?=$k?>"><?=$v?></option>
+										<?php //foreach(RimOffsetRange::getListByModelProject($model['id']) as $k=>$v):?>
+										<?php foreach(RimOffsetRange::getAll() as $k=>$v):?>
+										<option <?=(isset($filter['rim_offset_range_id']) && $filter['rim_offset_range_id']==$k)?'selected="selected"':''?> value="<?=$v?>"><?=$v?></option>
 										<?php endforeach;?>
 									</select>
 								</div>
@@ -89,7 +93,8 @@
 				'make'=>$make,
 				'model'=>$model,
 			))?>
-
+			
+			<?php if ($countProjects > 0):?>
 			<section class="right-block w78">
 			
 			<?php $popularRimSizes = Project::getMostPopularRimSizesModel($model['id']);?>
@@ -109,7 +114,8 @@
 					<?php endforeach;?>
 				</tbody>
 			</table>
-		</section>
+			</section>
+			<?php endif;?>
 		<section class="right-block w78">
 		
 			<?php $popularTireSizes = Project::getMostPopularTireSizesModel($model['id']);?>
@@ -149,11 +155,11 @@
 
 <script src="/js/lib/jquery.js"></script>
 <script>
+
+var sendScrolingRequest = false;
+
 function submitFilterForm() {
-	$.post('<?=Yii::app()->request->requestUri?>', $('#form-filter').serialize(), function(html) {
-		$('#list_update').html(html);
-		sendScrolingRequest=false;
-	}, 'html');
+	getProjects(0);
 }
 
 function element_in_scroll(elem) {
@@ -173,19 +179,46 @@ function element_in_scroll(elem) {
 
 }
 
-
-var sendScrolingRequest = false
 $(document).scroll(function(e){
 	if (element_in_scroll(".js-scrolling-ajax-item:last") && !sendScrolingRequest) {
 		sendScrolingRequest = true;
-		offset = $('.js-scrolling-ajax-item').size();
-		$.post('/tuning/<?=$make['alias']?>/<?=$model['alias']?>/', $('#form-filter').serialize()+'&offset='+offset, function(response){
+		getProjects($('.js-scrolling-ajax-item').size());		
+    };
+});
+
+function getProjects(offset) {
+		var url = '/tuning/<?=$make['alias']?>/<?=$model['alias']?>/';
+		var f_diameter = $('#filter_diameter').val();
+		var f_width = $('#filter_width').val();
+		var f_tire = $('#filter_tire').val();
+		var f_offset = $('#filter_offset').val();
+		
+		if (f_diameter != '' && f_width != '') {
+			url += 'wheels-'+f_diameter + 'x' + f_width + '/';
+		} else {
+			if (f_diameter != '' && f_width == '') {
+				url += 'wheels-'+f_diameter + '/';
+			}
+			if (f_diameter == '' && f_width != '') {
+				url += 'wheels-'+f_width + '-width/';
+			}
+		}
+		
+		if (f_tire != '') {
+			url += 'tire-' + f_tire + '/';
+		}
+		
+		if (f_offset != '') {
+			url += 'offset' + f_offset + '/';
+		}
+		
+		$.post(url, 'offset='+offset, function(response){
 			html = $.trim(response);
 			if (html != '') {
 				$('#list_update').append(response);
 				sendScrolingRequest=false;
 			} 
-		}, 'text');			
-    };
-});
+			history.pushState(null, '', url);
+		}, 'text');		
+}
 </script>

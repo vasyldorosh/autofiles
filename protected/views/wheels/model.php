@@ -140,7 +140,7 @@
 					<tr>
 						<td><a href="/wheels/<?=$make['alias']?>/<?=$model['alias']?>/<?=$item['rim_diameter']?>x<?=TextHelper::f($item['rim_width'])?>/<?php if ($item['is_staggered'] && ($item['rear_rim_diameter']!=$item['rim_diameter'] || $item['rear_rim_width']!=$item['rim_width'])):?><?=(!empty($item['rear_rim_diameter']))?$item['rear_rim_diameter']:$item['rim_diameter']?>x<?=(!empty($item['rear_rim_width']))?TextHelper::f($item['rear_rim_width']):TextHelper::f($item['rim_width'])?>/<?php endif;?>"><?=$item['rim_diameter']?>x<?=TextHelper::f($item['rim_width'])?><?php if ($item['is_staggered'] && ($item['rear_rim_diameter']!=$item['rim_diameter'] || $item['rear_rim_width']!=$item['rim_width'])):?> / <?=(!empty($item['rear_rim_diameter']))?$item['rear_rim_diameter']:$item['rim_diameter']?>x<?=(!empty($item['rear_rim_width']))?TextHelper::f($item['rear_rim_width']):TextHelper::f($item['rim_width'])?><?php endif;?></a></td>
 						<td><?=$item['ror_min']?>-<?=$item['ror_max']?></td>
-						<td><a href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/?filter[rim_width_id]=<?=$item['rim_width_id']?>&filter[rim_diameter_id]=<?=$item['rim_diameter_id']?>"><?=$item['c']?></a></td>
+						<td><a href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/wheels-<?=$item['rim_diameter']?>x<?=TextHelper::f($item['rim_width'])?>"><?=$item['c']?></a></td>
 					</tr>
 					<?php endforeach;?>
 				</tbody>
