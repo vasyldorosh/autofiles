@@ -23,7 +23,7 @@
 									<strong>Diameter</strong>
 									<select id="filter_diameter">
 										<option value="">-no select-</option>
-										<?php foreach(TireRimDiameter::getListByModelProject($model['id']) as $k=>$v): $val=>FilterHelper::getFirstExpl('(', $v); ?>
+										<?php foreach(TireRimDiameter::getListByModelProject($model['id']) as $k=>$v): $val=FilterHelper::getFirstExpl('(', $v); ?>
 										<?php //foreach(TireRimDiameter::getList() as $k=>$v):?>
 										<option <?=(isset($filter['diameter']) && $filter['diameter']==$val)?'selected="selected"':''?> value="<?=$val?>"><?=$v?></option>
 										<?php endforeach;?>
@@ -33,7 +33,7 @@
 									<strong>Width</strong>
 									<select id="filter_width">
 										<option value="">-no select-</option>
-										<?php foreach(RimWidth::getListByModelProject($model['id']) as $k=>$v): $val=>FilterHelper::getFirstExpl('(', $v); ?>
+										<?php foreach(RimWidth::getListByModelProject($model['id']) as $k=>$v): $val=FilterHelper::getFirstExpl('(', $v); ?>
 										<?php //foreach(RimWidth::getAll() as $k=>$v):?>
 										<option <?=(isset($filter['width']) && $filter['width']==$val)?'selected="selected"':''?> value="<?=$val?>"><?=$v?></option>
 										<?php endforeach;?>
@@ -43,7 +43,7 @@
 									<strong>Tire</strong>
 									<select id="filter_tire">
 										<option value="">-no select-</option>
-										<?php foreach(TireSectionWidth::getListByModelProject($model['id']) as $k=>$v): $val=>FilterHelper::getFirstExpl('(', $v); ?>
+										<?php foreach(TireSectionWidth::getListByModelProject($model['id']) as $k=>$v): $val=FilterHelper::getFirstExpl('(', $v); ?>
 										<?php //foreach(TireSectionWidth::getList() as $k=>$v):?>
 										<option <?=(isset($filter['tire']) && $filter['tire']==$val)?'selected="selected"':''?> value="<?=$val?>"><?=$v?></option>
 										<?php endforeach;?>
@@ -53,7 +53,7 @@
 									<strong>Offset</strong>
 									<select id="filter_offset">
 										<option value="">-no select-</option>
-										<?php foreach(RimOffsetRange::getListByModelProject($model['id']) as $k=>$v): $val=>FilterHelper::getFirstExpl('(', $v); ?>
+										<?php foreach(RimOffsetRange::getListByModelProject($model['id']) as $k=>$v): $val=FilterHelper::getFirstExpl('(', $v); ?>
 										<?php //foreach(RimOffsetRange::getAll() as $k=>$v):?>
 										<option <?=(isset($filter['offset']) && $filter['offset']==$val)?'selected="selected"':''?> value="<?=$val?>"><?=$v?></option>
 										<?php endforeach;?>
