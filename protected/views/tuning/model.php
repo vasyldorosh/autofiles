@@ -162,7 +162,7 @@
 var sendScrolingRequest = false;
 
 function submitFilterForm() {
-	getProjects(0);
+	getProjects(0, false);
 }
 
 function element_in_scroll(elem) {
@@ -185,11 +185,11 @@ function element_in_scroll(elem) {
 $(document).scroll(function(e){
 	if (element_in_scroll(".js-scrolling-ajax-item:last") && !sendScrolingRequest) {
 		sendScrolingRequest = true;
-		getProjects($('.js-scrolling-ajax-item').size());		
+		getProjects($('.js-scrolling-ajax-item').size(), true);		
     };
 });
 
-function getProjects(offset) {
+function getProjects(offset, append) {
 		var url = '/tuning/<?=$make['alias']?>/<?=$model['alias']?>/';
 		var f_diameter = $('#filter_diameter').val();
 		var f_width = $('#filter_width').val();
@@ -218,7 +218,10 @@ function getProjects(offset) {
 		$.post(url, 'offset='+offset, function(response){
 			html = $.trim(response);
 			if (html != '') {
-				$('#list_update').append(response);
+				if (append)
+					$('#list_update').append(response);
+				else 
+					$('#list_update').html(response);
 				sendScrolingRequest=false;
 			} 
 			history.pushState(null, '', url);
