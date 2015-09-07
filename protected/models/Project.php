@@ -550,6 +550,49 @@ class Project extends CActiveRecord
 		return $data;
 	}
 	
+	public static function getMostPopularRimSizesTire($vehicle_class_id, $section_width_id, $aspect_ratio_id, $rim_diameter_id)
+	{
+		$vehicle_class_id = (int) $vehicle_class_id;
+		$section_width_id = (int) $section_width_id;
+		$aspect_ratio_id  = (int) $aspect_ratio_id;
+		$rim_diameter_id  = (int) $rim_diameter_id;
+		$key	  = Tags::TAG_PROJECT . '_getMostPopularRimSizesTire_' . $vehicle_class_id.'_'.$section_width_id.'_'.$aspect_ratio_id.'_'.$rim_diameter_id;
+		$data	  = Yii::app()->cache->get($key);
+		
+		if ($data === false) {
+			$sql = "SELECT 
+						p.rim_diameter_id, 
+						p.rim_width_id, 
+						p.rear_rim_diameter_id, 
+						p.rear_rim_width_id, 
+						p.is_staggered_wheels AS is_staggered_wheels,
+						rd.value AS rim_diameter,
+						rw.value AS rim_width,
+						r_rd.value AS rear_rim_diameter,
+						r_rw.value AS rear_rim_width,
+						count(*) AS c 
+					FROM `project` AS p
+					LEFT JOIN tire_rim_diameter AS rd ON p.rim_diameter_id = rd.id
+					LEFT JOIN rim_width AS rw ON p.rim_width_id = rw.id					
+					LEFT JOIN tire_rim_diameter AS r_rd ON p.rear_rim_diameter_id = r_rd.id
+					LEFT JOIN rim_width AS r_rw ON p.rear_rim_width_id = r_rw.id					
+					WHERE 
+						p.model_id = {$model_id} AND 
+						p.is_active = 1 AND
+						((p.rim_diameter_id={$rim_diameter_id} AND p.tire_vehicle_class_id={$vehicle_class_id} AND p.tire_section_width_id={$section_width_id} AND p.tire_aspect_ratio_id={$aspect_ratio_id}) OR 
+						 (p.rear_rim_diameter_id={$rim_diameter_id} AND p.rear_tire_vehicle_class_id={$vehicle_class_id} AND p.rear_tire_section_width_id={$section_width_id} AND p.rear_tire_aspect_ratio_id={$aspect_ratio_id})
+						)
+					GROUP BY p.rim_diameter_id, p.rim_width_id, p.rear_rim_diameter_id, p.rear_rim_width_id 
+					ORDER BY c DESC
+					LIMIT 3";
+				
+			$data = Yii::app()->db->createCommand($sql)->queryAll();	
+			Yii::app()->cache->get($key, $data, 0, new Tags(Tags::TAG_PROJECT));				
+		}
+		
+		return $data;
+	}
+	
 	public static function getMostPopularTireSizesModel($model_id)
 	{
 		$model_id = (int) $model_id;

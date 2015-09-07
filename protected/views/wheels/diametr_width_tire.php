@@ -79,10 +79,23 @@
 					</td>
 				</tr>
 				<?php endif;?>
+				
+				<?php $popularRimSizes = Project::getMostPopularRimSizesTire($vehicle_class_id, $section_width_id, $aspect_ratio_id, $diametr_id);?>
+				<?php if (!empty($popularRimSizes)):?>
 				<tr>
 					<td>Popular rim widths for a <nobr><?=$tireTitle?></nobr> tire size</td>
-					<td><a href="#">17x7.5</a>, <a href="#"><?=$rim?></a>, <a href="#"><?=$rim?>.5</a></td>
+					<td>
+					<?php 
+					$items = array();
+					foreach ($popularRimSizes as $size) {
+						$itemRim = $size['rim_diameter'] .'x'.$size['rim_width'];
+						$items[] = '<a href="/wheels/'.$itemRim.'">'.$itemRim.'</a>';
+					}
+					?>
+					<?=implode(', ', $items)?>
+					</td>
 				</tr>
+				<?php endif;?>
 			</tbody>
 			</table>
 			

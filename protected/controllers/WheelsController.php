@@ -337,6 +337,9 @@ class WheelsController extends Controller
 			'width_id' => $width_id,
 			'range' => $range,
 			'answer' => $answer,
+			'vehicle_class_id' => $vehicle_class_id,
+			'section_width_id' => $section_width_id,
+			'aspect_ratio_id' => $aspect_ratio_id,
 		));
 	}
 	
