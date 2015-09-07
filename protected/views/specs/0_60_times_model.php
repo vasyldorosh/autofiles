@@ -47,7 +47,7 @@
 			<table>
 			<?php foreach ($models as $item):?>
 				<tr>
-					<td><a href="/<?=$make['alias']?>/<?=$model['alias']?>/<?=$item['year']?>/"  title="<?=$item['year']?> <?=$make['title']?> <?=$model['title']?> review"><?=$item['year']?> <?=$make['title']?> <?=$model['title']?></a></td>
+					<td><a href="/<?=$make['alias']?>/<?=$model['alias']?>/<?=$item['year']?>/"  title="<?=$item['year']?> <?=$make['title']?> <?=$model['title']?> review"><?=$item['year']?> <?=$make['title']?> <?=$model['title']?></a> 0-60, 1/4 mile</td>
 					<td>
 					<?php if ($item['0_60_times']['mmax'] == $item['0_60_times']['mmin']):?>
 						<?=$item['0_60_times']['mmin']?>
@@ -57,7 +57,6 @@
 						sec
 					</td>
 					<td>
-						1/4 mile
 						<?php if ($item['mile_time']['min'] == 0):?>
 							-
 						<?php else:?>
