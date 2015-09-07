@@ -65,7 +65,7 @@
 							), true);
 						}
 							
-						$itemUrl = Tire::format(array(
+						$itemUrl = Tire::url(array(
 							'section_width' => $size['tire_section_width'],
 							'aspect_ratio' 	=> $size['tire_aspect_ratio'],
 							'rim_diameter' 	=> $size['rim_diameter'],
