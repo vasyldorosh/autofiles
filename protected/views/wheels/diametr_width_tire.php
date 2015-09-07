@@ -50,27 +50,27 @@
 					<?php $items = array();
 					foreach ($popularTireSizes as $size) {
 						$itemTitle = Tire::format(array(
-								'section_width' => $size['tire_section_width'],
-								'aspect_ratio' 	=> $size['tire_aspect_ratio'],
-								'rim_diameter' 	=> $size['rim_diameter'],
-								'vehicle_class'	=> $size['tire_vehicle_class'],
-							), true);
+							'section_width' => $size['tire_section_width'],
+							'aspect_ratio' 	=> $size['tire_aspect_ratio'],
+							'rim_diameter' 	=> $size['rim_diameter'],
+							'vehicle_class'	=> $size['tire_vehicle_class'],
+						), true);
 							
-							if ($size['is_staggered_tires']) {
-								 $itemTitle.= '&ndash;' . Tire::format(array(
-									'section_width' => $size['rear_tire_section_width'],
-									'aspect_ratio' 	=> $size['rear_tire_aspect_ratio'],
-									'rim_diameter' 	=> $size['rear_rim_diameter'],
-									'vehicle_class'	=> $size['rear_tire_vehicle_class'],
-								), true);
-							}
+						if ($size['is_staggered_tires']) {
+							$itemTitle.= '&ndash;' . Tire::format(array(
+								'section_width' => $size['rear_tire_section_width'],
+								'aspect_ratio' 	=> $size['rear_tire_aspect_ratio'],
+								'rim_diameter' 	=> $size['rear_rim_diameter'],
+								'vehicle_class'	=> $size['rear_tire_vehicle_class'],
+							), true);
+						}
 							
 						$itemUrl = Tire::format(array(
-									'section_width' => $size['rear_tire_section_width'],
-									'aspect_ratio' 	=> $size['rear_tire_aspect_ratio'],
-									'rim_diameter' 	=> $size['rear_rim_diameter'],
-									'vehicle_class'	=> $size['rear_tire_vehicle_class'],
-								));
+							'section_width' => $size['tire_section_width'],
+							'aspect_ratio' 	=> $size['tire_aspect_ratio'],
+							'rim_diameter' 	=> $size['rim_diameter'],
+							'vehicle_class'	=> $size['tire_vehicle_class'],
+						));
 						
 						$items[] = '<a href="'.$itemUrl.'"><nobr>'.$itemTitle.'</nobr></a>';
 					}
