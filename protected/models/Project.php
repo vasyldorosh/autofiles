@@ -596,6 +596,56 @@ class Project extends CActiveRecord
 		return $data;
 	}
 	
+	public static function getMostPopularTireSizesRim($diameter_id, $width_id)
+	{
+		$width_id = (int) $width_id;
+		$diameter_id = (int) $diameter_id;
+		$key	  = Tags::TAG_PROJECT . '_getMostPopularTireSizesRim_' . $diameter_id.'_'.$width_id;
+		$data	  = Yii::app()->cache->get($key);
+		
+		if ($data === false) {
+			$sql = "SELECT 
+						p.rim_diameter_id, 
+						p.rear_rim_diameter_id, 
+						p.tire_section_width_id, 
+						p.rear_tire_section_width_id, 
+						p.tire_aspect_ratio_id, 
+						p.rear_tire_aspect_ratio_id, 
+						p.is_staggered_tires AS is_staggered_tires,
+						rd.value AS rim_diameter,
+						r_rd.value AS rear_rim_diameter,
+						tsw.value AS tire_section_width,	
+						tvc.code AS tire_vehicle_class,						
+						r_tvc.code AS rear_tire_vehicle_class,							
+						r_tsw.value AS rear_tire_section_width,						
+						tar.value AS tire_aspect_ratio,						
+						r_tar.value AS rear_tire_aspect_ratio,						
+						count(*) AS c 
+					FROM `project` AS p
+					LEFT JOIN tire_rim_diameter AS rd ON p.rim_diameter_id = rd.id
+					LEFT JOIN tire_rim_diameter AS r_rd ON p.rear_rim_diameter_id = r_rd.id
+					LEFT JOIN tire_section_width AS tsw ON p.tire_section_width_id = tsw.id
+					LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
+					LEFT JOIN tire_section_width AS r_tsw ON p.rear_tire_section_width_id = r_tsw.id
+					LEFT JOIN tire_aspect_ratio AS r_tar ON p.rear_tire_aspect_ratio_id = r_tar.id	
+					LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
+					LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id					
+					WHERE 
+					((p.rim_diameter_id={$diameter_id} AND p.rim_width_id={$width_id}) OR (p.rear_rim_diameter_id={$diameter_id} AND p.rear_rim_width_id={$width_id})) AND 
+					p.is_active = 1 AND 
+					p.tire_section_width_id IS NOT NULL AND 
+					p.tire_aspect_ratio_id IS NOT NULL
+					GROUP BY p.tire_vehicle_class_id, p.rear_tire_vehicle_class_id, p.rim_diameter_id, p.rear_rim_diameter_id, tire_section_width_id, rear_tire_section_width_id, tire_aspect_ratio_id, rear_tire_aspect_ratio_id
+					ORDER BY c DESC
+					LIMIT 3";
+			
+			$data = Yii::app()->db->createCommand($sql)->queryAll();	
+			Yii::app()->cache->get($key, $data, 0, new Tags(Tags::TAG_PROJECT));				
+		}
+		
+		return $data;
+	}
+	
 	public function getUrl()
 	{
 		if (isset($this->Make) && isset($this->Model)) {
@@ -1044,27 +1094,6 @@ class Project extends CActiveRecord
 				";				
 
 				$counters = Yii::app()->db->createCommand($sql)->queryAll();	
-				
-				/*
-				$sql = "
-					SELECT 
-						COUNT(*) AS c,
-						CONCAT(p.rear_tire_section_width_id, '_', p.rear_tire_aspect_ratio_id) AS sa
-					FROM project AS p
-					WHERE 
-						p.is_active=1 AND 
-						p.rear_rim_diameter_id = {$diametr_id} AND 
-						p.rear_tire_section_width_id IS NOT NULL AND 
-						p.rear_tire_aspect_ratio_id IS NOT NULL AND
-						p.is_staggered_tires = 1
-					GROUP BY sa
-					HAVING ".implode(' OR ', $sa)."
-				";				
-
-				$countersRear = Yii::app()->db->createCommand($sql)->queryAll();
-
-				$counters = array_merge($countersFront, $countersRear);
-				*/
 			}
 					
 			Yii::app()->cache->set($key, $counters, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
@@ -1152,6 +1181,46 @@ class Project extends CActiveRecord
 					$data[] = $item['rim'];
 				}
 			}				
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_MAKE, Tags::TAG_MODEL));
+		}	
+		
+		return $data;
+	}	
+	
+	public static function getCountByRimTire($diametr_id, $width_id, $vehicle_class_id, $section_width_id, $aspect_ratio_id)
+	{
+		$diametr_id = (int) $diametr_id;
+		$width_id 	= (int) $width_id;
+		$vehicle_class_id 	= (int) $vehicle_class_id;
+		$section_width_id 	= (int) $section_width_id;
+		$aspect_ratio_id 	= (int) $aspect_ratio_id;
+		
+		$key = Tags::TAG_PROJECT . '_getCountByRimTire_'. serialize(get_defined_vars());
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			
+			$data = array();
+			$sql = "
+				SELECT 
+					COUNT(*) AS c
+				FROM project AS p
+				LEFT JOIN auto_make AS k ON p.make_id = k.id
+				LEFT JOIN auto_model AS m ON p.model_id = m.id
+				WHERE 
+					(
+						(p.rim_diameter_id = {$diametr_id} AND p.rim_width_id = {$width_id} AND p.tire_vehicle_class_id = {$vehicle_class_id} AND p.tire_section_width_id = {$section_width_id} AND p.tire_aspect_ratio_id = {$aspect_ratio_id})
+						OR  
+						(p.rear_rim_diameter_id = {$diametr_id} AND p.rear_rim_width_id = {$width_id} AND p.rear_tire_vehicle_class_id = {$vehicle_class_id} AND p.rear_tire_section_width_id = {$section_width_id} AND p.rear_tire_aspect_ratio_id = {$aspect_ratio_id})
+					) AND
+					p.is_active=1 AND 
+					k.is_active = 1 AND
+					k.is_deleted = 0 AND
+					m.is_active = 1 AND
+					m.is_deleted = 0
+			";
+
+			$data = Yii::app()->db->createCommand($sql)->queryScalar();	
 			
 			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_MAKE, Tags::TAG_MODEL));
 		}	

@@ -1,4 +1,4 @@
-<p class="help-block">used: [diametr], [width], [tire]</p>
+<p class="help-block">used: [diametr], [width], [vehicle_class], [section_width], [aspect_ratio]</p>
 
 <div class="control-group ">
 	<label class="control-label required" for="Config_seo_wheels_diametr_width_tire_title"><?=Yii::t('admin', 'Title')?></label>

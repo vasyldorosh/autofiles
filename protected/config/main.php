@@ -87,7 +87,7 @@ return array(
 				'tires/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>/<year:[0-9]{4}>' => 'tires/modelYear',
 
 				'wheels.html'=>'wheels/index',
-				'wheels/<diametr:[0-9]{1,3}>x<width:([0-9]{1,2}.[0-9]{1,2})>/<vehicle_class:[A-Z]{1,3}>-<section_width:[0-9]{3}>-<aspect_ratio:[0-9]{2,3}>r<rim_diameter:[0-9]{2}>' => 'wheels/diametrWidthTire',
+				'wheels/<diametr:[0-9]{1,3}>x<width:([0-9]{1,2}.[0-9]{1,2})>/<vehicle_class:[A-Z]{1}>-<section_width:[0-9]{3}>-<aspect_ratio:[0-9]{2,3}>r<rim_diameter:[0-9]{2}>' => 'wheels/diametrWidthTire',
 				'wheels/<diametr:[0-9]{1,3}>x<width:([0-9]{1,2}.[0-9]{1,2})>' => 'wheels/diametrWidth',
 				'wheels/<alias:[a-z0-9-_]{1,255}>' => 'wheels/make',
 				'wheels/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'wheels/model',
