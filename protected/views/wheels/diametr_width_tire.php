@@ -118,13 +118,13 @@
 						<li><?=$project['view_count']?> views</li>
 						</ul>
 					</li>	
-				<?php endif;?>				
+				<?php endforeach;?>				
 				</ul>
 		
 			<br>
-			<?php if ($countProject > 50):?>
-				<p><a href="#">See all car projects</a></p>
-			<?php endif;?>
+				<?php if ($countProject > 50):?>
+					<p><a href="#">See all car projects</a></p>
+				<?php endif;?>
 			<?php endif;?>
 			
 			<?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
