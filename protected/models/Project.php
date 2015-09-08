@@ -1138,12 +1138,13 @@ class Project extends CActiveRecord
 	
 	public static function getRecommendedTireSizes($diametr_id, $width, $vehicle_class_id)
 	{
+		$listWidth 			= RimWidth::getAll();
+		$listWidth 			= array_flip($listWidth);
 		$width_id 			= isset($listWidth[$width])?$listWidth[$width]:0;
 		$width 				= (float) $width;
 		$diametr_id 		= (int) $diametr_id;
 		$vehicle_class_id 	= (int) $vehicle_class_id;
-		$listWidth 			= RimWidth::getAll();
-		$listWidth 			= array_flip($listWidth);
+
 		
 		d($width_id);
 		
