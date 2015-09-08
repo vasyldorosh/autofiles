@@ -103,61 +103,34 @@
 	
 	<br>
 
-			<section class="make">
-			<h2 class="section-name_2">See how a tire <?=$tireTitle?> looks on <?=$rim?>.0 rim</h2>
-	<ul class="make__vehicle" id="list_update">	
-						  <li class="js-scrolling-ajax-item">
-									<div class="make__vehicle-image">
-					<a title="2005 Toyota Corolla project" href="/tuning/toyota/corolla/736/"><img src="http://autofiles.com/photos/project/736/5065/resize_w300_h200.jpg"></a>
-					</div>
-					
-					<h3><a title="2005 Toyota Corolla project" href="/tuning/toyota/corolla/736/">2005 Toyota Corolla</a></h3>
-					<ul class="make__vehicle-specs">
-						<li><?=$tireTitle?> on <?=$rim?>.0 rim</li>
-												<li>36 views</li>
-					</ul>
-				</li>		
-			  <li class="js-scrolling-ajax-item">
-									<div class="make__vehicle-image">
-					<a title="1986 Toyota Corolla project" href="/tuning/toyota/corolla/382/"><img src="http://autofiles.com/photos/project/382/2410/resize_w300_h200.jpg"></a>
-					</div>
-					
-					<h3><a title="1986 Toyota Corolla project" href="/tuning/toyota/corolla/382/">1986 Toyota Corolla</a></h3>
-					<ul class="make__vehicle-specs">
-						<li><?=$tireTitle?> on <?=$rim?>.0 rim</li>
-													
-												<li>24 views</li>
-					</ul>
-				</li>				
-			</ul>
-	
-	<br>
-<p><a href="#">See all car projects</a></p>
-		   <div class="banner-ver">
-		<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                <!-- autof_728_adapt -->
-                <ins class="adsbygoogle" style="display: block; height: 90px;" data-ad-client="ca-pub-3243264408777652" data-ad-slot="6724895651" data-ad-format="auto" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:845px;background-color:transparent"><ins id="aswift_1_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:845px;background-color:transparent"><iframe width="845" height="90" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;"></iframe></ins></ins></ins>
-                <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-              </script>
-          </div></section>
+		<section class="make">
+			<?php if (!empty($projects)):?>
+				<h2 class="section-name_2">See how a tire <?=$tireTitle?> looks on <?=$rim?>.0 rim</h2>
+				<ul class="make__vehicle" id="list_update">	
+				<?php foreach ($projects as $project):?>	
+					<li class="js-scrolling-ajax-item">
+						<div class="make__vehicle-image">
+							<a title="<?=$project['year']?> <?=$project['make_title']?> <?=$project['model_title']?> project" href="/tuning/<?=$project['make_alias']?>/<?=$project['model_alias']?>/<?=$project['id']?>/"><img src="<?=Project::thumb($project['id'], 300, 200, 'resize')?>"></a>
+						</div>
+						<h3><a title="<?=$project['year']?> <?=$project['make_title']?> <?=$project['model_title']?> project" href="/tuning/<?=$project['make_alias']?>/<?=$project['model_alias']?>/<?=$project['id']?>/"><?=$project['year']?> <?=$project['make_title']?> <?=$project['model_title']?></a></h3>
+						<ul class="make__vehicle-specs">
+							<li><?=$tireTitle?> on <?=$rim?> rim</li>
+						<li><?=$project['view_count']?> views</li>
+						</ul>
+					</li>	
+				<?php endif;?>				
+				</ul>
+		
+			<br>
+			<?php if ($countProject > 50):?>
+				<p><a href="#">See all car projects</a></p>
+			<?php endif;?>
+			<?php endif;?>
+			
+			<?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
+		</section>
 	</div>
 	<div class="l-col2">
-		<section class="">
-			
-					<div class="banner-ver">
-		  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- autofiles300x600 -->
-<ins class="adsbygoogle"
-     style="display:inline-block;width:300px;height:600px"
-     data-ad-client="ca-pub-3243264408777652"
-     data-ad-slot="2443588454"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-		</div>
-
-		</section>
-
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
 	</div>
 </main>

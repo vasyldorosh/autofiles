@@ -324,6 +324,11 @@ class WheelsController extends Controller
 			$answer = 'No, the rim is too wide, we don\'t recommend it';
 		}
 		
+		$projects = array();
+		if ($countProject) {
+			$projects = Project::getItemsByRimTire($diametr_id, $width_id, $vehicle_class_id, $section_width_id, $aspect_ratio_id);
+		}
+		
 		$this->render('diametr_width_tire', array(
 			'header_text_block' => $header_text_block,
 			'rim' => $rim,
@@ -340,6 +345,8 @@ class WheelsController extends Controller
 			'vehicle_class_id' => $vehicle_class_id,
 			'section_width_id' => $section_width_id,
 			'aspect_ratio_id' => $aspect_ratio_id,
+			'countProject' => $countProject,
+			'projects' => $projects,
 		));
 	}
 	

@@ -66,7 +66,7 @@
 						<?php if (isset($recommendedTireSizes['counters'][$sw_id.'_'.$ar_id]) || in_array($sw_id.'_'.$ar_id, $recommendedTireSizes['range'])):?>
 						<td <?=in_array($sw_id.'_'.$ar_id, $recommendedTireSizes['range'])?'bgcolor="#FFC37A" style="cursor:pointer"':''?>>
 							<?php if (isset($recommendedTireSizes['counters'][$sw_id.'_'.$ar_id])):?>
-							<a href="/tuning/<?=$rim?>/<?=Tire::urlFormat(array('vehicle_class'=>$item['title'], 'section_width'=>$sw_val, 'aspect_ratio'=>$ar_val, 'rim_diameter'=>$diametr))?>/"><?=$recommendedTireSizes['counters'][$sw_id.'_'.$ar_id]?></a>
+							<a href="/wheels/<?=$rim?>/<?=Tire::urlFormat(array('vehicle_class'=>$item['title'], 'section_width'=>$sw_val, 'aspect_ratio'=>$ar_val, 'rim_diameter'=>$diametr))?>/"><?=$recommendedTireSizes['counters'][$sw_id.'_'.$ar_id]?></a>
 							<?php endif;?>
 						</td>
 						<?php else:?>

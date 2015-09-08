@@ -1270,6 +1270,56 @@ class Project extends CActiveRecord
 		return $data;
 	}	
 	
+	public static function getItemsByRimTire($diametr_id, $width_id, $vehicle_class_id, $section_width_id, $aspect_ratio_id)
+	{
+		$diametr_id = (int) $diametr_id;
+		$width_id 	= (int) $width_id;
+		$vehicle_class_id 	= (int) $vehicle_class_id;
+		$section_width_id 	= (int) $section_width_id;
+		$aspect_ratio_id 	= (int) $aspect_ratio_id;
+		
+		$key = Tags::TAG_PROJECT . '_getCountByRimTire_'. serialize(get_defined_vars());
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			
+			$data = array();
+			$sql = "
+				SELECT 
+					y.year AS year,
+					y.id AS year_id,
+					m.title AS model_title,
+					m.alias AS model_alias,
+					k.title AS make_title,
+					k.alias AS make_alias,
+					p.view_count AS view_count,
+					p.id AS id
+				FROM project AS p
+				LEFT JOIN auto_make AS k ON p.make_id = k.id
+				LEFT JOIN auto_model AS m ON p.model_id = m.id
+				LEFT JOIN auto_model_year AS y ON p.model_year_id = y.id
+				WHERE 
+					(
+						(p.rim_diameter_id = {$diametr_id} AND p.rim_width_id = {$width_id} AND p.tire_vehicle_class_id = {$vehicle_class_id} AND p.tire_section_width_id = {$section_width_id} AND p.tire_aspect_ratio_id = {$aspect_ratio_id})
+						OR  
+						(p.rear_rim_diameter_id = {$diametr_id} AND p.rear_rim_width_id = {$width_id} AND p.rear_tire_vehicle_class_id = {$vehicle_class_id} AND p.rear_tire_section_width_id = {$section_width_id} AND p.rear_tire_aspect_ratio_id = {$aspect_ratio_id})
+					) AND
+					p.is_active=1 AND 
+					k.is_active = 1 AND
+					k.is_deleted = 0 AND
+					m.is_active = 1 AND
+					m.is_deleted = 0
+				ORDER BY p.view_count DESC
+				LIMIT 50
+			";
+
+			$data = Yii::app()->db->createCommand($sql)->queryAll();	
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_MAKE, Tags::TAG_MODEL));
+		}	
+		
+		return $data;
+	}	
+	
 	
 	
 }
