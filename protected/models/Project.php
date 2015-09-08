@@ -1180,10 +1180,10 @@ class Project extends CActiveRecord
 			$sa[] = "sa = '" . $tire['section_width_id'] . '_' . $tire['aspect_ratio_id'] . "'";
 		}
 		
-		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_pr_'. $diametr_id . '_' . $width . '_' . $vehicle_class_id;
+		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_p_'. $diametr_id . '_' . $width . '_' . $vehicle_class_id;
 		$counters = Yii::app()->cache->get($key);
 		
-		if ($counters === false || 1) {
+		if ($counters === false) {
 			
 			$counters = array();
 			if (!empty($sa)) {
