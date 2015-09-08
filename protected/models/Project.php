@@ -968,6 +968,8 @@ class Project extends CActiveRecord
 					tar.value AS tire_aspect_ratio,
 					tvc.code AS tire_vehicle_class
 				FROM project AS p
+				LEFT JOIN auto_make AS k ON p.make_id = k.id
+				LEFT JOIN auto_model AS m ON p.model_id = m.id				
 				LEFT JOIN tire_section_width AS tsw ON p.tire_section_width_id = tsw.id
 				LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
 				LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id
@@ -976,7 +978,11 @@ class Project extends CActiveRecord
 					p.is_active=1 AND 
 					p.tire_section_width_id IS NOT NULL AND 
 					p.tire_aspect_ratio_id IS NOT NULL AND 
-					p.tire_vehicle_class_id IS NOT NULL 
+					p.tire_vehicle_class_id IS NOT NULL AND
+					k.is_active = 1 AND
+					k.is_deleted = 0 AND
+					m.is_active = 1 AND
+					m.is_deleted = 0					
 				GROUP BY p.tire_section_width_id, p.tire_aspect_ratio_id, p.tire_vehicle_class_id
 				ORDER BY tire_section_width, tire_aspect_ratio
 			";
