@@ -958,7 +958,7 @@ class Project extends CActiveRecord
 		
 		$key = Tags::TAG_PROJECT . 'getPossibleTireSizesByRim_'. $diametr_id . '_' . $width_id;
 		$data = Yii::app()->cache->get($key);
-		if ($data === false) {
+		if ($data === false || 1) {
 			
 			$data = array();
 			$sql = "
@@ -966,13 +966,20 @@ class Project extends CActiveRecord
 					COUNT(*) AS c,
 					tsw.value AS tire_section_width,
 					tar.value AS tire_aspect_ratio,
-					tvc.code AS tire_vehicle_class
+					tvc.code AS tire_vehicle_class,
+					p.is_staggered_tires AS is_rear,
+					rear_tsw.value AS rear_tire_section_width,
+					rear_tar.value AS rear_tire_aspect_ratio,
+					rear_tvc.code AS rear_tire_vehicle_class					
 				FROM project AS p
 				LEFT JOIN auto_make AS k ON p.make_id = k.id
 				LEFT JOIN auto_model AS m ON p.model_id = m.id				
 				LEFT JOIN tire_section_width AS tsw ON p.tire_section_width_id = tsw.id
 				LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
 				LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id
+				LEFT JOIN tire_section_width AS rear_tsw ON p.rear_tire_section_width_id = rear_tsw.id
+				LEFT JOIN tire_aspect_ratio AS rear_tar ON p.rear_tire_aspect_ratio_id = rear_tar.id
+				LEFT JOIN tire_vehicle_class AS rear_tvc ON p.rear_tire_vehicle_class_id = rear_tvc.id
 				WHERE 
 					((p.rim_diameter_id = {$diametr_id} AND p.rim_width_id = {$width_id}) OR  (p.rear_rim_diameter_id = {$diametr_id} AND p.rear_rim_width_id = {$width_id})) AND
 					p.is_active=1 AND 
@@ -983,7 +990,7 @@ class Project extends CActiveRecord
 					k.is_deleted = 0 AND
 					m.is_active = 1 AND
 					m.is_deleted = 0					
-				GROUP BY p.tire_section_width_id, p.tire_aspect_ratio_id, p.tire_vehicle_class_id
+				GROUP BY p.tire_section_width_id, p.tire_aspect_ratio_id, p.tire_vehicle_class_id, p.is_staggered_tires, p.rear_tire_section_width_id, p.rear_tire_aspect_ratio_id, p.rear_tire_vehicle_class_id
 				ORDER BY tire_section_width, tire_aspect_ratio
 			";
 
