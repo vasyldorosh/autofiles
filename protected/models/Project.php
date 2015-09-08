@@ -1145,7 +1145,7 @@ class Project extends CActiveRecord
 		$listWidth 			= array_flip($listWidth);
 		
 		$width_id = isset($listWidth[$width])?$listWidth[$width]:0;
-		d($width_id);
+		d($listWidth);
 		
 		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_'. $diametr_id . '_' . $width . '_' . $vehicle_class_id;
 		$tires = Yii::app()->cache->get($key);
