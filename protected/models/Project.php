@@ -32,10 +32,10 @@ class Project extends CActiveRecord
 		return array(
 			array('make_id, model_id', 'required'),
 			array('is_active', 'numerical', 'integerOnly' => true),
-			array('tire_vehicle_class_id, rear_tire_vehicle_class_id, description, model_year_id, id, model_year_id, wheel_manufacturer, wheel_model, rim_diameter_id, rim_width_id, rim_offset_range_id, is_staggered_wheels, rear_rim_diameter_id, rear_rim_width_id, rear_rim_offset_range_id, tire_manufacturer, tire_model, tire_section_width_id, tire_aspect_ratio_id, is_staggered_tires, rear_tire_section_width_id, rear_tire_aspect_ratio_id, description, source, view_count', 'safe',),	
+			array('rear_wheel_manufacturer, rear_wheel_model, rear_tire_manufacturer, rear_tire_model, tire_vehicle_class_id, description, model_year_id, id, model_year_id, wheel_manufacturer, wheel_model, rim_diameter_id, rim_width_id, rim_offset_range_id, is_staggered_wheels, rear_rim_diameter_id, rear_rim_width_id, rear_rim_offset_range_id, tire_manufacturer, tire_model, tire_section_width_id, tire_aspect_ratio_id, is_staggered_tires, rear_tire_section_width_id, rear_tire_aspect_ratio_id, description, source, view_count', 'safe',),	
 		);
 	}
-		
+	
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -48,6 +48,8 @@ class Project extends CActiveRecord
 			'model_year_id' 			=> 'Model Year',
 			'wheel_manufacturer' 		=> 'Wheel Manufacturer',
 			'wheel_model' 				=> 'Wheel Model',
+			'rear_wheel_manufacturer' 	=> 'Rear Wheel Manufacturer',
+			'rear_wheel_model' 			=> 'Rear Wheel Model',
 			'rim_diameter_id' 			=> 'Rim Diameter',
 			'rim_width_id' 				=> 'Rim Width',
 			'rim_offset_range_id' 		=> 'Rim Offset Range',
@@ -57,6 +59,8 @@ class Project extends CActiveRecord
 			'rear_rim_offset_range_id' 	=> 'Rear Rim Offset Range',
 			'tire_manufacturer' 		=> 'Tire Manufacturer',
 			'tire_model'				=> 'Tire Model',			
+			'rear_tire_manufacturer' 	=> 'Rear Tire Manufacturer',
+			'rear_tire_model'			=> 'Rear Tire Model',			
 			'tire_section_width_id' 	=> 'Tire Section Width',			
 			'tire_aspect_ratio_id' 		=> 'Tire Aspect Ratio',			
 			'is_staggered_tires' 		=> 'Staggered Tires',			
@@ -66,11 +70,10 @@ class Project extends CActiveRecord
 			'source' 					=> 'Source',				
 			'view_count' 				=> 'View count',				
 			'tire_vehicle_class_id' 	=> 'Tire Vehicle Class',				
-			'rear_tire_vehicle_class_id'=> 'Rear Tire Vehicle Class',
 			'is_active' 				=> Yii::t('admin', 'Published'),
 		);	
 	}
-
+	
 	/**
 	 * @return array relational rules.
 	 */
@@ -166,8 +169,7 @@ class Project extends CActiveRecord
 						p.is_staggered_tires AS is_staggered_tires,
 						r_tsw.value AS rear_tire_section_width,						
 						r_tar.value AS rear_tire_aspect_ratio,						
-						tvc.code AS tire_vehicle_class,						
-						r_tvc.code AS rear_tire_vehicle_class,						
+						tvc.code AS tire_vehicle_class,												
 						y.year AS year,
 						y.id AS year_id,
 						m.title AS model_title,
@@ -188,7 +190,6 @@ class Project extends CActiveRecord
 					LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
 					LEFT JOIN tire_section_width AS r_tsw ON p.rear_tire_section_width_id = r_tsw.id
 					LEFT JOIN tire_aspect_ratio AS r_tar ON p.rear_tire_aspect_ratio_id = r_tar.id
-					LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
 					LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id
 					WHERE 
 						m.is_active = 1 AND
@@ -236,8 +237,7 @@ class Project extends CActiveRecord
 						p.is_staggered_tires AS is_staggered_tires,
 						r_tsw.value AS rear_tire_section_width,						
 						r_tar.value AS rear_tire_aspect_ratio,						
-						tvc.code AS tire_vehicle_class,						
-						r_tvc.code AS rear_tire_vehicle_class,						
+						tvc.code AS tire_vehicle_class,											
 						y.year AS year,
 						y.id AS year_id,
 						m.title AS model_title,
@@ -258,7 +258,6 @@ class Project extends CActiveRecord
 					LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
 					LEFT JOIN tire_section_width AS r_tsw ON p.rear_tire_section_width_id = r_tsw.id
 					LEFT JOIN tire_aspect_ratio AS r_tar ON p.rear_tire_aspect_ratio_id = r_tar.id
-					LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
 					LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id
 					WHERE 
 						m.is_active = 1 AND
@@ -310,8 +309,7 @@ class Project extends CActiveRecord
 						r_ror.value AS rear_rim_offset_range,						
 						tsw.value AS tire_section_width,						
 						tar.value AS tire_aspect_ratio,	
-						tvc.code AS tire_vehicle_class,						
-						r_tvc.code AS rear_tire_vehicle_class,							
+						tvc.code AS tire_vehicle_class,												
 						p.is_staggered_tires AS is_staggered_tires,
 						r_tsw.value AS rear_tire_section_width,						
 						r_tar.value AS rear_tire_aspect_ratio,						
@@ -335,7 +333,6 @@ class Project extends CActiveRecord
 					LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
 					LEFT JOIN tire_section_width AS r_tsw ON p.rear_tire_section_width_id = r_tsw.id
 					LEFT JOIN tire_aspect_ratio AS r_tar ON p.rear_tire_aspect_ratio_id = r_tar.id
-					LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
 					LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id					
 					WHERE p.id = {$id} AND m.id={$model_id} AND k.id={$make_id} AND p.is_active = 1";
 	
@@ -376,7 +373,7 @@ class Project extends CActiveRecord
 			$this->create_time = time();
 		}
 		
-		foreach (array('rear_tire_vehicle_class_id', 'tire_vehicle_class_id', 'rear_tire_aspect_ratio_id', 'rear_tire_section_width_id', 'tire_aspect_ratio_id', 'tire_section_width_id', 'rear_rim_offset_range_id', 'rear_rim_width_id', 'rear_rim_diameter_id','rim_offset_range_id', 'rim_width_id','rim_diameter_id') as $attr) {
+		foreach (array('rear_wheel_manufacturer', 'rear_wheel_model', 'rear_tire_manufacturer', 'rear_tire_model', 'tire_vehicle_class_id', 'rear_tire_aspect_ratio_id', 'rear_tire_section_width_id', 'tire_aspect_ratio_id', 'tire_section_width_id', 'rear_rim_offset_range_id', 'rear_rim_width_id', 'rear_rim_diameter_id','rim_offset_range_id', 'rim_width_id','rim_diameter_id') as $attr) {
 			if (empty($this->$attr)) {
 				$this->$attr = null;
 			}
@@ -484,7 +481,6 @@ class Project extends CActiveRecord
 							LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
 							LEFT JOIN tire_section_width AS r_tsw ON p.rear_tire_section_width_id = r_tsw.id
 							LEFT JOIN tire_aspect_ratio AS r_tar ON p.rear_tire_aspect_ratio_id = r_tar.id
-							LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
 							LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id						
 							{$where}";
 							
@@ -579,7 +575,7 @@ class Project extends CActiveRecord
 					WHERE 
 						p.is_active = 1 AND
 						((p.rim_diameter_id={$rim_diameter_id} AND p.tire_vehicle_class_id={$vehicle_class_id} AND p.tire_section_width_id={$section_width_id} AND p.tire_aspect_ratio_id={$aspect_ratio_id}) OR 
-						 (p.rear_rim_diameter_id={$rim_diameter_id} AND p.rear_tire_vehicle_class_id={$vehicle_class_id} AND p.rear_tire_section_width_id={$section_width_id} AND p.rear_tire_aspect_ratio_id={$aspect_ratio_id})
+						 (p.rear_rim_diameter_id={$rim_diameter_id} AND p.tire_vehicle_class_id={$vehicle_class_id} AND p.rear_tire_section_width_id={$section_width_id} AND p.rear_tire_aspect_ratio_id={$aspect_ratio_id})
 						)
 					GROUP BY p.rim_diameter_id, p.rim_width_id, p.rear_rim_diameter_id, p.rear_rim_width_id 
 					ORDER BY c DESC
@@ -610,8 +606,7 @@ class Project extends CActiveRecord
 						rd.value AS rim_diameter,
 						r_rd.value AS rear_rim_diameter,
 						tsw.value AS tire_section_width,	
-						tvc.code AS tire_vehicle_class,						
-						r_tvc.code AS rear_tire_vehicle_class,							
+						tvc.code AS tire_vehicle_class,													
 						r_tsw.value AS rear_tire_section_width,						
 						tar.value AS tire_aspect_ratio,						
 						r_tar.value AS rear_tire_aspect_ratio,						
@@ -623,11 +618,9 @@ class Project extends CActiveRecord
 					LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
 					LEFT JOIN tire_section_width AS r_tsw ON p.rear_tire_section_width_id = r_tsw.id
 					LEFT JOIN tire_aspect_ratio AS r_tar ON p.rear_tire_aspect_ratio_id = r_tar.id	
-					LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
 					LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id					
 					WHERE p.model_id = {$model_id} AND p.is_active = 1 AND p.tire_section_width_id IS NOT NULL AND p.tire_aspect_ratio_id IS NOT NULL
-					AND p.tire_section_width_id <> 0 AND p.tire_aspect_ratio_id <> 0
-					GROUP BY p.tire_vehicle_class_id, p.rear_tire_vehicle_class_id, p.rim_diameter_id, p.rear_rim_diameter_id, tire_section_width_id, rear_tire_section_width_id, tire_aspect_ratio_id, rear_tire_aspect_ratio_id
+					GROUP BY p.tire_vehicle_class_id, p.rim_diameter_id, p.rear_rim_diameter_id, tire_section_width_id, rear_tire_section_width_id, tire_aspect_ratio_id, rear_tire_aspect_ratio_id
 					ORDER BY c DESC
 					LIMIT 3";
 			
@@ -657,8 +650,7 @@ class Project extends CActiveRecord
 						rd.value AS rim_diameter,
 						r_rd.value AS rear_rim_diameter,
 						tsw.value AS tire_section_width,	
-						tvc.code AS tire_vehicle_class,						
-						r_tvc.code AS rear_tire_vehicle_class,							
+						tvc.code AS tire_vehicle_class,													
 						r_tsw.value AS rear_tire_section_width,						
 						tar.value AS tire_aspect_ratio,						
 						r_tar.value AS rear_tire_aspect_ratio,						
@@ -670,14 +662,13 @@ class Project extends CActiveRecord
 					LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
 					LEFT JOIN tire_section_width AS r_tsw ON p.rear_tire_section_width_id = r_tsw.id
 					LEFT JOIN tire_aspect_ratio AS r_tar ON p.rear_tire_aspect_ratio_id = r_tar.id	
-					LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
 					LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id					
 					WHERE 
 					((p.rim_diameter_id={$diameter_id} AND p.rim_width_id={$width_id}) OR (p.rear_rim_diameter_id={$diameter_id} AND p.rear_rim_width_id={$width_id})) AND 
 					p.is_active = 1 AND 
 					p.tire_section_width_id IS NOT NULL AND 
 					p.tire_aspect_ratio_id IS NOT NULL
-					GROUP BY p.tire_vehicle_class_id, p.rear_tire_vehicle_class_id, p.rim_diameter_id, p.rear_rim_diameter_id, tire_section_width_id, rear_tire_section_width_id, tire_aspect_ratio_id, rear_tire_aspect_ratio_id
+					GROUP BY p.tire_vehicle_class_id, p.rim_diameter_id, p.rear_rim_diameter_id, tire_section_width_id, rear_tire_section_width_id, tire_aspect_ratio_id, rear_tire_aspect_ratio_id
 					ORDER BY c DESC
 					LIMIT 3";
 			
@@ -969,8 +960,7 @@ class Project extends CActiveRecord
 					tvc.code AS tire_vehicle_class,
 					p.is_staggered_tires AS is_rear,
 					rear_tsw.value AS rear_tire_section_width,
-					rear_tar.value AS rear_tire_aspect_ratio,
-					rear_tvc.code AS rear_tire_vehicle_class					
+					rear_tar.value AS rear_tire_aspect_ratio					
 				FROM project AS p
 				LEFT JOIN auto_make AS k ON p.make_id = k.id
 				LEFT JOIN auto_model AS m ON p.model_id = m.id				
@@ -979,7 +969,6 @@ class Project extends CActiveRecord
 				LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id
 				LEFT JOIN tire_section_width AS rear_tsw ON p.rear_tire_section_width_id = rear_tsw.id
 				LEFT JOIN tire_aspect_ratio AS rear_tar ON p.rear_tire_aspect_ratio_id = rear_tar.id
-				LEFT JOIN tire_vehicle_class AS rear_tvc ON p.rear_tire_vehicle_class_id = rear_tvc.id
 				WHERE 
 					((p.rim_diameter_id = {$diametr_id} AND p.rim_width_id = {$width_id}) OR  (p.rear_rim_diameter_id = {$diametr_id} AND p.rear_rim_width_id = {$width_id})) AND
 					p.is_active=1 AND 
@@ -990,7 +979,7 @@ class Project extends CActiveRecord
 					k.is_deleted = 0 AND
 					m.is_active = 1 AND
 					m.is_deleted = 0					
-				GROUP BY p.tire_section_width_id, p.tire_aspect_ratio_id, p.tire_vehicle_class_id, p.is_staggered_tires, p.rear_tire_section_width_id, p.rear_tire_aspect_ratio_id, p.rear_tire_vehicle_class_id
+				GROUP BY p.tire_section_width_id, p.tire_aspect_ratio_id, p.tire_vehicle_class_id, p.is_staggered_tires, p.rear_tire_section_width_id, p.rear_tire_aspect_ratio_id
 				ORDER BY tire_section_width, tire_aspect_ratio
 			";
 
@@ -1276,7 +1265,7 @@ class Project extends CActiveRecord
 					(
 						(p.rim_diameter_id = {$diametr_id} AND p.rim_width_id = {$width_id} AND p.tire_vehicle_class_id = {$vehicle_class_id} AND p.tire_section_width_id = {$section_width_id} AND p.tire_aspect_ratio_id = {$aspect_ratio_id})
 						OR  
-						(p.rear_rim_diameter_id = {$diametr_id} AND p.rear_rim_width_id = {$width_id} AND p.rear_tire_vehicle_class_id = {$vehicle_class_id} AND p.rear_tire_section_width_id = {$section_width_id} AND p.rear_tire_aspect_ratio_id = {$aspect_ratio_id})
+						(p.rear_rim_diameter_id = {$diametr_id} AND p.rear_rim_width_id = {$width_id} AND p.tire_vehicle_class_id = {$vehicle_class_id} AND p.rear_tire_section_width_id = {$section_width_id} AND p.rear_tire_aspect_ratio_id = {$aspect_ratio_id})
 					) AND
 					p.is_active=1 AND 
 					k.is_active = 1 AND
@@ -1324,7 +1313,7 @@ class Project extends CActiveRecord
 					(
 						(p.rim_diameter_id = {$diametr_id} AND p.rim_width_id = {$width_id} AND p.tire_vehicle_class_id = {$vehicle_class_id} AND p.tire_section_width_id = {$section_width_id} AND p.tire_aspect_ratio_id = {$aspect_ratio_id})
 						OR  
-						(p.rear_rim_diameter_id = {$diametr_id} AND p.rear_rim_width_id = {$width_id} AND p.rear_tire_vehicle_class_id = {$vehicle_class_id} AND p.rear_tire_section_width_id = {$section_width_id} AND p.rear_tire_aspect_ratio_id = {$aspect_ratio_id})
+						(p.rear_rim_diameter_id = {$diametr_id} AND p.rear_rim_width_id = {$width_id} AND p.tire_vehicle_class_id = {$vehicle_class_id} AND p.rear_tire_section_width_id = {$section_width_id} AND p.rear_tire_aspect_ratio_id = {$aspect_ratio_id})
 					) AND
 					p.is_active=1 AND 
 					k.is_active = 1 AND

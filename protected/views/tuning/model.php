@@ -137,7 +137,7 @@
 								'section_width' => $size['rear_tire_section_width'],
 								'aspect_ratio' 	=> $size['rear_tire_aspect_ratio'],
 								'rim_diameter' 	=> $size['rear_rim_diameter'],
-								'vehicle_class'	=> $size['rear_tire_vehicle_class'],
+								'vehicle_class'	=> $size['tire_vehicle_class'],
 							), true)?><?php endif;?>
 						</td>
 						<td class="spec-value">

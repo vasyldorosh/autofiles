@@ -133,8 +133,7 @@ class TuningController extends Controller
 						p.is_staggered_wheels AS is_staggered_wheels,
 						r_rd.value AS rear_rim_diameter,
 						r_rw.value AS rear_rim_width,
-						tvc.code AS tire_vehicle_class,						
-						r_tvc.code AS rear_tire_vehicle_class,							
+						tvc.code AS tire_vehicle_class,													
 						r_ror.value AS rear_rim_offset_range,						
 						tsw.value AS tire_section_width,						
 						tar.value AS tire_aspect_ratio,						
@@ -155,7 +154,6 @@ class TuningController extends Controller
 					LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
 					LEFT JOIN tire_section_width AS r_tsw ON p.rear_tire_section_width_id = r_tsw.id
 					LEFT JOIN tire_aspect_ratio AS r_tar ON p.rear_tire_aspect_ratio_id = r_tar.id
-					LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
 					LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id						
 					{$where}
 					ORDER BY p.view_count DESC
@@ -307,8 +305,7 @@ class TuningController extends Controller
 						p.is_staggered_wheels AS is_staggered_wheels,
 						r_rd.value AS rear_rim_diameter,
 						r_rw.value AS rear_rim_width,
-						tvc.code AS tire_vehicle_class,						
-						r_tvc.code AS rear_tire_vehicle_class,							
+						tvc.code AS tire_vehicle_class,												
 						r_ror.value AS rear_rim_offset_range,						
 						tsw.value AS tire_section_width,						
 						tar.value AS tire_aspect_ratio,						
@@ -329,7 +326,6 @@ class TuningController extends Controller
 					LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
 					LEFT JOIN tire_section_width AS r_tsw ON p.rear_tire_section_width_id = r_tsw.id
 					LEFT JOIN tire_aspect_ratio AS r_tar ON p.rear_tire_aspect_ratio_id = r_tar.id
-					LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
 					LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id						
 					{$where}
 					ORDER BY p.view_count DESC
@@ -521,8 +517,7 @@ class TuningController extends Controller
 						p.is_staggered_wheels AS is_staggered_wheels,
 						r_rd.value AS rear_rim_diameter,
 						r_rw.value AS rear_rim_width,
-						tvc.code AS tire_vehicle_class,						
-						r_tvc.code AS rear_tire_vehicle_class,							
+						tvc.code AS tire_vehicle_class,												
 						r_ror.value AS rear_rim_offset_range,						
 						tsw.value AS tire_section_width,						
 						tar.value AS tire_aspect_ratio,						
@@ -549,7 +544,6 @@ class TuningController extends Controller
 					LEFT JOIN tire_aspect_ratio AS tar ON p.tire_aspect_ratio_id = tar.id
 					LEFT JOIN tire_section_width AS r_tsw ON p.rear_tire_section_width_id = r_tsw.id
 					LEFT JOIN tire_aspect_ratio AS r_tar ON p.rear_tire_aspect_ratio_id = r_tar.id
-					LEFT JOIN tire_vehicle_class AS r_tvc ON p.rear_tire_vehicle_class_id = r_tvc.id
 					LEFT JOIN tire_vehicle_class AS tvc ON p.tire_vehicle_class_id = tvc.id						
 					WHERE %s AND p.model_id = ".$model['id']." AND p.is_active=1
 					ORDER BY %s

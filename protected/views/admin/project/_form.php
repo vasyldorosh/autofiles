@@ -22,8 +22,13 @@
 	<?php echo $form->dropDownListRow($model, 'rear_rim_width_id', RimWidth::getAll(),array('empty'=>''))?>
 
 	<?php echo $form->dropDownListRow($model, 'rear_rim_offset_range_id', RimOffsetRange::getAll(),array('empty'=>''))?>
+	
+	<?php echo $form->textFieldRow($model, 'rear_wheel_manufacturer')?>
+	
+	<?php echo $form->textFieldRow($model, 'rear_wheel_model')?>
 </div>	
 	
+<hr>	
 <?php echo $form->textFieldRow($model, 'tire_manufacturer')?>
 
 <?php echo $form->textFieldRow($model, 'tire_model')?>	
@@ -39,9 +44,11 @@
 <div id="container-is_staggered_tires">
 	<?php echo $form->dropDownListRow($model, 'rear_tire_section_width_id', TireSectionWidth::getList(),array('empty'=>''))?>	
 
-	<?php echo $form->dropDownListRow($model, 'rear_tire_aspect_ratio_id', TireAspectRatio::getList(),array('empty'=>''))?>	
+	<?php echo $form->dropDownListRow($model, 'rear_tire_aspect_ratio_id', TireAspectRatio::getList(),array('empty'=>''))?>
+
+	<?php echo $form->textFieldRow($model, 'rear_tire_manufacturer')?>
 	
-	<?php echo $form->dropDownListRow($model, 'rear_tire_vehicle_class_id', TireVehicleClass::getList(),array('empty'=>''))?>
+	<?php echo $form->textFieldRow($model, 'rear_tire_model')?>	
 </div>		
 
 <?php echo $form->textFieldRow($model, 'source')?>
@@ -63,13 +70,6 @@ $('#Project_is_staggered_tires').change(function(){
 function toogleCheckbox(attr, val) {
 	if (val) {
 		$('#container-'+attr).show();
-		
-		if (attr == 'is_staggered_tires') {
-			if ($('#Project_rear_tire_vehicle_class_id').val() == '') {
-				$('#Project_rear_tire_vehicle_class_id :contains("P")').attr("selected", "selected");
-			}
-		}
-		
 	} else {
 		$('#container-'+attr).hide();
 	}

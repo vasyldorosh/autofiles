@@ -76,12 +76,12 @@
 					'section_width' => $project['rear_tire_section_width'],
 					'aspect_ratio' 	=> $project['rear_tire_aspect_ratio'],
 					'rim_diameter' 	=> $project['rim_diameter'],
-					'vehicle_class'	=> $project['rear_tire_vehicle_class'],
+					'vehicle_class'	=> $project['tire_vehicle_class'],
 				))?>"><?=Tire::format(array(
 					'section_width' => $project['rear_tire_section_width'],
 					'aspect_ratio' 	=> $project['rear_tire_aspect_ratio'],
 					'rim_diameter' 	=> $project['rim_diameter'],
-					'vehicle_class'	=> $project['rear_tire_vehicle_class'],
+					'vehicle_class'	=> $project['tire_vehicle_class'],
 				), true)?></a></td>	
 			</tr>
 			<tr>
@@ -147,12 +147,12 @@
 					'section_width' => $project['rear_tire_section_width'],
 					'aspect_ratio' 	=> $project['rear_tire_aspect_ratio'],
 					'rim_diameter' 	=> $project['rear_rim_diameter'],
-					'vehicle_class'	=> $project['rear_tire_vehicle_class'],
+					'vehicle_class'	=> $project['tire_vehicle_class'],
 				))?>"><?=Tire::format(array(
 					'section_width' => $project['rear_tire_section_width'],
 					'aspect_ratio' 	=> $project['rear_tire_aspect_ratio'],
 					'rim_diameter' 	=> $project['rear_rim_diameter'],
-					'vehicle_class'	=> $project['rear_tire_vehicle_class'],
+					'vehicle_class'	=> $project['tire_vehicle_class'],
 				), true)?></a></td>	
 			</tr>
 			<tr>
