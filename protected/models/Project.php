@@ -1138,9 +1138,13 @@ class Project extends CActiveRecord
 	
 	public static function getRecommendedTireSizes($diametr_id, $width, $vehicle_class_id)
 	{
-		$width = (float) $width;
-		$diametr_id = (int) $diametr_id;
-		$vehicle_class_id = (int) $vehicle_class_id;
+		$width 				= (float) $width;
+		$diametr_id 		= (int) $diametr_id;
+		$vehicle_class_id 	= (int) $vehicle_class_id;
+		$listWidth 			= RimWidth::getAll();
+		$listWidth 			= array_flip($listWidth);
+		
+		$width_id = isset($listWidth[$width])?$listWidth[$width]:0;
 		
 		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_'. $diametr_id . '_' . $width . '_' . $vehicle_class_id;
 		$tires = Yii::app()->cache->get($key);
@@ -1180,7 +1184,7 @@ class Project extends CActiveRecord
 		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_pr_'. $diametr_id . '_' . $width . '_' . $vehicle_class_id;
 		$counters = Yii::app()->cache->get($key);
 		
-		if ($counters === false) {
+		if ($counters === false || 1) {
 			
 			$counters = array();
 			if (!empty($sa)) {
@@ -1197,6 +1201,7 @@ class Project extends CActiveRecord
 						m.is_active = 1 AND
 						m.is_deleted = 0 AND					
 						p.is_active=1 AND 
+						p.rim_width_id = {$width_id} AND 
 						p.rim_diameter_id = {$diametr_id} AND 
 						p.tire_vehicle_class_id = {$vehicle_class_id} AND 
 						p.tire_section_width_id IS NOT NULL AND 
