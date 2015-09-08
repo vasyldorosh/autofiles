@@ -89,7 +89,7 @@
 					$items = array();
 					foreach ($popularRimSizes as $size) {
 						$itemRim = $size['rim_diameter'] .'x'.$size['rim_width'];
-						$items[] = '<a href="/wheels/'.$itemRim.'">'.$itemRim.'</a>';
+						$items[] = '<a href="/wheels/'.$itemRim.'/">'.$itemRim.'</a>';
 					}
 					?>
 					<?=implode(', ', $items)?>
