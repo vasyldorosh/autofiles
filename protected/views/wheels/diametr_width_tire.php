@@ -122,10 +122,10 @@
 				</ul>
 		
 			<br>
-				<?php if ($countProject > 50):?>
+				<?php /*if ($countProject > 50):?>
 					<p><a href="#">See all car projects</a></p>
 				<?php endif;?>
-			<?php endif;?>
+			<?php endif;*/?>
 			
 			<?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
 		</section>
