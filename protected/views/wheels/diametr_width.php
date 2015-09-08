@@ -7,7 +7,7 @@
 			<div class="text_size"><?=$header_text_block?></div>
 		</section>
 		
-		<?php if (!empty($possibleTireSizes)):?><?=d($tireRangeData);?>
+		<?php if (!empty($possibleTireSizes)):?>
 		<section class="table-container">
 			<h4 class="title_tire">Possible tire sizes for a <?=$rim?> rim</h4>
 			<table>

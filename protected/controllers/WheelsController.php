@@ -202,6 +202,7 @@ class WheelsController extends Controller
 			'recommendedTireSizesItems' => $recommendedTireSizesItems,
 			'rimsNavigation' => $rimsNavigation,
 			'projects' => $projects,
+			'tireRangeData' => $tireRangeData,
 			'count' => Project::getCountModifiedCarsByRim($diametr_id, $width_id),
 		));
 	}
