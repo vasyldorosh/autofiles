@@ -28,7 +28,16 @@
 							'rim_diameter' => $diametr,
 						);
 						$tireTitle = Tire::format($tire);
+						$tireRearTitle = '';
+						if ($item['is_rear']) {
+							$tireTitle = Tire::format($tire);
+						}
+						
+						
 						?>
+						
+						
+						
 						<td><a href="/wheels/<?=$rim?>/<?=Tire::urlFormat($tire, true)?>/"><?=$tireTitle?></a></td>
 						<td>
 							<?php if (isset($tireRangeData[$tireTitle])):
