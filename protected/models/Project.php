@@ -1195,7 +1195,7 @@ class Project extends CActiveRecord
 						k.is_active = 1 AND
 						k.is_deleted = 0 AND
 						m.is_active = 1 AND
-						m.is_deleted = 0					
+						m.is_deleted = 0 AND					
 						p.is_active=1 AND 
 						p.rim_diameter_id = {$diametr_id} AND 
 						p.tire_vehicle_class_id = {$vehicle_class_id} AND 
