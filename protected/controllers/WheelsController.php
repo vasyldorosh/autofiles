@@ -193,7 +193,7 @@ class WheelsController extends Controller
 			}
 		}	
 
-		d($tireRangeData);
+		//d($tireRangeData);
 		
 		$this->render('diametr_width', array(
 			'header_text_block' => $header_text_block,

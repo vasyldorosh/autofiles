@@ -28,15 +28,14 @@
 							'rim_diameter' => $diametr,
 						);
 						$tireTitle = Tire::format($tire);
-						$tireRearTitle = '';
 						if ($item['is_rear']) {
-							$tireTitle = Tire::format($tire);
+							$tireTitle.= ' ' . Tire::format(array(
+								'section_width' => $item['rear_tire_section_width'],
+								'aspect_ratio' => $item['rear_tire_aspect_ratio'],
+								'rim_diameter' => $diametr,
+							), false);
 						}
-						
-						
 						?>
-						
-						
 						
 						<td><a href="/wheels/<?=$rim?>/<?=Tire::urlFormat($tire, true)?>/"><?=$tireTitle?></a></td>
 						<td>
