@@ -103,7 +103,7 @@
 	
 	<br>
 
-		<section class="make">
+		<section class="make">[<?=$countProject?>]
 			<?php if (!empty($projects)):?>
 				<h2 class="section-name_2">See how a tire <?=$tireTitle?> looks on <?=$rim?> rim</h2>
 				<ul class="make__vehicle" id="list_update">	
