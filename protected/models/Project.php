@@ -1278,7 +1278,7 @@ class Project extends CActiveRecord
 		$section_width_id 	= (int) $section_width_id;
 		$aspect_ratio_id 	= (int) $aspect_ratio_id;
 		
-		$key = Tags::TAG_PROJECT . '_getCountByRimTire_'. serialize(get_defined_vars());
+		$key = Tags::TAG_PROJECT . '_getItemsByRimTire_'. serialize(get_defined_vars());
 		$data = Yii::app()->cache->get($key);
 		if ($data === false) {
 			

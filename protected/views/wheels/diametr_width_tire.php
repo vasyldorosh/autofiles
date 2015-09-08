@@ -105,7 +105,7 @@
 
 		<section class="make">
 			<?php if (!empty($projects)):?>
-				<h2 class="section-name_2">See how a tire <?=$tireTitle?> looks on <?=$rim?>.0 rim</h2>
+				<h2 class="section-name_2">See how a tire <?=$tireTitle?> looks on <?=$rim?> rim</h2>
 				<ul class="make__vehicle" id="list_update">	
 				<?php foreach ($projects as $project):?>	
 					<li class="js-scrolling-ajax-item">
