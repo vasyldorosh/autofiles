@@ -1071,100 +1071,6 @@ class Project extends CActiveRecord
 		
 		return $data;
 	}	
-	
-	public static function getRecommendedTireSizes($diametr_id, $width, $vehicle_class_id)
-	{
-		$width = (float) $width;
-		$diametr_id = (int) $diametr_id;
-		$vehicle_class_id = (int) $vehicle_class_id;
-		
-		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_'. $diametr_id . '_' . $width . '_' . $vehicle_class_id;
-		$tires = Yii::app()->cache->get($key);
-		
-		if ($tires === false) {
-			
-			$tires = array();
-			$sql = "
-				SELECT 
-					sw.value AS tire_section_width,
-					ar.value AS tire_aspect_ratio,
-					t.section_width_id AS section_width_id,
-					t.aspect_ratio_id AS aspect_ratio_id
-				FROM tire_rim_width_range AS r
-				LEFT JOIN tire AS t ON r.tire_id = t.id
-				LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
-				LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
-				WHERE r.`from` <= {$width} AND r.`to` >= {$width} AND t.rim_diameter_id = {$diametr_id} AND t.vehicle_class_id = {$vehicle_class_id}
-			";
-
-			$tires = Yii::app()->db->createCommand($sql)->queryAll();	
-
-			
-			Yii::app()->cache->set($key, $tires, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
-		}
-
-		$range = array();
-		foreach ($tires as $tire) {
-			$range[] = $tire['section_width_id'] . '_' . $tire['aspect_ratio_id'];
-		}
-
-		$sa = array();
-		foreach ($tires as $tire) {
-			$sa[] = "sa = '" . $tire['section_width_id'] . '_' . $tire['aspect_ratio_id'] . "'";
-		}
-		
-		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_p_'. $diametr_id . '_' . $width . '_' . $vehicle_class_id;
-		$counters = Yii::app()->cache->get($key);
-		
-		if ($counters === false) {
-			
-			$counters = array();
-			if (!empty($sa)) {
-				$sql = "
-					SELECT 
-						COUNT(*) AS c,
-						CONCAT(p.tire_section_width_id, '_', p.tire_aspect_ratio_id) AS sa
-					FROM project AS p
-					WHERE 
-						p.is_active=1 AND 
-						p.rim_diameter_id = {$diametr_id} AND 
-						p.tire_vehicle_class_id = {$vehicle_class_id} AND 
-						p.tire_section_width_id IS NOT NULL AND 
-						p.tire_aspect_ratio_id IS NOT NULL
-					GROUP BY sa
-					HAVING ".implode(' OR ', $sa)."
-				";				
-
-				$counters = Yii::app()->db->createCommand($sql)->queryAll();	
-			}
-					
-			Yii::app()->cache->set($key, $counters, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
-		}	
-		
-		$sa = array();
-		foreach ($counters as $counter) {
-			$sa[$counter['sa']] = $counter['c'];
-		}
-		
-		$data['counters'] = $sa;
-		
-		
-		$section_width = array();
-		$aspect_ratio = array();
-		foreach ($tires as $tire) {
-			$section_width[$tire['section_width_id']] = $tire['tire_section_width'];
-			$aspect_ratio[$tire['aspect_ratio_id']] = $tire['tire_aspect_ratio'];
-		}
-		
-		uasort($section_width, 'uasort_acs');		
-		uasort($aspect_ratio, 'uasort_acs');		
-		
-		$data['section_width'] = $section_width;
-		$data['aspect_ratio'] = $aspect_ratio;
-		$data['range'] = $range;
-			
-		return $data;
-	}
 
 	public static function getAllRims()
 	{
@@ -1227,6 +1133,106 @@ class Project extends CActiveRecord
 			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_MAKE, Tags::TAG_MODEL));
 		}	
 		
+		return $data;
+	}	
+	
+	public static function getRecommendedTireSizes($diametr_id, $width, $vehicle_class_id)
+	{
+		$width = (float) $width;
+		$diametr_id = (int) $diametr_id;
+		$vehicle_class_id = (int) $vehicle_class_id;
+		
+		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_'. $diametr_id . '_' . $width . '_' . $vehicle_class_id;
+		$tires = Yii::app()->cache->get($key);
+		
+		if ($tires === false) {
+			
+			$tires = array();
+			$sql = "
+				SELECT 
+					sw.value AS tire_section_width,
+					ar.value AS tire_aspect_ratio,
+					t.section_width_id AS section_width_id,
+					t.aspect_ratio_id AS aspect_ratio_id
+				FROM tire_rim_width_range AS r
+				LEFT JOIN tire AS t ON r.tire_id = t.id
+				LEFT JOIN tire_section_width AS sw ON t.section_width_id = sw.id
+				LEFT JOIN tire_aspect_ratio AS ar ON t.aspect_ratio_id = ar.id
+				WHERE r.`from` <= {$width} AND r.`to` >= {$width} AND t.rim_diameter_id = {$diametr_id} AND t.vehicle_class_id = {$vehicle_class_id}
+			";
+
+			$tires = Yii::app()->db->createCommand($sql)->queryAll();	
+
+			
+			Yii::app()->cache->set($key, $tires, 0, new Tags(Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
+		}
+
+		$range = array();
+		foreach ($tires as $tire) {
+			$range[] = $tire['section_width_id'] . '_' . $tire['aspect_ratio_id'];
+		}
+
+		$sa = array();
+		foreach ($tires as $tire) {
+			$sa[] = "sa = '" . $tire['section_width_id'] . '_' . $tire['aspect_ratio_id'] . "'";
+		}
+		
+		$key = Tags::TAG_PROJECT . '_getRecommendedTireSizes_pr_'. $diametr_id . '_' . $width . '_' . $vehicle_class_id;
+		$counters = Yii::app()->cache->get($key);
+		
+		if ($counters === false) {
+			
+			$counters = array();
+			if (!empty($sa)) {
+				$sql = "
+					SELECT 
+						COUNT(*) AS c,
+						CONCAT(p.tire_section_width_id, '_', p.tire_aspect_ratio_id) AS sa
+					FROM project AS p
+					LEFT JOIN auto_make AS k ON p.make_id = k.id
+					LEFT JOIN auto_model AS m ON p.model_id = m.id					
+					WHERE 
+						k.is_active = 1 AND
+						k.is_deleted = 0 AND
+						m.is_active = 1 AND
+						m.is_deleted = 0					
+						p.is_active=1 AND 
+						p.rim_diameter_id = {$diametr_id} AND 
+						p.tire_vehicle_class_id = {$vehicle_class_id} AND 
+						p.tire_section_width_id IS NOT NULL AND 
+						p.tire_aspect_ratio_id IS NOT NULL
+					GROUP BY sa
+					HAVING ".implode(' OR ', $sa)."
+				";				
+
+				$counters = Yii::app()->db->createCommand($sql)->queryAll();	
+			}
+					
+			Yii::app()->cache->set($key, $counters, 0, new Tags(Tags::TAG_PROJECT, Tags::TAG_TIRE, Tags::TAG_TIRE_RIM_WIDTH_RANGE));
+		}	
+		
+		$sa = array();
+		foreach ($counters as $counter) {
+			$sa[$counter['sa']] = $counter['c'];
+		}
+		
+		$data['counters'] = $sa;
+		
+		
+		$section_width = array();
+		$aspect_ratio = array();
+		foreach ($tires as $tire) {
+			$section_width[$tire['section_width_id']] = $tire['tire_section_width'];
+			$aspect_ratio[$tire['aspect_ratio_id']] = $tire['tire_aspect_ratio'];
+		}
+		
+		uasort($section_width, 'uasort_acs');		
+		uasort($aspect_ratio, 'uasort_acs');		
+		
+		$data['section_width'] = $section_width;
+		$data['aspect_ratio'] = $aspect_ratio;
+		$data['range'] = $range;
+			
 		return $data;
 	}	
 	
