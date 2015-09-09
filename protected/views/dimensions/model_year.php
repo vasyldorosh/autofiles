@@ -43,7 +43,11 @@
 		</section>
 		
 		<section class="seo-text">
-			<?=$content_text_1?>
+			
+                         <div class="google_links f_left p_rel">
+				<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
+			</div>
+                        <br><?=$content_text_1?>
 		</section>
 		
 		<div class="banner-ver">
@@ -96,13 +100,12 @@
 		</section>
 		
 		<section class="seo-text">
-			<?=$content_text_2?>
+                        <div class="google_links f_left p_rel">
+				<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
+			</div>
+			<br><?=$content_text_2?>
 		</section>
-
-		<div class="banner-ver">
-			<?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
-		</div>
-		
+		<br clear="all">
 		<?php if (!empty($competitors)):?>
 		<section class="make">
 			<h2 class="section-name_2">Competitors' dimensions</h2>

@@ -113,7 +113,7 @@ $('#btn_submit_filter').click(function(e) {
 			(adsbygoogle = window.adsbygoogle || []).push({});
 			</script>
 		</section>
-		
+		<SCRIPT charset="utf-8" type="text/javascript" src="http://ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fauto0a70-20%2F8018%2Fd2f4f2fe-1d96-4c62-8035-dc63a3f13577"> </SCRIPT> <NOSCRIPT><A HREF="http://ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&MarketPlace=US&ID=V20070822%2FUS%2Fauto0a70-20%2F8018%2Fd2f4f2fe-1d96-4c62-8035-dc63a3f13577&Operation=NoScript">Amazon.com Widgets</A></NOSCRIPT>
 	</div>
 </main>
 

@@ -41,6 +41,18 @@
 		<?php endif;?>		
 	
 
+<section class="make">
+	<h4 class="title_tire">Check the real acceleration of your car</h4>
+<br>
+	<iframe style="width:105px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&amp;OneJS=1&amp;Operation=GetAdHtml&amp;MarketPlace=US&amp;source=ss&amp;ref=ss_til&amp;ad_type=product_link&amp;tracking_id=auto0a70-20&amp;marketplace=amazon&amp;region=US&amp;placement=B00GCG0QAA&amp;asins=B00GCG0QAA&amp;linkId=DQRHYXBRQXZH2BRS&amp;show_border=true&amp;link_opens_in_new_window=true&amp;price_color=333333&amp;amp;bg_color=FFFFFF">
+</iframe>
+  <iframe style="width:105px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&amp;OneJS=1&amp;Operation=GetAdHtml&amp;MarketPlace=US&amp;source=ss&amp;ref=ss_til&amp;ad_type=product_link&amp;tracking_id=auto0a70-20&amp;marketplace=amazon&amp;region=US&amp;placement=B00GC3BMDS&amp;asins=B00GC3BMDS&amp;linkId=7FRCBIUVF3DZA2JJ&amp;show_border=true&amp;link_opens_in_new_window=true">
+</iframe>
+  <iframe style="width:105px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&amp;OneJS=1&amp;Operation=GetAdHtml&amp;MarketPlace=US&amp;source=ss&amp;ref=ss_til&amp;ad_type=product_link&amp;tracking_id=auto0a70-20&amp;marketplace=amazon&amp;region=US&amp;placement=B00IK1GRFS&amp;asins=B00IK1GRFS&amp;linkId=H5JYOMOOQE42X7HQ&amp;show_border=true&amp;link_opens_in_new_window=true">
+</iframe>
+
+</section>
+
 		<section class="table-container">
 			<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> 0-60 mph acceleration across years</h2>
 
@@ -71,8 +83,8 @@
 			<?php endforeach;?>
 			</table>
 		</section>		
-
-                <?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
+<br>
+               <?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
 
 		<?php if (!empty($competitors)):?>
 		<section class="table-container">
@@ -107,9 +119,9 @@
 			</table>
 			</section>
 		<?php endif;?>		
-
+<br>
 		
-		<?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
 
 		
 		<?php if (!empty($completionsCarsWithSame060Time)):?>
@@ -139,6 +151,7 @@
 		
 	</div>
 	<div class="l-col2">
+<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>		
 		<br>
 		<?php $this->renderPartial('application.views.specs._right_model', array(
 			'lastModelYear'=>$lastModelYear,
@@ -146,8 +159,22 @@
 			'model'=>$model,
 		))?>		
 		
-		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
-		
+		<script charset="utf-8" type="text/javascript">
+amzn_assoc_ad_type = "responsive_search_widget";
+amzn_assoc_tracking_id = "auto0a70-20";
+amzn_assoc_link_id = "YOKSPVOMVGKQ5UMP";
+amzn_assoc_marketplace = "amazon";
+amzn_assoc_region = "US";
+amzn_assoc_placement = "";
+amzn_assoc_search_type = "search_widget";
+amzn_assoc_width = 300;
+amzn_assoc_height = 250;
+amzn_assoc_default_search_category = "Automotive";
+amzn_assoc_default_search_key = "";
+amzn_assoc_theme = "light";
+amzn_assoc_bg_color = "FFFFFF";
+</script>
+<script src="//z-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&Operation=GetScript&ID=OneJS&WS=1&MarketPlace=US"></script>
 		
 	</div>
 	</div>
