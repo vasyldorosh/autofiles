@@ -40,7 +40,7 @@
 			<ul class="make__vehicle-years">
 			<?php foreach ($dataModel['years'] as $item):?>	
 				<li>
-					<a title="<?=$item['year']?> <?=$make['title']?> <?=$dataModel['title']?> tires" href="/tires<?=$dataModel['url']?><?=$item['year']?>/"><?=$item['year']?></a>
+					<a title="<?=$item['year']?> <?=$make['title']?> <?=$dataModel['title']?> tire sizes" href="/tires<?=$dataModel['url']?><?=$item['year']?>/"><?=$item['year']?></a>
 				</li>
 			<?php endforeach; ?>
 			</ul>
