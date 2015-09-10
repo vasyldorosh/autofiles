@@ -16,7 +16,7 @@
 <?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 
 		<section class="table-container">
-			<h2 class="section-name">All <?=$make['title']?> models 0-60 times</h2>
+			<h2 class="section-name_2">The fastest <?=$make['title']?> cars</h2>
 			<table>
 			<?php foreach ($models as $item):?>
 				<tr>
