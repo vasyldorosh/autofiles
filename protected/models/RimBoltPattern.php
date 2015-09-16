@@ -105,7 +105,7 @@ class RimBoltPattern extends CActiveRecord
 		$key = Tags::TAG_RIM_BOLT_PATTERN . '_getListOfBoltPatterns_';
 		$data = Yii::app()->cache->get($key);
 		
-		if ($data === false) {
+		if ($data === false || 1) {
 			$sql = "SELECT 
 						bolt_pattern_id, 
 						COUNT( * ) AS c
@@ -131,7 +131,7 @@ class RimBoltPattern extends CActiveRecord
 				$data[] = array(
 					'value' => $item->value,
 					'value_inches' => $item->value_inches,
-					'percent' => $percent,
+					'percent' => round($percent, 2),
 				);
 			}
 			
