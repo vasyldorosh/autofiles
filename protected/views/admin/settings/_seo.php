@@ -406,6 +406,14 @@
 					), 
 					true
 				)),				
+                array(
+					'label'=>Yii::t('admin', 'Wheels Bolt Pattern'),
+					'content' => $this->renderPartial('_wheels_bolt_pattern', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
 			
 				
 			)

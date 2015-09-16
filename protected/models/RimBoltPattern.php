@@ -30,6 +30,7 @@ class RimBoltPattern extends CActiveRecord
 		return array(
 			array('value', 'required'),
 			array('value', 'length', 'max'=>20),			
+			array('value_inches', 'length', 'max'=>20),			
 			array('id', 'safe', 'on' => 'search'),
 		);
 	}		
@@ -59,6 +60,7 @@ class RimBoltPattern extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'value' => Yii::t('admin', 'Value'),
+			'value_inches' => Yii::t('admin', 'Inch value'),
 		);
 	}
 	
@@ -75,6 +77,7 @@ class RimBoltPattern extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('value',$this->value, true);
+		$criteria->compare('value_inches', $this->value_inches, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -92,6 +95,47 @@ class RimBoltPattern extends CActiveRecord
 		if ($data === false) {
 			$data = CHtml::listData(self::model()->findAll(array('order'=>'value')), 'id', 'value');
 			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_RIM_BOLT_PATTERN));
+		}
+		
+		return $data;
+	}
+		
+	public static function getListOfBoltPatterns() 
+	{
+		$key = Tags::TAG_RIM_BOLT_PATTERN . '_getListOfBoltPatterns_';
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data === false) {
+			$sql = "SELECT 
+						bolt_pattern_id, 
+						COUNT( * ) AS c
+					FROM  `auto_model_year` 
+					WHERE bolt_pattern_id IS NOT NULL AND bolt_pattern_id <>0
+					GROUP BY bolt_pattern_id";
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();
+			$count = 0;
+			$yearData = array();
+			foreach ($rows as $row) {
+				$count+=$row['c'];
+				$yearData[$row['bolt_pattern_id']] = $row['c'];
+			}
+			
+			$data = array();
+			$items = self::model()->findAll(array('order'=>'value'));
+			foreach ($items as $item) {
+				$percent = 0;
+				if (isset($yearData[$item->id])) {
+					$percent = $yearData[$item->id]/$count * 100;
+				}
+						
+				$data[] = array(
+					'value' => $item->value,
+					'value_inches' => $item->value_inches,
+					'percent' => $percent,
+				);
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_RIM_BOLT_PATTERN, Tags::TAG_MODEL_YEAR));
 		}
 		
 		return $data;

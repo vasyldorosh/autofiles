@@ -18,6 +18,23 @@ class WheelsController extends Controller
 		));
 	}
 	
+	public function actionBoltPattern()
+	{
+		$this->pageTitle = SiteConfig::getInstance()->getValue('seo_wheels_bolt_pattern_title');
+		$this->meta_keywords = SiteConfig::getInstance()->getValue('seo_wheels_bolt_pattern_meta_keywords');
+		$this->meta_description = SiteConfig::getInstance()->getValue('seo_wheels_bolt_pattern_meta_description');		
+		
+		$this->breadcrumbs = array(
+			'/' => 'Home',
+			'wheels.html' => 'Wheels',
+			'#' => 'Bolt Pattern',
+		);		
+		
+		$this->render('bolt_pattern', array(
+			'list' => RimBoltPattern::getListOfBoltPatterns(),
+		));
+	}
+	
 	public function actionMake($alias)
 	{
 		$make = AutoMake::getMakeByAlias($alias);

@@ -39,6 +39,7 @@
 					),					
 				),
 				'value',
+				'value_inches',
             );
 
 		if (Access::is('tire.rim.bolt_pattern.update') || Access::is('tire.rim.bolt_pattern.delete')) {
