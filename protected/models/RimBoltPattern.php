@@ -131,7 +131,7 @@ class RimBoltPattern extends CActiveRecord
 				$data[] = array(
 					'value' => $item->value,
 					'value_inches' => $item->value_inches,
-					'percent' => round($percent, 2),
+					'percent' => round($percent, 0),
 				);
 			}
 			
