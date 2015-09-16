@@ -14,9 +14,6 @@
 		<section class="make">
 			<h2 class="section-name">List of cars with <?=Tire::format($tire)?> tire size</h2>
 			
-                        <a href="http://www.anrdoezrs.net/fi116ox52x4KSSUSNTRKMLPOROQPKMPMNRNPNLPLLL" target="_top">
-<img src="http://www.awltovhc.com/7i117r6Az42OWWYWRXVOQPTSVSUTOQTQRVRTRPTPPP" alt="TIRERACK.com - Revolutionizing Tire Buying" border="0"/></a>
-
                         <ul class="make__vehicle">
 			<?php foreach ($makeModels as $makeModel):?>
 				<li>

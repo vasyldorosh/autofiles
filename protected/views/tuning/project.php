@@ -6,7 +6,7 @@
 		<section class="table-container">
 		<h2 class="section-name_2 mb30"><?=$project['year']?> <?=$make['title']?> <?=$model['title']?></h2>
 		
-		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>
 		
 		<?php if (isset($photos[0])):?>
 		<img src="<?=$photos[0]?>" alt="photo 1 <?=$this->pageTitle?>">
@@ -18,7 +18,7 @@
 
 
 <br><br>
-<h2 class="section-name_2 mb30">Wheels & tires</h2>
+<h2 class="section-name_2 mb30">Custom wheels & tires</h2>
 	<table>
 	<tbody>
 		
@@ -183,10 +183,24 @@
 	</table>
 	</section>	
 	
-	<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
-	<br>
+	<div class="google_links f_left p_rel">
+					<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
+				</div>
+	
 
-		<?php if (isset($photos[2])):?>
+		
+		<?php if (!empty($project['description']) || !empty($project['source'])):?>
+			<section class="seo-text">
+			<h2 class="section-name_2">Details</h2>
+				<?=$project['description']?>
+				
+				<?php if (!empty($project['source'])):?>
+					<p><a href="<?=$project['source']?>" target="_blank" rel="nofollow">Source</a></p>
+				<?php endif;?>				
+			</section>
+		<?php endif;?>
+	
+                <?php if (isset($photos[2])):?>
 		<img src="<?=$photos[2]?>" alt="photo 3 <?=$this->pageTitle?>">
 		<?php endif;?>
 
@@ -194,17 +208,6 @@
 		<img src="<?=$photos[3]?>" alt="photo 4 <?=$this->pageTitle?>">
 		<?php endif;?>		
 		
-		<?php if (!empty($project['description']) || !empty($project['source'])):?>
-			<section class="times clearfix">
-			<h2 class="section-name_2">Details</h2>
-				<?=$project['description']?>
-				
-				<?php if (!empty($project['source'])):?>
-					<a href="<?=$project['source']?>" target="_blank" rel="nofollow">Source</a>
-				<?php endif;?>				
-			</section>
-		<?php endif;?>
-	
 		<?php if (isset($photos[4])):?>
 		<img src="<?=$photos[4]?>" alt="photo 5 <?=$this->pageTitle?>">
 		<?php endif;?>

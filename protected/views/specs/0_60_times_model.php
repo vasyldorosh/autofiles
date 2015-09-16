@@ -39,19 +39,7 @@
 			</table>
 		</section>		
 		<?php endif;?>		
-	
 
-<section class="make">
-	<h4 class="title_tire">Check the real acceleration of your car</h4>
-<br>
-	<iframe style="width:105px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&amp;OneJS=1&amp;Operation=GetAdHtml&amp;MarketPlace=US&amp;source=ss&amp;ref=ss_til&amp;ad_type=product_link&amp;tracking_id=auto0a70-20&amp;marketplace=amazon&amp;region=US&amp;placement=B00GCG0QAA&amp;asins=B00GCG0QAA&amp;linkId=DQRHYXBRQXZH2BRS&amp;show_border=true&amp;link_opens_in_new_window=true&amp;price_color=333333&amp;amp;bg_color=FFFFFF">
-</iframe>
-  <iframe style="width:105px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&amp;OneJS=1&amp;Operation=GetAdHtml&amp;MarketPlace=US&amp;source=ss&amp;ref=ss_til&amp;ad_type=product_link&amp;tracking_id=auto0a70-20&amp;marketplace=amazon&amp;region=US&amp;placement=B00GC3BMDS&amp;asins=B00GC3BMDS&amp;linkId=7FRCBIUVF3DZA2JJ&amp;show_border=true&amp;link_opens_in_new_window=true">
-</iframe>
-  <iframe style="width:105px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&amp;OneJS=1&amp;Operation=GetAdHtml&amp;MarketPlace=US&amp;source=ss&amp;ref=ss_til&amp;ad_type=product_link&amp;tracking_id=auto0a70-20&amp;marketplace=amazon&amp;region=US&amp;placement=B00IK1GRFS&amp;asins=B00IK1GRFS&amp;linkId=H5JYOMOOQE42X7HQ&amp;show_border=true&amp;link_opens_in_new_window=true">
-</iframe>
-
-</section>
 
 		<section class="table-container">
 			<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> 0-60 mph acceleration across years</h2>
@@ -84,7 +72,7 @@
 			</table>
 		</section>		
 <br>
-               <?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
+               <?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 
 		<?php if (!empty($competitors)):?>
 		<section class="table-container">
@@ -121,7 +109,7 @@
 		<?php endif;?>		
 <br>
 		
-		<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 
 		
 		<?php if (!empty($completionsCarsWithSame060Time)):?>
