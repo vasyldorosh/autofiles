@@ -33,27 +33,28 @@
 			
 		</section>
 		
-<section class="section_tabs">
+		<?php $years = AutoModelYear::getYears();?>
+		<section class="section_tabs">
 				<section class="reviews">
-					
-					
-					<script src="http://autofiles.com/js/lib/jquery.js"></script>	
+						
 					<div id="b1" class="reviews__container active vehickle">
-						<div class="vehicle_div_img p_rel">
-								  					</div>
+						<div class="vehicle_div_img p_rel"></div>
 						<h4 class="title_tire pt20">Find your car's bolt pattern:</h4>
-												<div class="options">
+						<div class="options">
 							<div class="options__block">
-										<div class="options__item">
+								<div class="options__item">
 									<strong>Year</strong>
-									<select id="Filter_model_id">
+									<select id="Filter_year">
 										<option>-no select-</option>
+										<?php foreach ($years as $year):?>
+										<option value="<?=$year?>"><?=$year?></option>
+										<?php endforeach;?>
 									</select>
 								</div>
 								<div class="options__item">
 									<strong>Make</strong>
 									<select id="Filter_make_id">
-										<option value="">-no select-</option>					
+										<option>-no select-</option>
 									</select>
 								</div>
 								<div class="options__item">
@@ -62,11 +63,10 @@
 										<option>-no select-</option>
 									</select>
 								</div>
-						
-								
-								<button style="display: none;" type="submit" class="btn btn_options" data-url="" id="btn_submit_filter_make">GO</button>
+								<button style="display: none;" type="submit" class="btn btn_options" id="btn_submit_filter">GO</button>
 							</div>
-							<br><h2>It's <a href="/wheels/bolt-pattern/4x100/">4x100</h2></a>
+							<div id="search_list">
+							</div>
 						</div>
 					</div>
 					
@@ -74,22 +74,50 @@
 			</section>
 			
 	</div>
+	
 	<div class="l-col2">
 		<section class="">
-			
-					<div class="banner-ver">
-		  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- autofiles300x600 -->
-<ins class="adsbygoogle"
-     style="display:inline-block;width:300px;height:600px"
-     data-ad-client="ca-pub-3243264408777652"
-     data-ad-slot="2443588454"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-		</div>
-
+			<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
 		</section>
 
 	</div>
 </main>
+
+<script src="/js/lib/jquery.js"></script>
+<script>
+$('#Filter_year').change(function(e) {
+	$('#Filter_make_id').empty().append('<option value="">-no select-</option>');
+	$('#Filter_model_id').empty().append('<option value="">-no select-</option>');
+	$.post('/ajax/getMakesByYear', {'year': $(this).val()} , function(response) {
+		$.each(response.items, function(value, lable){
+			$('#Filter_make_id').append('<option value="'+value+'">'+lable+'</option>');
+		});
+	}, 'json');
+});
+
+$('#Filter_make_id').change(function(e) {
+	$('#Filter_model_id').empty();
+	$('#Filter_model_id').append('<option value="">-no select-</option>');
+	$.post('/ajax/getModelsByMake', {'alias': $(this).val(), 'year': $('#Filter_year').val()} , function(response) {
+		$.each(response.items, function(value, lable){
+			$('#Filter_model_id').append('<option value="'+value+'">'+lable+'</option>');
+		});
+	}, 'json');
+});
+
+$('#Filter_model_id').change(function(e) {
+	if ($(this).val() == '') {
+		$('#btn_submit_filter').hide();
+	} else {
+		$('#btn_submit_filter').show();
+	} 
+});
+
+
+$('#btn_submit_filter').click(function(e) {
+	$.post('/wheels/bolt-pattern.html', {'make': $('#Filter_make_id').val(), 'year': $('#Filter_year').val(), 'model':$('#Filter_model_id').val()} , function(response) {
+		$('#search_list').html(response);
+	}, 'html');	
+	
+});
+</script>	

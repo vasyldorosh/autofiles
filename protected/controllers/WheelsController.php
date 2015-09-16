@@ -20,6 +20,30 @@ class WheelsController extends Controller
 	
 	public function actionBoltPattern()
 	{
+		if (Yii::app()->request->isAjaxRequest && Yii::app()->request->isPostRequest) {
+			$make = Yii::app()->request->getParam('make');
+			$model = Yii::app()->request->getParam('model');
+			$year = (int)Yii::app()->request->getParam('year');
+		
+			$criteria=new CDbCriteria;
+			$criteria->compare('t.year', $year);
+			$criteria->compare('Model.alias', $model);
+			$criteria->compare('Make.alias', $make);
+			$criteria->with = array('Model', 'Model.Make', 'BoltPattern');
+			$modelYear = AutoModelYear::model()->find($criteria);
+			
+			if (!empty($modelYear)) {
+				if (!empty($modelYear->BoltPattern)) {
+					echo '<br><h2>It`s <a href="/wheels/bolt-pattern/'.$modelYear->BoltPattern->value.'/">'.$modelYear->BoltPattern->value.'</h2></a>';
+				} else {
+					echo '<br><h2>Bolt Pattern not selected this model</h2></a>';
+				}
+			}
+			
+			Yii::app()->end();
+		}
+		
+		
 		$this->pageTitle = SiteConfig::getInstance()->getValue('seo_wheels_bolt_pattern_title');
 		$this->meta_keywords = SiteConfig::getInstance()->getValue('seo_wheels_bolt_pattern_meta_keywords');
 		$this->meta_description = SiteConfig::getInstance()->getValue('seo_wheels_bolt_pattern_meta_description');		
@@ -135,7 +159,7 @@ class WheelsController extends Controller
 			throw new CHttpException(404,'Page cannot be found.');
 		}		
 			
-		if (Yii::app()->request->isAjaxrequest) {
+		if (Yii::app()->request->isAjaxRequest) {
 			$projects = Project::getModifiedCarsByRim($diametr_id, $width_id, Yii::app()->request->getParam('offset'));
 			$this->renderPartial('_projects', array(
 				'rim' => $rim,

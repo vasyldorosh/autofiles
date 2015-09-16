@@ -63,6 +63,7 @@ class AutoModelYear extends CActiveRecord
 	public function relations()
 	{
 		return array(
+            'BoltPattern' => array(self::BELONGS_TO, 'RimBoltPattern', 'bolt_pattern_id', 'together'=>true,),
             'Model' => array(self::BELONGS_TO, 'AutoModel', 'model_id', 'together'=>true,),
             'PlatformModel' => array(self::BELONGS_TO, 'PlatformModel', 'platform_model_id', 'together'=>true,),
             'Chassis' => array(self::BELONGS_TO, 'AutoModelYearChassis', 'chassis_id', 'together'=>true,),
