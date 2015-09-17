@@ -28,8 +28,9 @@ class AutoModelYearChassis extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, alias', 'required'),
+			array('title, alias, model_id, year_from, year_to', 'required'),
 			array('id', 'safe', 'on' => 'search'),
+			array('year_from, year_to', 'numerical', 'integerOnly' => true),
 		);
 	}	
 	
@@ -41,6 +42,8 @@ class AutoModelYearChassis extends CActiveRecord
 		if (empty($this->alias) && !empty($this->title)) { 
 			$this->alias = $this->title;
 		}
+		
+		$this->alias = str_replace('--', '-', $this->alias);
 		
 		$this->alias = TextHelper::urlSafe($this->alias);
 	}	
@@ -59,6 +62,15 @@ class AutoModelYearChassis extends CActiveRecord
 	public function afterSave()
 	{
 		$this->clearCache();
+		
+		$criteria = new CDbCriteria;
+		$criteria->compare('model_id', $this->model_id);
+		$criteria->addCondition("year >= {$this->year_from} AND year <={$this->year_to}");
+		$items = AutoModelYear::model()->findAll($criteria);
+		foreach ($items as $item) {
+			$item->chassis_id = $this->id;
+			$item->save(false);
+		}
 		
 		return parent::afterSave();
 	}	
@@ -82,8 +94,21 @@ class AutoModelYearChassis extends CActiveRecord
 			'id' => 'ID',
 			'title' => Yii::t('admin', 'Title'),
 			'alias' => Yii::t('admin', 'Alias'),
+			'model_id' => Yii::t('admin', 'Model'),
+			'year_from' => Yii::t('admin', 'Year from'),
+			'year_to' => Yii::t('admin', 'Year to'),
 		);
 	}
+	
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		return array(
+            'Model' => array(self::BELONGS_TO, 'AutoModel', 'model_id', 'together'=>true,),
+        );
+	}	
 	
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -97,8 +122,11 @@ class AutoModelYearChassis extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('title',$this->title);
-		$criteria->compare('alias',$this->alias);
+		$criteria->compare('model_id',$this->model_id);
+		$criteria->compare('year_from',$this->year_from);
+		$criteria->compare('year_to',$this->year_to);
+		$criteria->compare('title',$this->title, true);
+		$criteria->compare('alias',$this->alias, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

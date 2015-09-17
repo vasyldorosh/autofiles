@@ -1,8 +1,8 @@
-<?php $this->pageTitle = Yii::app()->name.' - ' . Yii::t('admin', 'Chassiss');?>
+<?php $this->pageTitle = Yii::app()->name.' - ' . Yii::t('admin', 'Generations');?>
 
 <div class="container inner-page white img-rounded">
     <div class="page-header">
-        <h3><?=Yii::t('admin', 'Chassiss')?></h3>
+        <h3><?=Yii::t('admin', 'Generations')?></h3>
     </div>
     
 	<?php $this->widget('AdminTbAlert', array(
@@ -46,6 +46,17 @@
 					),	
 				),			
 				'alias',				
+				array(
+					'class'=>'ELinkUpdateColumn',
+					'name' => 'model_id',
+					'value' => 'isset($data->Model)?$data->Model->title:""',	
+					'filter' => AutoModel::getAllWithMake(),
+					'htmlOptions' => array(
+						'access' => 'modelYear.update', 
+					),					
+				),	
+				'year_from',
+				'year_to',				
             );
 			
 		if (Access::is('modelYear.chassis.update') || Access::is('modelYear.chassis.delete')) {

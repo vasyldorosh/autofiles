@@ -126,7 +126,7 @@ body {
 					array('label' => Yii::t('admin', 'Basket'), 'url' => Yii::app()->createUrl('admin/modelYear/basket'), 'visible'=>Access::is('modelYear.basket')),
 					array('label' => Yii::t('admin', 'Empty competitors'), 'url' => Yii::app()->createUrl('admin/modelYear/emptyCompetitors'), 'visible'=>Access::is('modelYear')),
 					array('label' => Yii::t('admin', 'Empty photos'), 'url' => Yii::app()->createUrl('admin/modelYear/emptyPhotos'), 'visible'=>Access::is('modelYear')),
-					array('label' => Yii::t('admin', 'Chassis'), 'url' => Yii::app()->createUrl('admin/modelYearChassis'), 'visible'=>Access::is('modelYear.chassis')),
+					array('label' => Yii::t('admin', 'Generations'), 'url' => Yii::app()->createUrl('admin/modelYearChassis'), 'visible'=>Access::is('modelYear.chassis')),
 					array('label' => Yii::t('admin', 'Empty tires'), 'url' => Yii::app()->createUrl('admin/modelYear/emptyTires'), 'visible'=>Access::is('modelYear')),
 					array('label' => Yii::t('admin', 'Empty 0-60'), 'url' => Yii::app()->createUrl('admin/modelYear/empty060'), 'visible'=>Access::is('completion')),
 					array('label' => Yii::t('admin', 'Platform Category'), 'url' => Yii::app()->createUrl('admin/platformCategory'), 'visible'=>Access::is('modelYear.platformCategory')),

@@ -44,7 +44,7 @@ class AutoModelYear extends CActiveRecord
 		return array(
 			array('year, model_id', 'required'),
             array('center_bore_id, thread_size_id, bolt_pattern_id, offset_range_to_id, offset_range_from_id, rim_width_to_id, tire_rim_diameter_to_id, rim_width_from_id, tire_rim_diameter_from_id, id, chassis_id, year', 'numerical', 'integerOnly' => true,),		
-			array('is_active, is_deleted, is_delete_photo, platform_model_id', 'numerical', 'integerOnly' => true),
+			array('is_active, is_deleted, is_delete_photo, platform_model_id, year', 'numerical', 'integerOnly' => true),
             array('post_tires, post_competitors, post_tires_related, post_rims_related', 'safe',),					
             array('description', 'safe',),		
             array('file', 'length', 'max' => 128),
