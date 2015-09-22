@@ -45,7 +45,12 @@
 						'access' => 'modelYear.chassis.update', 
 					),	
 				),			
-				'alias',				
+				'alias',
+				array(
+					'name' => 'make_id',
+					'value' => '(isset($data->Model) && isset($data->Model->Make))?$data->Model->Make->title:""',	
+					'filter' => AutoMake::getAll(),
+				),				
 				array(
 					'class'=>'ELinkUpdateColumn',
 					'name' => 'model_id',

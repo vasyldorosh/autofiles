@@ -1480,4 +1480,38 @@ class AutoModelYear extends CActiveRecord
 		return $data;		
 	}	
 	
+	public static function getRimRange($model_year_id)
+	{
+		$model_year_id = (int) $model_year_id;
+		$key	  = Tags::TAG_MODEL_YEAR . '_getRimRange_' . $model_year_id;
+		$data	  = Yii::app()->cache->get($key);
+		
+		if ($data === false) {
+			$data = array();
+			
+				$sql = "SELECT
+							tire_rim_diameter_from_id,
+							rim_width_from_id,
+							tire_rim_diameter_to_id,
+							rim_width_to_id
+						FROM auto_model_year
+						WHERE id = {$model_year_id}";
+				
+				$row = Yii::app()->db->createCommand($sql)->queryRow();				
+				if (!empty($row)) {
+					$diameters 	= TireRimDiameter::getList();
+					$widths 	= RimWidth::getAll();
+												
+					$data['diameter_from'] = isset($diameters[$row['tire_rim_diameter_from_id']])?$diameters[$row['tire_rim_diameter_from_id']]:'';
+					$data['width_from'] = isset($widths[$row['rim_width_from_id']])?$widths[$row['rim_width_from_id']]:'';
+					$data['diameter_to'] = isset($diameters[$row['tire_rim_diameter_to_id']])?$diameters[$row['tire_rim_diameter_to_id']]:'';
+					$data['width_to'] = isset($widths[$row['rim_width_to_id']])?$widths[$row['rim_width_to_id']]:'';
+				}	
+			
+			Yii::app()->cache->get($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR));				
+		}
+
+		return $data;		
+	}	
+	
 }

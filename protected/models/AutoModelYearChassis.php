@@ -2,6 +2,8 @@
 
 class AutoModelYearChassis extends CActiveRecord
 {		
+	public $make_id;
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -29,8 +31,14 @@ class AutoModelYearChassis extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('title, alias, model_id, year_from, year_to', 'required'),
-			array('id', 'safe', 'on' => 'search'),
+			array('id, make_id', 'safe'),
 			array('year_from, year_to', 'numerical', 'integerOnly' => true),
+			array(
+				'year_from',
+				'compare',
+				'compareAttribute'=>'year_to',
+				'operator'=>'<',
+			),			
 		);
 	}	
 	
@@ -97,6 +105,7 @@ class AutoModelYearChassis extends CActiveRecord
 			'model_id' => Yii::t('admin', 'Model'),
 			'year_from' => Yii::t('admin', 'Year from'),
 			'year_to' => Yii::t('admin', 'Year to'),
+			'make_id' => Yii::t('admin', 'Make'),
 		);
 	}
 	
@@ -121,12 +130,14 @@ class AutoModelYearChassis extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('model_id',$this->model_id);
-		$criteria->compare('year_from',$this->year_from);
-		$criteria->compare('year_to',$this->year_to);
-		$criteria->compare('title',$this->title, true);
-		$criteria->compare('alias',$this->alias, true);
+		$criteria->compare('t.id',$this->id);
+		$criteria->compare('t.model_id',$this->model_id);
+		$criteria->compare('t.year_from',$this->year_from);
+		$criteria->compare('Model.make_id',$this->make_id);
+		$criteria->compare('t.year_to',$this->year_to);
+		$criteria->compare('t.title',$this->title, true);
+		$criteria->compare('t.alias',$this->alias, true);
+		$criteria->with = array('Model', 'Model.Make');
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

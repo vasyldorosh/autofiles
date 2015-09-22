@@ -44,6 +44,13 @@
 						<td class="spec-value">...</td>
 					</tr>						
 					
+					<?php $rim = AutoModelYear::getRimRange($modelYear['id'])?>
+					<tr>
+						<td>
+							<a class="rim" href="/wheels/<?=$make['alias']?>/<?=$model['alias']?>#<?=$modelYear['year']?>">Corolla wheels</a>
+						</td>		
+						<td class="spec-value"><?=$rim['diameter_from']?>x<?=$rim['width_from']?> &ndash; <?=$rim['diameter_to']?>x<?=$rim['width_to']?></td>
+					</tr>					
  
 					<?php $rangeTireSize = AutoModel::getMinMaxTireSizeYear($modelYear['id']);?>
 					<?php if (!empty($rangeTireSize)):?>
