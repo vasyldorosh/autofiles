@@ -142,8 +142,8 @@ class ImportCommand extends CConsoleCommand
 				
 				$url = "http://www.autoblog.com/car-finder/year-{$year}/{$page}/";
 				$content = CUrlHelper::getPage($url);
-				preg_match_all('/<a class="overviewTitle" href="\/buy\/'.$year.'\-(.*?)\-(.*?)\/">(.*?)<\/a>/', $content, $matches);
-				preg_match_all('/<div class="carImg"><a href="\/buy\/(.*?)\/"><img src="(.*?)" alt="(.*?)" \/><\/a><\/div>/', $content, $matchesImage);
+				preg_match_all('/<div class="h4"><a class="desc__link" href="\/buy\/'.$year.'\-(.*?)\-(.*?)\/">(.*?)<\/a></div>/', $content, $matches);
+				preg_match_all('/<div class="col col-tn-6 col-sm-3 col--photo"><a href="\/buy\/(.*?)\/"><img class="img-responsive" src="(.*?)" alt="(.*?)" \/><\/a><\/div>/', $content, $matchesImage);
 				$imagesData = array();
 				foreach ($matchesImage[0] as $key=>$val) {	
 					$imagesData[trim($matchesImage[3][$key])] = $matchesImage[2][$key];
