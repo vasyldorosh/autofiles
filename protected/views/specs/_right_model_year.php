@@ -47,7 +47,7 @@
 					<?php $rim = AutoModelYear::getRimRange($modelYear['id'])?>
 					<tr>
 						<td>
-							<a class="rim" href="/wheels/<?=$make['alias']?>/<?=$model['alias']?>#<?=$modelYear['year']?>">Corolla wheels</a>
+							<a class="rim" href="/wheels/<?=$make['alias']?>/<?=$model['alias']?>#<?=$modelYear['year']?>">Wheels</a>
 						</td>		
 						<td class="spec-value"><?=$rim['diameter_from']?>x<?=$rim['width_from']?> &ndash; <?=$rim['diameter_to']?>x<?=$rim['width_to']?></td>
 					</tr>					
