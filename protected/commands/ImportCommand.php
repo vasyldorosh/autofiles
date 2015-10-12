@@ -243,16 +243,17 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionCatalog()
 	{	
-		
+		/*
 		$this->actionMake();
 		$this->actionModel();
 		$parsedModelYearIds = $this->actionModelYear(date('Y'));
 		$parsedModelYearIds = array_merge($parsedModelYearIds, $this->actionModelYear(date('Y')+1));
+		*/
 		
-		//$parsedModelYearIds = range(7473, 7480);
+		$parsedModelYearIds = range(7473, 7480);
 	
 		if (!empty($parsedModelYearIds)) {
-			$this->actionModelYearPhoto($parsedModelYearIds);
+			//$this->actionModelYearPhoto($parsedModelYearIds);
 			$completionIds = $this->actionCompletion($parsedModelYearIds);
 			
 			//$completionIds = range(27814, 27765);
@@ -381,8 +382,9 @@ class ImportCommand extends CConsoleCommand
 		
 			$url = "http://www.autoblog.com/buy/{$autoModelYear->year}-".str_replace(array("-", " ", '&'), array("_", "_", "_"), $autoModelYear->Model->Make->title)."-".str_replace(array(" ", "-", "&"), array("+", "_", "_"), $autoModelYear->Model->title)."/specs/";
 			$content = CUrlHelper::getPage($url, '', '');
-			
-			preg_match_all('/<a href="\/buy\/'.$autoModelYear->year.'-'.$autoModelYear->Model->Make->title.'-'.$autoModelYear->Model->title.'-(.*?)" class="btn btn-sm pull-left visible-sm visible-xs visible-tn">Explore<\/a>/', $content, $matches);			
+			$p = '/<a href="\/buy\/'.$autoModelYear->year.'-'.$autoModelYear->Model->Make->title.'-'.str_replace('/', '\/', $autoModelYear->Model->title).'-(.*?)" class="btn btn-sm pull-left visible-sm visible-xs visible-tn">Explore<\/a>/';
+			//echo $p . "\n";
+			preg_match_all($p, $content, $matches);			
 			foreach ($matches[1] as $match) {
 				$expl = explode('/', $match);
 				$completion = $this->getCompletion(array('model_year_id'=>$autoModelYear->id,'alias'=>$expl[0]));
