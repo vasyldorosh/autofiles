@@ -16,7 +16,7 @@ class ImportCommand extends CConsoleCommand
 		$rows = Yii::app()->db->createCommand($sql)->queryAll();
 		$ids = array();
 		foreach ($rows as $row) {
-			$ids[] = $row['model_year_id'];
+			$ids[$row['model_year_id']] = $row['model_year_id'];
 		}
 		
 		if (!empty($ids)) {
@@ -35,7 +35,6 @@ class ImportCommand extends CConsoleCommand
 					$this->actionCompletionDetails($completionIds);
 					$this->actionSpecs();
 					$this->actionCompletionData($completionIds);
-					$this->actionCompetitor();
 				}
 			}	
 		}
@@ -125,7 +124,7 @@ class ImportCommand extends CConsoleCommand
 		}
 	}	
 	
-	public function actionModelYear()
+	public function actionModelYear($year)
 	{
 		$modelYearIds = array();
 		$dataMake = array();
@@ -133,54 +132,82 @@ class ImportCommand extends CConsoleCommand
 			'Chrysler' => array('Town-Country'=>228),
 		);
 		
-		$year = date('Y');
 		$content = CUrlHelper::getPage("http://www.autoblog.com/car-finder/year-{$year}/");
-		preg_match_all('/<span class="pageCntr"> Page <strong>1<\/strong> of <strong>(.*?)<\/strong><\/span>/', $content, $matchesPager);
-		if (isset($matchesPager[1][1]) && is_numeric($matchesPager[1][1])) {
-			for ($page=1; $page<=$matchesPager[1][1]; $page++) {
-				$notFound = false;
-				
-				$url = "http://www.autoblog.com/car-finder/year-{$year}/{$page}/";
-				$content = CUrlHelper::getPage($url);
-				preg_match_all('/<div class="h4"><a class="desc__link" href="\/buy\/'.$year.'\-(.*?)\-(.*?)\/">(.*?)<\/a></div>/', $content, $matches);
-				preg_match_all('/<div class="col col-tn-6 col-sm-3 col--photo"><a href="\/buy\/(.*?)\/"><img class="img-responsive" src="(.*?)" alt="(.*?)" \/><\/a><\/div>/', $content, $matchesImage);
-				$imagesData = array();
-				foreach ($matchesImage[0] as $key=>$val) {	
-					$imagesData[trim($matchesImage[3][$key])] = $matchesImage[2][$key];
+		preg_match_all('/<span id="TotalResults">(.*?)<\/span>/', $content, $matchesPager);
+		
+		//DELETE
+		//AutoModelYear::model()->deleteAllByAttributes(['year'=>$year]);
+		
+		if (isset($matchesPager[1][0]) && is_numeric($matchesPager[1][0])) {
+			for ($page=1; $page<=$matchesPager[1][0]; $page++) {
+					
+				$url = "http://www.autoblog.com/car-finder/{$year}/";
+				if ($page > 1) {
+					$url.= 'pg-'.$page.'/';
 				}
 				
+				//DELETE
+				//if ($page > 2) {continue;}
+				
+				//echo "PAGE: $page - $url \n";	
+				
+				$content = CUrlHelper::getPage($url);
+				
+				preg_match_all('/<div class="trim__desc hidden-sm hidden-md hidden-lg"><div class="h4"><a class="desc__link" href="\/buy\/'.$year.'\-(.*?)\-(.*?)\/">'.$year.'(.*?)<\/a><\/div>/', $content, $matches);
+				preg_match_all('/<img class="img-responsive" src="(.*?)" alt="'.$year.'(.*?)" \/>/', $content, $matchImgs);
+				
+				$imagesData = array();
+				foreach ($matchImgs[1] as $key=>$img) {
+					if (strpos($img, 'img-responsive')) {
+						$expl = explode('<img class="img-responsive" src="', $img);
+						$imagesData[$key] = end($expl);
+					} else {
+						$imagesData[$key] = $img;
+					}
+				}
+											
 				foreach ($matches[1] as $key=>$makeTitle) {
 					$modelTitle = $matches[2][$key];
 					$makeTitle	= str_replace(array('_', '+'), array('-', ' '), $makeTitle);
 					$modelTitle	= str_replace(array('_', '+'), array('-', ' '), $modelTitle);
-					
-					
+											
 					$aliasMake = TextHelper::urlSafe(str_replace(' ', '+', $makeTitle));
 					$modelAlias = TextHelper::urlSafe(str_replace(' ', '+', $modelTitle));
 					
 					if (!isset($dataMake[$aliasMake])) {
 						$make = AutoMake::model()->findByAttributes(array('alias'=>$aliasMake));
-						if (!empty($make)) {
-							$dataMake[$aliasMake] = $make->id;
-						} else {
-							echo "Make $makeTitle not found \n";
-							$notFound = true;
+						if (empty($make)) {
+							$make = new AutoMake;
+							$make->title = $makeTitle;
+							$make->alias = $aliasMake;
+							$make->save();
+							
+							echo "created: Make $makeTitle  \n";							
 						}
+						
+						$dataMake[$aliasMake] = $make->id;
 					}
 					
 					
 					
 					if (isset($dataMake[$aliasMake]) && !isset($dataModel[$aliasMake][$modelAlias])) {
 						$model = AutoModel::model()->findByAttributes(array('alias'=>$modelAlias, 'make_id'=>$dataMake[$aliasMake]));
-						if (!empty($model)) {
-							$dataModel[$aliasMake][$modelAlias] = $model->id;
-						} else { 
-							echo "model $makeTitle $modelTitle not found \n";
-							$notFound = true;
+						if (empty($model)) {
+							
+							$model = new AutoModel;
+							$model->title = $modelTitle;
+							$model->alias = $modelAlias;
+							$model->make_id = $dataMake[$aliasMake];
+							$model->save();
+							
+							echo "created: model $makeTitle $modelTitle \n";
 						}
+						
+						$dataModel[$aliasMake][$modelAlias] = $model->id;
+				
 					}
 					
-					if (!$notFound) {
+					if (1) {
 						$modelYear = AutoModelYear::model()->findByAttributes(array(
 							'year' => $year,
 							'model_id' => $dataModel[$aliasMake][$modelAlias],
@@ -189,9 +216,8 @@ class ImportCommand extends CConsoleCommand
 						if (empty($modelYear)) {
 							$modelYear = new AutoModelYear;
 							
-							$keyImage = "{$year} {$model->Make->title} {$model->title}";
-							if (isset($imagesData[$keyImage])) {
-								$modelYear->file_url = $imagesData[$keyImage];
+							if (isset($imagesData[$key])) {
+								$modelYear->file_url = $imagesData[$key];
 								$modelYear->file_name = "{$model->Make->title}-{$model->title}-{$year}.jpg";	
 							}
 													
@@ -200,269 +226,51 @@ class ImportCommand extends CConsoleCommand
 							$modelYear->model_id = $dataModel[$aliasMake][$modelAlias];
 							if ($modelYear->save()) {
 								$modelYearIds[] = $modelYear->id;
-								echo "ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
-							} else {
-								echo "ModelYear: $year $makeTitle $modelTitle \n";
-								print_r($modelYear->errors);
-							}							
+								echo "created: ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
+							} 							
+						} else {
+							echo "isset: ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
 						}
 					}	
 				}
 			}
+		} else {
+			echo __FUNCTION__ . ": paggionation \n";
 		}
 		
 		return $modelYearIds;
 	}	
-	
-	public function actionModelYearNext()
-	{
-		echo "============================================== \n";
-		
-		$modelYearIds = array();
-		$dataMake = array();
-		$dataModel = array(
-			'Chrysler' => array('Town-Country'=>228),
-		);
-		
-		$year = date('Y') + 1;		
-		if (true) {
-			for ($page=1; $page<=10; $page++) {
-				$notFound = false;
-				
-				$p=($page==1)?"":"pg-{$page}/";
-				$url = "http://www.autoblog.com/car-finder/{$year}/{$p}";
-				//echo $url . "\n";
-				$content = CUrlHelper::getPage($url);
-				$content = str_replace(array("\n", "\t", "\r"), "", $content);
-				
-				preg_match_all('/<div class="trim__desc hidden-xs hidden-tn"><div class="h4"><a class="desc__link" href="http:\/\/www.autoblog.com\/buy\/'.$year.'\-(.*?)\-(.*?)\/">(.*?)<\/a><\/div><\/div>/', $content, $matches);
-				preg_match_all('/<a class="desc__link" href="http:\/\/www.autoblog.com\/buy\/'.$year.'\-(.*?)\-(.*?)\/">'.$year.'Kia Sorento<\/a>/', $content, $matchesTitle);
-				preg_match_all('/<div class="col col-tn-6 col-sm-3 col--photo">(.*?)src="(.*?)" alt="(.*?)"(.*?)<\/div>/', $content, $matchesImage);
-
-				$imagesData = array();
-				foreach ($matchesImage[0] as $key=>$val) {	
-					$imagesData[trim($matchesImage[3][$key])] = $matchesImage[2][$key];
-				}
-					
-				/*	
-				echo 'title = ' . count($matchesTitle) . "\n";	
-				echo 'matches = ' . count($matches) . "\n";	
-				echo 'images = ' . count($imagesData) . "\n";	
-				echo "-----------------------------------------\n";	
-				*/		
-			
-				foreach ($matches[1] as $key=>$makeTitle) {
-					$modelTitle = $matches[2][$key];
-					
-					$makeTitle	= str_replace(array('_', '+'), array('-', ' '), $makeTitle);
-					$modelTitle	= str_replace(array('_', '+'), array('-', ' '), $modelTitle);
-					
-					
-					$aliasMake = TextHelper::urlSafe(str_replace(' ', '+', $makeTitle));
-					$modelAlias = TextHelper::urlSafe(str_replace(' ', '+', $modelTitle));
-					
-					if (!isset($dataMake[$aliasMake])) {
-						$make = AutoMake::model()->findByAttributes(array('alias'=>$aliasMake));
-						if (!empty($make)) {
-							$dataMake[$aliasMake] = $make->id;
-						} else {
-							echo "Make $makeTitle not found \n";
-							$notFound = true;
-						}
-					}
-					
-					if (isset($dataMake[$aliasMake]) && !isset($dataModel[$aliasMake][$modelAlias])) {
-						$model = AutoModel::model()->findByAttributes(array('alias'=>$modelAlias, 'make_id'=>$dataMake[$aliasMake]));
-						if (!empty($model)) {
-							$dataModel[$aliasMake][$modelAlias] = $model->id;
-						} else { 
-							echo "model $makeTitle $modelTitle not found \n";
-							$notFound = true;
-						}
-					}
-					
-					if (!$notFound) {
-						$modelYear = AutoModelYear::model()->findByAttributes(array(
-							'year' => $year,
-							'model_id' => $dataModel[$aliasMake][$modelAlias],
-						));
-						
-						if (empty($modelYear)) {
-							$modelYear = new AutoModelYear;
-							
-							$keyImage = "{$year} {$model->Make->title} {$model->title}";
-							if (isset($imagesData[$keyImage])) {
-								$modelYear->file_url = $imagesData[$keyImage];
-								$modelYear->file_name = "{$model->Make->title}-{$model->title}-{$year}.jpg";	
-							}
-													
-							$modelYear->is_active = 1;
-							$modelYear->year = $year;
-							$modelYear->model_id = $dataModel[$aliasMake][$modelAlias];
-							if ($modelYear->save()) {
-								$modelYearIds[] = $modelYear->id;
-								echo "ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
-							} else {
-								echo "ModelYear: $year $makeTitle $modelTitle \n";
-								print_r($modelYear->errors);
-							}							
-						}
-					}	
-				}
-			}
-		}
-		
-		print_r($modelYearIds);
-		
-		return $modelYearIds;
-	}	
-	
-	public function actionModelYearNextT()
-	{
-		echo "============================================== \n";
-		
-		$dataModelYears = array();
-		$count = 0;
-		$countNotIsset = 0;
-		$countIsset = 0;
-		$modelYearIds = array();
-		$dataMake = array();
-		$dataModel = array(
-			'Chrysler' => array('Town-Country'=>228),
-		);
-		
-		$year = date('Y') + 1;		
-		if (true) {
-			for ($page=1; $page<=10; $page++) {
-				$notFound = false;
-				
-				$p=($page==1)?"":"pg-{$page}/";
-				$url = "http://www.autoblog.com/car-finder/{$year}/{$p}";
-				//echo $url . "\n";
-				$content = CUrlHelper::getPage($url);
-				$content = str_replace(array("\n", "\t", "\r"), "", $content);
-				
-				preg_match_all('/<div class="trim__desc hidden-xs hidden-tn"><div class="h4"><a class="desc__link" href="http:\/\/www.autoblog.com\/buy\/'.$year.'\-(.*?)\-(.*?)\/">(.*?)<\/a><\/div><\/div>/', $content, $matches);
-				preg_match_all('/<a class="desc__link" href="http:\/\/www.autoblog.com\/buy\/'.$year.'\-(.*?)\-(.*?)\/">'.$year.'Kia Sorento<\/a>/', $content, $matchesTitle);
-				preg_match_all('/<div class="col col-tn-6 col-sm-3 col--photo">(.*?)src="(.*?)" alt="(.*?)"(.*?)<\/div>/', $content, $matchesImage);
-
-				$imagesData = array();
-				foreach ($matchesImage[0] as $key=>$val) {	
-					$imagesData[trim($matchesImage[3][$key])] = $matchesImage[2][$key];
-				}
-	
-				echo "page {$page} = " . count($matches[1]) . "\n";
-	
-				$count+= count($matches[1]);
-				
-				foreach ($matches[1] as $key=>$makeTitle) {
-					$modelTitle = $matches[2][$key];
-					
-					$makeTitle	= str_replace(array('_', '+'), array('-', ' '), $makeTitle);
-					$modelTitle	= str_replace(array('_', '+'), array('-', ' '), $modelTitle);
-					
-					
-					$aliasMake = TextHelper::urlSafe(str_replace(' ', '+', $makeTitle));
-					$modelAlias = TextHelper::urlSafe(str_replace(' ', '+', $modelTitle));
-					
-					if (!isset($dataMake[$aliasMake])) {
-						$make = AutoMake::model()->findByAttributes(array('alias'=>$aliasMake));
-						if (!empty($make)) {
-							$dataMake[$aliasMake] = $make->id;
-						} else {
-							echo "Make $makeTitle not found \n";
-							$notFound = true;
-						}
-					}
-					
-					if (isset($dataMake[$aliasMake]) && !isset($dataModel[$aliasMake][$modelAlias])) {
-						$model = AutoModel::model()->findByAttributes(array('alias'=>$modelAlias, 'make_id'=>$dataMake[$aliasMake]));
-						if (!empty($model)) {
-							$dataModel[$aliasMake][$modelAlias] = $model->id;
-						} else { 
-							echo "model $makeTitle $modelTitle not found \n";
-							$notFound = true;
-						}
-					}
-						
-					if (!$notFound) {
-						
-						$attr = array(
-							'year' => $year,
-							'model_id' => $dataModel[$aliasMake][$modelAlias],
-						);
-						
-						$modelYear = AutoModelYear::model()->findByAttributes($attr);
-						
-						if (empty($modelYear)) {
-							$modelYear = new AutoModelYear;
-							
-							$keyImage = "{$year} {$model->Make->title} {$model->title}";
-							if (isset($imagesData[$keyImage])) {
-								$modelYear->file_url = $imagesData[$keyImage];
-								$modelYear->file_name = "{$model->Make->title}-{$model->title}-{$year}.jpg";	
-							}
-													
-							$modelYear->is_active = 1;
-							$modelYear->year = $year;
-							$modelYear->model_id = $dataModel[$aliasMake][$modelAlias];
-							if ($modelYear->save()) {
-								$modelYearIds[] = $modelYear->id;
-								echo "ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
-							} else {
-								echo "ModelYear: $year $makeTitle $modelTitle \n";
-								print_r($modelYear->errors);
-							}	
-							$countNotIsset++;
-						} else {
-							$countIsset++;
-							$dataModelYears[$modelAlias] = $modelYear->model_id;
-						}
-					}	
-				}
-			}
-		}
-		
-		echo "count = $count \n";
-		echo "countIsset = $countIsset \n";
-		echo "countNotIsset = $countNotIsset \n";
-		print_r($dataModelYears);
-		//print_r($modelYearIds);
-		
-		return $modelYearIds;
-	}	
-	
-	
 	
 	public function actionCatalog()
 	{	
+		
 		$this->actionMake();
 		$this->actionModel();
-		$parsedModelYearIds = $this->actionModelYear();
-		$parsedModelYearIds = array_merge($parsedModelYearIds, $this->actionModelYearNext());
+		$parsedModelYearIds = $this->actionModelYear(date('Y'));
+		$parsedModelYearIds = array_merge($parsedModelYearIds, $this->actionModelYear(date('Y')+1));
 		
-		//$parsedModelYearIds = range(5887, 5896);
-
+		//$parsedModelYearIds = range(7473, 7480);
+	
 		if (!empty($parsedModelYearIds)) {
-			//$this->actionModelYearPhoto($parsedModelYearIds);
+			$this->actionModelYearPhoto($parsedModelYearIds);
 			$completionIds = $this->actionCompletion($parsedModelYearIds);
 			
-			//$completionIds = range(27250, 28000);
+			//$completionIds = range(27814, 27765);
 			
 			if (!empty($completionIds)) {
 				$this->actionCompletionDetails($completionIds);
 				$this->actionSpecs();
 				$this->actionCompletionData($completionIds);
-				$this->actionCompetitor();
 			}
 		}
 		
 		$this->actionNotModelYear();
 		$this->actionEmptyCompletion();
+		
+		CUrlHelper::getPage('http://autofiles.com/site/flush', '', '');
 	}	
 	
 	public function actionEmptyCompletion() {
-		Yii::app()->cache->flush();
 		$sql = "SELECT * FROM  `auto_completion` WHERE  `specs_msrp` IS NULL";
 		$completionIds = array();
 		$rows = Yii::app()->db->createCommand($sql)->queryAll();
@@ -474,7 +282,6 @@ class ImportCommand extends CConsoleCommand
 			$this->actionCompletionDetails($completionIds);
 			$this->actionSpecs();
 			$this->actionCompletionData($completionIds);
-			$this->actionCompetitor();
 		}		
 	}
 	
@@ -484,16 +291,16 @@ class ImportCommand extends CConsoleCommand
 		$criteria->addInCondition('id', $ids);		
 		$autoModels = (array)AutoModelYear::model()->findAll($criteria);
 		foreach ($autoModels as $keyYear=>$autoModelYear) {
-			$url = "http://autoblog.com".$autoModelYear->url."photos/";
+			$url = "http://autoblog.com/buy/{$autoModelYear->year}-".str_replace(array(' '), array('+'), $autoModelYear->Model->Make->title)."-".str_replace(array(' '), array('+'), $autoModelYear->Model->title)."/photos/";
 			
 			$content = CUrlHelper::getPage($url, '', '');
-			preg_match_all('/<a href="http:\/\/o.aolcdn.com\/commerce\/images\/(.*?)_Large.jpg">/', $content, $matches);
+			preg_match_all('/<img alt=(.*?)" class="rsImg" data-rsBigImg="(.*?)" data-rsTmb="(.*?)" src="(.*?)" \/><\/div>/', $content, $matches);
 			
-			echo "Model Year photos " . $autoModelYear->id  . "\n" ;
 			
-			if (isset($matches[1])) {
-				foreach ($matches[1] as $file) {
-					$file_url = "http://o.aolcdn.com/commerce/images/{$file}_Large.jpg";
+			echo "created Model Year photos " . $autoModelYear->id  . "\n" ;
+			
+			if (isset($matches[2])) {
+				foreach ($matches[2] as $file_url) {
 					$photo = new AutoModelYearPhoto;
 					$photo->file_url = $file_url;
 					$photo->year_id = $autoModelYear->id;
@@ -574,39 +381,14 @@ class ImportCommand extends CConsoleCommand
 		
 			$url = "http://www.autoblog.com/buy/{$autoModelYear->year}-".str_replace(array("-", " ", '&'), array("_", "_", "_"), $autoModelYear->Model->Make->title)."-".str_replace(array(" ", "-", "&"), array("+", "_", "_"), $autoModelYear->Model->title)."/specs/";
 			$content = CUrlHelper::getPage($url, '', '');
-			preg_match_all('/<liclass="tools_first"><ahref="http:\/\/www.autoblog.com\/cars\-compare\?v1=(.*?)&amp;type=other">CompareCars<\/a><\/li>/', str_replace(array("\n", "\t", "\r"," "), "", $content), $matches);			
-						
-			if (!isset($matches[1][0]))	{
-				$makeAlias = str_replace(array("-", " ", '&'), array("_", "_", "_"), $autoModelYear->Model->Make->title);
-				$makeAlias = str_replace('_', '+', $makeAlias);
-				$url = "http://www.autoblog.com/buy/{$autoModelYear->year}-".$makeAlias."-".str_replace(array(" ", "-", "&"), array("+", "_", "_"), $autoModelYear->Model->title)."/specs/";
-				$url = str_replace('+_+', '_', $url);
-				$content = CUrlHelper::getPage($url, '', '');
-				preg_match_all('/<liclass="tools_first"><ahref="http:\/\/www.autoblog.com\/cars\-compare\?v1=(.*?)&amp;type=other">CompareCars<\/a><\/li>/', str_replace(array("\n", "\t", "\r"," "), "", $content), $matches);			
-			}
-
-			//$url = str_replace(array('+'), array(''), $url);
-			echo "$url \n";
 			
-						
-			if (isset($matches[1][0])) {					
-				$linkCompare = 'http://www.autoblog.com/cars-compare?v1='.$matches[1][0].'&type=other';
-				$contentCompare = CUrlHelper::getPage($linkCompare, '', '');	
-				preg_match_all('/<select name="trim_1" class="trimSelecter" id="compTrimList1">(.*?)<\/select>/', str_replace(array("\n", "\t", "\r"), "", $contentCompare), $matches);
-				if (isset($matches[1][0])) {
-					preg_match_all('/<option value="(.*?)">(.*?)<\/option>/', $matches[1][0], $matchOptions);
-					foreach ($matchOptions[1] as $key=>$code) {
-						$completion = $this->getCompletion(array('model_year_id'=>$autoModelYear->id,'code'=>$code, 'title'=>$matchOptions[2][$key]));
-						echo "\t  Completion " . $completion->id . ' - ' . $completion->title . "\n";
-						$completionIds[] = $completion->id;
-					}
-				}
-				
-				echo "MATCH OK \n";
-				
-			} else {
-				echo "MATCH ERR \n";
-			}
+			preg_match_all('/<a href="\/buy\/'.$autoModelYear->year.'-'.$autoModelYear->Model->Make->title.'-'.$autoModelYear->Model->title.'-(.*?)" class="btn btn-sm pull-left visible-sm visible-xs visible-tn">Explore<\/a>/', $content, $matches);			
+			foreach ($matches[1] as $match) {
+				$expl = explode('/', $match);
+				$completion = $this->getCompletion(array('model_year_id'=>$autoModelYear->id,'alias'=>$expl[0]));
+				$completionIds[] = $completion->id;
+				echo "created  Completion " . $completion->id . "\n";				
+			} 
 		}
 		
 		return $completionIds;
@@ -618,43 +400,47 @@ class ImportCommand extends CConsoleCommand
 	private function actionCompletionDetails($ids)
 	{
 			$criteria = new CDbCriteria();
-			$criteria->addInCondition('id', $ids);	//
+			$criteria->addInCondition('t.id', $ids);	//
+			$criteria->with = array('ModelYear', 'ModelYear.Model', 'ModelYear.Model.Make');	//
 			
 			$completions = AutoCompletion::model()->findAll($criteria);
 			
 			foreach ($completions as $key=>$completion) {
 				AutoCompletionSpecsTemp::model()->deleteAllByAttributes(array('completion_id'=>$completion->id));
-				$url = "http://autoblog.com/cars-compare?cur_page=details&v1={$completion->code}&v2=&v3=&v4=&v5=&v6=&v7=&v8=&v9=";
+				$url = "http://www.autoblog.com/buy/".$completion->ModelYear->year."-".str_replace(array(' '), array('+'), $completion->ModelYear->Model->Make->title)."-".str_replace(array(' '), array('+'), $completion->ModelYear->Model->title)."-".$completion->alias."/";
+				$content = CUrlHelper::getPage($url . 'specs/', '', '');
+				$content.= CUrlHelper::getPage($url . 'equipment/', '', '');
+				$content.= CUrlHelper::getPage($url . 'pricing/', '', '');
 				
-				$content = Yii::app()->cache->get($url);
-				if ($content == false) {
-					$content = CUrlHelper::getPage($url, '', '');	
-					Yii::app()->cache->set($url, $content, 60*60*24);
-				}	
-				$content = str_replace(array("\n", "\t", "\r"), "", $content);
+				//preg_match_all('/<table id="data_table" cellpadding="0" cellspacing="0" class="fixed_wrap">(.*?)<\/table>/', $content, $matchTable);
+				preg_match_all('/<thead><tr><td>(.*?)<\/td><\/tr><\/thead>/', $content, $matchTable);
+				preg_match_all('/<div class="price pull-left">(.*?)<\/div>/', $content, $matchPrice);
+				preg_match_all('/<a class="text-muted" href="\/buy\/(.*?)-'.$completion->alias.'\/" itemprop="item">(.*?)<\/a>/', $content, $matchTitle);
+				preg_match_all('/<div id="build-and-price" data-acode="(.*?)" data-state/', $content, $matchCode);
 				
-				preg_match_all('/<table id="data_table" cellpadding="0" cellspacing="0" class="fixed_wrap">(.*?)<\/table>/', $content, $matchTable);
+				if (isset($matchPrice[1][0])) {
+					$completion->specs_msrp = str_replace(array('$', ','), array('',''), $matchPrice[1][0]);
+				}
+				if (isset($matchTitle[2][0])) {
+					$completion->title = $matchTitle[2][0];
+				}
+				if (isset($matchCode[1][0])) {
+					$completion->code = $matchCode[1][0];
+				}
+				$completion->save(false);
 				
-				if (isset($matchTable[1][0])) {
+				foreach ($matchTable[1] as $groupTitle) {
+					preg_match_all('/<table><thead><tr><td>'.$groupTitle.'<\/td><\/tr><\/thead>(.*?)<\/table>/', $content, $matchGroup);
+					$specsGroup = $this->getSpecsGroup(array('title'=>$groupTitle));
+					
+					if (isset($matchGroup[1][1])) {
+						preg_match_all('/<tr><td class="type">(.*?)<\/td><td class="spec">(.*?)<\/td><\/tr>/', $matchGroup[1][1], $matchSpecs);
 						
-					$headerTrs = explode('<tr class="header">', $matchTable[1][0]);	
-						
-					$dataSpecsGroup = array();
-					foreach ($headerTrs as $trKey=>$headerTr) {
-						if ($trKey < 2) continue;
-						preg_match_all('/<td class="anchor label"><span><em>Compare<\/em>(.*?)<\/span><\/td>/', $headerTr, $matchGroup);
-						preg_match_all('/<tr(.*?)class="data(.*?)"><td class="anchor label"><span>(.*?)<\/span><\/td><td class="anchor right_bor(.*?)">(.*?)<\/td>/', $headerTr, $matchSpecs);
-						
-						$specsGroupTitle = trim($matchGroup[1][0]);
-						$specsGroup = $this->getSpecsGroup(array('title'=>$specsGroupTitle));
-							
-						foreach ($matchSpecs[3] as $specsKey=>$matchSpecTitle) {
-							$specsTitle = trim(strip_tags($matchSpecTitle));
+						foreach ($matchSpecs[1] as $k=>$specTitle) {
+							$specsTitle = trim(strip_tags($specTitle));
 							$specs = $this->getSpecs(array('title'=>$specsTitle, 'group_id'=>$specsGroup->id));
-							$tempValue = strip_tags($matchSpecs[5][$specsKey]);
-							
-							$dataSpecsGroup[$specsGroup->title][$specs->title] = $tempValue;
-							
+							$tempValue = strip_tags($matchSpecs[2][$k]);	
+
 							$completionSpecs = new AutoCompletionSpecsTemp;
 							$completionSpecs->attributes = array(
 								'completion_id' => $completion->id,
@@ -662,38 +448,34 @@ class ImportCommand extends CConsoleCommand
 								'value' => $tempValue,
 							);
 							
-							$completionSpecs->save();										
-						}	
-					}
-					
-
-					$competitorCount = 0;
-					if (substr_count($content, "Competitors for") == 1) {
-						preg_match_all('/<a href="#top-chooser" class="addVeh add" name="(.*?)">Add to Compare<\/a>/', $content, $matches);	
-						
-						if (isset($matches[1]) && !empty($matches[1])) {
-							foreach ($matches[1] as $competitor_code) {
-								$competitorCompletion = AutoCompletion::model()->findByAttributes(array('code'=>$competitor_code));
-								if (!empty($competitorCompletion)) {
-									
-									$competitorsTemp = new AutoCompletionCompetitorsTemp;
-									$competitorsTemp->completion_id = $completion->id;
-									$competitorsTemp->competitor_id = $competitorCompletion->id;
-									$competitorsTemp->is_parsed = 1;
-									try {
-									  $competitorsTemp->save();
-									} catch (Exception $exc) {
-									  
-									} 								
-									
-									$competitorCount++;
-								}	
-							}
-						}	
-					}
-					
-					echo "Completion parsed " . $completion->id . ' ' . $competitorCount . "\n";
+							try {$completionSpecs->save();} catch (Exception $exc) {} 														
+						}
+					}									
+				}
+				echo "parses specs: completion: {$completion->id} \n";
 				
+				//$content.= CUrlHelper::getPage('http://www.autoblog.com/buy/2016-Jeep-Cherokee/specs/', '', '');
+				preg_match_all('/<div class="rsContent col-tn-4"><div><a href="\/buy\/(.*?)-(.*?)-(.*?)\/"><img alt="(.*?)" class="rsImg" src="(.*?)" \/><h4>(.*?)<\/h4><\/a><\/div><\/div>/', $content, $matchCompetitorsContent);
+			
+				if (isset($matchCompetitorsContent[1][0])) {
+					foreach ($matchCompetitorsContent[1] as $k=>$year) {
+						$criteria = new CDbCriteria;
+						$criteria->compare('t.year', $year);
+						$criteria->compare('Model.title', $matchCompetitorsContent[3][$k]);
+						$criteria->compare('Make.title', $matchCompetitorsContent[2][$k]);
+						$criteria->with = array('Model', 'Model.Make');
+						$competitorModelYear = AutoModelYear::model()->find($criteria);
+						
+						if (!empty($competitorModelYear)) {
+							$competitor = new AutoModelYearCompetitor;
+							$competitor->model_year_id = $completion->model_year_id;
+							$competitor->competitor_id = $competitorModelYear->id;
+							try {
+								$competitor->save();
+								echo "\t \t saved competitor\n";
+							} catch (Exception $exc) {} 						
+						}
+					}
 				}
 			}
 	}
@@ -901,39 +683,6 @@ class ImportCommand extends CConsoleCommand
 			}
 			unset($completions);
 	}
-
-	/*
-	* Конкуренты моделей по годах
-	*/	
-	private function actionCompetitor()
-	{
-		$criteria = new CDbCriteria();
-		$criteria->compare('is_parsed', 1);	
-			
-		$completionCompetitors = AutoCompletionCompetitorsTemp::model()->findAll($criteria);
-
-		foreach ($completionCompetitors as $completionCompetitor) {
-			$completionCompetitor->is_parsed = 0;
-			$completionCompetitor->save();
-			
-			if (isset($completionCompetitor->Completion) && isset($completionCompetitor->Competitor)) {
-			
-				$attributes = array(
-					'model_year_id' => $completionCompetitor->Completion->model_year_id,
-					'competitor_id' => $completionCompetitor->Competitor->model_year_id
-				);
-					
-				$m = AutoModelYearCompetitor::model()->findByAttributes($attributes);
-				if (empty($m)) {
-					$autoModelYearCompetitor = new AutoModelYearCompetitor;
-					$autoModelYearCompetitor->attributes = $attributes;
-					$autoModelYearCompetitor->save();
-				}
-					
-				echo "Add Competitors \n";
-			}
-		}
-	}	
 	
 	public function actionModelYearPhotoItem()
 	{

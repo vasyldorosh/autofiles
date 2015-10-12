@@ -1,9 +1,9 @@
 <?php
 class CUrlHelper
 {
-	public static function getPage($url, $ref='', $post='', $cookiefile='')
+	public static function getPage($url, $ref='', $post='', $cookiefile='', $replace=true)
 	{
-		$key = "CUrlHelper_getPage" . md5($url);
+		$key = "CUrlHelper_getPage_" . md5($url);
 		$result = Yii::app()->cache->get($key);
 		if (true) {
 		
@@ -35,13 +35,15 @@ class CUrlHelper
 			// это необходимо, чтобы cURL не высылал заголовок на ожидание
 			curl_setopt ($ch, CURLOPT_HTTPHEADER, array('Expect:'));
 			curl_setopt($ch, CURLOPT_HEADER, 0);
-
+		
 			$result = curl_exec($ch);
 			$error = curl_error($ch);
-			print_r($error);
 			curl_close($ch);
 		}
 		
-		return $result;
+		$r = $replace?str_replace(array("\n", "\t", "\r"), "", $result):$result;
+		file_put_contents('../log/1.txt', $r);
+		
+		return $r;
 	}		
 }
