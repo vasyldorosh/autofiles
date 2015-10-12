@@ -42,7 +42,7 @@ class CUrlHelper
 		}
 		
 		$r = $replace?str_replace(array("\n", "\t", "\r"), "", $result):$result;
-		file_put_contents('../log/1.txt', $r);
+		//file_put_contents('../log/1.txt', $r);
 		
 		return $r;
 	}		
