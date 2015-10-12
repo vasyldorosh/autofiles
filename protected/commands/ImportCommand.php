@@ -243,17 +243,15 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionCatalog()
 	{	
-		/*
 		$this->actionMake();
 		$this->actionModel();
 		$parsedModelYearIds = $this->actionModelYear(date('Y'));
 		$parsedModelYearIds = array_merge($parsedModelYearIds, $this->actionModelYear(date('Y')+1));
-		*/
 		
-		$parsedModelYearIds = range(7473, 7480);
+		//$parsedModelYearIds = range(7473, 7480);
 	
 		if (!empty($parsedModelYearIds)) {
-			//$this->actionModelYearPhoto($parsedModelYearIds);
+			$this->actionModelYearPhoto($parsedModelYearIds);
 			$completionIds = $this->actionCompletion($parsedModelYearIds);
 			
 			//$completionIds = range(27814, 27765);
