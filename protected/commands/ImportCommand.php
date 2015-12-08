@@ -269,6 +269,17 @@ class ImportCommand extends CConsoleCommand
 		CUrlHelper::getPage('http://autofiles.com/site/flush', '', '');
 	}	
 	
+	public function actionC()
+	{	
+			$completionIds = range(34896, 34910);
+			
+			if (!empty($completionIds)) {
+				$this->actionCompletionDetails($completionIds);
+				$this->actionSpecs();
+				$this->actionCompletionData($completionIds);
+			}
+	}	
+	
 	public function actionEmptyCompletion() {
 		$sql = "SELECT * FROM  `auto_completion` WHERE  `specs_msrp` IS NULL";
 		$completionIds = array();
