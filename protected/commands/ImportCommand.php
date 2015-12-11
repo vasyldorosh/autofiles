@@ -271,7 +271,7 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionC()
 	{	
-			$completionIds = range(34896, 34910);
+			$completionIds = range(28301, 28301);
 			
 			if (!empty($completionIds)) {
 				$this->actionCompletionDetails($completionIds);
@@ -336,15 +336,19 @@ class ImportCommand extends CConsoleCommand
 	
 	private function getSpecs($attributes)
 	{
-		$group = AutoSpecs::model()->findByAttributes($attributes);
+		$attributes['alias'] = AutoSpecs::slug($attributes['title']);
+		
+		$model = AutoSpecs::model()->findByAttributes(array('alias'=>$attributes['alias']));
 						
-		if (empty($group)) {
-			$group = new AutoSpecs;
-			$group->attributes = $attributes;
-			$group->save();
+		if (empty($model)) {
+			$model = new AutoSpecs;
+			$model->attributes = $attributes;
+			if(!$model->save()) {
+				print_r($model->errors);
+			}
 		} 
 
-		return $group;
+		return $model;
 	}	
 	
 	private function getOption($attributes)
@@ -391,12 +395,20 @@ class ImportCommand extends CConsoleCommand
 		
 			$url = "http://www.autoblog.com/buy/{$autoModelYear->year}-".str_replace(array("-", " ", '&'), array("_", "_", "_"), $autoModelYear->Model->Make->title)."-".str_replace(array(" ", "-", "&"), array("+", "_", "_"), $autoModelYear->Model->title)."/specs/";
 			$content = CUrlHelper::getPage($url, '', '');
-			$p = '/<a href="\/buy\/'.$autoModelYear->year.'-'.$autoModelYear->Model->Make->title.'-'.str_replace('/', '\/', $autoModelYear->Model->title).'-(.*?)" class="btn btn-sm pull-left visible-sm visible-xs visible-tn">Explore<\/a>/';
+			$p = '/<a href="\/buy\/(.*?)" class="btn btn-sm pull-left visible-sm visible-xs visible-tn">Explore<\/a>/';
 			//echo $p . "\n";
-			preg_match_all($p, $content, $matches);			
-			foreach ($matches[1] as $match) {
+			preg_match_all($p, $content, $matches);
+			$modelYearTitle = $autoModelYear->year.'-'.$autoModelYear->Model->Make->title.'-'.str_replace('/', '\/', $autoModelYear->Model->title);
+			
+			foreach ($matches[1] as $k=>$match) {
 				$expl = explode('/', $match);
-				$completion = $this->getCompletion(array('model_year_id'=>$autoModelYear->id,'alias'=>$expl[0]));
+				$url  = $expl[0];
+				
+				if (trim($modelYearTitle) == trim($url)) {
+					continue;
+				}
+				
+				$completion = $this->getCompletion(array('model_year_id'=>$autoModelYear->id,'url'=>$url));
 				$completionIds[] = $completion->id;
 				echo "created  Completion " . $completion->id . "\n";				
 			} 
@@ -418,43 +430,50 @@ class ImportCommand extends CConsoleCommand
 			
 			foreach ($completions as $key=>$completion) {
 				AutoCompletionSpecsTemp::model()->deleteAllByAttributes(array('completion_id'=>$completion->id));
-				$url = "http://www.autoblog.com/buy/".$completion->ModelYear->year."-".str_replace(array(' '), array('+'), $completion->ModelYear->Model->Make->title)."-".str_replace(array(' '), array('+'), $completion->ModelYear->Model->title)."-".$completion->alias."/";
-				$content = CUrlHelper::getPage($url . 'specs/', '', '');
+				$url = "http://www.autoblog.com/buy/" . $completion->url . '/';
+				$content = '';
+				$content.= CUrlHelper::getPage($url . 'specs/', '', '');
 				$content.= CUrlHelper::getPage($url . 'equipment/', '', '');
 				$content.= CUrlHelper::getPage($url . 'pricing/', '', '');
 				
 				//preg_match_all('/<table id="data_table" cellpadding="0" cellspacing="0" class="fixed_wrap">(.*?)<\/table>/', $content, $matchTable);
 				preg_match_all('/<thead><tr><td>(.*?)<\/td><\/tr><\/thead>/', $content, $matchTable);
 				preg_match_all('/<div class="price pull-left">(.*?)<\/div>/', $content, $matchPrice);
-				preg_match_all('/<a class="text-muted" href="\/buy\/(.*?)-'.$completion->alias.'\/" itemprop="item">(.*?)<\/a>/', $content, $matchTitle);
+				preg_match_all('/<h1 class="pull-left">(.*?)<br><span class="trim-style">(.*?)<span id="pricing-page-title">Specs<\/span><\/span><\/h1>/', $content, $matchTitle);
 				preg_match_all('/<div id="build-and-price" data-acode="(.*?)" data-state/', $content, $matchCode);
 				
-				print_r($matchTable);
-				print_r($matchPrice);
-				print_r($matchTitle);
-				print_r($matchCode);
+				file_put_contents('xxx.txt', $content);
 				
 				if (isset($matchPrice[1][0])) {
 					$completion->specs_msrp = str_replace(array('$', ','), array('',''), $matchPrice[1][0]);
 				}
-				if (isset($matchTitle[2][0])) {
-					$completion->title = $matchTitle[2][0];
+				if (isset($matchTitle[1][0])) {
+					$completion->title = $matchTitle[1][0];
 				}
 				if (isset($matchCode[1][0])) {
 					$completion->code = $matchCode[1][0];
 				}
 				$completion->save(false);
 				
-				foreach ($matchTable[1] as $groupTitle) {
-					preg_match_all('/<table><thead><tr><td>'.$groupTitle.'<\/td><\/tr><\/thead>(.*?)<\/table>/', $content, $matchGroup);
-					$specsGroup = $this->getSpecsGroup(array('title'=>$groupTitle));
+				$temp = array();
+				
+				//foreach ($matchTable[1] as $groupTitle) {
+					//preg_match_all('/<table><thead><tr><td>'.$groupTitle.'<\/td><\/tr><\/thead>(.*?)<\/table>/', $content, $matchGroup);
+					//$specsGroup = $this->getSpecsGroup(array('title'=>$groupTitle));
 					
-					if (isset($matchGroup[1][1])) {
-						preg_match_all('/<tr><td class="type">(.*?)<\/td><td class="spec">(.*?)<\/td><\/tr>/', $matchGroup[1][1], $matchSpecs);
+					//if (isset($matchGroup[1][1])) {
+					if (true) {
+						preg_match_all('/<tr><td class="type">(.*?)<\/td><td class="spec">(.*?)<\/td><\/tr>/', $content, $matchSpecs);
+						
+						//d($matchSpecs);
 						
 						foreach ($matchSpecs[1] as $k=>$specTitle) {
 							$specsTitle = trim(strip_tags($specTitle));
-							$specs = $this->getSpecs(array('title'=>$specsTitle, 'group_id'=>$specsGroup->id));
+							//$specs = $this->getSpecs(array('title'=>$specsTitle, 'group_id'=>$specsGroup->id));
+							$specs = $this->getSpecs(array('title'=>$specsTitle));
+							
+							//echo $specs->id . "\n";
+							
 							$tempValue = strip_tags($matchSpecs[2][$k]);	
 
 							$completionSpecs = new AutoCompletionSpecsTemp;
@@ -464,11 +483,28 @@ class ImportCommand extends CConsoleCommand
 								'value' => $tempValue,
 							);
 							
-							try {$completionSpecs->save();} catch (Exception $exc) {} 														
+							
+							$temp[] = array(
+								't' => $specs->title,
+								'v' => $tempValue,
+								'id' => $specs->id,
+							);
+							
+							try {
+								$completionSpecs->save();
+							} catch (Exception $exc) {
+								//var_dump($exc);
+							} 														
 						}
 					}									
-				}
+				//}
+				
+				
+				//print_r($temp);
+				
 				echo "parses specs: completion: {$completion->id} \n";
+				//die();
+				
 				
 				//$content.= CUrlHelper::getPage('http://www.autoblog.com/buy/2016-Jeep-Cherokee/specs/', '', '');
 				preg_match_all('/<div class="rsContent col-tn-4"><div><a href="\/buy\/(.*?)-(.*?)-(.*?)\/"><img alt="(.*?)" class="rsImg" src="(.*?)" \/><h4>(.*?)<\/h4><\/a><\/div><\/div>/', $content, $matchCompetitorsContent);

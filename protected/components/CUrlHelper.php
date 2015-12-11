@@ -3,6 +3,8 @@ class CUrlHelper
 {
 	public static function getPage($url, $ref='', $post='', $cookiefile='', $replace=true)
 	{
+		//echo $url . "\n";
+		
 		$key = "CUrlHelper_getPage_" . md5($url);
 		$result = Yii::app()->cache->get($key);
 		if (true) {

@@ -47,11 +47,11 @@ class AutoSpecs extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, group_id, alias', 'required'),
+			array('title, alias', 'required'),
 			array('append, post_options', 'safe'),
 			array('alias', 'unique'),
-			array('rank, type, is_filter, is_required, maxlength', 'numerical', 'integerOnly' => true),
-			array('maxlength', 'length', 'min' => 2, 'max' => 128),
+			array('rank, type, is_filter, is_required, maxlength, group_id', 'numerical', 'integerOnly' => true),
+			//array('maxlength', 'length', 'min' => 2, 'max' => 128),
 			array('post_options', 'validateOptions', ),			
 		);
 	}		
@@ -94,10 +94,17 @@ class AutoSpecs extends CActiveRecord
 			$this->alias = $this->title;
 		}
 		
-		$this->alias = str_replace(array('(', ')', ' ', '-', '.', ',', '/', '&', ';'), '_', strtolower($this->alias));
-		$this->alias = str_replace(array('__'), '_', $this->alias);		
+		$this->alias = self::slug($this->alias);
 	
 		return parent::beforeValidate();
+	}
+	
+	public static function slug($value) 
+	{
+		$value = str_replace(array('(', ')', ' ', '-', '.', ',', '/', '&', ';'), '_', strtolower($value));
+		$value = str_replace('__', '_', $value);			
+	
+		return $value;
 	}
 	
 	public function afterSave()
@@ -232,7 +239,7 @@ class AutoSpecs extends CActiveRecord
 		if ($types[$this->type]) {
 			return $types[$this->type];
 		} else {
-			return false;
+			return $types[self::TYPE_STRING];
 		}
 	}
 
@@ -304,6 +311,7 @@ class AutoSpecs extends CActiveRecord
 	public static function getAllWithGroup()
 	{
 		$criteria=new CDbCriteria;
+		$criteria->condition = 't.group_id IS NOT NULL';
 		$criteria->order = 'Group.rank, Group.id, t.rank, t.id';
 		$criteria->with = array('Group' => array('together'=>true));
 		$specs = self::model()->findAll($criteria);
@@ -320,6 +328,23 @@ class AutoSpecs extends CActiveRecord
 			);
 		}
 		
+		$criteria=new CDbCriteria;
+		$criteria->condition = 'group_id IS NULL';
+		$criteria->order = 'rank';
+		$specs = self::model()->findAll($criteria);		
+			
+		if (!empty($specs)) {	
+			$data[0]['title'] = 'Without Group';	
+			foreach ($specs as $spec) {
+				$data[0]['specs'][$spec->alias] = array(
+					'title' => $spec->title,
+					'type' => $spec->type,
+					'append' => $spec->append,
+					'id' => $spec->id,
+				);			
+			}	
+		}
+			
 		return $data;
 	}	
 	

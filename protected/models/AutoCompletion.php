@@ -38,9 +38,9 @@ class AutoCompletion extends CActiveRecord
 		// will receive user inputs.
 		$rules = array(
 			array('title, model_year_id', 'required'),
-			array('model_id, code, alias', 'safe'),
+			array('model_id, code, alias, url', 'safe'),
 			array('year, is_delete_photo', 'numerical', 'integerOnly' => true),
-			array('is_active, is_deleted', 'numerical', 'integerOnly' => true),
+			array('id,is_active, is_deleted', 'numerical', 'integerOnly' => true),
 			array(
 				'file', 
 				'file', 
