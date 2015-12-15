@@ -236,7 +236,7 @@ class AutoSpecs extends CActiveRecord
 	public function getTypesTypeTitle()
 	{
 		$types = self::getTypesType();
-		if ($types[$this->type]) {
+		if (isset($types[$this->type])) {
 			return $types[$this->type];
 		} else {
 			return $types[self::TYPE_STRING];
