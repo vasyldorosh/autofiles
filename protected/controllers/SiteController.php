@@ -245,98 +245,22 @@ class SiteController extends Controller
 	
 	public function actionTest()
 	{
-		$items = Yii::app()->db->createCommand("SELECT vehicle_class_id, section_width_id, aspect_ratio_id, rim_diameter_id, load_index_id, is_rear, rear_section_width_id, rear_aspect_ratio_id, rear_rim_diameter_id, count(*) AS c FROM `tire` 
-WHERE is_runflat=0
-GROUP BY vehicle_class_id, section_width_id, aspect_ratio_id, rim_diameter_id, load_index_id, is_rear, rear_section_width_id, rear_aspect_ratio_id, rear_rim_diameter_id
-HAVING c > 1
-ORDER BY c DESC")->queryAll();
-		
-		$dataCompare = array();
+		$sql = "SELECT CONCAT(model_id, '_', year) AS c, COUNT(*) AS a FROM auto_model_year GROUP BY model_id, year HAVING a > 1";
+		$items = Yii::app()->db->createCommand($sql)->queryAll();
 		
 		foreach ($items as $item) {
-			$c = new CDbCriteria;
-			$c->compare('vehicle_class_id', $item['vehicle_class_id']);
-			$c->compare('section_width_id', $item['section_width_id']);
-			$c->compare('aspect_ratio_id', $item['aspect_ratio_id']);
-			$c->compare('rim_diameter_id', $item['rim_diameter_id']);
-			$c->compare('load_index_id', $item['load_index_id']);
-			$c->compare('is_rear', $item['is_rear']);
-			$c->compare('rear_section_width_id', $item['rear_section_width_id']);
-			$c->compare('rear_aspect_ratio_id', $item['rear_aspect_ratio_id']);
-			$c->compare('rear_rim_diameter_id', $item['rear_rim_diameter_id']);
-			$c->compare('is_runflat', 0);	
-			$c->order = 'id';	
-
-			$rows = Tire::model()->findAll($c);
-			echo '- ' . $item['c'] . '<br/>';
-			$compareId = 0;
-			foreach ($rows as $key=>$row) {
-				if ($key==0) {
-					$compareId = $row->id;
-					continue;
-				}
-				
-				echo ' -- ' . $row->id . '<br/>';	
-				
-				$dataCompare[$row->id] = $compareId;				
-			}			
+			list($model_id, $year) = explode('_', $item['c']);
+			$criteria = new CDbCriteria;
+			$criteria->compare('year', $year);
+			$criteria->compare('model_id', $model_id);
+			$criteria->order = 'id DESC';
+			$model = AutoModelYear::model()->find($criteria);
+			if (!empty($model)) {
+				//$model->delete();
+			}
 		}
+		d($items);
 		
-		foreach($dataCompare as $tire_id => $replace_id) {
-			$c = new CDbCriteria;
-			$c->compare('tire_id', $tire_id);
-			$items = AutoModelYearTire::model()->findAll($c);
-			$count = AutoModelYearTire::model()->count($c);
-			echo "$tire_id: $count <br/>";
-
-			foreach ($items as $item) {
-				$c = new CDbCriteria;
-				$c->compare('tire_id', $tire_id);				
-				$c->compare('model_year_id', $item->model_year_id);		
-				
-				if (AutoModelYearTire::model()->count($c) == 0) {
-					echo "not <br/>";
-					$m = new AutoModelYearTire;
-					$m->tire_id = $tire_id;
-					$m->model_year_id = $item->model_year_id;
-					$m->save();		
-					echo 'AutoModelYearTire saved <br/>';					
-				} 
-			}
-			
-			
-			$c = new CDbCriteria;
-			$c->compare('tire_id', $tire_id);
-			$range = TireRimWidthRange::model()->find($c);
-				
-			if (!empty($range)) {
-				$attributes = array(
-					'tire_id' => $replace_id,
-				);
-				$compare = TireRimWidthRange::model()->findByAttributes($attributes);
-				
-				if (empty($compare)) {
-					$attributes = array(
-						'tire_id' => $replace_id,
-						'from' => $range->from,
-						'to' => $range->to,
-						'rear_from' => $range->rear_from,
-						'rear_to' => $range->rear_to,						
-					);					
-					
-					$compare = new TireRimWidthRange;
-					$compare->attributes = $attributes;
-					if(!$compare->save()) {
-						d($compare->errors);
-					}
-					echo 'TireRimWidthRange saved <br/>';
-				}
-			}
-			
-			echo "range - $count <br/>";	
-				
-			Tire::model()->deleteByPk($tire_id);	
-		}
 	}
 	
 	public function actionTestRun()
