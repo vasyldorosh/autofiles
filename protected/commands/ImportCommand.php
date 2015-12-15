@@ -271,7 +271,7 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionC()
 	{	
-			$completionIds = range(28301, 28301);
+			$completionIds = range(34511, 35594);
 			
 			if (!empty($completionIds)) {
 				$this->actionCompletionDetails($completionIds);

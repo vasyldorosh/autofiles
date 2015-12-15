@@ -447,32 +447,4 @@ ORDER BY c DESC")->queryAll();
 		}
 	}
 	
-	
-	public function actionT()
-	{
-		$attributes = [
-			'title' => 'Fair Purchase Price',
-		];
-		
-		$model = $this->getSpecs($attributes);
-		d($model->id);
-	}
-	
-	private function getSpecs($attributes)
-	{
-		$attributes['alias'] = AutoSpecs::slug($attributes['title']);
-		
-		$model = AutoSpecs::model()->findByAttributes(array('alias'=>$attributes['alias']));
-						
-		if (empty($model)) {
-			$model = new AutoSpecs;
-			$model->attributes = $attributes;
-			if(!$model->save()) {
-				print_r($model->errors);
-			}
-		} 
-
-		return $model;
-	}	
-	
 }
