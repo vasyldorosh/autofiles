@@ -337,6 +337,7 @@ class ImportCommand extends CConsoleCommand
 	private function getSpecs($attributes)
 	{
 		$attributes['alias'] = AutoSpecs::slug($attributes['title']);
+		$attributes['alias'] = AutoSpecs::slug($attributes['alias']);
 		
 		$model = AutoSpecs::model()->findByAttributes(array('alias'=>$attributes['alias']));
 						
