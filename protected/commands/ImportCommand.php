@@ -344,6 +344,7 @@ class ImportCommand extends CConsoleCommand
 			$model = new AutoSpecs;
 			$model->attributes = $attributes;
 			if(!$model->save()) {
+				echo $attributes['alias'] . "\n";
 				print_r($model->errors);
 			}
 		} 

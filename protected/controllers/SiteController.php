@@ -373,73 +373,7 @@ ORDER BY c DESC")->queryAll();
 			}
 		}
 	}
-	
-	public function actionT()
-	{
-		ini_set('max_execution_time', 1000);
 		
-		$criteria = new CDbCriteria;		
-		$criteria->with = array('Model', 'Model.Make');
-		$criteria->index = 'id';
-		$modelYears = AutoModelYear::model()->findAll($criteria);
-		$data = array();
-		$dataModeYear = array();
-		foreach ($modelYears as $modelYear) {
-			$sql = "SELECT tire_id FROM  auto_model_year_tire WHERE model_year_id = {$modelYear->id} ORDER BY tire_id";
-			$rows = Yii::app()->db->createCommand($sql)->queryAll();
-			$key = $modelYear->model_id . '_';
-			$key = '';
-			foreach ($rows as $row) {
-				$key .= '_' . $row['tire_id'];
-			}
-			if ($key!= '')
-				$data[$modelYear->model_id][$key][] = (int)$modelYear->year;
-			
-			$dataModeYear[$modelYear->model_id][$modelYear->year] = $modelYear;
-		}
-		
-		foreach ($data as $model_id=>$tires) {
-			foreach ($tires as $tire_key=>$years) {
-				sort($years);
-				$data[$model_id][$tire_key] = $years;
-			}			
-		}
-		//d($data);	
-			
-		$searchData = array();
-		foreach ($data as $model_id=>$tires) {
-			foreach ($tires as $tire_key=>$years) {
-				
-				if (count($years) == 1) {
-					$searchData[$model_id][] = $years[0];
-					continue;
-				}
-				
-				foreach ($years as $k=>$year) {
-					if (isset($years[$k+1])) {
-						if (($years[$k+1]-$years[$k]) > 1) {
-							for ($i=($year+1);$i<$years[$k+1];$i++) {
-								$searchData[$model_id][] = $i;							
-							}
-						}
-					} 
-				}
-			}			
-		}
-		
-		//d($searchData);
-		
-		foreach ($searchData as $model_id=>$years) {
-			foreach ($years as $year) {
-				if (isset($dataModeYear[$model_id][$year])) {
-					$modelYear = $dataModeYear[$model_id][$year];
-					echo $modelYear->Model->Make->title . ' ' . $modelYear->Model->title . ' ' . $modelYear->year;
-					echo "<br/>";
-				}
-			}
-		}
-	}
-	
 	public function actionR()
 	{
 		ini_set('max_execution_time', 1000);
@@ -512,4 +446,33 @@ ORDER BY c DESC")->queryAll();
 			}
 		}
 	}
+	
+	
+	public function actionT()
+	{
+		$attributes = [
+			'title' => 'Fair Purchase Price',
+		];
+		
+		$model = $this->getSpecs($attributes);
+		d($model->id);
+	}
+	
+	private function getSpecs($attributes)
+	{
+		$attributes['alias'] = AutoSpecs::slug($attributes['title']);
+		
+		$model = AutoSpecs::model()->findByAttributes(array('alias'=>$attributes['alias']));
+						
+		if (empty($model)) {
+			$model = new AutoSpecs;
+			$model->attributes = $attributes;
+			if(!$model->save()) {
+				print_r($model->errors);
+			}
+		} 
+
+		return $model;
+	}	
+	
 }
