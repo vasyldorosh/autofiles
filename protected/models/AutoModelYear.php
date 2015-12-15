@@ -294,11 +294,16 @@ class AutoModelYear extends CActiveRecord
         $folders = array(rtrim($path, DIRECTORY_SEPARATOR));
  
         while($folder = array_shift($folders)) {
-            $matches = array_merge($matches, glob($folder.DIRECTORY_SEPARATOR.$pattern, $flags));
-            if($depth != 0) {
+			$m = glob($folder.DIRECTORY_SEPARATOR.$pattern, $flags);
+			if (is_array($m))
+				$matches = array_merge($matches, $m);
+            
+			if($depth != 0) {
                 $moreFolders = glob($folder.DIRECTORY_SEPARATOR.'*', GLOB_ONLYDIR);
                 $depth   = ($depth < -1) ? -1: $depth + count($moreFolders) - 2;
-                $folders = array_merge($folders, $moreFolders);
+				
+				if (is_array($moreFolders))
+					$folders = array_merge($folders, $moreFolders);
             }
         }
         return $matches;
