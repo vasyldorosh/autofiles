@@ -252,6 +252,8 @@ class SiteController extends Controller
 		
 		foreach ($items as $item) {
 			$exl = explode('_', $item['c']);
+			d($exl);
+			
 			$model_id = $exl[0];
 			$year = $exl[1];
 			
