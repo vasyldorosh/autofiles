@@ -104,6 +104,12 @@ class AutoModelYear extends CActiveRecord
 		);
 	}
 		
+	protected function afterValidate()	
+	{
+	
+		return parent::afterValidate();
+	}
+	
 	protected function beforeSave()	
 	{
 		if ($this->is_delete_photo) {

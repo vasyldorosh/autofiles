@@ -248,18 +248,23 @@ class SiteController extends Controller
 		$sql = "SELECT CONCAT(model_id, '_', year) AS c, COUNT(*) AS a FROM auto_model_year GROUP BY model_id, year HAVING a > 1";
 		$items = Yii::app()->db->createCommand($sql)->queryAll();
 		
+		d($items, 0);
+		
 		foreach ($items as $item) {
-			list($model_id, $year) = explode('_', $item['c']);
+			$exl = explode('_', $item['c']);
+			$model_id = $exl[0];
+			$year = $exl[1];
+			
 			$criteria = new CDbCriteria;
-			$criteria->compare('year', $year);
 			$criteria->compare('model_id', $model_id);
+			$criteria->compare('year', $year);
 			$criteria->order = 'id DESC';
 			$model = AutoModelYear::model()->find($criteria);
 			if (!empty($model)) {
 				$model->delete();
 			}
 		}
-		d($items);
+		
 		
 	}
 	
