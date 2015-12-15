@@ -15,7 +15,7 @@ class SitemapCommand extends CConsoleCommand
 	{
 		$limit = 10000; //(int)SiteConfig::getInstance()->getValue('count_items_in_file');	
 		
-		$site_url = 'http://autofiles.com';//SiteConfig::getInstance()->getValue('sitemap_domain_url');	
+		$site_url = 'http://autotk.com';//SiteConfig::getInstance()->getValue('sitemap_domain_url');	
 
 		$mapFiles = array(
 			'/', 
