@@ -111,7 +111,7 @@ class AutoModelYear extends CActiveRecord
 			$criteria->compare('model_id', $this->model_id);
 			$criteria->compare('year', $this->year);
 			if (!$this->isNewRecord) {
-				$criteria->addCondition("id <> $id");
+				$criteria->addCondition("id <> {$this->id}");
 			}
 			
 			if (self::model()->count($criteria)) {
