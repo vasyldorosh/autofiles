@@ -106,6 +106,18 @@ class AutoModelYear extends CActiveRecord
 		
 	protected function afterValidate()	
 	{
+		if (!$this->hasErrors) {
+			$criteria = new CDbCriteria;
+			$criteria->compare('model_id', $this->model_id);
+			$criteria->compare('year', $this->year);
+			if (!$this->isNewRecord) {
+				$criteria->addCondition("id <> $id");
+			}
+			
+			if (self::model()->count($criteria)) {
+				$this->addError('year', "Year {$this->year} alreadey exists");
+			}
+		} 
 	
 		return parent::afterValidate();
 	}

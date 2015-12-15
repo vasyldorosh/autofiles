@@ -264,8 +264,6 @@ class SiteController extends Controller
 				$model->delete();
 			}
 		}
-		
-		
 	}
 	
 	public function actionTestRun()
