@@ -106,7 +106,7 @@ class AutoModelYear extends CActiveRecord
 		
 	protected function afterValidate()	
 	{
-		if (!$this->hasErrors) {
+		if (!$this->hasErrors()) {
 			$criteria = new CDbCriteria;
 			$criteria->compare('model_id', $this->model_id);
 			$criteria->compare('year', $this->year);
