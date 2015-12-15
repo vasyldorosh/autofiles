@@ -256,7 +256,7 @@ class SiteController extends Controller
 			$criteria->order = 'id DESC';
 			$model = AutoModelYear::model()->find($criteria);
 			if (!empty($model)) {
-				//$model->delete();
+				$model->delete();
 			}
 		}
 		d($items);
