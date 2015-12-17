@@ -11,7 +11,9 @@
 			
 			<div class="model__specs">
 				<div class="model__specs-image">
+				<?php if (isset($lastModelYear['photo'])):?>
 				<a href="<?=$model['url']?><?=$completion['year']?>/"><img alt="Photo <?=$completion['year']?> <?=$make['title']?> <?=$model['title']?>" src="<?=$lastModelYear['photo']?>"></a></div>
+				<?php endif;?>
 				<?php $this->renderPartial('_model_specs', array('completion'=>$completion))?>
 			</div>		
 			<?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
