@@ -15,7 +15,7 @@
 <body class="l">
 <!-- BEGIN HEADER -->
 <header>
-	<a href="/" class="logo" title="Cars technical information"><span>Auto</span>Files.com</a>
+	<a href="/" class="logo" title="Cars technical information"><span>Autotk</span>.com</a>
 	<!--<div class="search">
 		<input type="text" placeholder="Search">
 		<button type="submit" class="btn btn_search"></button>
@@ -70,20 +70,8 @@
 		<a href="/about.html">About us</a>
 	</section>
 	<section class="footer__copyright">
-		&copy <?=date('Y')?> AutoFiles. All Rights Reserved.
+		&copy <?=date('Y')?> Autotk.com. All Rights Reserved.
 
-		<?php if ($_SERVER['SERVER_NAME'] == 'autofiles.com'):?>		
-			<script type="text/javascript"><!--
-			document.write("<img src='//counter.yadro.ru/hit?t26.10;r"+
-			escape(document.referrer)+((typeof(screen)=="undefined")?"":
-			";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
-			screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
-			";"+Math.random()+
-			"' alt='' title='LiveInternet: показано число посетителей за"+
-			" сегодня' "+
-			"border='0' width='1' height='1'>")
-			//--></script>
-		<?php endif;?>		
 		
 	</section>
 </footer>
@@ -91,14 +79,14 @@
 </body>
 </html>
 
-<?php if ($_SERVER['SERVER_NAME'] == 'autofiles.com'):?>
+<?php if ($_SERVER['SERVER_NAME'] == 'autotk.com'):?>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-2389032-30', 'autofiles.com');
+  ga('create', 'UA-2389032-35', 'auto');
   ga('send', 'pageview');
 
 </script>

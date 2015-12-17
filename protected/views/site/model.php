@@ -22,16 +22,17 @@
 				<a title="<?=$modelByYear['year']?> <?=$make['title']?> <?=$model['title']?>" href="<?=$model['url']?><?=$modelByYear['year']?>/" class="model__block"><span><?=$modelByYear['year']?></span><img src="<?=$modelByYear['photo']?>"></a>
 			<?php endforeach;?>	
 			</div>
+<br><br>
 		</section>
 		<!-- section 2 -->
-		<section class="all-models">
+		<!--<section class="all-models">
 			<h2 class="section-name">All <?=$make['title']?> models</h2>
 			<p><strong><?=$make['title']?>:</strong>
 			<?php foreach ($models as $item):?>
 				<a title="<?=$make['title']?> <?=$item['title']?>" href="<?=$item['url']?>"><?=$item['title']?></a>,
 			<?php endforeach;?>
 			</p>
-		</section>
+		</section>-->
 		
 	</div>
 	<div class="l-col2">
@@ -46,16 +47,7 @@
 			'model'=>$model,
 		))?>			
 		
-		       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- autof_250 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-3243264408777652"
-     data-ad-slot="2242919653"
-     data-ad-format="auto"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+
 		
 	</div>
 </main>
