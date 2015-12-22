@@ -281,6 +281,7 @@ class ImportCommand extends CConsoleCommand
 						AND specs_front_legroom IS NULL
 						AND specs_rear_legroom IS NULL
 						AND url <> ''
+						LIMIT 5
 			";
 			
 			$completionIds = array();
