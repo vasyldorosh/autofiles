@@ -595,7 +595,6 @@ class ImportCommand extends CConsoleCommand
 			}
 		}
 		
-		/*
 		$time = time();
 		AutoSpecsOption::model()->deleteAll();
 		$specs = AutoSpecs::model()->findAll();
@@ -715,7 +714,6 @@ class ImportCommand extends CConsoleCommand
 		
 		$t = time()-$time;
 		echo $t;
-		*/
 	}
 	
 	/*
@@ -745,9 +743,9 @@ class ImportCommand extends CConsoleCommand
 					} else {
 					
 						if ($specData['type'] == AutoSpecs::TYPE_INT) {
-							$value = (int) str_replace(array('$', ',', '"'. "'", 'lbs.', 'mph', 'cu.ft.', 'gal.', 'doors', 'passengers', 'mpg', 'seconds'), '', $value);
+							$value = (int) str_replace(array('$', ',', '"'. "'", 'lbs.', 'mph', 'cu.ft.', 'gal.', 'doors', 'passengers', 'mpg', 'seconds', '&#034;'), '', $value);
 						} else if ($specData['type'] == AutoSpecs::TYPE_FLOAT) {
-							$value = (float) str_replace(array('$', ',', '"'. "'", 'lbs.', 'mph', 'cu.ft.', 'gal.', 'doors', 'passengers', 'mpg','seconds'), '', $value);
+							$value = (float) str_replace(array('$', ',', '"'. "'", 'lbs.', 'mph', 'cu.ft.', 'gal.', 'doors', 'passengers', 'mpg','seconds', '&#034;'), '', $value);
 						} else if ($specData['type'] == AutoSpecs::TYPE_SELECT) {
 							$value = AutoSpecsOption::getIdByValueAndSpecsId($specData['id'], $value);
 						}
