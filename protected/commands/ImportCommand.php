@@ -269,9 +269,33 @@ class ImportCommand extends CConsoleCommand
 		CUrlHelper::getPage('http://autofiles.com/site/flush', '', '');
 	}	
 	
+	
 	public function actionC()
 	{	
-			$completionIds = range(34511, 35594);
+			'length' 			=> 'exterior_length',
+			'body_width' 		=> 'exterior_body_width',
+			'body_height' 		=> 'exterior_height',
+			'front_head_room' 	=> 'front_headroom',
+			'rear_head_room' 	=> 'rear_headroom',
+			'front_leg_room' 	=> 'front_legroom',
+			'rear_leg_room' 	=> 'rear_legroom',
+	
+			$sql = "SELECT id FROM auto_completion WHERE
+						specs_exterior_length IS NULL
+						AND specs_exterior_body_width IS NULL
+						AND specs_exterior_height IS NULL
+						AND specs_front_headroom IS NULL
+						AND specs_rear_headroom IS NULL
+						AND specs_front_legroom IS NULL
+						AND specs_rear_legroom IS NULL
+						AND url <> ''
+			";
+			
+			$completionIds = array();
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();
+			foreach ($rows as $row) {
+				$completionIds[] = $row['id'];
+			}
 			
 			if (!empty($completionIds)) {
 				$this->actionCompletionDetails($completionIds);
@@ -336,8 +360,22 @@ class ImportCommand extends CConsoleCommand
 	
 	private function getSpecs($attributes)
 	{
+		$mapAlias = array(
+			'length' 			=> 'overall_length',
+			'body_width' 		=> 'overall_body_width',
+			'body_height' 		=> 'overall_body_height',
+			'front_head_room' 	=> 'head_room_front',
+			'rear_head_room' 	=> 'head_room_rear',
+			'front_leg_room' 	=> 'leg_room_front',
+			'rear_leg_room' 	=> 'leg_room_rear',
+		);
+		
 		$attributes['alias'] = AutoSpecs::slug($attributes['title']);
 		$attributes['alias'] = AutoSpecs::slug($attributes['alias']);
+		
+		if (isset($mapAlias[$attributes['alias']])) {
+			$attributes['alias'] = $mapAlias[$attributes['alias']];
+		}
 		
 		$model = AutoSpecs::model()->findByAttributes(array('alias'=>$attributes['alias']));
 						
