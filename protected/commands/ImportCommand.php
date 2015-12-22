@@ -1,7 +1,6 @@
 <?php
 class ImportCommand extends CConsoleCommand
 {
-
 	public function init() 
 	{
 		ini_set('max_execution_time', 3600*12);
@@ -281,7 +280,6 @@ class ImportCommand extends CConsoleCommand
 						AND specs_front_legroom IS NULL
 						AND specs_rear_legroom IS NULL
 						AND url <> ''
-						LIMIT 5
 			";
 			
 			$completionIds = array();
@@ -295,8 +293,8 @@ class ImportCommand extends CConsoleCommand
 				$this->actionSpecs();
 				$this->actionCompletionData($completionIds);
 			}
-	}	
-	
+	}
+
 	public function actionEmptyCompletion() {
 		$sql = "SELECT * FROM  `auto_completion` WHERE  `specs_msrp` IS NULL";
 		$completionIds = array();
@@ -354,13 +352,13 @@ class ImportCommand extends CConsoleCommand
 	private function getSpecs($attributes)
 	{
 		$mapAlias = array(
-			'length' 			=> 'overall_length',
-			'body_width' 		=> 'overall_body_width',
-			'body_height' 		=> 'overall_body_height',
-			'front_head_room' 	=> 'head_room_front',
-			'rear_head_room' 	=> 'head_room_rear',
-			'front_leg_room' 	=> 'leg_room_front',
-			'rear_leg_room' 	=> 'leg_room_rear',
+			'length' 			=> 'exterior_length',
+			'body_width' 		=> 'exterior_body_width',
+			'body_height' 		=> 'exterior_height',
+			'front_head_room' 	=> 'front_headroom',
+			'rear_head_room' 	=> 'rear_headroom',
+			'front_leg_room' 	=> 'front_legroom',
+			'rear_leg_room' 	=> 'rear_legroom',
 		);
 		
 		$attributes['alias'] = AutoSpecs::slug($attributes['title']);
@@ -370,8 +368,10 @@ class ImportCommand extends CConsoleCommand
 			$attributes['alias'] = $mapAlias[$attributes['alias']];
 		}
 		
+		$attributes['alias'] = trim($attributes['alias']);
+		
 		$model = AutoSpecs::model()->findByAttributes(array('alias'=>$attributes['alias']));
-						
+		
 		if (empty($model)) {
 			$model = new AutoSpecs;
 			$model->attributes = $attributes;
@@ -464,6 +464,9 @@ class ImportCommand extends CConsoleCommand
 			foreach ($completions as $key=>$completion) {
 				AutoCompletionSpecsTemp::model()->deleteAllByAttributes(array('completion_id'=>$completion->id));
 				$url = "http://www.autoblog.com/buy/" . $completion->url . '/';
+				
+				echo "$url \n";
+				
 				$content = '';
 				$content.= CUrlHelper::getPage($url . 'specs/', '', '');
 				$content.= CUrlHelper::getPage($url . 'equipment/', '', '');
@@ -496,17 +499,16 @@ class ImportCommand extends CConsoleCommand
 					if (true) {
 						preg_match_all('/<tr><td class="type">(.*?)<\/td><td class="spec">(.*?)<\/td><\/tr>/', $content, $matchSpecs);
 						
-						//d($matchSpecs);
-						
 						foreach ($matchSpecs[1] as $k=>$specTitle) {
 							$specsTitle = trim(strip_tags($specTitle));
-							//$specs = $this->getSpecs(array('title'=>$specsTitle, 'group_id'=>$specsGroup->id));
 							$specs = $this->getSpecs(array('title'=>$specsTitle));
 							
 							//echo $specs->id . "\n";
 							
 							$tempValue = strip_tags($matchSpecs[2][$k]);	
-
+							$tempValue = str_replace('&#034;', '', $tempValue);	
+							$tempValue = trim($tempValue);
+							
 							$completionSpecs = new AutoCompletionSpecsTemp;
 							$completionSpecs->attributes = array(
 								'completion_id' => $completion->id,

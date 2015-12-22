@@ -363,7 +363,10 @@ class AutoSpecs extends CActiveRecord
 	
 	public function addField()
 	{
-		Yii::app()->db->createCommand()->addColumn('auto_completion', AutoCompletion::PREFIX_SPECS.$this->alias, $this->getTypesTypeTitle());
+		$attribute = AutoCompletion::PREFIX_SPECS.$this->alias;
+		
+		if (!AutoCompletion::model()->hasAttribute($attribute))
+		Yii::app()->db->createCommand()->addColumn('auto_completion', $attribute, $this->getTypesTypeTitle());
 	}
 
 	public function updateField()
@@ -379,8 +382,10 @@ class AutoSpecs extends CActiveRecord
 
 	public function deleteField()
 	{
-		if (AutoCompletion::model()->hasProperty(AutoCompletion::PREFIX_SPECS.$this->alias)) {
-			Yii::app()->db->createCommand()->dropColumn('auto_completion', AutoCompletion::PREFIX_SPECS.$this->alias);
+		$attribute = AutoCompletion::PREFIX_SPECS.$this->alias;
+		
+		if (AutoCompletion::model()->hasProperty($attribute)) {
+			Yii::app()->db->createCommand()->dropColumn('auto_completion', $attribute);
 		}
 	}
 	

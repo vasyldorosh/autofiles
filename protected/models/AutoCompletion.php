@@ -52,16 +52,22 @@ class AutoCompletion extends CActiveRecord
 	
 		$specs = AutoSpecs::getAll();
 		foreach ($specs as $spec) {
-			$rules[] = array(self::PREFIX_SPECS.$spec['alias'], 'safe');
+			$attribute = self::PREFIX_SPECS.$spec['alias'];
+			
+			if (!$this->hasAttribute($attribute)) {
+				continue;
+			}
+			
+			$rules[] = array($attribute, 'safe');
 		
 			if ($spec['is_required'])		
-				$rules[] = array(self::PREFIX_SPECS.$spec['alias'], 'required');
+				$rules[] = array($attribute, 'required');
 				
 			if (in_array($spec['type'], array(AutoSpecs::TYPE_INT, AutoSpecs::TYPE_CHECKBOX, AutoSpecs::TYPE_SELECT)))
-				$rules[] = array(self::PREFIX_SPECS.$spec['alias'], 'numerical', 'integerOnly' => true);
+				$rules[] = array($attribute, 'numerical', 'integerOnly' => true);
 			
 			if ($spec['type'] == AutoSpecs::TYPE_FLOAT)
-				$rules[] = array(self::PREFIX_SPECS.$spec['alias'], 'numerical');		
+				$rules[] = array($attribute, 'numerical');		
 		}	
 
 		return $rules;
