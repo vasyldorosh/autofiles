@@ -272,14 +272,6 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionC()
 	{	
-			'length' 			=> 'exterior_length',
-			'body_width' 		=> 'exterior_body_width',
-			'body_height' 		=> 'exterior_height',
-			'front_head_room' 	=> 'front_headroom',
-			'rear_head_room' 	=> 'rear_headroom',
-			'front_leg_room' 	=> 'front_legroom',
-			'rear_leg_room' 	=> 'rear_legroom',
-	
 			$sql = "SELECT id FROM auto_completion WHERE
 						specs_exterior_length IS NULL
 						AND specs_exterior_body_width IS NULL
