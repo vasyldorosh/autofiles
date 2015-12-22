@@ -271,16 +271,7 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionC()
 	{	
-			$sql = "SELECT id FROM auto_completion WHERE
-						specs_exterior_length IS NULL
-						AND specs_exterior_body_width IS NULL
-						AND specs_exterior_height IS NULL
-						AND specs_front_headroom IS NULL
-						AND specs_rear_headroom IS NULL
-						AND specs_front_legroom IS NULL
-						AND specs_rear_legroom IS NULL
-						AND url <> ''
-			";
+			$sql = "SELECT id FROM auto_completion WHERE url <> ''";
 			
 			$completionIds = array();
 			$rows = Yii::app()->db->createCommand($sql)->queryAll();
