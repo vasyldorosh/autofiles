@@ -151,7 +151,7 @@
 		<?php endforeach;?>
 		
 <br><br>		
-<hr>
+ <?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 
 	</div>
 	<div class="l-col2">

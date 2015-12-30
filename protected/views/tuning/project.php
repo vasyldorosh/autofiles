@@ -188,13 +188,15 @@
 	
 	
 
-		
+		    <?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 		<?php if (!empty($project['description']) || !empty($project['source'])):?>
 			<section class="seo-text">
 			<h2 class="section-name_2">Details</h2>
 				<?=$project['description']?>
 				
-				<?php if (!empty($project['source'])):?>
+                            
+				
+                                <?php if (!empty($project['source'])):?>
 					<p><a href="<?=$project['source']?>" target="_blank" rel="nofollow">Source</a></p>
 				<?php endif;?>				
 			</section>

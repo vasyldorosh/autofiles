@@ -57,7 +57,7 @@
 		<?php if (!empty($competitors)):?>
 		<section class="make">
 			<h2 class="section-name_2">Competitors' horsepower</h2>
-
+<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 			<ul class="make__vehicle">
 			<?php foreach ($competitors as $competitor):?>
 				<li>

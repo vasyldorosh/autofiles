@@ -11,7 +11,7 @@
 					<?=SiteConfig::getInstance()->getValue('wheels_header_text_block')?>
 				</div>
 			</section>
-			<script src="http://autofiles.com/js/lib/jquery.js"></script>	
+			<script src="http://autotk.com/js/lib/jquery.js"></script>	
             <section class="section_tabs">
 				<section class="reviews">
 					<ul class="reviews__tabs">

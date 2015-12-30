@@ -127,7 +127,7 @@
 			</table>
 		</section>
 		<?php endif;?>
-		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
+		
 		
 		<?php $this->renderPartial('application.views.site._reviews', array(
 			'items' => ReviewVsModelYear::getTextModel(ReviewVsModelYear::MARKER_060, $model['id']),
