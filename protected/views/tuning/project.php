@@ -4,7 +4,7 @@
 
 			
 		<section class="table-container">
-		<h2 class="section-name_2 mb30"><?=$project['year']?> <?=$make['title']?> <?=$model['title']?></h2>
+		<h2 class="section-name_2 mb30"><?=$project['year']?> <?=$make['title']?> <?=$model['title']?> aftermarket wheels</h2>
 		
 		<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>
 		
@@ -20,7 +20,7 @@
 <br><br>
 
 
-<h2 class="section-name_2 mb30">Custom wheels & tires</h2>
+<h2 class="section-name_2 mb30">Custom wheels & tires for <?=$make['title']?> <?=$model['title']?></h2>
 	<table>
 	<tbody>
 		
@@ -191,7 +191,7 @@
 		    <?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 		<?php if (!empty($project['description']) || !empty($project['source'])):?>
 			<section class="seo-text">
-			<h2 class="section-name_2">Details</h2>
+			<h2 class="section-name_2">Details of modified <?=$project['year']?> <?=$make['title']?> <?=$model['title']?></h2>
 				<?=$project['description']?>
 				
                             
