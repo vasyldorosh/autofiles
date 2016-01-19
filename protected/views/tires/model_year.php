@@ -31,7 +31,7 @@
 				<div class="product_photo_item_top">
 					<a href="<?=Tire::url($tire)?>" class="product_photo_name"><?=$tire['is_rear']?'Front tires ':''?><?=$tireTextProfile?></a>
 					<ul class="make__vehicle-specs">
-						<li><a type="amzn" search="<?=Tire::format($tire, false)?>" category="automotive">Buy on Amazon</a></li>
+						<!--<li><a type="amzn" search="<?=Tire::format($tire, false)?>" category="automotive">Buy on Amazon</a></li>-->
 						
 						<?php if (!empty($rimWidth['front'])):?>
 						<li>Rim width <?=$rimWidth['front']['from']?> - <?=$rimWidth['front']['to']?>"</li>
@@ -53,7 +53,7 @@
 				<div class="product_photo_item_top">
 					<a href="<?=Tire::url($tire)?>" class="product_photo_name">Rear tires <?=$tireRearTextProfile?></a>
 					<ul class="make__vehicle-specs">
-						<li><a type="amzn" search="<?=$tireRearText?>" category="automotive">Buy on Amazon</a></li>
+						<!--<li><a type="amzn" search="<?=$tireRearText?>" category="automotive">Buy on Amazon</a></li>-->
 						<?php if (!empty($rimWidth['rear'])):?>
 						<li>Rim width <?=$rimWidth['rear']['from']?> - <?=$rimWidth['rear']['to']?>"</li>
 						<?php endif;?>

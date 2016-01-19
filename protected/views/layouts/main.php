@@ -67,7 +67,7 @@
 <!-- BEGIN FOOTER -->
 <footer>
 	<section class="footer__info">
-		<a href="/about.html">About us</a>
+		<a rel="nofollow" href="/about.html">About us</a>
 	</section>
 	<section class="footer__copyright">
 		&copy <?=date('Y')?> Autotk.com. All Rights Reserved.
