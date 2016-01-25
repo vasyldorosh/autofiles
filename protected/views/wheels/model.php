@@ -32,7 +32,7 @@
 			<tbody>
 				<?php if (!empty($wheelsDataItem['bolt_pattern'])):?>
 				<tr>
-					<td>Bolt pattern</td>
+					<td><b><?=$model['title']?> Bolt Pattern</b><br>Defines the diameter of the imaginary circle drawn by the centers of the wheel lugs and describes the number of the lug holes incorporated by the rim</td>
 					<td><?=$wheelsDataItem['bolt_pattern']?></td>
 					
 				</tr>
@@ -47,7 +47,7 @@
 				
 				<?php if (!empty($stockWheelOffset)):?>
 				<tr>
-					<td>Stock wheel offset</td>
+					<td><b>Stock wheel offset</b><br>The space between the hub mounting surface and the wheel center of <?=$model['title']?> wheels</td>
 					<td><?=implode(' to ', $stockWheelOffset)?> mm</td>
 				</tr>
 				<?php endif;?>
@@ -85,20 +85,20 @@
 
 				<?php if (!empty($wheelsDataItem['center_bore'])):?>
 				<tr>
-					<td>Center bore</td>
+					<td><b>Center bore (hub bore)</b><br>The hole in the middle of a rim that exactly matches the hub diameter. It is located at the back of the wheel and as the car's hub goes into this hole it ensures the wheel gets centered correctly. Stock <?=$model['title']?> wheels have a perfect centerbore fit with the hub. </td>
 					<td><?=$wheelsDataItem['center_bore']?></td>
 				</tr>
 				<?php endif;?>	
 				
 				<?php if (!empty($wheelsDataItem['thread_size'])):?>
 				<tr>
-					<td>Thread size</td>
+					<td><b>Thread size</b><br>Measures the thread diameter, the thread pitch, and the thread length. In the metric system, the diameter of the thread, the first digit, is described in millimeters. </td>
 					<td><?=$wheelsDataItem['thread_size']?></td>					
 				</tr>
 				<?php endif;?>				
 				
 				<tr>
-					<td>Stock rim sizes range</td>
+					<td><b>Stock Rim Sizes Range</b><br>Gives an idea about the maximum and minimum allowable limits of the wheels diameter and width matching the specific vehicle </td>
 					<td><?=$wheelsDataItem['tire_rim_diameter_from']?>x<?=$wheelsDataItem['rim_width_from']?> &ndash; <?=$wheelsDataItem['tire_rim_diameter_to']?>x<?=$wheelsDataItem['rim_width_to']?></td>					
 				</tr>
 				
@@ -116,7 +116,7 @@
 					
 				<?php if (!empty($rangeTire)):?>	
 				<tr>
-					<td>Tire sizes</td>
+					<td><b>Tire sizes</b><br>Scale from the minimum to the maximum available options of the wheel dimensions that may fit <?=$make['title']?> <?=$model['title']?></td>
 					<td><a href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/<?=$wheelsDataItem['years'][0]?>/"><?=implode(' &ndash; ', $rangeTire)?></a></td>
 				</tr>
 				<?php endif;?>
