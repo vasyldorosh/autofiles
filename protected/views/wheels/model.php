@@ -32,8 +32,8 @@
 			<tbody>
 				<?php if (!empty($wheelsDataItem['bolt_pattern'])):?>
 				<tr>
-					<td><b><?=$model['title']?> Bolt Pattern</b><br>Defines the diameter of the imaginary circle drawn by the centers of the wheel lugs and describes the number of the lug holes incorporated by the rim</td>
-					<td><?=$wheelsDataItem['bolt_pattern']?></td>
+					<td><h3><?=$model['title']?> Bolt Pattern</h3>Defines the diameter of the imaginary circle drawn by the centers of the wheel lugs and describes the number of the lug holes incorporated by the rim. How to change bolt pattern? Use adaptors</td>
+					<td><h3><?=$wheelsDataItem['bolt_pattern']?></h3></td>
 					
 				</tr>
 				<?php endif;?>
@@ -47,8 +47,8 @@
 				
 				<?php if (!empty($stockWheelOffset)):?>
 				<tr>
-					<td><b>Stock wheel offset</b><br>The space between the hub mounting surface and the wheel center of <?=$model['title']?> wheels</td>
-					<td><?=implode(' to ', $stockWheelOffset)?> mm</td>
+					<td><h3>Stock wheel offset</h3>The space between the hub mounting surface and the wheel center of <?=$model['title']?> wheels</td>
+					<td><h3><?=implode(' to ', $stockWheelOffset)?> mm</h3></td>
 				</tr>
 				<?php endif;?>
 				
@@ -77,35 +77,35 @@
 				
 				<?php if (!empty($customOffsetRange)):?>
 				<tr>
-					<td>Custom offset range</td>
-					<td><a href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/"><?=implode(' to ', $customOffsetRange)?> mm</a></td>
+					<td><h3>Custom Offset Range</h3>Is calculated from the data of modified <?=$make['title']?>/<?=$model['title']?> that switched to custom wheel size preserving the proper driving capabilities of the vehicle</td>
+					<td><h3><a title="Custom, modified <?=$make['title']?> <?=$model['title']?>" href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/"><?=implode(' to ', $customOffsetRange)?> mm</a></h3></td>
 					
 				</tr>
 				<?php endif;?>
 
 				<?php if (!empty($wheelsDataItem['center_bore'])):?>
 				<tr>
-					<td><b>Center bore (hub bore)</b><br>The hole in the middle of a rim that exactly matches the hub diameter. It is located at the back of the wheel and as the car's hub goes into this hole it ensures the wheel gets centered correctly. Stock <?=$model['title']?> wheels have a perfect centerbore fit with the hub. </td>
-					<td><?=$wheelsDataItem['center_bore']?></td>
+					<td><h3>Center bore (hub bore)</h3>The hole in the middle of a rim that exactly matches the hub diameter. It is located at the back of the wheel and as the car's hub goes into this hole it ensures the wheel gets centered correctly. Stock <?=$model['title']?> wheels have a perfect centerbore fit with the hub. How to fit rims with larger centre bore? Use Hub Centric Rings</td>
+					<td><h3><?=$wheelsDataItem['center_bore']?></h3></td>
 				</tr>
 				<?php endif;?>	
 				
 				<?php if (!empty($wheelsDataItem['thread_size'])):?>
 				<tr>
-					<td><b>Thread size</b><br>Measures the thread diameter, the thread pitch, and the thread length. In the metric system, the diameter of the thread, the first digit, is described in millimeters. </td>
-					<td><?=$wheelsDataItem['thread_size']?></td>					
+					<td><h3>Thread size</h3>Measures the thread diameter, the thread pitch, and the thread length. In the metric system, the diameter of the thread, the first digit, is described in millimeters. </td>
+					<td><h3><?=$wheelsDataItem['thread_size']?></h3></td>					
 				</tr>
 				<?php endif;?>				
 				
 				<tr>
-					<td><b>Stock Rim Sizes Range</b><br>Gives an idea about the maximum and minimum allowable limits of the wheels diameter and width matching the specific vehicle </td>
-					<td><?=$wheelsDataItem['tire_rim_diameter_from']?>x<?=$wheelsDataItem['rim_width_from']?> &ndash; <?=$wheelsDataItem['tire_rim_diameter_to']?>x<?=$wheelsDataItem['rim_width_to']?></td>					
+					<td><h3>Stock Rim Sizes Range</h3>Gives an idea about the maximum and minimum allowable limits of the wheels diameter and width matching the specific vehicle </td>
+					<td><h3><?=$wheelsDataItem['tire_rim_diameter_from']?>x<?=$wheelsDataItem['rim_width_from']?> &ndash; <?=$wheelsDataItem['tire_rim_diameter_to']?>x<?=$wheelsDataItem['rim_width_to']?></h3></td>					
 				</tr>
 				
 				<?php if (!empty($wheelsDataItem['custom_rim_sizes_range'])):?>
 				<tr>
-					<td>Custom rim sizes range</td>
-					<td><a href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$wheelsDataItem['custom_rim_sizes_range']?></a></td>
+					<td><h3>Custom rim sizes range</h3> Shows the lower and upper limits of the rims the vehicle can incorporate in contrast to the manufacturer/'s specs</td>
+					<td><h3><a href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$wheelsDataItem['custom_rim_sizes_range']?></a></h3></td>
 				</tr>
 				<?php endif;?>	
 					
@@ -116,8 +116,8 @@
 					
 				<?php if (!empty($rangeTire)):?>	
 				<tr>
-					<td><b>Tire sizes</b><br>Scale from the minimum to the maximum available options of the wheel dimensions that may fit <?=$make['title']?> <?=$model['title']?></td>
-					<td><a href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/<?=$wheelsDataItem['years'][0]?>/"><?=implode(' &ndash; ', $rangeTire)?></a></td>
+					<td><h3>Tire sizes</h3>Scale from the minimum to the maximum available options of the wheel dimensions that may fit <?=$make['title']?> <?=$model['title']?></td>
+					<td><h3><a title="<?=$make['title']?> <?=$model['title']?> tire size" href="/tires/<?=$make['alias']?>/<?=$model['alias']?>/<?=$wheelsDataItem['years'][0]?>/"><?=implode(' &ndash; ', $rangeTire)?></a></h3></td>
 				</tr>
 				<?php endif;?>
 				
@@ -127,7 +127,7 @@
 		
 		<?php if (!empty($wheelsDataItem['custom_rim_sizes'])):?>
 		<section class="table-container">
-			<h4 class="title_tire"><a name="r17"></a>Custom rim sizes for a <?=$make['title']?> <?=$model['title']?> <?=$wheelsDataItem['years'][0]?><?php if (end($wheelsDataItem['years'])!=$wheelsDataItem['years'][0]):?>-<?=end($wheelsDataItem['years'])?><?php endif;?></h4>
+			<h2 class="section-name_2"><a name="r17"></a>Custom rim sizes for a <?=$make['title']?> <?=$model['title']?> <?=$wheelsDataItem['years'][0]?><?php if (end($wheelsDataItem['years'])!=$wheelsDataItem['years'][0]):?>-<?=end($wheelsDataItem['years'])?><?php endif;?></h2>
 			<table>
 				<tbody>
 					<tr>
@@ -140,7 +140,7 @@
 					<tr>
 						<td><a href="/wheels/<?=$make['alias']?>/<?=$model['alias']?>/<?=$item['rim_diameter']?>x<?=TextHelper::f($item['rim_width'])?>/<?php if ($item['is_staggered'] && ($item['rear_rim_diameter']!=$item['rim_diameter'] || $item['rear_rim_width']!=$item['rim_width'])):?><?=(!empty($item['rear_rim_diameter']))?$item['rear_rim_diameter']:$item['rim_diameter']?>x<?=(!empty($item['rear_rim_width']))?TextHelper::f($item['rear_rim_width']):TextHelper::f($item['rim_width'])?>/<?php endif;?>"><?=$item['rim_diameter']?>x<?=TextHelper::f($item['rim_width'])?><?php if ($item['is_staggered'] && ($item['rear_rim_diameter']!=$item['rim_diameter'] || $item['rear_rim_width']!=$item['rim_width'])):?> / <?=(!empty($item['rear_rim_diameter']))?$item['rear_rim_diameter']:$item['rim_diameter']?>x<?=(!empty($item['rear_rim_width']))?TextHelper::f($item['rear_rim_width']):TextHelper::f($item['rim_width'])?><?php endif;?></a></td>
 						<td><?=$item['ror_min']?>-<?=$item['ror_max']?></td>
-						<td><a href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/wheels-<?=$item['rim_diameter']?>x<?=TextHelper::f($item['rim_width'])?>/"><?=$item['c']?></a></td>
+						<td><h3><a href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/wheels-<?=$item['rim_diameter']?>x<?=TextHelper::f($item['rim_width'])?>/"><?=$item['c']?></a></h3></td>
 					</tr>
 					<?php endforeach;?>
 				</tbody>
