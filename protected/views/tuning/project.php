@@ -29,19 +29,19 @@
 
 			<tr>
 				<td>Front rim size</td>
-				<td><?=$project['rim_diameter']?><?=(!empty($project['rim_width']))?'x'.$project['rim_width']:' inch'?></td>		
+				<td><h3><?=$project['rim_diameter']?><?=(!empty($project['rim_width']))?'x'.$project['rim_width']:' inch'?></h3></td>		
 			</tr>
 			<?php if (!empty($project['rim_offset_range'])):?>
 			<tr>
 				<td>Front rim offset</td>
-				<td><?=($project['rim_offset_range']>0?'+':'')?><?=$project['rim_offset_range']?></td>
+				<td><h3><?=($project['rim_offset_range']>0?'+':'')?><?=$project['rim_offset_range']?></h3></td>
 			</tr>
 			<?php endif;?>
 			
 			<?php if (!empty($project['tire_section_width']) && !empty($project['tire_aspect_ratio']) && !empty($project['rim_diameter'])):?>
 			<tr>
 				<td>Front tire size</td>
-				<td><a href="<?=Tire::url(array(
+				<td><h3><a href="<?=Tire::url(array(
 					'section_width' => $project['tire_section_width'],
 					'aspect_ratio' 	=> $project['tire_aspect_ratio'],
 					'rim_diameter' 	=> $project['rim_diameter'],
@@ -51,7 +51,7 @@
 					'aspect_ratio' 	=> $project['tire_aspect_ratio'],
 					'rim_diameter' 	=> $project['rim_diameter'],
 					'vehicle_class'	=> $project['tire_vehicle_class'],
-				), true)?></a></td>	
+				), true)?></a></h3></td>	
 			</tr>
 			<?php endif;?>
 			<tr>
@@ -61,20 +61,20 @@
 			
 			<tr>
 				<td>Rear rim size</td>
-				<td><?=$project['rim_diameter']?><?=(!empty($project['rim_width']))?'x'.$project['rim_width']:' inch'?></td>
+				<td><h3><?=$project['rim_diameter']?><?=(!empty($project['rim_width']))?'x'.$project['rim_width']:' inch'?></h3></td>
 			</tr>
 			
 			<?php if (!empty($project['rim_offset_range'])):?>
 			<tr>
 				<td>Rear rim offset</td>
-				<td><?=($project['rim_offset_range']>0?'+':'')?><?=$project['rim_offset_range']?></td>	
+				<td><h3><?=($project['rim_offset_range']>0?'+':'')?><?=$project['rim_offset_range']?></h3></td>	
 			</tr>
 			<?php endif;?>
 		
 			<?php if (!empty($project['rear_tire_section_width']) && !empty($project['rear_tire_aspect_ratio']) && !empty($project['rim_diameter'])):?>
 			<tr>
 				<td>Rear tire size</td>
-				<td><a href="<?=Tire::url(array(
+				<td><h3><a href="<?=Tire::url(array(
 					'section_width' => $project['rear_tire_section_width'],
 					'aspect_ratio' 	=> $project['rear_tire_aspect_ratio'],
 					'rim_diameter' 	=> $project['rim_diameter'],
@@ -84,7 +84,7 @@
 					'aspect_ratio' 	=> $project['rear_tire_aspect_ratio'],
 					'rim_diameter' 	=> $project['rim_diameter'],
 					'vehicle_class'	=> $project['tire_vehicle_class'],
-				), true)?></a></td>	
+				), true)?></a></h3></td>	
 			</tr>
 			<tr>
 				<td>&nbsp;</td>
@@ -97,19 +97,19 @@
 		<?php else:?>		
 			<tr>
 				<td><?=($project['is_staggered_wheels'])?'Front rim size':'Front & rear rim size'?></td>
-				<td><?=$project['rim_diameter']?><?=(!empty($project['rim_width']))?'x'.$project['rim_width']:' inch'?></td>		
+				<td><h3><?=$project['rim_diameter']?><?=(!empty($project['rim_width']))?'x'.$project['rim_width']:' inch'?></h3></td>		
 			</tr>
 			<?php if (!empty($project['rim_offset_range'])):?>
 			<tr>
 				<td><?=($project['is_staggered_wheels'])?'Front rim offset':'Front & rear rim offset'?></td>
-				<td><?=($project['rim_offset_range']>0?'+':'')?><?=$project['rim_offset_range']?></td>
+				<td><h3><?=($project['rim_offset_range']>0?'+':'')?><?=$project['rim_offset_range']?></h3></td>
 			</tr>
 			<?php endif;?>
 			
 			<?php if (!empty($project['tire_section_width']) && !empty($project['tire_aspect_ratio']) && !empty($project['rim_diameter'])):?>
 			<tr>
 				<td><?=($project['is_staggered_wheels'])?'Front tire size':'Front & rear tire size'?></td>
-				<td><a href="<?=Tire::url(array(
+				<td><h3><a href="<?=Tire::url(array(
 					'section_width' => $project['tire_section_width'],
 					'aspect_ratio' 	=> $project['tire_aspect_ratio'],
 					'rim_diameter' 	=> $project['rim_diameter'],
@@ -119,7 +119,7 @@
 					'aspect_ratio' 	=> $project['tire_aspect_ratio'],
 					'rim_diameter' 	=> $project['rim_diameter'],
 					'vehicle_class'	=> $project['tire_vehicle_class'],
-				), true)?></a></td>	
+				), true)?></a></h3></td>	
 			</tr>
 			<?php endif;?>
 			<tr>
@@ -130,13 +130,13 @@
 			<?php if ($project['is_staggered_wheels']):?>
 			<tr>
 				<td>Rear rim size</td>
-				<td><?=$project['rear_rim_diameter']?>x<?=$project['rear_rim_width']?></td>
+				<td><h3><?=$project['rear_rim_diameter']?>x<?=$project['rear_rim_width']?></h3></td>
 			</tr>
 			
 				<?php if (!empty($project['rear_rim_offset_range'])):?>
 				<tr>
 					<td>Rear rim offset</td>
-					<td><?=($project['rear_rim_offset_range']>0?'+':'')?><?=$project['rear_rim_offset_range']?></td>			
+					<td><h3><?=($project['rear_rim_offset_range']>0?'+':'')?><?=$project['rear_rim_offset_range']?></h3></td>			
 				</tr>
 				<?php endif;?>
 				
@@ -145,7 +145,7 @@
 			<?php if (!empty($project['rear_tire_section_width']) && !empty($project['rear_tire_aspect_ratio']) && !empty($project['rear_rim_diameter']) && $project['is_staggered_tires']):?>
 			<tr>
 				<td>Rear tire size</td>
-				<td><a href="<?=Tire::url(array(
+				<td><h3><a href="<?=Tire::url(array(
 					'section_width' => $project['rear_tire_section_width'],
 					'aspect_ratio' 	=> $project['rear_tire_aspect_ratio'],
 					'rim_diameter' 	=> $project['rear_rim_diameter'],
@@ -155,7 +155,7 @@
 					'aspect_ratio' 	=> $project['rear_tire_aspect_ratio'],
 					'rim_diameter' 	=> $project['rear_rim_diameter'],
 					'vehicle_class'	=> $project['tire_vehicle_class'],
-				), true)?></a></td>	
+				), true)?></a></h3></td>	
 			</tr>
 			<tr>
 				<td>&nbsp;</td>
@@ -170,14 +170,18 @@
 		<?php if (!empty($project['wheel_manufacturer']) || !empty($project['wheel_model'])):?>
 		<tr>
 			<td>Rims brand</td>
-			<td><?=$project['wheel_manufacturer']?> <?=$project['wheel_model']?></td>
+			<td><h3><?=$project['wheel_manufacturer']?> <?=$project['wheel_model']?></h3></td>
+		</tr>
+                <tr>
+			<td>Wheel weight</td>
+			<td>To be added soon</td>
 		</tr>		
 		<?php endif;?>
 
 		<?php if (!empty($project['tire_manufacturer']) || !empty($project['tire_model'])):?>
 		<tr>
 			<td>Tire brand</td>
-			<td><?=$project['tire_manufacturer']?> <?=$project['tire_model']?></td>	
+			<td><h3><?=$project['tire_manufacturer']?> <?=$project['tire_model']?></h3></td>	
 		</tr>	
 		<?php endif;?>		
 		

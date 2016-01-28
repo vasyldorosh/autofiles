@@ -77,7 +77,7 @@
 				
 				<?php if (!empty($customOffsetRange)):?>
 				<tr>
-					<td><h3>Custom Offset Range</h3>Is calculated from the data of modified <?=$make['title']?>/<?=$model['title']?> that switched to custom wheel size preserving the proper driving capabilities of the vehicle</td>
+					<td><h3>Custom Offset Range</h3>Is calculated from the data of modified <?=$make['title']?> <?=$model['title']?> that switched to custom wheel size preserving the proper driving capabilities of the vehicle</td>
 					<td><h3><a title="Custom, modified <?=$make['title']?> <?=$model['title']?>" href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/"><?=implode(' to ', $customOffsetRange)?> mm</a></h3></td>
 					
 				</tr>
