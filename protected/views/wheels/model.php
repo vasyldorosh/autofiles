@@ -32,8 +32,8 @@
 			<tbody>
 				<?php if (!empty($wheelsDataItem['bolt_pattern'])):?>
 				<tr>
-					<td><h3><?=$model['title']?> Bolt Pattern</h3>Defines the diameter of the imaginary circle drawn by the centers of the wheel lugs and describes the number of the lug holes incorporated by the rim. How to change bolt pattern? Use adaptors</td>
-					<td><h3><?=$wheelsDataItem['bolt_pattern']?></h3></td>
+					<td><h3><?=$model['title']?> Bolt Pattern</h3>Pitch Circle Diameter (PCD) defines the diameter of the imaginary circle drawn by the centers of the wheel lugs and describes the number of the lug holes incorporated by the rim. How to change bolt pattern? Use adaptors</td>
+					<td><h3>PCD <?=$wheelsDataItem['bolt_pattern']?></h3></td>
 					
 				</tr>
 				<?php endif;?>
