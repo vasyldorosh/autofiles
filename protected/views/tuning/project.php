@@ -29,7 +29,7 @@
 
 			<tr>
 				<td>Front rim size</td>
-				<td><h3><?=$project['rim_diameter']?><?=(!empty($project['rim_width']))?'x'.$project['rim_width']:' inch'?></h3></td>		
+				<td><h3><?=$project['rim_diameter']?><?=(!empty($project['rim_width']))?'x'.$project['rim_width']:' inch'?></a></td>		
 			</tr>
 			<?php if (!empty($project['rim_offset_range'])):?>
 			<tr>
