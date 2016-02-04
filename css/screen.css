@@ -532,7 +532,7 @@ footer { margin: 0 5px; margin-top: 50px; border-top: 1px solid #e3e3e3; *zoom: 
 footer:after { content: " "; display: table; clear: both; }
 footer .footer__info { width: 100%; line-height: 67px; }
 footer .footer__info a { color: #2fa4e7; margin-right: 15px; }
-footer .footer__copyright { width: 100%; text-align: right; line-height: 67px; text-align:center;}
+footer .footer__copyright { width: 100%; text-align: right; line-height: 27px; text-align:center;}
 
 /*=========================== Serge's stiles  =============================*/
 .mb30{margin-bottom: 30px;}

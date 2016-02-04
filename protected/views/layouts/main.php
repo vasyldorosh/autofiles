@@ -66,14 +66,10 @@
 
 <!-- BEGIN FOOTER -->
 <footer>
-	<section class="footer__info">
-		<a rel="nofollow" href="/about.html">About us</a>
-	</section>
-	<section class="footer__copyright">
-		&copy <?=date('Y')?> Autotk.com. All Rights Reserved.
-
-		
-	</section>
+		<section class="footer__copyright"><br>
+		&copy <?=date('Y')?> Autotk.com. All Rights Reserved. <a rel="nofollow" href="/about.html">About us</a><br>
+Found a mistake? We would be VERY grateful for flagging it here: <a href="mailto:autotkcom@gmail.com">autotkcom@gmail.com</a>
+                </section>
 </footer>
 
 </body>
