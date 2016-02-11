@@ -127,7 +127,7 @@
 		
 		<?php if (!empty($wheelsDataItem['custom_rim_sizes'])):?>
 		<section class="table-container">
-			<h2 class="section-name_2"><a name="r17"></a>Custom rim sizes for a <?=$make['title']?> <?=$model['title']?> <?=$wheelsDataItem['years'][0]?><?php if (end($wheelsDataItem['years'])!=$wheelsDataItem['years'][0]):?>-<?=end($wheelsDataItem['years'])?><?php endif;?></h2>
+			<h2 class="section-name_2"><a name="r17"></a>Custom wheels for a <?=$make['title']?> <?=$model['title']?> <?=$wheelsDataItem['years'][0]?><?php if (end($wheelsDataItem['years'])!=$wheelsDataItem['years'][0]):?>-<?=end($wheelsDataItem['years'])?><?php endif;?></h2>
 			<table>
 				<tbody>
 					<tr>
