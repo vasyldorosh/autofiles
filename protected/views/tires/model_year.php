@@ -31,7 +31,7 @@
 				<div class="product_photo_item_top">
 					<a href="<?=Tire::url($tire)?>" class="product_photo_name"><?=$tire['is_rear']?'Front tires ':''?><?=$tireTextProfile?></a>
 					<ul class="make__vehicle-specs">
-						<li><a type="amzn" search="<?=Tire::format($tire, false)?>" category="automotive">Buy on Amazon</a></li>
+						<!--<li><a type="amzn" search="<?=Tire::format($tire, false)?>" category="automotive">Buy on Amazon</a></li>-->
 						
 						<?php if (!empty($rimWidth['front'])):?>
 						<li>Rim width <?=$rimWidth['front']['from']?> - <?=$rimWidth['front']['to']?>"</li>
@@ -53,7 +53,7 @@
 				<div class="product_photo_item_top">
 					<a href="<?=Tire::url($tire)?>" class="product_photo_name">Rear tires <?=$tireRearTextProfile?></a>
 					<ul class="make__vehicle-specs">
-						<li><a type="amzn" search="<?=$tireRearText?>" category="automotive">Buy on Amazon</a></li>
+						<!--<li><a type="amzn" search="<?=$tireRearText?>" category="automotive">Buy on Amazon</a></li>-->
 						<?php if (!empty($rimWidth['rear'])):?>
 						<li>Rim width <?=$rimWidth['rear']['from']?> - <?=$rimWidth['rear']['to']?>"</li>
 						<?php endif;?>
@@ -143,30 +143,15 @@
 	<div class="l-col2">
 		<section class="">
 			
-			<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>			
-
-			<?php $this->renderPartial('application.views.specs._right_model_year', array(
+						<?php $this->renderPartial('application.views.specs._right_model_year', array(
 				'make'=>$make,
 				'model'=>$model,
 				'modelYear'=>$modelYear,
 			))?>			
-			
-<script charset="utf-8" type="text/javascript">
-amzn_assoc_ad_type = "responsive_search_widget";
-amzn_assoc_tracking_id = "auto0a70-20";
-amzn_assoc_link_id = "YOKSPVOMVGKQ5UMP";
-amzn_assoc_marketplace = "amazon";
-amzn_assoc_region = "US";
-amzn_assoc_placement = "";
-amzn_assoc_search_type = "search_widget";
-amzn_assoc_width = 300;
-amzn_assoc_height = 250;
-amzn_assoc_default_search_category = "Automotive";
-amzn_assoc_default_search_key = "";
-amzn_assoc_theme = "light";
-amzn_assoc_bg_color = "FFFFFF";
-</script>
-<script src="//z-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&Operation=GetScript&ID=OneJS&WS=1&MarketPlace=US"></script>
+			<br>
+<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>			
+
+
 
 		</section>
 

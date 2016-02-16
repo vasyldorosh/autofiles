@@ -12,7 +12,7 @@
 </section>
 <section class="make">
 	<h2 class="section-name_2">Select <?=$make['title']?> model</h2>
-
+<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 	<ul class="make__vehicle">
 	<?php foreach ($dataModels as $dataModel):?>	
 		<li>

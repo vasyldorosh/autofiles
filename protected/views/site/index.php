@@ -23,7 +23,7 @@
 		<!-- section 2 -->
 		<?php $years = AutoModelYear::getYears();?>
 		<section class="options">
-			<p class="section-name">Select options</p>
+			<p class="section-name_2">Select options</p>
 			<div class="options__block">
 				<div class="options__item">
 					<strong>Year</strong>
@@ -47,9 +47,56 @@
 					</select>
 				</div>
 				<button style="display: none;" type="submit" class="btn btn_options" id="btn_submit_filter">GO</button>
-			</div>
+			<br><br><br>
+<p class="section-name_2">0-60 times Hot trends</p>
+<p><a title="Nissan Gtr 0-60 times" href="http://autotk.com/0-60-times/nissan/gt-r/">Gtr</a> / 
+<a title="Scion Frs 0-60 times" href="http://autotk.com/0-60-times/scion/fr-s/">Frs</a> / 
+<a title="Nissan 370z 0-60 times" href="http://autotk.com/0-60-times/nissan/370z/">370z</a> / 
+<a title="Audi S4 0-60 times" href="http://autotk.com/0-60-times/audi/s4/">S4</a> / 
+<a title="Tesla Model s 0-60 times" href="http://autotk.com/0-60-times/tesla/model-s/">Model s</a> / 
+<a title="Mustang Mustang 0-60 times" href="http://autotk.com/0-60-times/ford/mustang/">Mustang</a> / 
+<a title="Chevy Camaro ss 0-60 times" href="http://autotk.com/0-60-times/chevrolet/camaro/">Camaro ss</a> / 
+<a title="Subaru Wrx 0-60 times" href="http://autotk.com/0-60-times/subaru/wrx/">Wrx</a> / 
+<a title="Audi R8 0-60 times" href="http://autotk.com/0-60-times/audi/r8/">R8</a> / 
+<a title="Subaru Brz 0-60 times" href="http://autotk.com/0-60-times/subaru/brz/">Brz</a> / 
+<a title="Nissan 350z 0-60 times" href="http://autotk.com/0-60-times/nissan/350z/">350z</a> / 
+<a title="Bmw M3 0-60 times" href="http://autotk.com/0-60-times/bmw/m3/">M3</a> / 
+<a title="Audi S5 0-60 times" href="http://autotk.com/0-60-times/audi/s5/">S5</a> / 
+<a title="Audi S3 0-60 times" href="http://autotk.com/0-60-times/audi/s3/">S3</a> / 
+<a title="Bmw M5 0-60 times" href="http://autotk.com/0-60-times/bmw/m5/">M5</a> / 
+<a title="Audi A4 0-60 times" href="http://autotk.com/0-60-times/audi/a4/">A4</a> / 
+<a title="Bmw 328i 0-60 times" href="http://autotk.com/0-60-times/bmw/328-gran-turismo/">328i</a> / 
+<a title="Chevy Corvette z06 0-60 times" href="http://autotk.com/0-60-times/chevrolet/corvette/">Corvette z06</a> / 
+<a title="Hyundai Genesis coupe 0-60 times" href="http://autotk.com/0-60-times/hyundai/genesis-coupe/">Genesis coupe</a> / 
+<a title="Honda Civic si 0-60 times" href="http://autotk.com/0-60-times/honda/civic/">Civic si</a> / 
+<a title="Dodge Charger 0-60 times" href="http://autotk.com/0-60-times/dodge/charger/">Charger</a> / 
+<a title="Scion Tc 0-60 times" href="http://autotk.com/0-60-times/scion/tc/">Tc</a> / 
+<a title="Ferrari 458 0-60 times" href="http://autotk.com/0-60-times/ferrari/458-italia/">458</a> / 
+<a title="Dodge Viper 0-60 times" href="http://autotk.com/0-60-times/dodge/srt-viper/">Viper</a> / 
+<a title="Cadillac Cts-v 0-60 times" href="http://autotk.com/0-60-times/cadillac/cts-v/">Cts-v</a> / 
+<a title="Mazda Mazda6 0-60 times" href="http://autotk.com/0-60-times/mazda/mazda6/">Mazda6</a> / 
+<a title="Audi S6 0-60 times" href="http://autotk.com/0-60-times/audi/s6/">S6</a> / 
+<a title="Infiniti G37 0-60 times" href="http://autotk.com/0-60-times/infiniti/m37/">G37</a> / 
+<a title="Hyundai Genesis 0-60 times" href="http://autotk.com/0-60-times/hyundai/genesis-coupe/">Genesis</a> / 
+<a title="Dodge Challenger rt 0-60 times" href="http://autotk.com/0-60-times/dodge/challenger/">Challenger rt</a> / 
+<a title="Lotus Elise 0-60 times" href="http://autotk.com/0-60-times/lotus/elise/">Elise</a> / 
+<a title="Fiat 500 abarth 0-60 times" href="http://autotk.com/0-60-times/fiat/500/">500 abarth</a> / 
+<a Bmw M6 0-60 times" href="http://autotk.com/0-60-times/bmw/m6-gran-coupe/">M6</a> / 
+<a Bmw 550i 0-60 times" href="http://autotk.com/0-60-times/bmw/550/">550i</a> / 
+<a Infiniti G35 0-60 times" href="http://autotk.com/0-60-times/infiniti/g35x/">G35</a> / 
+<a Honda Accord 0-60 times" href="http://autotk.com/0-60-times/honda/accord/">Accord</a> / 
+<a Ford Fiesta st 0-60 times" href="http://autotk.com/0-60-times/ford/fiesta/">Fiesta st</a> / 
+<a Acura Tl 0-60 times" href="http://autotk.com/0-60-times/acura/tl/">Tl</a> / 
+<a Jaguar F type 0-60 times" href="http://autotk.com/0-60-times/jaguar/f-type/">F type</a> / 
+<a Audi A5 0-60 times" href="http://autotk.com/0-60-times/audi/a5/">A5</a> / 
+<a Ford Fusion 0-60 times" href="http://autotk.com/0-60-times/ford/fusion-energi/">Fusion</a> / 
+<a Audi S7 0-60 times" href="http://autotk.com/0-60-times/audi/s7/">S7</a> / 
+<a Nissan Maxima 0-60 times" href="http://autotk.com/0-60-times/nissan/maxima/">Maxima</a> / 
+</p>
+
+</div>
 		</section>
-	<script src="/js/lib/jquery.js"></script>		
+	<script src="http://autotk.com/js/lib/jquery.js"></script>		
 <script>
 $('#Filter_year').change(function(e) {
 	$('#Filter_make_id').empty().append('<option value="">-no select-</option>');
@@ -110,7 +157,7 @@ $('#btn_submit_filter').click(function(e) {
 
 
 
-<script src="/js/owl.carousel.js"></script>
+<script src="http://autotk.com/js/owl.carousel.js"></script>
 <script>
  $(document).ready(function() {
  

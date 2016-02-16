@@ -22,15 +22,15 @@
 				<tr>
 					<td>
 						<?php $expl = explode('@', $item['specs_horsepower']); $hp = trim($expl[0])?>
-						<?=$item['title']?><?php if (!empty($hp)):?>, <a href="/horsepower/<?=$hp?>/"><?=$hp?> hp</a><?php endif;?><br/>
+						<?=$item['title']?><?php if (!empty($hp)):?>, <?=$hp?> hp<?php endif;?><br/>
 						<small><?php 
 						$engine = trim(AutoCompletion::getSpecsOptionTitle(AutoSpecs::SPEC_ENGINE, $item['specs_engine']));
 						$transmission = AutoCompletion::getSpecsOptionTitle(AutoSpecs::SPEC_TRANSMISSION, $item['specs_transmission'])?>
 						<?=!empty($item['specs_turbocharger'])?'turbo, ':''?><?php if (!empty($engine)):?><?=($engine!='Hybrid Electric Motor')?str_replace('Electric Motor', '', $engine):$engine?><?php endif;?><?php if (!empty($transmission)):?>, <?=str_replace('w/OD', '', $transmission)?><?php endif;?></small>
 					</td>
-					<td>
+					<td><h3>
 						<?=(float)$item['specs_0_60mph__0_100kmh_s_']?> sec
-					</td>
+					</h3></td>
 					<td>	
 						<?=(float)$item['specs_1_4_mile_time']?> @ <?=(float)$item['specs_1_4_mile_speed']?> mph
 					</td>					
@@ -47,15 +47,15 @@
 			<table>
 			<?php foreach ($models as $item):?>
 				<tr>
-					<td><a href="/<?=$make['alias']?>/<?=$model['alias']?>/<?=$item['year']?>/"  title="<?=$item['year']?> <?=$make['title']?> <?=$model['title']?> review"><?=$item['year']?> <?=$make['title']?> <?=$model['title']?></a> 0-60, 1/4 mile</td>
-					<td>
+					<td><?=$item['year']?> <?=$make['title']?> <?=$model['title']?> 0-60, 1/4 mile</td>
+					<td><h3>
 					<?php if ($item['0_60_times']['mmax'] == $item['0_60_times']['mmin']):?>
 						<?=$item['0_60_times']['mmin']?>
 					<?php else:?>
 						<?=$item['0_60_times']['mmin']?> - <?=$item['0_60_times']['mmax']?>
 					<?php endif;?>	
 						sec
-					</td>
+					</h3></td>
 					<td>
 						<?php if ($item['mile_time']['min'] == 0):?>
 							-
@@ -81,15 +81,15 @@
 			<table>
 			<?php foreach ($competitors as $item):?>
 				<tr>
-					<td><a title="<?=$item['year']?> <?=$item['make']?> <?=$item['model']?> 0-60" href="/0-60-times/<?=$item['make_alias']?>/<?=$item['model_alias']?>/"><?=$item['year']?> <?=$item['make']?> <?=$item['model']?> 0-60</a></td>
-					<td>
+					<td><a title="<?=$item['year']?> <?=$item['make']?> <?=$item['model']?> 0-60 times" href="/0-60-times/<?=$item['make_alias']?>/<?=$item['model_alias']?>/"><?=$item['year']?> <?=$item['make']?> <?=$item['model']?> 0-60</a></td>
+					<td><h3>
 					<?php if ($item['0_60_times']['mmax'] == $item['0_60_times']['mmin']):?>
 						<?=$item['0_60_times']['mmin']?>
 					<?php else:?>
 						<?=$item['0_60_times']['mmin']?> - <?=$item['0_60_times']['mmax']?>
 					<?php endif;?>	
 						sec
-					</td>
+					</h3></td>
 					<td>
 						1/4 mile
 						<?php if ($item['mile_time']['min'] == 0):?>
@@ -107,19 +107,17 @@
 			</table>
 			</section>
 		<?php endif;?>		
-<br>
-		
-		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
+
 
 		
 		<?php if (!empty($completionsCarsWithSame060Time)):?>
 		<section class="table-container">
-			<h2 class="section-name">Cars with the same 0-60 time</h2>
+			<h2 class="section-name_2">Cars with the same 0-60 time</h2>
 			<table>
 			<?php foreach ($completionsCarsWithSame060Time as $item):?>
 				<tr>
-					<td><a title="<?=$item['year']?> <?=$item['make']?> <?=$item['model']?> 0-60" href="/0-60-times/<?=$item['make_alias']?>/<?=$item['model_alias']?>/"><?=$item['year']?> <?=$item['make']?> <?=$item['model']?> </a></td>
-					<td>0-60 times <?=(float)$item['speed']?> sec</td>
+					<td><a title="<?=$item['year']?> <?=$item['make']?> <?=$item['model']?> 0-60 times" href="/0-60-times/<?=$item['make_alias']?>/<?=$item['model_alias']?>/"><?=$item['year']?> <?=$item['make']?> <?=$item['model']?> </a></td>
+					<td><h3>0-60 times <?=(float)$item['speed']?> sec</h3></td>
 					<td>1/4 mile <?=(float)$item['mile_time']?> sec @ <?=(float)$item['mile_speed']?></td>
 				</tr>
 				
@@ -127,7 +125,7 @@
 			</table>
 		</section>
 		<?php endif;?>
-		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
+		
 		
 		<?php $this->renderPartial('application.views.site._reviews', array(
 			'items' => ReviewVsModelYear::getTextModel(ReviewVsModelYear::MARKER_060, $model['id']),
@@ -139,7 +137,7 @@
 		
 	</div>
 	<div class="l-col2">
-<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>		
+		
 		<br>
 		<?php $this->renderPartial('application.views.specs._right_model', array(
 			'lastModelYear'=>$lastModelYear,
@@ -147,7 +145,7 @@
 			'model'=>$model,
 		))?>		
 		
-		
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
 		
 	</div>
 	</div>

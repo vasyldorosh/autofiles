@@ -79,9 +79,7 @@ $rangePrice = AutoCompletion ::getMinMaxSpecsHp($hp, 'msrp');
 			</section>
 			<?php endif;?>
 		
-		<div class="banner-ver">
-			 <?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
-		</div>	
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
        
 		<br clear="all">		
 		<section class="years_box make">

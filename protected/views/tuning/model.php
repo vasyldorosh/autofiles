@@ -86,14 +86,15 @@
 
 	<div class="l-col2">
 
-			<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
-			
+				<br>		
 			<?php $this->renderPartial('application.views.specs._right_model', array(
 				'lastModelYear'=>$lastModelYear,
 				'make'=>$make,
 				'model'=>$model,
 			))?>
-			
+
+			<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
+
 			<?php if ($countProjects > 0):?>
 			<section class="right-block w78">
 			

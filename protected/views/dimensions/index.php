@@ -22,7 +22,7 @@
 				<?php $key++;endforeach;?>
 				</ul>			
 		</section>	
-		
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 		<section class="seo-text">
 			<?=SiteConfig::getInstance()->getValue('dimensions_footer_text_block')?>
 		</section>

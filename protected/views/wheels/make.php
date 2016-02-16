@@ -12,7 +12,7 @@
 </section>
 <section class="make">
 	<h2 class="section-name_2">Search rims specs, wheels info, bolt pattern, offset by vehicle</h2>
-
+ <?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 	<ul class="make__vehicle">
 	<?php foreach ($dataModels as $dataModel):?>
 		<li>
@@ -77,7 +77,7 @@
 	<?php endforeach;?>	
 	</ul>
 
-	<?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
+	
 	
 </section>
 

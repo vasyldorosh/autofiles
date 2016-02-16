@@ -100,9 +100,7 @@
 		</section>
 		
 		<section class="seo-text">
-                        <div class="google_links f_left p_rel">
-				<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
-			</div>
+                        
 			<br><?=$content_text_2?>
 		</section>
 		<br clear="all">

@@ -44,14 +44,14 @@
 
 	<div class="l-col2">
 
-		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
-
+		<br>
 		<?php $this->renderPartial('application.views.specs._right_model', array(
 			'make'=>$make,
 			'model'=>$model,
 			'lastModelYear'=>$lastModelYear,
 		))?>
 
+<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
 
 	</div>
 </main>

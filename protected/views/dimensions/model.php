@@ -13,6 +13,7 @@
 
 		<section class="model">
 			<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> dimensions</h2>
+<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 			<p class="model__about"></p>
 			
 			
