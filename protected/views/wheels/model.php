@@ -23,7 +23,7 @@
 		
 		<?php foreach ($wheelsDataItems as $wheelsDataItem):?>
 		<section class="table-container">
-			<a name="2015"></a><img src="<?=AutoModelYear::thumb($wheelsDataItem['ids'][0], 150, null, 'resize')?>"><h4 class="title_tire"><?=$make['title']?> <?=$model['title']?> wheels</h4>  
+			<a name="2015"></a><img alt="<?=$make['title']?> <?=$model['title']?> wheels bolt pattern" src="<?=AutoModelYear::thumb($wheelsDataItem['ids'][0], 150, null, 'resize')?>"><h4 class="title_tire"><?=$make['title']?> <?=$model['title']?> wheels</h4>  
 			<?php foreach ($wheelsDataItem['years'] as $y):?>
 			<a name="<?=$y?>" style="color:#000;"><small><?=$y?></small></a>
 			<?php endforeach;?>
@@ -105,7 +105,7 @@
 				<?php if (!empty($wheelsDataItem['custom_rim_sizes_range'])):?>
 				<tr>
 					<td><h3>Custom rim sizes range</h3> Shows the lower and upper limits of the rims the vehicle can incorporate in contrast to the manufacturer/'s specs</td>
-					<td><h3><a href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$wheelsDataItem['custom_rim_sizes_range']?></a></h3></td>
+					<td><h3><a title="Custom <?=$make['title']?> <?=$model['title']?>" href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$wheelsDataItem['custom_rim_sizes_range']?></a></h3></td>
 				</tr>
 				<?php endif;?>	
 					
@@ -128,7 +128,8 @@
 		<?php if (!empty($wheelsDataItem['custom_rim_sizes'])):?>
 		<section class="table-container">
 			<h2 class="section-name_2"><a name="r17"></a>Custom wheels for a <?=$make['title']?> <?=$model['title']?> <?=$wheelsDataItem['years'][0]?><?php if (end($wheelsDataItem['years'])!=$wheelsDataItem['years'][0]):?>-<?=end($wheelsDataItem['years'])?><?php endif;?></h2>
-			<table>
+			<p>Sometimes it happens that you are not happy with your stock wheels and would like to have something else. Choosing the right aftermarket wheels is not an easy thing to do, but we will try to help you get things straight. We have gathered the modified <?=$make['title']?> <?=$model['title']?> cars, in which the owners tried to find the balance between wheel size, rims width, backspacing, wheels offset and suspension height. It has to appeal to the car owner too. Have a look around and pick your option out of projects with custom wheels.</p>
+                             <table>
 				<tbody>
 					<tr>
 						<td><b>Rim size</b></td>
@@ -155,12 +156,13 @@
 
 	</div>
 	<div class="l-col2">
-		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
-
+		<br>		
 		<?php $this->renderPartial('application.views.specs._right_model', array(
 			'make'=>$make,
 			'model'=>$model,
 			'lastModelYear'=>$lastModelYear,
 		))?>
+<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
+
 	</div>
 </main>

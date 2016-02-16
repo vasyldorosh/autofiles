@@ -115,6 +115,9 @@
 				</ul>			
 		</section>
 		
+
+
+
 		<section class="seo-text">
 			<?=SiteConfig::getInstance()->getValue('wheels_footer_text_block')?>
 		</section>

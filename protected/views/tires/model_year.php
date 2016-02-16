@@ -143,14 +143,14 @@
 	<div class="l-col2">
 		<section class="">
 			
-			<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>			
-
-			<?php $this->renderPartial('application.views.specs._right_model_year', array(
+						<?php $this->renderPartial('application.views.specs._right_model_year', array(
 				'make'=>$make,
 				'model'=>$model,
 				'modelYear'=>$modelYear,
 			))?>			
-			
+			<br>
+<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>			
+
 
 
 		</section>

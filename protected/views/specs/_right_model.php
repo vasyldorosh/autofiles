@@ -2,7 +2,7 @@
 	<h2 class="section-name"><?=$make['title']?> <?=$model['title']?> specs</h2>
 	
 	<?php if (isset($lastModelYear['photo_270'])):?>
-	<a href="/<?=$make['alias']?>/<?=$model['alias']?>/" title="<?=$make['title']?> <?=$model['title']?> info ">
+	<a href="/<?=$make['alias']?>/<?=$model['alias']?>/" title="<?=$make['title']?> <?=$model['title']?> specs">
 		<img src="<?=$lastModelYear['photo_270']?>">
 	</a>
 	<?php endif;?>

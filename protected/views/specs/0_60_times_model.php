@@ -107,9 +107,7 @@
 			</table>
 			</section>
 		<?php endif;?>		
-<br>
-		
-		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
+
 
 		
 		<?php if (!empty($completionsCarsWithSame060Time)):?>
@@ -139,7 +137,7 @@
 		
 	</div>
 	<div class="l-col2">
-<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>		
+		
 		<br>
 		<?php $this->renderPartial('application.views.specs._right_model', array(
 			'lastModelYear'=>$lastModelYear,
@@ -147,7 +145,7 @@
 			'model'=>$model,
 		))?>		
 		
-		
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
 		
 	</div>
 	</div>
