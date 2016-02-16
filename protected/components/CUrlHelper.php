@@ -48,7 +48,7 @@ class CUrlHelper
 			$r = file_get_contents($url);
 		}
 		
-		file_put_contents('../log/1.txt', $r);
+		//file_put_contents('../log/1.txt', $r);
 		
 		return $r;
 	}		
