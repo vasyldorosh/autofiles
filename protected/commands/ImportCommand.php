@@ -133,11 +133,8 @@ class ImportCommand extends CConsoleCommand
 		);
 		
 		$content = CUrlHelper::getPage("http://www.autoblog.com/car-finder/year-{$year}/");
-		var_dump($content);
 		preg_match_all('/<span id="TotalResults">(.*?)<\/span>/', $content, $matchesPager);
-		
-		die();
-		
+
 		//DELETE
 		//AutoModelYear::model()->deleteAllByAttributes(['year'=>$year]);
 		
