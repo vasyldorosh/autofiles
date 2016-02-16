@@ -97,6 +97,8 @@ class CompletionController extends BackendController
 			if ($model->validate() && $model->save()) {
 				Yii::app()->admin->setFlash('success', Yii::t('admin', 'Completion successfully edited'));
 				$this->afterSaveRedirect($model);
+			} else {
+				//d($model->errors);
 			}
         }
 

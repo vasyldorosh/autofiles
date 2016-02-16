@@ -63,6 +63,7 @@ class ImportCommand extends CConsoleCommand
 	{
 		$url = 'http://autoblog.com/api/taxonomy/newmake/';
 		$items = json_decode(CUrlHelper::getPage($url, '', ''));
+		
 		foreach ($items as $makeTitle) {
 			
 			$alias = TextHelper::urlSafe(str_replace(' ', '+', $makeTitle));
@@ -132,7 +133,10 @@ class ImportCommand extends CConsoleCommand
 		);
 		
 		$content = CUrlHelper::getPage("http://www.autoblog.com/car-finder/year-{$year}/");
+		var_dump($content);
 		preg_match_all('/<span id="TotalResults">(.*?)<\/span>/', $content, $matchesPager);
+		
+		die();
 		
 		//DELETE
 		//AutoModelYear::model()->deleteAllByAttributes(['year'=>$year]);
@@ -242,8 +246,8 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionCatalog()
 	{	
-		$this->actionMake();
-		$this->actionModel();
+		//$this->actionMake();
+		//$this->actionModel();
 		$parsedModelYearIds = $this->actionModelYear(date('Y'));
 		$parsedModelYearIds = array_merge($parsedModelYearIds, $this->actionModelYear(date('Y')+1));
 		
@@ -736,8 +740,10 @@ class ImportCommand extends CConsoleCommand
 					} else {
 					
 						if ($specData['type'] == AutoSpecs::TYPE_INT) {
+							$value = str_replace(',', '.', $value);
 							$value = (int) str_replace(array('$', ',', '"'. "'", 'lbs.', 'mph', 'cu.ft.', 'gal.', 'doors', 'passengers', 'mpg', 'seconds', '&#034;'), '', $value);
 						} else if ($specData['type'] == AutoSpecs::TYPE_FLOAT) {
+							$value = str_replace(',', '.', $value);
 							$value = (float) str_replace(array('$', ',', '"'. "'", 'lbs.', 'mph', 'cu.ft.', 'gal.', 'doors', 'passengers', 'mpg','seconds', '&#034;'), '', $value);
 						} else if ($specData['type'] == AutoSpecs::TYPE_SELECT) {
 							$value = AutoSpecsOption::getIdByValueAndSpecsId($specData['id'], $value);
