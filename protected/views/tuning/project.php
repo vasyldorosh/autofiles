@@ -261,9 +261,8 @@ amzn_assoc_emphasize_categories = "15684181";
 	</div>
 	
 	<div class="l-col2">
-		
-		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
-		
+		<br>
+				
 		<?php if (!empty($modelYear)):?>
 			<?php $this->renderPartial('application.views.specs._right_model_year', array(
 				'make'=>$make,
@@ -271,5 +270,7 @@ amzn_assoc_emphasize_categories = "15684181";
 				'modelYear'=>$modelYear,
 			))?>		
 		<?php endif;?>
+<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
+
 	</div>
 </main>
