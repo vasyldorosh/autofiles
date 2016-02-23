@@ -279,6 +279,7 @@ class ImportCommand extends CConsoleCommand
 			$completionIds[] = $row['id'];
 		}
 	
+		$completionIds = array(28409);
 		if (!empty($completionIds)) {
 			$this->actionCompletionDetails($completionIds);
 			$this->actionSpecs();
@@ -476,13 +477,13 @@ class ImportCommand extends CConsoleCommand
 				
 				if (stripos($completion->url, '__') <= 0) {
 					$content = CUrlHelper::getPage($url . 'specs/', '', '');
-					preg_match_all('/<a href="(.*?)"><h3 data-toggle="tooltip" itemprop="vehicleConfiguration" title="(.*?)" data-car="(.*?)"><\/h3><\/a>/', $content, $matchUrl);
-					print_r($matchUrl);
-					die();
+					preg_match_all('/<a href="(.*?)"><h3 data-toggle="tooltip" itemprop="vehicleConfiguration" title="(.*?)" data-car="(.*?)">(.*?)<\/h3><\/a>/', $content, $matchUrl);
+					
+					$expl = explode('/', $matchUrl[0][1]);
+					$u = $expl[2];
+					$url = "http://www.autoblog.com/buy/" . $u . '/';
 				}
-				
-				echo "$url \n";
-				
+
 				$content = '';
 				$content.= CUrlHelper::getPage($url . 'specs/', '', '');
 				$content.= CUrlHelper::getPage($url . 'equipment/', '', '');
