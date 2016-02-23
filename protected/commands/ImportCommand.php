@@ -474,6 +474,13 @@ class ImportCommand extends CConsoleCommand
 				AutoCompletionSpecsTemp::model()->deleteAllByAttributes(array('completion_id'=>$completion->id));
 				$url = "http://www.autoblog.com/buy/" . $completion->url . '/';
 				
+				if (stripos($completion->url, '__') <= 0) {
+					$content = CUrlHelper::getPage($url . 'specs/', '', '');
+					preg_match_all('/<a href="(.*?)"><h3 data-toggle="tooltip" itemprop="vehicleConfiguration" title="(.*?)" data-car="(.*?)"><\/h3><\/a>/', $content, $matchUrl);
+					print_r($matchUrl);
+					die();
+				}
+				
 				echo "$url \n";
 				
 				$content = '';
