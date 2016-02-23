@@ -269,6 +269,22 @@ class ImportCommand extends CConsoleCommand
 		CUrlHelper::getPage('http://autofiles.com/site/flush', '', '');
 	}	
 	
+	public function actionNotCompletionTitle()
+	{	
+		$sql 	= "SELECT id FROM  auto_completion WHERE title = ''";
+		$rows 	= Yii::app()->db->createCommand($sql)->queryAll();
+		$completionIds = array();
+		foreach ($rows as $row) {
+			$completionIds[] = $row['id'];
+		}
+	
+		if (!empty($completionIds)) {
+			$this->actionCompletionDetails($completionIds);
+			$this->actionSpecs();
+			$this->actionCompletionData($completionIds);
+		}	
+	}	
+	
 	
 	public function actionC()
 	{	
