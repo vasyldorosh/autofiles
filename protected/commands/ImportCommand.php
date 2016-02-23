@@ -279,7 +279,7 @@ class ImportCommand extends CConsoleCommand
 			$completionIds[] = $row['id'];
 		}
 	
-		$completionIds = array(28409);
+		//$completionIds = array(28409);
 		if (!empty($completionIds)) {
 			$this->actionCompletionDetails($completionIds);
 			$this->actionSpecs();
