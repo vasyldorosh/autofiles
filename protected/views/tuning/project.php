@@ -187,6 +187,7 @@
 		
 	</tbody>
 	</table>
+<p><img src="http://fallspizza.allhungry.com/images/icon_warning.gif"> We've got </p>
 	</section>	
 	
 	
@@ -244,6 +245,7 @@ amzn_assoc_emphasize_categories = "15684181";
 	
 	<?php if (!empty($nextProject)):?>
 	<section class="all-models">
+<p>Send your car project to autotkcom@gmail.com</p>
 		<h2 class="section-name_2">Next project</h2><br>
 		<div>
 			<a href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/<?=$nextProject['id']?>/" title="<?=$nextProject['year']?> <?=$make['title']?> <?=$model['title']?> <?=$nextProject['rim_diameter']?>x<?=$nextProject['rim_width']?> <?=($nextProject['rim_offset_range']>0)?'+':''?><?=$nextProject['rim_offset_range']?><?php if($nextProject['is_staggered_wheels']):?>, <?=$nextProject['rear_rim_diameter']?>x<?=$nextProject['rear_rim_width']?> <?=($nextProject['rear_rim_offset_range']>0)?'+':''?><?=$nextProject['rear_rim_offset_range']?><?php endif;?>">
@@ -261,9 +263,8 @@ amzn_assoc_emphasize_categories = "15684181";
 	</div>
 	
 	<div class="l-col2">
-		
-		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
-		
+		<br>
+				
 		<?php if (!empty($modelYear)):?>
 			<?php $this->renderPartial('application.views.specs._right_model_year', array(
 				'make'=>$make,
@@ -271,5 +272,7 @@ amzn_assoc_emphasize_categories = "15684181";
 				'modelYear'=>$modelYear,
 			))?>		
 		<?php endif;?>
+<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
+
 	</div>
 </main>

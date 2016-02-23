@@ -552,7 +552,7 @@ footer .footer__copyright { width: 100%; text-align: right; line-height: 27px; t
 	width: 346px;
 	height: 280px;
 	box-sizing:border-box;
-
+padding-bottom:10px;
 }
 .w78{width: 88%;}
 

@@ -32,7 +32,8 @@
 			<tbody>
 				<?php if (!empty($wheelsDataItem['bolt_pattern'])):?>
 				<tr>
-					<td><h3><?=$model['title']?> Bolt Pattern</h3>Pitch Circle Diameter (PCD) defines the diameter of the imaginary circle drawn by the centers of the wheel lugs and describes the number of the lug holes incorporated by the rim. How to change bolt pattern? Use adaptors</td>
+					<td><h3><?=$model['title']?> Bolt Pattern</h3>Pitch Circle Diameter (PCD) defines the diameter of the imaginary circle drawn by the centers of the wheel lugs and describes the number of the lug holes incorporated by the rim. How to change bolt pattern? Use <a target="_blank" rel="nofollow" href="http://www.amazon.com/gp/search?ie=UTF8&camp=1789&creative=9325&index=automotive&keywords=wheel%20adapters&linkCode=ur2&tag=auto036-20&linkId=SAMMREJTPRAVTXQ4">adapters</a><img src="http://ir-na.amazon-adsystem.com/e/ir?t=auto036-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+</td>
 					<td><h3>PCD <?=$wheelsDataItem['bolt_pattern']?></h3></td>
 					
 				</tr>
@@ -85,7 +86,8 @@
 
 				<?php if (!empty($wheelsDataItem['center_bore'])):?>
 				<tr>
-					<td><h3>Center bore (hub bore)</h3>The hole in the middle of a rim that exactly matches the hub diameter. It is located at the back of the wheel and as the car's hub goes into this hole it ensures the wheel gets centered correctly. Stock <?=$model['title']?> wheels have a perfect centerbore fit with the hub. How to fit rims with larger centre bore? Use Hub Centric Rings</td>
+					<td><h3>Center bore (hub bore)</h3>The hole in the middle of a rim that exactly matches the hub diameter. It is located at the back of the wheel and as the car's hub goes into this hole it ensures the wheel gets centered correctly. Stock <?=$model['title']?> wheels have a perfect centerbore fit with the hub. How to fit rims with larger centre bore? Use <a target="_blank" rel="nofollow" href="http://www.amazon.com/gp/search?ie=UTF8&camp=1789&creative=9325&index=automotive&keywords=Hub%20Centric%20Rings&linkCode=ur2&tag=auto036-20&linkId=SAMMREJTPRAVTXQ4">Hub Centric Rings</a><img src="http://ir-na.amazon-adsystem.com/e/ir?t=auto036-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+</td>
 					<td><h3><?=$wheelsDataItem['center_bore']?></h3></td>
 				</tr>
 				<?php endif;?>	
@@ -104,7 +106,7 @@
 				
 				<?php if (!empty($wheelsDataItem['custom_rim_sizes_range'])):?>
 				<tr>
-					<td><h3>Custom rim sizes range</h3> Shows the lower and upper limits of the rims the vehicle can incorporate in contrast to the manufacturer/'s specs</td>
+					<td><h3>Custom rim sizes range</h3> Shows the lower and upper limits of the rims the vehicle can incorporate in contrast to the manufacturer's specs</td>
 					<td><h3><a title="Custom <?=$make['title']?> <?=$model['title']?>" href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$wheelsDataItem['custom_rim_sizes_range']?></a></h3></td>
 				</tr>
 				<?php endif;?>	
