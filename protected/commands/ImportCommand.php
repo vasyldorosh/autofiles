@@ -487,17 +487,21 @@ class ImportCommand extends CConsoleCommand
 				preg_match_all('/<h1 class="pull-left">(.*?)<br><span class="trim-style">(.*?)<span id="pricing-page-title">Specs<\/span><\/span><\/h1>/', $content, $matchTitle);
 				preg_match_all('/<div id="build-and-price" data-acode="(.*?)" data-state/', $content, $matchCode);
 				
+				$data = [];
 				if (isset($matchPrice[1][0])) {
 					$completion->specs_msrp = str_replace(array('$', ','), array('',''), $matchPrice[1][0]);
+					$data['specs_msrp'] = $completion->specs_msrp;
 				}
 				if (isset($matchTitle[1][0])) {
 					$completion->title = $matchTitle[1][0];
+					$data['title'] = $completion->title;
 				}
 				if (isset($matchCode[1][0])) {
 					$completion->code = $matchCode[1][0];
+					$data['code'] = $completion->code;
 				}
 				
-				print_r($completion->attributes);
+				print_r($code);
 				die();
 				
 				$completion->save(false);
