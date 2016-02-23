@@ -265,6 +265,7 @@ class ImportCommand extends CConsoleCommand
 		
 		$this->actionNotModelYear();
 		$this->actionEmptyCompletion();
+		$this->actionNotCompletionTitle();
 		
 		CUrlHelper::getPage('http://autofiles.com/site/flush', '', '');
 	}	
@@ -495,6 +496,10 @@ class ImportCommand extends CConsoleCommand
 				if (isset($matchCode[1][0])) {
 					$completion->code = $matchCode[1][0];
 				}
+				
+				print_r($completion->attributes);
+				die();
+				
 				$completion->save(false);
 				
 				$temp = array();
