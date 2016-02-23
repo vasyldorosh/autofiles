@@ -509,10 +509,6 @@ class ImportCommand extends CConsoleCommand
 					$data['code'] = $completion->code;
 				}
 				
-				
-				print_r($data);
-				die();
-				
 				$completion->save(false);
 				
 				$temp = array();
