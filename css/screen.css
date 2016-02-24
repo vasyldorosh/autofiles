@@ -21,15 +21,15 @@ table { border-spacing: 0; border-collapse: collapse; width: 100%; }
 
 html { font-size: 62.5%; }
 
-body { font-family: Arial, sans-serif; font-size: 12px; line-height: 1.4; color: #4d4d4d; }
+body { font-family: 'Roboto', Arial, sans-serif; font-size: 13px; line-height: 1.4; color: #4d4d4d; }
 body a { color: #2fa4e7; text-decoration:none;}
 body a:hover { color: #000; }
 
-@font-face { font-family: "helveticaneuecyr-roman"; src: url("fonts/helveticaneuecyr-roman.eot"); src: url("fonts/helveticaneuecyr-roman.eot?#iefix") format("embedded-opentype"), url("fonts/helveticaneuecyr-roman.woff") format("woff"), url("fonts/helveticaneuecyr-roman.ttf") format("truetype"); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'Roboto', "helveticaneuecyr-roman"; src: url("fonts/helveticaneuecyr-roman.eot"); src: url("fonts/helveticaneuecyr-roman.eot?#iefix") format("embedded-opentype"), url("fonts/helveticaneuecyr-roman.woff") format("woff"), url("fonts/helveticaneuecyr-roman.ttf") format("truetype"); font-weight: normal; font-style: normal; }
 
-@font-face { font-family: "helveticaneuecyr-light"; src: url("fonts/helveticaneuecyr-light.eot"); src: url("fonts/helveticaneuecyr-light.eot?#iefix") format("embedded-opentype"), url("fonts/helveticaneuecyr-light.woff") format("woff"), url("fonts/helveticaneuecyr-light.ttf") format("truetype"); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'Roboto', "helveticaneuecyr-light"; src: url("fonts/helveticaneuecyr-light.eot"); src: url("fonts/helveticaneuecyr-light.eot?#iefix") format("embedded-opentype"), url("fonts/helveticaneuecyr-light.woff") format("woff"), url("fonts/helveticaneuecyr-light.ttf") format("truetype"); font-weight: normal; font-style: normal; }
 
-@font-face { font-family: "helveticaneuecyr-bold"; src: url("fonts/helveticaneuecyr-bold.eot"); src: url("fonts/helveticaneuecyr-bold.eot?#iefix") format("embedded-opentype"), url("fonts/helveticaneuecyr-bold.woff") format("woff"), url("fonts/helveticaneuecyr-bold.ttf") format("truetype"); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'Roboto', "helveticaneuecyr-bold"; src: url("fonts/helveticaneuecyr-bold.eot"); src: url("fonts/helveticaneuecyr-bold.eot?#iefix") format("embedded-opentype"), url("fonts/helveticaneuecyr-bold.woff") format("woff"), url("fonts/helveticaneuecyr-bold.ttf") format("truetype"); font-weight: normal; font-style: normal; }
 
 .l {width: 90%!important; min-width:280px; margin: 0 auto; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; *zoom: 1; }
 .l:after { content: " "; display: table; clear: both; }
@@ -46,7 +46,7 @@ html[xmlns*=""] body:last-child header 	 { width: 100%;  }
 
 header:after { content: " "; display: table; clear: both; }
 
-.logo { display: block; float: left; font-family: "helveticaneuecyr-roman", Arial, sans-serif; font-size: 28px; font-size: 2.8rem; text-decoration: none; margin-right: 12.41667%; }
+.logo { display: block; float: left; font-family: 'Roboto', "helveticaneuecyr-roman", Arial, sans-serif; font-size: 28px; font-size: 2.8rem; text-decoration: none; margin-right: 12.41667%; }
 .logo span { color: #2fa4e7; }
 .logo:hover { color: #4d4d4d; }
 @media only screen and (max-width: 1090px) { .logo { margin-right: 5%; } }
@@ -136,9 +136,9 @@ nav:hover .menu-list{
 .breadcrumb li:last-child a, .breadcrumb li.is-active a { color: #cccccc; text-decoration: none; cursor: default; }
 
 
-.section-name { font-family: "helveticaneuecyr-bold", Arial, sans-serif; font-weight: normal; font-size: 18px; font-size: 1.8rem; color: #2fa4e7; }
+.section-name { font-family: 'Roboto', "helveticaneuecyr-bold", Arial, sans-serif; font-weight: normal; font-size: 18px; font-size: 1.8rem; color: #2fa4e7; }
 
-.section-name_regular { font-family: Arial; font-weight: normal; }
+.section-name_regular { font-family: 'Roboto', Arial; font-weight: normal; }
 
 .all-makes { margin-top: 35px; *zoom: 1; }
 .all-makes:after { content: " "; display: table; clear: both; }
@@ -577,7 +577,7 @@ padding-bottom:10px;
 }
 .mb38{margin-bottom: 38px;}
 .section-name_2{
-	font-family: "helveticaneuecyr-bold", Arial, sans-serif;
+	font-family: 'Roboto', "helveticaneuecyr-bold", Arial, sans-serif;
 	font-weight: normal;
 	font-size: 18px;
 	color: #4d4d4d;
