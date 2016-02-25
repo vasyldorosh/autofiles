@@ -2,7 +2,7 @@
 	<div class="l-col1">
 		<!-- section 1 -->
 		<section class="times">
-			<h2 class="section-name pb18"><?=$hp?> horsepower to watts conversion</h2>
+			<h1 class="section-name_2"><?=$hp?> horsepower to watts conversion</h1>
 		
 			<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 			

@@ -1,5 +1,5 @@
 		<section class="all-makes">
-				<h2 class="section-name">All makes</h2>
+				<h1 class="section-name_2">Select the Car make</h1>
 				<ul>
 				<?php $key=1;foreach ($makes as $makeUrl=>$makeTitle):?>
 					<li><a href="<?=$makeUrl?>"><?=$makeTitle?></a></li>

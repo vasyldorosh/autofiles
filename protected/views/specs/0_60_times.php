@@ -2,7 +2,7 @@
 	<div class="l-col1">
 		<!-- section 1 -->
 		<section class="times">
-		<h2 class="section-name_2">0-60 times acceleration stats</h2>
+		<h1 class="section-name_2">0-60 times acceleration stats</h1>
 			<div class="times__container">
 				<div class="google_links f_left p_rel">
 					<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
@@ -103,11 +103,11 @@
 	</div>
 	<div class="l-col2">
 		
-		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
-		
+		<br>		
 		<section class="right-block">				
 			<?php $this->renderPartial('application.views.specs._right_index')?>		
 		</section>		
+<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
 
 	</div>
 </div>

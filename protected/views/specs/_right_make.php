@@ -1,10 +1,10 @@
-	<h2 class="section-name"><?=$make['title']?> specs and dimensions</h2>
+	<h2 class="section-name_2"><?=$make['title']?> specs and dimensions</h2>
 	
 	<table class="right-block__specs-list">
 		<tbody>
 						<tr>
 							<td>
-								<a class="speed" title="<?=$make['title']?> 0-60 acceleration times, ¼ mile" href="/0-60-times<?=$make['url']?>"><?=$make['title']?> 0-60 times</a>
+								<a class="speed" title="<?=$make['title']?> 0-60 times, quarter mile" href="/0-60-times<?=$make['url']?>"><?=$make['title']?> 0-60 times</a>
 							</td>
 						</tr>
 						<tr>
@@ -29,7 +29,7 @@
 						</tr>
                                                 <tr>
 							<td>
-								<a class="tuning" href="/tuning<?=$make['url']?>"><?=$make['title']?> tuning</a>
+								<a class="tuning" href="/tuning<?=$make['url']?>">Custom <?=$make['title']?></a>
 							</td>						
 						</tr>
 		</tbody>

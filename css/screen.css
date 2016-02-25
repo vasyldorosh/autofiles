@@ -229,7 +229,7 @@ display: none; }
 .make .make__vehicle > li { padding: 11px 17px; margin-bottom: 8px; border: 1px solid #e3e3e3; -webkit-border-radius: 3px; border-radius: 3px; *zoom: 1; }
 .make .make__vehicle > li:after { content: " "; display: table; clear: both; }
 .make .make__vehicle > li:last-child { margin-bottom: 0; }
-.make .make__vehicle-image { ; font-size: 0; width: 120px; margin-right: 21px; }
+.make .make__vehicle-image { ; font-size: 0; width: 150px; margin-right: 21px; }
 .make .make__vehicle-image img { max-width: 100%; }
 .make h3 { margin-top: 7px; }
 .make h3 a { color: #2fa4e7; }

@@ -1,7 +1,7 @@
 <?php $carSpecsAndDimensions = AutoModelYear::getCarSpecsAndDimensions($modelYear['id']);?>
 			
 			<section class="right-block w78">
-				<h2 class="section-name"><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> specs</h2>
+				<h2 class="section-name_2"><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> specs</h2>
 		
 				<a href="/<?=$make['alias']?>/<?=$model['alias']?>/<?=$modelYear['year']?>/" title="<?=$make['title']?> <?=$model['title']?> <?=$modelYear['year']?> info ">
 					<img src="<?=$modelYear['photo']?>">
@@ -12,7 +12,7 @@
 					
 					<?php if (!empty($carSpecsAndDimensions['0_60_times']['mmin'])):?>
 					<tr>
-						<td><a class="speed" title="<?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> 0-60" href="/0-60-times/<?=$make['alias']?>/<?=$model['alias']?>/">0-60 times</a></td>
+						<td><a class="speed" title="<?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> 0-60 times" href="/0-60-times/<?=$make['alias']?>/<?=$model['alias']?>/">0-60 times</a></td>
 						<td class="spec-value">
 						<?php if ($carSpecsAndDimensions['0_60_times']['mmin'] != $carSpecsAndDimensions['0_60_times']['mmax']):?>
 							<?=(float)$carSpecsAndDimensions['0_60_times']['mmin']?> - <?=(float)$carSpecsAndDimensions['0_60_times']['mmax']?>
@@ -64,7 +64,7 @@
 					
 					<tr>
 						<td>
-							<a title="Modified, custom <?=$make['title']?> <?=$model['title']?>, car tuning" class="tuning" href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/">Tuning</a>
+							<a title="Modified, custom <?=$make['title']?> <?=$model['title']?>, car tuning" class="tuning" href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/">Custom projects</a>
 						</td>
 						<td class="spec-value">
 							<?php $countProjects = Project::getCountByModel($model['id'])?>

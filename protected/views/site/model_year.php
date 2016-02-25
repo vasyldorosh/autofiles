@@ -2,7 +2,7 @@
 	<div class="l-col1">
 		<!-- section 1 -->
 		<section class="model-year">
-			<h2 class="section-name section-name_regular"><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?></h2>
+			<h1 class="section-name_2"><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?></h1>
 			<div class="model-year__box">
 				<div class="model-year__box-left">
 					<div class="model-year__image">
@@ -13,9 +13,8 @@
 				</div>
 				<div class="model-year__box-right">
 				
-					<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>
-				
-					<h3><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> trim levels</h3>
+									
+					<h2 class="section-name_2"><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> trim levels</h2>
 					<?php if (!empty($completions)):?>
 					<table>
 						<tbody>
@@ -55,7 +54,7 @@
 		
 		<?php if (!empty($competitors)):?>
 		<section class="make make_competitors">
-			<h2 class="section-name section-name_regular"><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> competitors</h2>
+			<h2 class="section-name_2"><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> competitors</h2>
 			<ul class="make__vehicle">
 			<?php foreach ($competitors as $item):?>
 				<li>
@@ -86,7 +85,7 @@
                 <?php $this->widget('application.widgets.BannerWidget', array('banner' => '580x400')); ?>
 		
                 <section class="all-models">
-			<h2 class="section-name section-name_regular">Other <?=$modelYear['year']?> <?=$make['title']?> models</h2>
+			<h2 class="section-name_2">Other <?=$modelYear['year']?> <?=$make['title']?> models</h2>
 			<div class="model__block-box model__block-box_all-models">
 			<?php foreach ($models as $item):?>
 				<div class="model__block model__block_all-models">
