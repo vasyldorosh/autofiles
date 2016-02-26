@@ -128,19 +128,24 @@
 			</table>
 <br>
 
-<h2>Tire Pressure importance</h2>
+<h2 class="section-name_2">Tire Pressure importance</h2><br>
 <iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=ss_til&ad_type=product_link&tracking_id=auto036-20&marketplace=amazon&region=US&placement=B0037V0EW8&asins=B0037V0EW8&linkId=JKODWRM4J3P6AJPJ&show_border=true&link_opens_in_new_window=true">
 </iframe>
 <iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=ss_til&ad_type=product_link&tracking_id=auto036-20&marketplace=amazon&region=US&placement=B00080QHMM&asins=B00080QHMM&linkId=KVLEKWOI5VXJCU6G&show_border=true&link_opens_in_new_window=true">
-</iframe><iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=ss_til&ad_type=product_link&tracking_id=auto036-20&marketplace=amazon&region=US&placement=B0007ZJ1IK&asins=B0007ZJ1IK&linkId=RULITZNTJN64KQPU&show_border=true&link_opens_in_new_window=true">
+</iframe><iframe  style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=ss_til&ad_type=product_link&tracking_id=auto036-20&marketplace=amazon&region=US&placement=B0007ZJ1IK&asins=B0007ZJ1IK&linkId=RULITZNTJN64KQPU&show_border=true&link_opens_in_new_window=true">
 </iframe>
+<br>
+<p>
+A digital tire pressure gauge is a must-have tool for checking the tire pressure and keeping it within a permissible range. You can quickly measure the pressure once the visual examination of the wheel evoked a shade of doubt. Still don't have one? Review the best digital tire pressure gauges forming a perfect seal with the valve stem without leaking air, even at night times. Find a perfect combination by choosing the right car air compressor to regulate the pressure in deflated or over-inflated tires. 
+
+</p>
+
 		</section>
 		
 		<?php if (!empty($wheelsDataItem['custom_rim_sizes'])):?>
 		<section class="table-container">
 			<h2 class="section-name_2"><a name="r17"></a>Custom wheels for a <?=$make['title']?> <?=$model['title']?> <?=$wheelsDataItem['years'][0]?><?php if (end($wheelsDataItem['years'])!=$wheelsDataItem['years'][0]):?>-<?=end($wheelsDataItem['years'])?><?php endif;?></h2>
-			<p>Sometimes it happens that you are not happy with your stock wheels and would like to have something else. Choosing the right <a target="_blank" rel="nofollow" href="http://www.amazon.com/gp/search?ie=UTF8&camp=1789&creative=9325&index=automotive&keywords=aftermarket%20wheels&linkCode=ur2&tag=auto036-20&linkId=SAMMREJTPRAVTXQ4"><b>aftermarket wheels</b></a><img src="http://ir-na.amazon-adsystem.com/e/ir?t=auto036-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> is not an easy thing to do, but we will try to help you get things straight. We have gathered the modified <?=$make['title']?> <?=$model['title']?> cars, in which the owners tried to find the balance between wheel size, rims width, backspacing, wheels offset and suspension height. It has to appeal to the car owner too. Have a look around and pick your option out of projects with custom wheels.</p>
-                             <table>
+			     <table>
 				<tbody>
 					<tr>
 						<td><b>Rim size</b></td>
@@ -156,7 +161,9 @@
 					</tr>
 					<?php endforeach;?>
 				</tbody>
-			</table>
+			</table><br>
+<p>Sometimes it happens that you are not happy with your stock wheels and would like to have something else. Choosing the right <a target="_blank" rel="nofollow" href="http://www.amazon.com/gp/search?ie=UTF8&camp=1789&creative=9325&index=automotive&keywords=aftermarket%20wheels&linkCode=ur2&tag=auto036-20&linkId=SAMMREJTPRAVTXQ4"><b>aftermarket wheels</b></a><img src="http://ir-na.amazon-adsystem.com/e/ir?t=auto036-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> is not an easy thing to do, but we will try to help you get things straight. We have gathered the modified <?=$make['title']?> <?=$model['title']?> cars, in which the owners tried to find the balance between wheel size, rims width, backspacing, wheels offset and suspension height. It has to appeal to the car owner too. Have a look around and pick your option out of projects with custom wheels.</p>
+                        
 		</section>
 		<?php endif;?>
 		
