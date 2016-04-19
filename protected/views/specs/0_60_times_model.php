@@ -22,7 +22,7 @@
 				<tr>
 					<td>
 						<?php $expl = explode('@', $item['specs_horsepower']); $hp = trim($expl[0])?>
-						<?=$item['title']?><?php if (!empty($hp)):?>,<?= str_replace('hp hp', 'hp', trim($hp) . ' hp')?> <?php endif;?><br/>
+						<?=$item['title']?><?php if (!empty($hp)):?>,<?= str_replace('hp', '', trim($hp))?> hp <?php endif;?><br/>
 						<small><?php 
 						$engine = trim(AutoCompletion::getSpecsOptionTitle(AutoSpecs::SPEC_ENGINE, $item['specs_engine']));
 						$transmission = AutoCompletion::getSpecsOptionTitle(AutoSpecs::SPEC_TRANSMISSION, $item['specs_transmission'])?>
