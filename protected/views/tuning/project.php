@@ -1,8 +1,6 @@
 <main>
 	<div class="l-col1">
 		<!-- section 1 -->
-		<?d($project,0);?>
-			
 		<section class="table-container">
 		<h2 class="section-name_2 mb30"><?=$project['year']?> <?=$make['title']?> <?=$model['title']?> aftermarket wheels</h2>
 		
@@ -19,6 +17,10 @@
 
 <br><br>
 
+<?php $countProjects = Project::getCountByModel($project['model_id'])?>
+<?php if ($countProjects):?>
+	<p><?=$countProjects?> projects</p>
+<?php endif;?>
 
 <h2 class="section-name_2 mb30">Custom wheels & tires for <?=$make['title']?> <?=$model['title']?></h2>
 	<table>

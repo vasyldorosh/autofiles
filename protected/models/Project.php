@@ -287,7 +287,7 @@ class Project extends CActiveRecord
 		$id		= (int) $id;
 		$make_id= (int) $make_id;
 		$model_id= (int) $model_id;
-		$key 	= Tags::TAG_PROJECT . '_getById_' . $make_id . '__' . $model_id . '_'. $id;
+		$key 	= Tags::TAG_PROJECT . '__getById_' . $make_id . '__' . $model_id . '_'. $id;
 		$data 	= Yii::app()->cache->get($key);
 		
 		if ($data === false) {
@@ -316,6 +316,7 @@ class Project extends CActiveRecord
 						y.year AS year,
 						y.id AS year_id,
 						m.title AS model_title,
+						m.id AS model_id,
 						m.alias AS model_alias,
 						k.title AS make_title,
 						k.alias AS make_alias
