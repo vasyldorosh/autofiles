@@ -2,7 +2,7 @@
 		<div class="l-col1 brdtop_col">
 			<!-- section 1 -->
 			<section class="times clearfix">
-				<h2 class="section-name pb18">Car tires</h2>
+				<h1 class="section-name_2">Car tires and tire sizes by Models</h1>
 				<div class="google_links f_left p_rel">
 					<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>
 				</div>
@@ -133,7 +133,7 @@
 		<section class="product_photo_box make">				
 			<div class="product_photo_item">
 				<div class="product_photo_item_top">
-					<h3>All tire diameters</h3>
+					<h3 class="section-name_2">All tire diameters</h3>
 					<ul class="make__vehicle-specs">
 					<?php foreach (TireRimDiameter::getListFront() as $r):?>	
 						<li><a href="/tires/r<?=$r?>.html" title="<?=$r?> inch wheels">R<?=$r?></a></li>
@@ -143,9 +143,9 @@
 			</div>
 			<div class="product_photo_item">
 				<div class="product_photo_item_top">
-						<h3>Popular tire sizes</h3>
+						<h3 class="section-name_2">Popular tire sizes</h3>
 					<ul class="make__vehicle-specs">
-					<?php foreach (Tire::getPopolar(40) as $tire):?>
+					<?php foreach (Tire::getPopolar(50) as $tire):?>
 						<?php $tireTitle = Tire::format($tire);?>
 						<li><a href="<?=Tire::url($tire)?>" title="<?=$tireTitle?> tires"><?=$tireTitle?></a></li>
 					<?php endforeach?>

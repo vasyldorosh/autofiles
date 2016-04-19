@@ -5,7 +5,7 @@
 		<?php $this->widget('application.widgets.CatalogWidget', array('action' => 'makes')); ?>
 	
 		<section class="seo-text">
-			<h3>Discovering your car’s secrets!</h3>
+			<h2 class="section-name_2">Discovering your car’s secrets!</h2>
 	
 
 			<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>
@@ -23,7 +23,7 @@
 		<!-- section 2 -->
 		<?php $years = AutoModelYear::getYears();?>
 		<section class="options">
-			<p class="section-name_2">Select options</p>
+			<h2 class="section-name_2">Select a car</h2>
 			<div class="options__block">
 				<div class="options__item">
 					<strong>Year</strong>

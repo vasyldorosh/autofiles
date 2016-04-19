@@ -2,12 +2,12 @@
 	<div class="l-col1">
 		<!-- section 1 -->
 		<section class="model">
-			<h2 class="section-name"><?=$make['title']?> <?=$model['title']?> vehicles</h2>
+			<h1 class="section-name_2"><?=$make['title']?> <?=$model['title']?> vehicles</h1>
 			<p class="model__about">
 				<?=$model['description']?>
 			</p>
 			
-			<h3><a title="<?=$completion['year']?> <?=$make['title']?> <?=$model['title']?>" href="<?=$model['url']?><?=$completion['year']?>/"><?=$completion['year']?> <?=$make['title']?> <?=$model['title']?></a></h3>
+			<h2><a title="<?=$completion['year']?> <?=$make['title']?> <?=$model['title']?>" href="<?=$model['url']?><?=$completion['year']?>/"><?=$completion['year']?> <?=$make['title']?> <?=$model['title']?></a></h2>
 			
 			<div class="model__specs">
 				<div class="model__specs-image">

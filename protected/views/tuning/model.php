@@ -2,7 +2,7 @@
 <div class="l-col1">
 <!-- section 1 -->
 <section class="times clearfix">
-	<h2 class="section-name pb18"><?=$make['title']?> <?=$model['title']?> tuning</h2>
+	<h1 class="section-name_2">Custom <?=$make['title']?> <?=$model['title']?></h1>
 	<div class="google_links f_left p_rel">
 		<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>
 	</div>
@@ -14,7 +14,7 @@
 
 <section class="section_tabs">
 				<section class="reviews">
-					<h4 class="title_tire pt20">Modified <?=$make['title']?> <?=$model['title']?> models</h4>
+					<h2 class="section-name_2">Modified <?=$make['title']?> <?=$model['title']?> models</h2>
 						<p><?=$countProjects?> projects</p>
 						<div class="options">
 						<form id="form-filter" onsubmit="submitFilterForm();return false;">

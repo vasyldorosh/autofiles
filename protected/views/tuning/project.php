@@ -197,7 +197,6 @@
 		
 	</tbody>
 	</table>
-<p><img src="http://fallspizza.allhungry.com/images/icon_warning.gif"> We've got </p>
 	</section>	
 	
 	

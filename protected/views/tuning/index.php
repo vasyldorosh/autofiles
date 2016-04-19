@@ -2,7 +2,7 @@
 		<!-- section 1 -->
 		
 		<section class="times clearfix">
-			<h2 class="section-name pb18">Car tuning and modifications</h2>
+			<h1 class="section-name_2">Car tuning and modifications</h1>
 			<div class="google_links f_left p_rel">
 				<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>
 			</div>
@@ -12,7 +12,7 @@
 		</section>
 		
 		<section class="all-makes cars_ul bdb_1">
-			<h2 class="section-name_2">Car tuning by makes</h2>
+			<h2 class="section-name_2">Custom cars by Makes</h2>
 			<ul>
 				<?php $key=1;foreach ($makes as $make):?>
 					<li><a title="<?=$make['title']?> tuning" href="/tuning/<?=$make['alias']?>/"><?=$make['title']?> <?php if($make['projects']):?>(<?=$make['projects']?>)<?php endif;?></a></li>
@@ -24,7 +24,7 @@
 		</section>
 		
 		<section class="make">
-			<h2 class="section-name_2 mb30">Most popular projects</h2>
+			<h2 class="section-name_2 mb30">Most popular car projects</h2>
 			<ul class="make__vehicle">
 			<?php foreach ($projects as $project):?>  
 				<?php $this->renderPartial('application.views.tuning._item', array('project'=>$project));?>
@@ -58,10 +58,10 @@
 	</div>
 	<div class="l-col2">
 	
-		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
-		
+			<br>	
 		<section class="right-block">				
 			<?php $this->renderPartial('application.views.specs._right_index')?>		
 		</section>	
-		
+		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
+
 	</div>

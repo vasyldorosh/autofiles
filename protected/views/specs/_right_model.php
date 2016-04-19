@@ -1,5 +1,5 @@
 <section class="right-block">
-	<h2 class="section-name"><?=$make['title']?> <?=$model['title']?> specs</h2>
+	<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> specs</h2>
 	
 	<?php if (isset($lastModelYear['photo_270'])):?>
 	<a href="/<?=$make['alias']?>/<?=$model['alias']?>/" title="<?=$make['title']?> <?=$model['title']?> specs">
@@ -36,7 +36,7 @@
 						</tr>
 						<tr>
 							<td>
-								<a title="Custom <?=$make['title']?> <?=$model['title']?>, tuning" class="tuning" href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$model['title']?> tuning</a>
+								<a title="Custom <?=$make['title']?> <?=$model['title']?>, tuning" class="tuning" href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/">Custom <?=$model['title']?></a>
 							</td>
 						</tr>						
 					</tbody>

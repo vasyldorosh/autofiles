@@ -3,7 +3,7 @@
 
 					<tr>
 						<td>
-							<span>Section Width</span>
+							<span>Section Width<br>Soon to be explained.</span>
 						</td>
 						<td class="spec-value">
 							<?=$tire['section_width']?> mm

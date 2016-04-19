@@ -2,7 +2,7 @@
 	<div class="l-col1">
 		<!-- section 1 -->
 		<section class="make">
-			<h2 class="section-name"><?=$make['title']?> vehicles</h2>
+			<h1 class="section-name_2"><?=$make['title']?> vehicles</h2>
 			<div class="make__logo">
 				<img src="<?=$make['photo']?>" alt="<?=$make['title']?> Logo">
 			</div>
@@ -17,7 +17,7 @@
 						<img src="<?=$dataModel['photo']?>"> 
 					<?php endif;?>
 				</a></div>
-					<h3><a href="<?=$dataModel['url']?>"><?=$make['title']?> <?=$dataModel['title']?></a></h3>
+					<h2><a href="<?=$dataModel['url']?>"><?=$make['title']?> <?=$dataModel['title']?></a></h2>
 					<ul class="make__vehicle-specs">
 						<li>MSRP <?=HtmlHelper::price($dataModel['price']['min']);?>
 							<?php if ($dataModel['price']['min'] != $dataModel['price']['max']):?>

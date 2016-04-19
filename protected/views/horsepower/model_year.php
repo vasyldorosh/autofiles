@@ -2,7 +2,7 @@
 	<div class="l-col1">
 		<!-- section 1 -->
 		<section class="times clearfix">
-			<h2 class="section-name pb18"><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> horsepower</h2>
+			<h1 class="section-name_2"><?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> horsepower</h1>
 			<div class="google_links f_left p_rel">
 				<?php $this->widget('application.widgets.BannerWidget', array('banner' => '336x280')); ?>	
 			</div>
@@ -134,14 +134,14 @@
 	</div>
 	<div class="l-col2">
 		<section class="">
-			<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
-
+			<br>
 			<?php $this->renderPartial('application.views.specs._right_model_year', array(
 				'make'=>$make,
 				'model'=>$model,
 				'modelYear'=>$modelYear,
 			))?>
-			
+			<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
+
 		</section>
 		
 	</div>
