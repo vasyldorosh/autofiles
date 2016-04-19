@@ -37,7 +37,7 @@
 							<?php if ($item['mile_time']['min'] == $item['mile_time']['max']):?>
 								<?=$item['mile_time']['min']?> @ <?=$item['mile_speed']['min']?> mph
 							<?php else:?>
-								<?=$item['mile_time']['min']?> @ <?=$item['mile_speed']['min']?> - <?=$item['mile_time']['max']?> @ <?=$item['mile_speed']['max']?> mph
+								<?=$item['mile_time']['min']?> @ <?=$item['mile_speed']['max']?> - <?=$item['mile_time']['max']?> @ <?=$item['mile_speed']['min']?> mph
 							<?php endif;?>	
 						<?php endif;?>
 					</td>
