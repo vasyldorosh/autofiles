@@ -38,7 +38,7 @@ class AutoModel extends CActiveRecord
 				'types'=>'jpg,png,gif,jpeg',
 				'allowEmpty'=>true
 			),
-			array('description', 'safe',),					
+			array('description, text_times, text_wheels, text_tires, text_horsepower, text_dimensions, text_tuning', 'safe',),					
 		);
 	}
 	
@@ -188,6 +188,12 @@ class AutoModel extends CActiveRecord
 			'is_active' => Yii::t('admin', 'Published'),
 			'is_deleted' => Yii::t('admin', 'Deleted'),	
 			'description' => Yii::t('admin', 'Description'),
+			'text_times' => Yii::t('admin', 'Text (times)'),
+			'text_wheels' => Yii::t('admin', 'Text (wheels)'),
+			'text_tires' => Yii::t('admin', 'Text (tires)'),
+			'text_horsepower' => Yii::t('admin', 'Text (horsepower)'),
+			'text_dimensions' => Yii::t('admin', 'Text (dimensions)'),
+			'text_tuning' => Yii::t('admin', 'Text (tuning)'),
 		);
 	}
 
