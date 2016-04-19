@@ -7,7 +7,7 @@
 
 class SiteConfig {
 	
-	const CACHE_KEY = '_SETTINGS_';
+	const CACHE_KEY = '__SETTINGS_';
 	
     protected $_data = null;
     protected static $_instance = null;
