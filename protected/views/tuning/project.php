@@ -132,6 +132,11 @@
 				), true)?></a></h3></td>	
 			</tr>
 			<?php endif;?>
+			
+			<?php if (!empty($project['rim_width']) && !empty($project['rim_offset_range'])):?>
+			<tr><td>Wheel backspacing</td><td><h3><?= Project::getWheelBackspacing($project['rim_width'], $project['rim_offset_range'])?>”</h3></td></tr>
+			<?php endif;?>			
+			
 			<tr>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>			
