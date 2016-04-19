@@ -17,12 +17,12 @@
 		<section class="table-container">
 			<h2 class="section-name_2"><?=$lastModelYear['year']?> <?=$make['title']?> <?=$model['title']?> 0-60 times, all trims</h2>
 			<table>
-                                <tr><td><b>Trim, HP, Engine, Transmission</b></td><td><b>0-60 times</b></td><td><b>1/4 mile times</b></td></tr>
+            <tr><td><b>Trim, HP, Engine, Transmission</b></td><td><b>0-60 times</b></td><td><b>1/4 mile times</b></td></tr>
 			<?php foreach ($completionsTime as $item):?>
 				<tr>
 					<td>
 						<?php $expl = explode('@', $item['specs_horsepower']); $hp = trim($expl[0])?>
-						<?=$item['title']?><?php if (!empty($hp)):?>, <?=$hp?> hp<?php endif;?><br/>
+						<?=$item['title']?><?php if (!empty($hp)):?>,<?= str_replace('hp hp', 'hp', trim($hp) . ' hp')?> <?php endif;?><br/>
 						<small><?php 
 						$engine = trim(AutoCompletion::getSpecsOptionTitle(AutoSpecs::SPEC_ENGINE, $item['specs_engine']));
 						$transmission = AutoCompletion::getSpecsOptionTitle(AutoSpecs::SPEC_TRANSMISSION, $item['specs_transmission'])?>
