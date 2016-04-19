@@ -1,4 +1,4 @@
-<p class="help-block">used: [make], [model], [front_rim_diameter], [front_rim_width], [front_offset], [front_tiresize], [rear_rim_diameter], [rear_rim_width], [rear_offset], [rear_tiresize]
+<p class="help-block">used: [make], [model], [front_rim_diameter], [front_rim_width], [front_offset], [front_tiresize], [rear_rim_diameter], [rear_rim_width], [rear_offset], [rear_tiresize], [rims_brand]
  .</p><br/>
 
 <div class="control-group ">

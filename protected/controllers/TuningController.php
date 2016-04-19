@@ -424,7 +424,8 @@ class TuningController extends Controller
 			'[rear_rim_diameter]', 
 			'[rear_rim_width]', 
 			'[rear_offset]', 
-			'[rear_tiresize]'
+			'[rear_tiresize]',
+			'[rims_brand]'
 		);
 
 
@@ -452,7 +453,8 @@ class TuningController extends Controller
 			$project['rear_rim_diameter'],
 			$project['rear_rim_width'],
 			(($project['rear_rim_offset_range']>0)?'+':'').$project['rear_rim_offset_range'],
-			$rearTire
+			$rearTire,
+			$project['wheel_manufacturer'] . ' ' . $project['wheel_model'],
 		);
 		
 		$this->pageTitle 		= str_replace($replaceFrom, $replaceTo, SiteConfig::getInstance()->getValue('seo_tuning_project_title'));
