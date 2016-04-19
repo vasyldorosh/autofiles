@@ -54,6 +54,11 @@
 				), true)?></a></h3></td>	
 			</tr>
 			<?php endif;?>
+			
+			<?php if (!empty($project['rim_width']) && !empty($project['rim_offset_range'])):?>
+			<tr><td>Wheel Offset</td><td><h3><?= Project::getWheelBackspacing($project['rim_width'], $project['rim_offset_range'])?>”</h3></td></tr>
+			<?php endif;?>
+			
 			<tr>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>			
@@ -86,6 +91,11 @@
 					'vehicle_class'	=> $project['tire_vehicle_class'],
 				), true)?></a></h3></td>	
 			</tr>
+			
+			<?php if (!empty($project['rear_rim_width']) && !empty($project['rear_rim_offset_range'])):?>
+			<tr><td>Wheel Offset</td><td><h3><?= Project::getWheelBackspacing($project['rear_rim_width'], $project['rear_rim_offset_range'])?>”</h3></td></tr>
+			<?php endif;?>			
+			
 			<tr>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>

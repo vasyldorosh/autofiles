@@ -1332,6 +1332,17 @@ class Project extends CActiveRecord
 		return $data;
 	}	
 	
-	
+	public static function getWheelBackspacing($offset, $rimWidth)
+	{
+		$value = '';
+		
+		if ($offset > 0 && !empty($rimWidth)) {
+			$value = ($rimWidth+1)/2 + round($offset/25.4);
+		} else if ($offset < 0 && !empty($rimWidth)) {
+			$value = ($rimWidth+1)/2 - round($offset/25.4);
+		}
+		
+		return $value;
+	}
 	
 }
