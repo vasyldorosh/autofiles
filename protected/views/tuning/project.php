@@ -192,7 +192,9 @@
 		<?php if (!empty($project['wheel_manufacturer']) || !empty($project['wheel_model'])):?>
 		<tr>
 			<td>Rims brand</td>
-			<td><h3><?=$project['wheel_manufacturer']?> <?=$project['wheel_model']?></h3></td>
+			<td><h3>
+				<a target="_blank" rel="nofollow" href="http://www.amazon.com/gp/search?ie=UTF8&camp=1789&creative=9325&index=automotive&keywords=<?=$project['wheel_manufacturer']?> <?=$project['wheel_model']?>&linkCode=ur2&tag=auto036-20&linkId=SAMMREJTPRAVTXQ4"><?=$project['wheel_manufacturer']?> <?=$project['wheel_model']?></a><img src="http://ir-na.amazon-adsystem.com/e/ir?t=auto036-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />			
+			</h3></td>
 		</tr>
                 <tr>
 			<td>Wheel weight</td>
