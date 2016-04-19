@@ -23,7 +23,7 @@
 		
 		<?php foreach ($wheelsDataItems as $wheelsDataItem):?>
 		<section class="table-container">
-			<a name="2015"></a><img alt="<?=$make['title']?> <?=$model['title']?> wheels bolt pattern" src="<?=AutoModelYear::thumb($wheelsDataItem['ids'][0], 150, null, 'resize')?>"><h4 class="title_tire"><?=$make['title']?> <?=$model['title']?> wheels</h4>  
+			<a name="2015"></a><img alt="<?=$make['title']?> <?=$model['title']?> wheels bolt pattern" src="<?=AutoModelYear::thumb($wheelsDataItem['ids'][0], 150, null, 'resize')?>"><h4 class="title_tire"><?=$make['title']?> <?=$model['title']?> wheels info</h4>
 			<?php foreach ($wheelsDataItem['years'] as $y):?>
 			<a name="<?=$y?>" style="color:#000;"><small><?=$y?></small></a>
 			<?php endforeach;?>

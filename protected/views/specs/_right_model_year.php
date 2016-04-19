@@ -64,7 +64,7 @@
 					
 					<tr>
 						<td>
-							<a title="Modified, custom <?=$make['title']?> <?=$model['title']?>, car tuning" class="tuning" href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/">Custom projects</a>
+							<a title="Modified, custom <?=$make['title']?> <?=$model['title']?>, car tuning" class="tuning" href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/">Custom cars</a>
 						</td>
 						<td class="spec-value">
 							<?php $countProjects = Project::getCountByModel($model['id'])?>

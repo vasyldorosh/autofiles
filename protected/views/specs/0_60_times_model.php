@@ -45,9 +45,11 @@
 			<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> 0-60 mph acceleration across years</h2>
 
 			<table>
+<tr><td><b>Year of a Model</b></td><td><b>0-60 times</b></td><td><b>1/4 mile times</b></td></tr>
 			<?php foreach ($models as $item):?>
-				<tr>
-					<td><?=$item['year']?> <?=$make['title']?> <?=$model['title']?> 0-60, 1/4 mile</td>
+				 
+                                 <tr>
+					<td><?=$item['year']?> <?=$make['title']?> <?=$model['title']?></td>
 					<td><h3>
 					<?php if ($item['0_60_times']['mmax'] == $item['0_60_times']['mmin']):?>
 						<?=$item['0_60_times']['mmin']?>
@@ -79,9 +81,10 @@
 			<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> competitors' 0-60 mph acceleration</h2>
 
 			<table>
+<tr><td><b>Competitor</b></td><td><b>0-60 times</b></td><td><b>1/4 mile times</b></td></tr>
 			<?php foreach ($competitors as $item):?>
 				<tr>
-					<td><a title="<?=$item['year']?> <?=$item['make']?> <?=$item['model']?> 0-60 times" href="/0-60-times/<?=$item['make_alias']?>/<?=$item['model_alias']?>/"><?=$item['year']?> <?=$item['make']?> <?=$item['model']?> 0-60</a></td>
+					<td><a title="<?=$item['make']?> <?=$item['model']?> 0-60 times" href="/0-60-times/<?=$item['make_alias']?>/<?=$item['model_alias']?>/"><?=$item['year']?> <?=$item['make']?> <?=$item['model']?></a></td>
 					<td><h3>
 					<?php if ($item['0_60_times']['mmax'] == $item['0_60_times']['mmin']):?>
 						<?=$item['0_60_times']['mmin']?>
@@ -116,7 +119,7 @@
 			<table>
 			<?php foreach ($completionsCarsWithSame060Time as $item):?>
 				<tr>
-					<td><a title="<?=$item['year']?> <?=$item['make']?> <?=$item['model']?> 0-60 times" href="/0-60-times/<?=$item['make_alias']?>/<?=$item['model_alias']?>/"><?=$item['year']?> <?=$item['make']?> <?=$item['model']?> </a></td>
+					<td><a title="<?=$item['make']?> <?=$item['model']?> 0-60 times" href="/0-60-times/<?=$item['make_alias']?>/<?=$item['model_alias']?>/"><?=$item['year']?> <?=$item['make']?> <?=$item['model']?> </a></td>
 					<td><h3>0-60 times <?=(float)$item['speed']?> sec</h3></td>
 					<td>1/4 mile <?=(float)$item['mile_time']?> sec @ <?=(float)$item['mile_speed']?></td>
 				</tr>
