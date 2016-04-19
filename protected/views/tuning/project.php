@@ -167,6 +167,11 @@
 					'vehicle_class'	=> $project['tire_vehicle_class'],
 				), true)?></a></h3></td>	
 			</tr>
+			
+			<?php if (!empty($project['rear_rim_width']) && !empty($project['rear_rim_offset_range'])):?>
+			<tr><td>Wheel backspacing</td><td><h3><?= Project::getWheelBackspacing($project['rear_rim_width'], $project['rear_rim_offset_range'])?>”</h3></td></tr>
+			<?php endif;?>			
+			
 			<tr>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
