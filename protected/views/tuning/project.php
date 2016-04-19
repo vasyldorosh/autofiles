@@ -205,7 +205,9 @@
 		<?php if (!empty($project['tire_manufacturer']) || !empty($project['tire_model'])):?>
 		<tr>
 			<td>Tire brand</td>
-			<td><h3><?=$project['tire_manufacturer']?> <?=$project['tire_model']?></h3></td>	
+			<td><h3>
+				<a target="_blank" rel="nofollow" href="http://www.amazon.com/gp/search?ie=UTF8&camp=1789&creative=9325&index=automotive&keywords=<?=$project['tire_manufacturer']?> <?=$project['tire_model']?>&linkCode=ur2&tag=auto036-20&linkId=SAMMREJTPRAVTXQ4"><?=$project['tire_manufacturer']?> <?=$project['tire_model']?></a><img src="http://ir-na.amazon-adsystem.com/e/ir?t=auto036-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+			</h3></td>	
 		</tr>	
 		<?php endif;?>		
 		
