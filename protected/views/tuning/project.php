@@ -17,10 +17,6 @@
 
 <br><br>
 
-<?php $countProjects = Project::getCountByModel($project['model_id'])?>
-<?php if ($countProjects):?>
-	<p><?=$countProjects?> projects</p>
-<?php endif;?>
 
 <h2 class="section-name_2 mb30">Custom wheels & tires for <?=$make['title']?> <?=$model['title']?></h2>
 	<table>
@@ -58,7 +54,7 @@
 			<?php endif;?>
 			
 			<?php if (!empty($project['rim_width']) && !empty($project['rim_offset_range'])):?>
-			<tr><td>Wheel backspacing</td><td><h3><?= Project::getWheelBackspacing($project['rim_width'], $project['rim_offset_range'])?>”</h3></td></tr>
+			<tr><td>Wheel backspacing (testing)</td><td><h3><?= Project::getWheelBackspacing($project['rim_width'], $project['rim_offset_range'])?>”</h3></td></tr>
 			<?php endif;?>
 			
 			<tr>
@@ -95,7 +91,7 @@
 			</tr>
 			
 			<?php if (!empty($project['rear_rim_width']) && !empty($project['rear_rim_offset_range'])):?>
-			<tr><td>Wheel backspacing</td><td><h3><?= Project::getWheelBackspacing($project['rear_rim_width'], $project['rear_rim_offset_range'])?>”</h3></td></tr>
+			<tr><td>Wheel backspacing (testing)</td><td><h3><?= Project::getWheelBackspacing($project['rear_rim_width'], $project['rear_rim_offset_range'])?>”</h3></td></tr>
 			<?php endif;?>			
 			
 			<tr>
@@ -136,7 +132,7 @@
 			<?php endif;?>
 			
 			<?php if (!empty($project['rim_width']) && !empty($project['rim_offset_range'])):?>
-			<tr><td>Wheel backspacing</td><td><h3><?= Project::getWheelBackspacing($project['rim_width'], $project['rim_offset_range'])?>”</h3></td></tr>
+			<tr><td>Wheel backspacing (testing)</td><td><h3><?= Project::getWheelBackspacing($project['rim_width'], $project['rim_offset_range'])?>”</h3></td></tr>
 			<?php endif;?>			
 			
 			<tr>
@@ -176,7 +172,7 @@
 			</tr>
 			
 			<?php if (!empty($project['rear_rim_width']) && !empty($project['rear_rim_offset_range'])):?>
-			<tr><td>Wheel backspacing</td><td><h3><?= Project::getWheelBackspacing($project['rear_rim_width'], $project['rear_rim_offset_range'])?>”</h3></td></tr>
+			<tr><td>Wheel backspacing (testing)</td><td><h3><?= Project::getWheelBackspacing($project['rear_rim_width'], $project['rear_rim_offset_range'])?>”</h3></td></tr>
 			<?php endif;?>			
 			
 			<tr>
@@ -232,22 +228,6 @@
 			</section>
 		<?php endif;?>
 	
-
-<script type="text/javascript">
-amzn_assoc_placement = "adunit0";
-amzn_assoc_enable_interest_ads = "true";
-amzn_assoc_tracking_id = "auto036-20";
-amzn_assoc_ad_mode = "auto";
-amzn_assoc_ad_type = "smart";
-amzn_assoc_marketplace = "amazon";
-amzn_assoc_region = "US";
-amzn_assoc_textlinks = "";
-amzn_assoc_linkid = "097767456ffb915dae33a786dd7ba913";
-amzn_assoc_emphasize_categories = "15684181";
-</script>
-<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US"></script>
-
-
                 <?php if (isset($photos[2])):?>
 		<img src="<?=$photos[2]?>" alt="photo 3 <?=$this->pageTitle?>">
 		<?php endif;?>
@@ -270,8 +250,13 @@ amzn_assoc_emphasize_categories = "15684181";
 	
 	<?php if (!empty($nextProject)):?>
 	<section class="all-models">
-<p>Send your car project to autotkcom@gmail.com</p>
-		<h2 class="section-name_2">Next project</h2><br>
+
+<?php $countProjects = Project::getCountByModel($project['model_id'])?>
+<?php if ($countProjects):?>
+	<p>We've got <?=$countProjects?> projects</p>
+<?php endif;?>
+		
+<h2 class="section-name_2">Next project</h2><br>
 		<div>
 			<a href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/<?=$nextProject['id']?>/" title="<?=$nextProject['year']?> <?=$make['title']?> <?=$model['title']?> <?=$nextProject['rim_diameter']?>x<?=$nextProject['rim_width']?> <?=($nextProject['rim_offset_range']>0)?'+':''?><?=$nextProject['rim_offset_range']?><?php if($nextProject['is_staggered_wheels']):?>, <?=$nextProject['rear_rim_diameter']?>x<?=$nextProject['rear_rim_width']?> <?=($nextProject['rear_rim_offset_range']>0)?'+':''?><?=$nextProject['rear_rim_offset_range']?><?php endif;?>">
 				<img src="<?=$nextProject['photo']?>">
