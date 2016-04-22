@@ -196,11 +196,7 @@
 			</tr>
 			
 			<?php if (!empty($project['rear_rim_width']) && !empty($project['rear_rim_offset_range'])):?>
-<<<<<<< HEAD
-			<tr><td>Wheel backspacing (testing)</td><td><h3><?= Project::getWheelBackspacing($project['rear_rim_width'], $project['rear_rim_offset_range'])?>”</h3></td></tr>
-=======
-			<tr><td>Wheel backspacing (11)</td><td><h3><?= Project::getWheelBackspacing($project['rear_rim_width'], $project['rear_rim_offset_range'])?>”</h3></td></tr>
->>>>>>> 8c8ec025074739434ab4242430e35ab34a8d9a41
+			<tr><td>Wheel backspacing (1)</td><td><h3><?= Project::getWheelBackspacing($project['rear_rim_width'], $project['rear_rim_offset_range'])?>”</h3></td></tr>
 			<?php endif;?>			
 			
 			<tr>
