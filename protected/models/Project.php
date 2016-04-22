@@ -1338,7 +1338,7 @@ class Project extends CActiveRecord
 		$value = '';
 		
 		if (!empty($rimWidth) && !empty($offset)) {
-			return ($rimWidth+1)/2 + ($offset/25.4);
+			return round(($rimWidth+1)/2 + ($offset/25.4), 2);
 		}
 		return '';
 		
