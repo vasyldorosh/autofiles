@@ -34,10 +34,22 @@
 						<!--<li><a type="amzn" search="<?=Tire::format($tire, false)?>" category="automotive">Buy on Amazon</a></li>-->
 						
 						<?php if (!empty($rimWidth['front'])):?>
-						<li>Rim width <?=$rimWidth['front']['from']?> - <?=$rimWidth['front']['to']?>"</li>
 						<?php endif;?>
 						<li>Diameter <?=Tire::diameter($tire)?>"</li>
 						<li>Sidewall height <?=Tire::sidewallHeight($tire)?>"</li>
+						
+						<?php if (!empty($rimWidth['front'])):?>
+							<?php $rimWidthRange=array(); for($v=$rimWidth['front']['min'];$v<=$rimWidth['front']['max']; $v=$v+0.5):
+								$expl = explode('.', $v);
+								if (count($expl)==1) $v = $v . '.0';
+								$dw = $tire['rim_diameter'] . 'x' . $v;
+								$title = str_replace(array('[diametr]', '[width]'), array($tire['rim_diameter'], $v), SiteConfig::getInstance()->getValue('seo_wheels_diametr_width_title'));
+								$rimWidthRange[] = sprintf('<a href="/wheels/%s/" title="%s">%s</a>', $dw, $title, $dw);
+							endfor;?>
+							<li>
+							Rim width <?= implode(', ', $rimWidthRange)?>	
+							</li>
+						<?php endif;?>	
 					</ul>
 				</div>				
 				
@@ -54,11 +66,20 @@
 					<a href="<?=Tire::url($tire)?>" class="product_photo_name">Rear tires <?=$tireRearTextProfile?></a>
 					<ul class="make__vehicle-specs">
 						<!--<li><a type="amzn" search="<?=$tireRearText?>" category="automotive">Buy on Amazon</a></li>-->
-						<?php if (!empty($rimWidth['rear'])):?>
-						<li>Rim width <?=$rimWidth['rear']['from']?> - <?=$rimWidth['rear']['to']?>"</li>
-						<?php endif;?>
 						<li>Diameter <?=Tire::diameter($tireRearAttr)?>"</li>
 						<li>Sidewall height <?=Tire::sidewallHeight($tireRearAttr)?>"</li>
+						<?php if (!empty($rimWidth['rear'])):?>
+							<?php $rimWidthRange=array(); for($v=$rimWidth['rear']['min'];$v<=$rimWidth['rear']['max']; $v=$v+0.5):
+								$expl = explode('.', $v);
+								if (count($expl)==1) $v = $v . '.0';
+								$dw = $tire['rear_rim_diameter'] . 'x' . $v;
+								$title = str_replace(array('[diametr]', '[width]'), array($tire['rear_rim_diameter'], $v), SiteConfig::getInstance()->getValue('seo_wheels_diametr_width_title'));
+								$rimWidthRange[] = sprintf('<a href="/wheels/%s/" title="%s">%s</a>', $dw, $title, $dw);
+							endfor;?>
+							<li>
+							Rim width <?= implode(', ', $rimWidthRange)?>	
+							</li>
+						<?php endif;?>							
 					</ul>
 				</div>
 				<?php endif;?>
