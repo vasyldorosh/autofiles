@@ -39,7 +39,7 @@
 						<li>Sidewall height <?=Tire::sidewallHeight($tire)?>"</li>
 						
 						<?php if (!empty($rimWidth['front'])):?>
-							<?php $rimWidthRange=array(); for($v=$rimWidth['front']['min'];$v<=$rimWidth['front']['max']; $v=$v+0.5):
+							<?php $rimWidthRange=array(); for($v=$rimWidth['front']['from'];$v<=$rimWidth['front']['to']; $v=$v+0.5):
 								$expl = explode('.', $v);
 								if (count($expl)==1) $v = $v . '.0';
 								$dw = $tire['rim_diameter'] . 'x' . $v;
@@ -69,7 +69,7 @@
 						<li>Diameter <?=Tire::diameter($tireRearAttr)?>"</li>
 						<li>Sidewall height <?=Tire::sidewallHeight($tireRearAttr)?>"</li>
 						<?php if (!empty($rimWidth['rear'])):?>
-							<?php $rimWidthRange=array(); for($v=$rimWidth['rear']['min'];$v<=$rimWidth['rear']['max']; $v=$v+0.5):
+							<?php $rimWidthRange=array(); for($v=$rimWidth['rear']['from'];$v<=$rimWidth['rear']['to']; $v=$v+0.5):
 								$expl = explode('.', $v);
 								if (count($expl)==1) $v = $v . '.0';
 								$dw = $tire['rear_rim_diameter'] . 'x' . $v;
