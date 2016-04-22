@@ -1333,12 +1333,12 @@ class Project extends CActiveRecord
 		return $data;
 	}	
 	
-	public static function getWheelBackspacing($offset, $rimWidth)
+	public static function getWheelBackspacing($rimWidth, $offset)
 	{
 		$value = '';
 		
 		if (!empty($rimWidth) && !empty($offset)) {
-			return ($rimWidth+1)/2 + round($offset/25.4);
+			return ($rimWidth+1)/2 + ($offset/25.4);
 		}
 		return '';
 		
