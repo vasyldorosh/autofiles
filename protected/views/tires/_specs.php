@@ -27,7 +27,9 @@
 						</td>
 						<td class="spec-value">
 						<?php $rimWidthRange=array(); for($v=$rimWidth['min'];$v<=$rimWidth['max']; $v=$v+0.5):
-							$rimWidthRange[] = $v;
+							$dw = $tire['rim_diameter'] . 'x' . $v;
+							$title = str_replace(array('[diametr]', '[width]'), array($tire['rim_diameter'], $v), SiteConfig::getInstance()->getValue('seo_wheels_diametr_width_title'));
+							$rimWidthRange[] = sprintf('<a href="/wheels/%s/" title="%s">%s</a>', $dw, $title, $dw);
 						endfor;?>
 						<?= implode(', ', $rimWidthRange)?>
 						</td>
