@@ -26,7 +26,10 @@
 							<span>Rim Width Range</span>
 						</td>
 						<td class="spec-value">
-							<?=$rimWidth['min']?><?php if($rimWidth['min']!=$rimWidth['max']):?> - <?=$rimWidth['max']?><?php endif;?>""
+						<?php $rimWidthRange=array() for($v=$rimWidth['min'];$v<=$rimWidth['max']; $v=$v+0.5):
+							$rimWidthRange[] = $v;
+						endfor;?>
+						<?= implode(', ', $rimWidthRange)?>
 						</td>
 					</tr>					
 					<?php endif;?>					
