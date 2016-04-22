@@ -31,7 +31,15 @@
 
 			<tr>
 				<td>Front rim size</td>
-				<td><h3><?=$project['rim_diameter']?><?=(!empty($project['rim_width']))?'x'.$project['rim_width']:' inch'?></a></td>		
+				<td>
+				 <h3>
+					<?php if (!empty($project['rim_diameter']) && !empty($project['rim_width'])):?>
+						<a href="/wheels/<?= $project['rim_diameter']?>x<?= $project['rim_width']?>/"><?= $project['rim_diameter']?>x<?= $project['rim_width']?></a>
+					<?php else:?>
+						<?=$project['rim_diameter']?><?=(!empty($project['rim_width']))?'x'.$project['rim_width']:' inch'?>
+					<?php endif;?>	
+				 </h3>
+				</td>		
 			</tr>
 			<?php if (!empty($project['rim_offset_range'])):?>
 			<tr>
@@ -109,7 +117,15 @@
 		<?php else:?>		
 			<tr>
 				<td><?=($project['is_staggered_wheels'])?'Front rim size':'Front & rear rim size'?></td>
-				<td><h3><?=$project['rim_diameter']?><?=(!empty($project['rim_width']))?'x'.$project['rim_width']:' inch'?></h3></td>		
+				<td>
+					<h3>
+						<?php if (!empty($project['rim_diameter']) && !empty($project['rim_width'])):?>
+							<a href="/wheels/<?= $project['rim_diameter']?>x<?= $project['rim_width']?>/"><?= $project['rim_diameter']?>x<?= $project['rim_width']?></a>
+						<?php else:?>
+							<?=$project['rim_diameter']?><?=(!empty($project['rim_width']))?'x'.$project['rim_width']:' inch'?>
+						<?php endif;?>							
+					</h3>
+				</td>		
 			</tr>
 			<?php if (!empty($project['rim_offset_range'])):?>
 			<tr>
@@ -147,7 +163,15 @@
 			<?php if ($project['is_staggered_wheels']):?>
 			<tr>
 				<td>Rear rim size</td>
-				<td><h3><?=$project['rear_rim_diameter']?>x<?=$project['rear_rim_width']?></h3></td>
+				<td>
+					<h3>
+						<?php if (!empty($project['rear_rim_diameter']) && !empty($project['rear_rim_width'])):?>
+							<a href="/wheels/<?= $project['rear_rim_diameter']?>x<?= $project['rear_rim_width']?>/"><?= $project['rear_rim_diameter']?>x<?= $project['rear_rim_width']?></a>
+						<?php else:?>
+							<?=$project['rear_rim_diameter']?>x<?=$project['rear_rim_width']?>
+						<?php endif;?>							
+					</h3>
+				</td>
 			</tr>
 			
 				<?php if (!empty($project['rear_rim_offset_range'])):?>
