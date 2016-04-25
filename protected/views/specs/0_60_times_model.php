@@ -136,6 +136,8 @@
 		
 		<section class="seo-text">
 			<?=$descriptionFooter?>
+			
+			<?=$model['text_times']?>
 		</section>		
 		
 	</div>

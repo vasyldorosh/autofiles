@@ -358,7 +358,7 @@ class AutoModel extends CActiveRecord
 	
 	public static function getModelByMakeAndAlias($make_id, $alias)
 	{
-		$key = Tags::TAG_MODEL . '__ITEM__'.$make_id . '__' . $alias;
+		$key = Tags::TAG_MODEL . '__ITEM___'.$make_id . '__' . $alias;
 		$model = Yii::app()->cache->get($key);
 		if ($model == false) {
 			$model = array();
@@ -382,9 +382,15 @@ class AutoModel extends CActiveRecord
 					'alias' => $item->alias,
 					'description' => $item->description,
 					'photo' => $item->getThumb(150, null, 'resize'),
+					'text_times' => $item->text_times,
+					'text_wheels' => $item->text_wheels,
+					'text_tires' => $item->text_tires,
+					'text_horsepower' => $item->text_horsepower,
+					'text_dimensions' => $item->text_dimensions,
+					'text_tuning' => $item->text_tuning,
 				);
 			}
-			
+		
 			Yii::app()->cache->set($key, $model, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL));
 		}	
 		
