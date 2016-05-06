@@ -40,7 +40,7 @@
 			<?php $rangeTimes = AutoModel::getMinMaxSpecs('0_60mph__0_100kmh_s_', $dataModel['id']);?>				
 			<?php if (!empty($rangeTimes)):?>	
 				<li>
-					<a href="/0-60-times<?=$dataModel['url']?>" title="<?=$make['title']?> <?=$dataModel['title']?> acceleration times and quarter mile">
+					<a href="/0-60-times<?=$dataModel['url']?>" title="<?=$make['title']?> <?=$dataModel['title']?> 0-60 times and quarter mile">
 					0-60 times 
 					<?=$rangeTimes['mmin']?> 
 					<?php if ($rangeTimes['mmin'] != $rangeTimes['mmax']):?> - <?=$rangeTimes['mmax']?><?php endif;?>
@@ -51,13 +51,13 @@
 			</ul>
 			
 			
-			<ul class="make__vehicle-years">
+			<!--<ul class="make__vehicle-years">
 			<?php foreach ($dataModel['years'] as $item):?>	
 				<li>
 					<a title="<?=$item['year']?> <?=$make['title']?> <?=$dataModel['title']?> horsepower" href="/horsepower<?=$dataModel['url']?><?=$item['year']?>/"><?=$item['year']?></a>
 				</li>
 			<?php endforeach; ?>
-			</ul>
+			</ul>-->
 		</li>
 	<?php endforeach;?>				
 	</ul>
