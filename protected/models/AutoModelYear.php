@@ -872,6 +872,10 @@ class AutoModelYear extends CActiveRecord
 				$ids[] = (int)(($model_year_id==$row['model_year_id']) ? $row['competitor_id'] : $row['model_year_id']);
 			}
 			
+			if (isset($_GET['t'])) {
+				d($ids);
+			}
+ 			
 			if (!empty($ids)) {
 				$criteria = new CDbCriteria();
 				//$criteria->compare('t.is_active', 1);
