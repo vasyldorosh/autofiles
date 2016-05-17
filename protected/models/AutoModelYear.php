@@ -857,7 +857,7 @@ class AutoModelYear extends CActiveRecord
 		$key = Tags::TAG_MODEL_YEAR . '_COMPETITORS_'.$model_year_id;
 		$data = Yii::app()->cache->get($key);
 
-		if ($data == false && !is_array($data) || 1) {
+		if ($data == false && !is_array($data)) {
 			$data = array();
 			$sql = "SELECT 
 						*
@@ -872,19 +872,15 @@ class AutoModelYear extends CActiveRecord
 				$ids[] = (int)(($model_year_id==$row['model_year_id']) ? $row['competitor_id'] : $row['model_year_id']);
 			}
 			
-			if (isset($_GET['t'])) {
-				d($ids);
-			}
- 			
 			if (!empty($ids)) {
 				$criteria = new CDbCriteria();
-				//$criteria->compare('t.is_active', 1);
-				//$criteria->compare('t.is_deleted', 0);
+				$criteria->compare('t.is_active', 1);
+				$criteria->compare('t.is_deleted', 0);
 				$criteria->addInCondition('t.id', $ids);
-				//$criteria->compare('Model.is_active', 1);
-				//$criteria->compare('Model.is_deleted', 0);	
-				//$criteria->compare('Make.is_active', 1);
-				//$criteria->compare('Make.is_deleted', 0);					
+				$criteria->compare('Model.is_active', 1);
+				$criteria->compare('Model.is_deleted', 0);	
+				$criteria->compare('Make.is_active', 1);
+				$criteria->compare('Make.is_deleted', 0);					
 				$criteria->with = array('Model', 'Model.Make');
 				$criteria->order = 't.id';
 				
@@ -894,12 +890,15 @@ class AutoModelYear extends CActiveRecord
 					$itemIds[] = (int)$item->id;
 				}
 				
-				$dataIds = ArrayHelper::getArrayСircleNeighbor($itemIds, $model_year_id);
+				//$dataIds = ArrayHelper::getArrayСircleNeighbor($itemIds, $model_year_id);
 
 				foreach ($items as $item) {
+					
+					/*
 					if (!in_array($item->id, $dataIds)) {
 						continue;
 					}
+					*/
 				
 					$price = self::getMinMaxSpecs('msrp', $item->id);
 					$lastCompletion = self::getLastCompletion($item->id);
