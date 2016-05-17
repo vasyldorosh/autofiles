@@ -857,7 +857,7 @@ class AutoModelYear extends CActiveRecord
 		$key = Tags::TAG_MODEL_YEAR . '_COMPETITORS_'.$model_year_id;
 		$data = Yii::app()->cache->get($key);
 
-		if ($data == false && !is_array($data)) {
+		if ($data == false && !is_array($data) || 1) {
 			$data = array();
 			$sql = "SELECT 
 						*
@@ -874,13 +874,13 @@ class AutoModelYear extends CActiveRecord
 			
 			if (!empty($ids)) {
 				$criteria = new CDbCriteria();
-				$criteria->compare('t.is_active', 1);
-				$criteria->compare('t.is_deleted', 0);
+				//$criteria->compare('t.is_active', 1);
+				//$criteria->compare('t.is_deleted', 0);
 				$criteria->addInCondition('t.id', $ids);
-				$criteria->compare('Model.is_active', 1);
-				$criteria->compare('Model.is_deleted', 0);	
-				$criteria->compare('Make.is_active', 1);
-				$criteria->compare('Make.is_deleted', 0);					
+				//$criteria->compare('Model.is_active', 1);
+				//$criteria->compare('Model.is_deleted', 0);	
+				//$criteria->compare('Make.is_active', 1);
+				//$criteria->compare('Make.is_deleted', 0);					
 				$criteria->with = array('Model', 'Model.Make');
 				$criteria->order = 't.id';
 				
