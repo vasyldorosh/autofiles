@@ -32,7 +32,7 @@
 					$size = count($hps);
 					foreach ($hps as $k=>$hp) {
 						$p = ($k==$size-1)?' hp':'';
-						$links[] = "<a href='/horsepower/{$hp}/'>{$hp}{$p}</a>";
+						$links[] = "{$hp}{$p}";
 					}
 					?>
 					<?php if (!empty($links)):?>
@@ -44,12 +44,11 @@
 				
 				<?php if (!empty($rangeTimes)):?>	
 					<li>
-						<a href="/0-60-times/<?=$make['alias']?>/<?=$model['alias']?>" title="<?=$make['title']?> <?=$model['title']?> 0-60 times acceleration">
-						0-60 times 
-						<?=$rangeTimes['mmin']?> 
+						
+						0-60 	<?=$rangeTimes['mmin']?> 
 						<?php if ($rangeTimes['mmin'] != $rangeTimes['mmax']):?> - <?=$rangeTimes['mmax']?><?php endif;?>
 						sec
-						</a>
+						
 					</li>
 				<?php endif;?>
 			</ul>						

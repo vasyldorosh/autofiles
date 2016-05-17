@@ -1,4 +1,13 @@
 <main>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-3243264408777652",
+    enable_page_level_ads: true
+  });
+</script>
+
 	<div class="l-col1">
 		<!-- section 1 -->
 
