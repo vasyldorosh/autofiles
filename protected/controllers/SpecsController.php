@@ -80,17 +80,35 @@ class SpecsController extends Controller
 		$lastModelYear = AutoModel::getLastYear($model['id']);
 		$models = AutoCompletion::getAccelerationAcrossYears($model['id']);	
 		$competitors = AutoCompletion::getCompetitorsAcceleration($model['id']);
-		$completionsTime = AutoCompletion::getItemsByYearOrderTime($lastModelYear['id']);		
 		$completionsCarsWithSame060Time = AutoCompletion::getCarsWithSame060Time($model['id'], $lastModelYear);		
 		//d($competitors);	
-			
+		
 		$this->breadcrumbs = array(
 			'/' => 'Home',
 			'/0-60-times.html' => '0-60 times',
 			'/0-60-times' . $make['url'] => $make['title'] . ' 0-60 times acceleration',
 			'#' => $model['title'],
 		);	
-	
+		
+		$years = AutoModelYear::getAllByModel($model['id']);
+		$yearsIds = array();
+		$i=0;
+		foreach ($years as $k=>$v) {
+			$yearsIds[] = $k;
+			$i++;
+			if ($i==3) {
+				break;
+			}
+		}
+		
+		$completionsTimes = AutoCompletion::getItemsByYearOrderTime($yearsIds);
+		
+		foreach ($completionsTimes as $k=>&$v) {
+			$v['year'] = $years[$k];
+		}
+		
+		//d($completionsTimes);
+		
 		//$fastests = AutoCompletion::getFastest(6);
 		
 		$this->render('0_60_times_model', array(
@@ -100,7 +118,7 @@ class SpecsController extends Controller
 			'model' => $model,
 			'models' => $models,
 			'competitors' => $competitors,
-			'completionsTime' => $completionsTime,
+			'completionsTimes' => $completionsTimes,
 			'description' => str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('0_60_times_model_description')),
 			'descriptionFooter' => str_replace(array('[make]', '[model]'), array($make['title'], $model['title']), SiteConfig::getInstance()->getValue('0_60_times_footer_seo_text')),
 		));

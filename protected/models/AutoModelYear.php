@@ -488,15 +488,23 @@ class AutoModelYear extends CActiveRecord
 	public static function getAllByModel($model_id, $onlyNotDeleted=0) 
 	{
 		$model_id = (int) $model_id;
+		$key = Tags::TAG_MODEL_YEAR . 'getAllByModel_'. $model_id . '_' . $onlyNotDeleted;
+		$data = Yii::app()->cache->get($key);
+		if ($data === false) {
+			$model_id = (int) $model_id;
+			
+			$criteria=new CDbCriteria;
+			$criteria->compare('model_id',$model_id);
+			if ($onlyNotDeleted) {
+				$criteria->compare('is_deleted', 0);
+			}
+			$criteria->order = 'year DESC';	
 		
-		$criteria=new CDbCriteria;
-		$criteria->compare('model_id',$model_id);
-		if ($onlyNotDeleted) {
-			$criteria->compare('is_deleted', 0);
-		}
-		$criteria->order = 'year DESC';	
-	
-		return CHtml::listData(self::model()->findAll($criteria), 'id', 'year');		
+			$data = CHtml::listData(self::model()->findAll($criteria), 'id', 'year');	
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR));
+		}	
+		
+		return $data;
 	}
 	
 	public static function getAll() 

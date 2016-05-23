@@ -304,75 +304,38 @@ class SiteController extends Controller
 		
 	public function actionR()
 	{
-		ini_set('max_execution_time', 1000);
+		ini_set('max_execution_time', 10000);
 		
-		$criteria = new CDbCriteria;		
-		$criteria->with = array('Model', 'Model.Make');
-		$criteria->index = 'id';
-		$modelYears = AutoModelYear::model()->findAll($criteria);
-		$data = array();
-		$dataModeYear = array();
-		foreach ($modelYears as $modelYear) {
-			
-			$k = array();
-			$k[] = (int) $modelYear->tire_rim_diameter_from_id;
-			$k[] = (int) $modelYear->rim_width_from_id;
-			$k[] = (int) $modelYear->tire_rim_diameter_to_id;
-			$k[] = (int) $modelYear->rim_width_to_id;
-			$k[] = (int) $modelYear->offset_range_from_id;
-			$k[] = (int) $modelYear->offset_range_to_id;
-			$k[] = (int) $modelYear->bolt_pattern_id;
-			$k[] = (int) $modelYear->thread_size_id;
-			$k[] = (int) $modelYear->center_bore_id;
-			
-			$k = implode('_', $k);
-			
-			if ($k!='0_0_0_0_0_0_0_0_0') {
-				$data[$modelYear->model_id][$k][] = (int)$modelYear->year;
-				$dataModeYear[$modelYear->model_id][$modelYear->year] = $modelYear;
-			}
-		}
+		$items = AutoModelYearCompetitor::model()->findAll();
 		
-		foreach ($data as $model_id=>$tires) {
-			foreach ($tires as $tire_key=>$years) {
-				sort($years);
-				$data[$model_id][$tire_key] = $years;
-			}			
-		}
-		//d($data);	
+		$models = AutoModel::model()->findAll();
+		foreach ($models as $model) {
+			$modelCompetitorIds = [];
 			
-		$searchData = array();
-		foreach ($data as $model_id=>$tires) {
-			foreach ($tires as $tire_key=>$years) {
+			$criteria = new CDbCriteria;
+			$criteria->compare('model_id', $model->id);
+			$modelYears = AutoModelYear::model()->findAll($criteria);
+			
+			foreach ($modelYears as $modelYear) {
+				$yearTo = $modelYear->year;
+				$yearFrom = $yearTo-2;
 				
-				if (count($years) == 1) {
-					$searchData[$model_id][] = $years[0];
-					continue;
-				}
 				
-				foreach ($years as $k=>$year) {
-					if (isset($years[$k+1])) {
-						if (($years[$k+1]-$years[$k]) > 1) {
-							for ($i=($year+1);$i<$years[$k+1];$i++) {
-								$searchData[$model_id][] = $i;							
-							}
-						}
-					} 
-				}
-			}			
-		}
-		
-		//d($searchData);
-		
-		foreach ($searchData as $model_id=>$years) {
-			foreach ($years as $year) {
-				if (isset($dataModeYear[$model_id][$year])) {
-					$modelYear = $dataModeYear[$model_id][$year];
-					echo $modelYear->Model->Make->title . ' ' . $modelYear->Model->title . ' ' . $modelYear->year;
-					echo "<br/>";
+				$sql = "SELECT y.model_id AS model_id FROM  auto_model_year_competitor AS c
+						LEFT JOIN auto_model_year AS y ON c.competitor_id = y.id
+						WHERE c.model_year_id = {$modelYear->id} AND y.year >= {$yearFrom} AND y.year <= {$yearTo} 
+				";
+				
+				$items = Yii::app()->db->createCommand($sql)->queryAll();
+				
+				foreach ($items as $item) {
+					$modelCompetitorIds[$item['model_id']] = $item['model_id'];
 				}
 			}
+			
+			d($modelCompetitorIds,0);
 		}
+		
 	}
 	
 }

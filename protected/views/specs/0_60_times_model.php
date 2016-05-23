@@ -13,12 +13,13 @@
 		</section>
 		
 		
-		<?php if (!empty($completionsTime)):?>
-		<section class="table-container">
-			<h2 class="section-name_2"><?=$lastModelYear['year']?> <?=$make['title']?> <?=$model['title']?> 0-60 times, all trims</h2>
+		<?php if (!empty($completionsTimes)):?>
+		<?php foreach ($completionsTimes as $completionsTime):?>
+		<section class="table-container">	
+			<h2 class="section-name_2"><?=$completionsTime['year']?> <?=$make['title']?> <?=$model['title']?> 0-60 times, all trims</h2>
 			<table>
             <tr><td><b>Trim, HP, Engine, Transmission</b></td><td><b>0-60 times</b></td><td><b>1/4 mile times</b></td></tr>
-			<?php foreach ($completionsTime as $item):?>
+			<?php foreach ($completionsTime['items'] as $item):?>
 				<tr>
 					<td>
 						<?php $expl = explode('@', $item['specs_horsepower']); $hp = trim($expl[0])?>
@@ -38,6 +39,7 @@
 			<?php endforeach;?>
 			</table>
 		</section>		
+		<?php endforeach;?>
 		<?php endif;?>		
 
 
@@ -45,8 +47,8 @@
 			<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> 0-60 mph acceleration across years</h2>
 
 			<table>
-<tr><td><b>Year of a Model</b></td><td><b>0-60 times</b></td><td><b>1/4 mile times</b></td></tr>
-			<?php foreach ($models as $item):?>
+				<tr><td><b>Year of a Model</b></td><td><b>0-60 times</b></td><td><b>1/4 mile times</b></td></tr>
+				<?php foreach ($models as $item):?>
 				 
                                  <tr>
 					<td><?=$item['year']?> <?=$make['title']?> <?=$model['title']?></td>
@@ -81,7 +83,7 @@
 			<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> competitors' 0-60 mph acceleration</h2>
 
 			<table>
-<tr><td><b>Competitor</b></td><td><b>0-60 times</b></td><td><b>1/4 mile times</b></td></tr>
+			<tr><td><b>Competitor</b></td><td><b>0-60 times</b></td><td><b>1/4 mile times</b></td></tr>
 			<?php foreach ($competitors as $item):?>
 				<tr>
 					<td><a title="<?=$item['make']?> <?=$item['model']?> 0-60 times" href="/0-60-times/<?=$item['make_alias']?>/<?=$item['model_alias']?>/"><?=$item['year']?> <?=$item['make']?> <?=$item['model']?></a></td>
