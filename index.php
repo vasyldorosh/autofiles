@@ -29,4 +29,5 @@ require_once($yii);
 $app = Yii::createWebApplication($config);
 
 //Now you can run application
+
 $app->run();
