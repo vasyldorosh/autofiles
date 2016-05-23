@@ -11,7 +11,7 @@ $c = strpos($_SERVER['REQUEST_URI'], 'admin') ?'admin.php':'main.php';
 
 $config=dirname(__FILE__).'/protected/config/'.$c;
 
-$debag = ($_SERVER['SERVER_NAME']=='auto.loc'))?1:0;
+$debag = ($_SERVER['SERVER_NAME']=='auto.loc')?1:0;
 if (isset($_GET['t']))
 	$debag = 1;
 
