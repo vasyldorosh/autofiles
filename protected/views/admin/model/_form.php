@@ -9,6 +9,26 @@
         <?php echo $form->dropDownListRow($model, 'make_id', AutoMake::getAll(),array('empty'=>''))?>
 		<?php echo $form->textFieldRow($model, 'title')?>
         <?php echo $form->textFieldRow($model, 'alias')?>
+		
+		<?php $model->post_competitors = $model->getPost_competitors()?>
+		<div class="control-group">
+				<label class="control-label required" for="AutoModel_post_competitors"><?php echo $model->getAttributeLabel('post_competitors')?></label>
+				<div class="controls">
+				<?php $this->widget('ext.chosen.Chosen',array(
+					'model' => $model, 
+					'attribute' => 'post_competitors', 
+					'data' => AutoModel::getAllWithMakeTitle(),
+					'multiple' => true,
+					'noResults' => Yii::t('admin', 'Not found'),
+					'placeholderMultiple'=>$model->getAttributeLabel('post_competitors'),
+					'htmlOptions'=>array(
+						'style' => 'width:800px;'
+					),		   
+				));?>
+				</div>
+		</div>	
+		
+		
 		<?php echo $form->fileFieldRow($model, 'file')?>
 		<br/>
 		

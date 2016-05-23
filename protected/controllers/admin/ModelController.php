@@ -88,6 +88,7 @@ class ModelController extends BackendController
 		Access::is('model.update', 403);
 	
         $model = $this->loadModel($id);
+        $model->scenario = 'updateAdmin';
 
         if (isset($_POST['AutoModel'])) {
 			$model->attributes = $_POST['AutoModel'];

@@ -3,7 +3,9 @@
 class AutoModel extends CActiveRecord
 {
 	public $file; 
-
+	
+	public $post_competitors = array();
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -38,7 +40,7 @@ class AutoModel extends CActiveRecord
 				'types'=>'jpg,png,gif,jpeg',
 				'allowEmpty'=>true
 			),
-			array('description, text_times, text_wheels, text_tires, text_horsepower, text_dimensions, text_tuning', 'safe',),					
+			array('description, text_times, text_wheels, text_tires, text_horsepower, text_dimensions, text_tuning, post_competitors', 'safe',),					
 		);
 	}
 	
@@ -93,6 +95,18 @@ class AutoModel extends CActiveRecord
 		if (!empty($this->file)) {
 			$this->file->saveAs($this->getImage_directory(true) . 'origin.'.$this->image_ext);
 		}	
+		
+		if ($this->scenario == 'updateAdmin') {
+			$sql = 'DELETE FROM auto_model_competitor WHERE model_id = ' . $this->id;
+			Yii::app()->db->createCommand($sql)->execute();	
+
+			foreach ($this->post_competitors as $competitor_id) {
+				$vs = new AutoModelCompetitor;
+				$vs->competitor_id = $competitor_id;
+				$vs->model_id = $this->id;
+				$vs->save();
+			}	
+		}		
 		
 		$this->_clearCache();
 		
@@ -194,6 +208,7 @@ class AutoModel extends CActiveRecord
 			'text_horsepower' => Yii::t('admin', 'Text (horsepower)'),
 			'text_dimensions' => Yii::t('admin', 'Text (dimensions)'),
 			'text_tuning' => Yii::t('admin', 'Text (tuning)'),
+			'post_competitors' => Yii::t('admin', 'Competitors'),
 		);
 	}
 
@@ -218,9 +233,16 @@ class AutoModel extends CActiveRecord
 	}
 
 	
-	public static function getAllWithMake()
+	public static function getAllWithMakeTitle()
 	{
-		return CHtml::listData(self::model()->with(array('Make'))->findAll(), 'id', 'title', 'Make.title');
+		$items = self::model()->with(array('Make'))->findAll();
+		$data = array();
+		
+		foreach ($items as $item) {
+			$data[$item->Make->title][$item->id] = $item->Make->title . ' ' . $item->title;
+		}
+		
+		return $data;
 	}
 
 	public static function getAllByMake($make_id)
@@ -787,5 +809,27 @@ class AutoModel extends CActiveRecord
 			return Tire::format($row, false);
 		}
 	}	
+	
+	public function getPost_competitors()
+	{
+		if (Yii::app()->request->isPostRequest) {
+			return $this->post_competitors;
+		} else {
+			if ($this->isNewRecord) {
+				return array();
+			} else {
+				
+				$criteria = new CDbCriteria;
+				$criteria->compare('model_id', $this->id);
+				$items = AutoModelCompetitor::model()->findAll($criteria);
+				$ids = array();
+				foreach ($items as $item) {
+					$ids[] = $item->competitor_id;
+				}
+			
+				return $ids;
+			}
+		}
+	}		
 	
 }

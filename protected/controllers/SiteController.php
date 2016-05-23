@@ -333,7 +333,10 @@ class SiteController extends Controller
 				}
 			}
 			
-			d($modelCompetitorIds,0);
+			
+			$model->scenario = 'updateAdmin';
+			$model->post_competitors = $modelCompetitorIds;
+			$model->save();
 		}
 		
 	}
