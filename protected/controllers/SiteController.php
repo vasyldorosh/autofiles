@@ -310,7 +310,7 @@ class SiteController extends Controller
 		
 		$models = AutoModel::model()->findAll();
 		foreach ($models as $model) {
-			$modelCompetitorIds = [];
+			$modelCompetitorIds = array();
 			
 			$criteria = new CDbCriteria;
 			$criteria->compare('model_id', $model->id);
