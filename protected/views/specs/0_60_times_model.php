@@ -78,71 +78,33 @@
 <br>
                <?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 
-			   
-<section class="make">
- <h2 class="section-name_2">ddddddddd Nissan GT-R competitors' 0-60 mph acceleration</h2>
- <ul class="make__vehicle">
-  <li>
-   <div class="make__vehicle-image">
-    <a title="Porsche 911 0-60" href="/0-60-times/porsche/911/">
-     <img src="/photos/model_year_item/150/porsche-911-2017.jpg">
-    </a>
-   </div>
-   <h3>
-    <a href="/0-60-times/porsche/911/">Porsche 911 0-60</a>
-   </h3>
-   
-   <ul class="make__vehicle-specs">    
-    <li>0-60 2.9 - 4.9 sec</li>
-    <li>quarter mile 11.3 @ 117 - 13.3 @ 106 mph</li>
-   </ul>      
-  </li>
-  
-  <li>
-   <div class="make__vehicle-image">
-    <a title="Porsche 911 0-60" href="/0-60-times/porsche/911/">
-     <img src="/photos/model_year_item/150/Nissan-GT-R-2016.jpg">
-    </a>
-   </div>
-   <h3>
-    <a href="/0-60-times/porsche/911/">Porsche 911 0-60</a>
-   </h3>
-   
-   <ul class="make__vehicle-specs">    
-    <li>0-60 2.9 - 4.9 sec</li>
-    <li>quarter mile 11.3 @ 117 - 13.3 @ 106 mph</li>
-   </ul>      
-  </li>
-  
-  
- </ul>
-</section>
-			   
-			   
-			   
-		<?php if (!empty($competitors)):?>
-		
-		
-		
-		
-		<section class="table-container">
-			<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> competitors' 0-60 mph acceleration</h2>
+<?php if (!empty($competitors)):?>			   
+	<section class="make">
+	 <h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> competitors' 0-60 mph acceleration</h2>
+	 <ul class="make__vehicle">
+	 <?php foreach ($competitors as $competitor):?> 
+	  <li>
+	   <div class="make__vehicle-image">
+		<a title="<?= $competitor['make']?> <?= $competitor['model']?> 0-60" href="/0-60-times/<?= $competitor['make_alias']?>/<?= $competitor['model_alias']?>/">
+		 <img src="<?= $competitor['year']['photo_270']?>">
+		</a>
+	   </div>
+	   <h3>
+		<a href="/0-60-times/<?= $competitor['make_alias']?>/<?= $competitor['model_alias']?>/"><?= $competitor['make']?> <?= $competitor['model']?> 0-60</a>
+	   </h3>
+	   
+	   <ul class="make__vehicle-specs">    
+		<li>
+			0-60	
+			<?php if ($item['0_60_times']['mmax'] == $item['0_60_times']['mmin']):?>
+				<?=$item['0_60_times']['mmin']?>
+			<?php else:?>
+				<?=$item['0_60_times']['mmin']?> - <?=$item['0_60_times']['mmax']?>
+			<?php endif;?>	
+			sec
+		</li>
+		<li>quarter mile 
 
-			<table>
-			<tr><td><b>Competitor</b></td><td><b>0-60 times</b></td><td><b>1/4 mile times</b></td></tr>
-			<?php foreach ($competitors as $item):?>
-				<tr>
-					<td><a title="<?=$item['make']?> <?=$item['model']?> 0-60 times" href="/0-60-times/<?=$item['make_alias']?>/<?=$item['model_alias']?>/"><?=$item['year']?> <?=$item['make']?> <?=$item['model']?></a></td>
-					<td><h3>
-					<?php if ($item['0_60_times']['mmax'] == $item['0_60_times']['mmin']):?>
-						<?=$item['0_60_times']['mmin']?>
-					<?php else:?>
-						<?=$item['0_60_times']['mmin']?> - <?=$item['0_60_times']['mmax']?>
-					<?php endif;?>	
-						sec
-					</h3></td>
-					<td>
-						1/4 mile
 						<?php if ($item['mile_time']['min'] == 0):?>
 							-
 						<?php else:?>
@@ -152,14 +114,16 @@
 								<?=$item['mile_time']['min']?> @ <?=$item['mile_speed']['max']?> - <?=$item['mile_time']['max']?> @ <?=$item['mile_speed']['min']?> mph
 							<?php endif;?>	
 						<?php endif;?>
-					</td>					
-				</tr>
-			<?php endforeach;?>
-			</table>
-			</section>
-		<?php endif;?>		
-
-
+		
+		
+		</li>
+	   </ul>      
+	  </li>
+	  <?php endforeach;?>
+	 </ul>
+	</section>
+<?php endif;?>			   
+			   
 		
 		<?php if (!empty($completionsCarsWithSame060Time)):?>
 		<section class="table-container">

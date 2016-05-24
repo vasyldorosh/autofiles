@@ -842,6 +842,82 @@ class AutoModel extends CActiveRecord
 				return $ids;
 			}
 		}
+	}
+
+	public static function getFrontCompetitors($model_id)
+	{
+		$model_id = (int) $model_id;
+
+		$key = Tags::TAG_MODEL . '_getFrontCompetitors_'.$model_id;
+		$competitors = Yii::app()->cache->get($key);
+
+		if ($competitors === false) {
+			$competitors = array();
+			$sql = "SELECT 
+						*
+					FROM auto_model_competitor AS c
+					WHERE 
+						c.model_id	 = {$model_id} OR 
+						c.competitor_id = {$model_id}
+					";
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();		
+			$ids = array();
+			foreach ($rows as $row) {
+				$ids[] = (int)(($model_id==$row['model_id']) ? $row['competitor_id'] : $row['model_id']);
+			}
+			
+			if (!empty($ids)) {
+				$criteria = new CDbCriteria();
+				$criteria->compare('t.is_active', 1);
+				$criteria->compare('t.is_deleted', 0);
+				$criteria->addInCondition('t.id', $ids);
+				$criteria->compare('Make.is_active', 1);
+				$criteria->compare('Make.is_deleted', 0);					
+				$criteria->with = array('Make');
+				
+				$items = AutoModel::model()->findAll($criteria);	
+				foreach ($items as $item) {
+					$competitors[$item->id] = array(
+						'model' => $item->title,
+						'model_alias' => $item->alias,
+						'model_id' => $item->id,
+						'make' => $item->Make->title,
+						'make_alias' => $item->Make->alias,
+						'make_id' => $item->Make->id,
+					);		
+				}
+	
+			}
+
+			Yii::app()->cache->set($key, $competitors, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL));
+		}
+		
+		foreach ($competitors as &$modelData) {
+			$modelData['year'] = self::getLastYear($modelData['model_id']);
+		}
+		
+		foreach ($competitors as $k=>$competitor) {
+			$times = AutoModelYear::getMinMaxSpecs('0_60mph__0_100kmh_s_', $competitor['year']['id']);
+			if ($times['mmin'] == 0) {
+				unset($competitors[$k]);
+				continue;
+			}
+			
+			$competitors[$k]['0_60_times'] = $times;
+			$competitors[$k]['mile_time']['max'] = AutoModelYear::getMaxSpecs('1_4_mile_time', $competitor['year']['id']);				
+			$competitors[$k]['mile_speed']['max'] = AutoModelYear::getMaxSpecs('1_4_mile_speed', $competitor['year']['id']);
+			$competitors[$k]['mile_time']['min'] = AutoModelYear::getMinSpecs('1_4_mile_time', $competitor['year']['id']);				
+			$competitors[$k]['mile_speed']['min'] = AutoModelYear::getMinSpecs('1_4_mile_speed', $competitor['year']['id']);
+		}
+		
+
+		//d($competitors);
+		
+		
+		usort ($competitors, "cmpArrayTimes");	
+		
+		
+		return $competitors;
 	}		
 	
 }

@@ -437,6 +437,8 @@ class AutoCompletion extends CActiveRecord
 		
 		return $data;		
 	}
+
+
 	
 	public static function getCompetitorsAcceleration($model_id)
 	{
