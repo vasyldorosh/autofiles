@@ -78,7 +78,53 @@
 <br>
                <?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 
+			   
+<section class="make">
+ <h2 class="section-name_2">ddddddddd Nissan GT-R competitors' 0-60 mph acceleration</h2>
+ <ul class="make__vehicle">
+  <li>
+   <div class="make__vehicle-image">
+    <a title="Porsche 911 0-60" href="/0-60-times/porsche/911/">
+     <img src="/photos/model_year_item/150/porsche-911-2017.jpg">
+    </a>
+   </div>
+   <h3>
+    <a href="/0-60-times/porsche/911/">Porsche 911 0-60</a>
+   </h3>
+   
+   <ul class="make__vehicle-specs">    
+    <li>0-60 2.9 - 4.9 sec</li>
+    <li>quarter mile 11.3 @ 117 - 13.3 @ 106 mph</li>
+   </ul>      
+  </li>
+  
+  <li>
+   <div class="make__vehicle-image">
+    <a title="Porsche 911 0-60" href="/0-60-times/porsche/911/">
+     <img src="/photos/model_year_item/150/Nissan-GT-R-2016.jpg">
+    </a>
+   </div>
+   <h3>
+    <a href="/0-60-times/porsche/911/">Porsche 911 0-60</a>
+   </h3>
+   
+   <ul class="make__vehicle-specs">    
+    <li>0-60 2.9 - 4.9 sec</li>
+    <li>quarter mile 11.3 @ 117 - 13.3 @ 106 mph</li>
+   </ul>      
+  </li>
+  
+  
+ </ul>
+</section>
+			   
+			   
+			   
 		<?php if (!empty($competitors)):?>
+		
+		
+		
+		
 		<section class="table-container">
 			<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> competitors' 0-60 mph acceleration</h2>
 

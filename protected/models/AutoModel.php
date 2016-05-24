@@ -245,6 +245,18 @@ class AutoModel extends CActiveRecord
 		return $data;
 	}
 
+	public static function getAllWithMake()
+	{
+		$items = self::model()->with(array('Make'))->findAll();
+		$data = array();
+		
+		foreach ($items as $item) {
+			$data[$item->Make->title][$item->id] = $item->title;
+		}
+		
+		return $data;
+	}
+
 	public static function getAllByMake($make_id)
 	{
 		$make_id = (int) $make_id;
