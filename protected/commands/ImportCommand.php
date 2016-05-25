@@ -358,7 +358,24 @@ class ImportCommand extends CConsoleCommand
 
 		return $group;
 	}	
+
+	public function actionNotCompletionSpecs()
+	{	
+		$sql 	= "SELECT id FROM  auto_completion WHERE id >= 34507";
+		$rows 	= Yii::app()->db->createCommand($sql)->queryAll();
+		$completionIds = array();
+		foreach ($rows as $row) {
+			$completionIds[] = $row['id'];
+		}
 	
+		//$completionIds = array(28409);
+		if (!empty($completionIds)) {
+			$this->actionCompletionDetails($completionIds);
+			$this->actionSpecs();
+			$this->actionCompletionData($completionIds);
+		}	
+	}	
+
 	private function getSpecs($attributes)
 	{
 		$mapAlias = array(
@@ -369,6 +386,8 @@ class ImportCommand extends CConsoleCommand
 			'rear_head_room' 	=> 'rear_headroom',
 			'front_leg_room' 	=> 'front_legroom',
 			'rear_leg_room' 	=> 'rear_legroom',
+			'curb' 				=> 'curb_weight',
+			'gross weight' 		=> 'gross_vehicle_weight_rating_gvwr_',
 		);
 		
 		$attributes['alias'] = AutoSpecs::slug($attributes['title']);
