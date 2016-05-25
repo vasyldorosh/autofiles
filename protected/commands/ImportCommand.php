@@ -498,6 +498,9 @@ class ImportCommand extends CConsoleCommand
 					$content = CUrlHelper::getPage($url . 'specs/', '', '');
 					preg_match_all('/<a href="(.*?)"><h3 data-toggle="tooltip" itemprop="vehicleConfiguration" title="(.*?)" data-car="(.*?)">(.*?)<\/h3><\/a>/', $content, $matchUrl);
 					
+					print_r($matchUrl);
+					die();
+					
 					$expl = explode('/', $matchUrl[0][1]);
 					$u = $expl[2];
 					$url = "http://www.autoblog.com/buy/" . $u . '/';
