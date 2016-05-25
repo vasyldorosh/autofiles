@@ -100,12 +100,15 @@ class AutoModel extends CActiveRecord
 			$sql = 'DELETE FROM auto_model_competitor WHERE model_id = ' . $this->id;
 			Yii::app()->db->createCommand($sql)->execute();	
 
-			foreach ($this->post_competitors as $competitor_id) {
-				$vs = new AutoModelCompetitor;
-				$vs->competitor_id = $competitor_id;
-				$vs->model_id = $this->id;
-				$vs->save();
-			}	
+			if (is_array($this->post_competitors)) {
+			
+				foreach ($this->post_competitors as $competitor_id) {
+					$vs = new AutoModelCompetitor;
+					$vs->competitor_id = $competitor_id;
+					$vs->model_id = $this->id;
+					$vs->save();
+				}	
+			}
 		}		
 		
 		$this->_clearCache();
