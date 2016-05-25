@@ -387,7 +387,7 @@ class ImportCommand extends CConsoleCommand
 			'front_leg_room' 	=> 'front_legroom',
 			'rear_leg_room' 	=> 'rear_legroom',
 			'curb' 				=> 'curb_weight',
-			'gross weight' 		=> 'gross_vehicle_weight_rating_gvwr_',
+			'gross_weight' 		=> 'gross_vehicle_weight_rating_gvwr_',
 		);
 		
 		$attributes['alias'] = AutoSpecs::slug($attributes['title']);
