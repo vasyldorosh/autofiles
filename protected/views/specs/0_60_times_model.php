@@ -96,22 +96,22 @@
 	   <ul class="make__vehicle-specs">    
 		<li>
 			0-60	
-			<?php if ($item['0_60_times']['mmax'] == $item['0_60_times']['mmin']):?>
-				<?=$item['0_60_times']['mmin']?>
+			<?php if ($competitor['0_60_times']['mmax'] == $competitor['0_60_times']['mmin']):?>
+				<?=$competitor['0_60_times']['mmin']?>
 			<?php else:?>
-				<?=$item['0_60_times']['mmin']?> - <?=$item['0_60_times']['mmax']?>
+				<?=$competitor['0_60_times']['mmin']?> - <?=$competitor['0_60_times']['mmax']?>
 			<?php endif;?>	
 			sec
 		</li>
 		<li>quarter mile 
 
-						<?php if ($item['mile_time']['min'] == 0):?>
+						<?php if ($competitor['mile_time']['min'] == 0):?>
 							-
 						<?php else:?>
-							<?php if ($item['mile_time']['min'] == $item['mile_time']['max']):?>
-								<?=$item['mile_time']['min']?> @ <?=$item['mile_speed']['min']?> mph
+							<?php if ($competitor['mile_time']['min'] == $competitor['mile_time']['max']):?>
+								<?=$competitor['mile_time']['min']?> @ <?=$competitor['mile_speed']['min']?> mph
 							<?php else:?>
-								<?=$item['mile_time']['min']?> @ <?=$item['mile_speed']['max']?> - <?=$item['mile_time']['max']?> @ <?=$item['mile_speed']['min']?> mph
+								<?=$competitor['mile_time']['min']?> @ <?=$competitor['mile_speed']['max']?> - <?=$competitor['mile_time']['max']?> @ <?=$competitor['mile_speed']['min']?> mph
 							<?php endif;?>	
 						<?php endif;?>
 		
@@ -122,6 +122,7 @@
 	  <?php endforeach;?>
 	 </ul>
 	</section>
+
 <?php endif;?>			   
 			   
 		
