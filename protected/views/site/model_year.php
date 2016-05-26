@@ -48,7 +48,15 @@
 		
 		<section class="make">
 			<div class="make__history">
-				<?php $this->widget('application.widgets.CommonWidget', array('action'=>'spoiler', 'data'=>array('text'=>$modelYear['description'], 'class'=>'description'))); ?>
+				<?php $this->widget('application.widgets.CommonWidget', array(
+					'action'=>'spoiler', 
+					'data'=>array(
+						'text'=>$modelYear['description'], 
+						'class'=>'description')
+					),
+					'make'=>$make,
+					'model'=>$model,
+				); ?>
 			</div>
 		</section>
 		
