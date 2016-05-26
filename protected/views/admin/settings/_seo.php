@@ -414,6 +414,30 @@
 					), 
 					true
 				)),				
+                array(
+					'label'=>Yii::t('admin', 'Weight'),
+					'content' => $this->renderPartial('_weight', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+                array(
+					'label'=>Yii::t('admin', 'Weight Make'),
+					'content' => $this->renderPartial('_weight_make', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+                array(
+					'label'=>Yii::t('admin', 'Weight Model'),
+					'content' => $this->renderPartial('_weight_model', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
 			
 				
 			)

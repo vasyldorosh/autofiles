@@ -283,7 +283,7 @@ class AutoMake extends CActiveRecord
 	
 	public static function getModels($make_id)
 	{
-		$key = Tags::TAG_MODEL . '_LIST_MODELS_'.$make_id;
+		$key = Tags::TAG_MODEL . '__LIST_MODELS__'.$make_id;
 		$dataModels = Yii::app()->cache->get($key);
 		if ($dataModels == false && !is_array($dataModels)) {
 			$dataModels = array();
@@ -300,6 +300,7 @@ class AutoMake extends CActiveRecord
 
 			foreach ($models as $model) {
 				$price = $model->getMinMaxMsrp();
+				$curbWeight = $model->getMinMaxCurbWeight();
 				$lastCompletion = AutoModel::getLastCompletion($model['id']);
 				$years = AutoModel::getYears($model['id']);
 				$lastYear = AutoModel::getLastYear($model['id']);
@@ -312,6 +313,10 @@ class AutoMake extends CActiveRecord
 					'price' => array(
 						'min' => $price['mmin'],
 						'max' => $price['mmax'],
+					),
+					'curbWeight' => array(
+						'min' => (float)$curbWeight['mmin'],
+						'max' => (float)$curbWeight['mmax'],
 					),
 					'completion' => array(
 						'engine' => AutoSpecsOption::getV('engine', $lastCompletion['specs_engine']),

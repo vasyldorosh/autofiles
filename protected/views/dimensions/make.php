@@ -28,11 +28,9 @@
 			</h3>			
 			
 			<ul class="make__vehicle-years">
-			<?php foreach ($dataModel['years'] as $item):?>	
 				<li>
-					<a title="<?=$item['year']?> <?=$make['title']?> <?=$dataModel['title']?> dimensions" href="/dimensions<?=$dataModel['url']?><?=$item['year']?>/"><?=$item['year']?></a>
+					<a title="<?=$make['title']?> <?=$dataModel['title']?> weight" href="/weight<?=$dataModel['url']?>">Weight</a>
 				</li>
-			<?php endforeach; ?>
 			</ul>
 		</li>
 	<?php endforeach;?>				

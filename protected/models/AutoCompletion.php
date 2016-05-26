@@ -298,6 +298,14 @@ class AutoCompletion extends CActiveRecord
 		return $data;			
 	}	
 	
+	public static function getCurbWeightByModelYear($model_year_id) 
+	{
+		$data = self::getItemsByYear($model_year_id);
+		usort ($data, "cmpArrayCurbWeight");
+		
+		return $data;
+	}	
+	
 	public static function getFastest($limit=6)
 	{
 		$key = Tags::TAG_COMPLETION . '__FASTEST__' . $limit;

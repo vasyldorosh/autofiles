@@ -7,9 +7,15 @@ function cmpCompletionTimes ($a, $b) {
 	if ($a['specs_0_60mph__0_100kmh_s_'] == $b['specs_0_60mph__0_100kmh_s_']) return 0;
 		return ($a['specs_0_60mph__0_100kmh_s_'] < $b['specs_0_60mph__0_100kmh_s_']) ? -1 : 1;
 }
+
 function cmpArrayYears ($a, $b) {
 	if ($a['year'] == $b['year']) return 0;
 		return ($a['year'] > $b['year']) ? -1 : 1;
+}
+
+function cmpArrayCurbWeight ($a, $b) {
+	if ($a['specs_curb_weight'] == $b['specs_curb_weight']) return 0;
+		return ($a['specs_curb_weight'] < $b['specs_curb_weight']) ? -1 : 1;
 }
 
 function emm($data) {
@@ -106,6 +112,10 @@ return array(
 				'horsepower/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'horsepower/model',
 				'horsepower/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>/<year:[0-9]{4}>' => 'horsepower/modelYear',
 					
+				'weight'=>'weight/index',
+				'weight/<alias:[a-z0-9-_]{1,255}>' => 'weight/make',
+				'weight/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'weight/model',
+			
 				'tuning.html'=>'tuning/index',
 				'tuning/<alias:[a-z0-9-_]{1,255}>' => 'tuning/make',
 				'tuning/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>/<filter:wheels-[0-9]{2}x[0-9]{1,2}.[0-9]{1,2}\/tire-[0-9]{3}\/offset[-]{0,1}[0-9]{1,2}>' => 'tuning/model',

@@ -273,6 +273,33 @@ class AutoModel extends CActiveRecord
 	}	
 	
 
+	public function getMinMaxCurbWeight()
+	{
+		$key = Tags::TAG_COMPLETION . '_getMinMaxCurbWeight_'.$this->id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data == false) {
+			$sql = "SELECT 
+						MAX(c.specs_curb_weight) AS mmax,  
+						MIN(c.specs_curb_weight) AS mmin 
+					FROM auto_completion AS c
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					WHERE 
+						c.is_active = 1 AND 
+						c.is_deleted = 0 AND
+						y.is_active = 1 AND
+						y.is_deleted = 0 AND
+						y.model_id = {$this->id} AND
+						c.specs_curb_weight IS NOT NULL
+					";
+					
+			$data = Yii::app()->db->createCommand($sql)->queryRow();	
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		return $data;
+	}	
+	
 	public function getMinMaxMsrp()
 	{
 		$key = Tags::TAG_COMPLETION . 'MINMAXMSRP_'.$this->id;
@@ -901,12 +928,14 @@ class AutoModel extends CActiveRecord
 		
 		foreach ($competitors as $k=>$competitor) {
 			$times = AutoModelYear::getMinMaxSpecs('0_60mph__0_100kmh_s_', $competitor['year']['id']);
+			$curb_weight = AutoModelYear::getMinMaxSpecs('curb_weight', $competitor['year']['id']);
 			if ($times['mmin'] == 0) {
 				unset($competitors[$k]);
 				continue;
 			}
 			
 			$competitors[$k]['0_60_times'] = $times;
+			$competitors[$k]['curb_weight'] = $curb_weight;
 			$competitors[$k]['mile_time']['max'] = AutoModelYear::getMaxSpecs('1_4_mile_time', $competitor['year']['id']);				
 			$competitors[$k]['mile_speed']['max'] = AutoModelYear::getMaxSpecs('1_4_mile_speed', $competitor['year']['id']);
 			$competitors[$k]['mile_time']['min'] = AutoModelYear::getMinSpecs('1_4_mile_time', $competitor['year']['id']);				
@@ -916,8 +945,6 @@ class AutoModel extends CActiveRecord
 
 		//d($competitors);
 		
-		
-		usort ($competitors, "cmpArrayTimes");	
 		
 		
 		return $competitors;

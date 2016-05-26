@@ -62,6 +62,7 @@
 		<section class="right-block">				
 			<?php $this->renderPartial('application.views.specs._right_index')?>		
 		</section>	
+		
 		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'vertical')); ?>
 
 	</div>
