@@ -39,6 +39,16 @@
 					</td>		
 				</tr>	
 			<?php endforeach;?>
+			<tr>
+				<td><a title="<?= $make['title']?> <?= $model['title']?> weight" href="/weight/<?= $make['alias']?>/<?= $model['alias']?>/">Weight</a></td>
+				<td> 
+				<?php if ($modelYear['curb_weight']['mmin'] != $modelYear['curb_weight']['mmax']):?>
+					<?= (float)$modelYear['curb_weight']['mmin']?> - <?= (float)$modelYear['curb_weight']['mmax']?> lbs.
+				<?php else:?>	
+					<?= (float)$modelYear['curb_weight']['mmin']?> lbs.
+				<?php endif;?>	
+				</td>  
+			</tr>
 			</table>
 		</section>
 		

@@ -121,7 +121,9 @@ class DimensionsController extends Controller
 		$completions = AutoModelYear::getFrontCompetitorsHp($modelYear['id']);
 		
 		$models = AutoModelYear::getModelsByMakeAndYear($make['id'], $modelYear['year']);
-		
+			
+		$modelYear['curb_weight'] = AutoModelYear::getMinMaxSpecs('curb_weight', $modelYear['id']);	
+			
 		$this->render('model_year', array(
 			'completions' => $completions,
 			'make' => $make,
