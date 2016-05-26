@@ -87,10 +87,10 @@ class WeightController extends Controller
 		$otherYearsCompletions = array();
 		foreach ($years as $yearItem) {
 			if ($yearItem['year'] != $lastModelYear['year']) {
-				$otherYearsCompletions[] = [
+				$otherYearsCompletions[] = array(
 					'year'		  => AutoModelYear::getYearByMakeAndModelAndAlias($make['id'], $model['id'], $yearItem['year']),
 					'completions' => AutoCompletion::getCurbWeightByModelYear($yearItem['id']),
-				]; 
+				); 
 			}
 		}
 		 
