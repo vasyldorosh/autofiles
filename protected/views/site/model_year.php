@@ -53,10 +53,9 @@
 					'data'=>array(
 						'text'=>$modelYear['description'], 
 						'class'=>'description',
-					),
-					'make'=>$make,
-					'model'=>$model,
-					
+						'make'=>$make,
+						'model'=>$model,
+					)
 				)); ?>
 			</div>
 		</section>

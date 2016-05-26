@@ -25,9 +25,6 @@ class CommonWidget extends CWidget{
 
     public function actionSpoiler() 
 	{
-		$this->render(self::TEMPLATE_PATH . '.spoiler', array(
-			'text' => $this->data['text'],
-			'class' => $this->data['class'],
-		));
+		$this->render(self::TEMPLATE_PATH . '.spoiler', $this->data);
     }
 }
