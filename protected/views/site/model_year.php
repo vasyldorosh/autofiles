@@ -52,11 +52,12 @@
 					'action'=>'spoiler', 
 					'data'=>array(
 						'text'=>$modelYear['description'], 
-						'class'=>'description')
+						'class'=>'description',
 					),
 					'make'=>$make,
 					'model'=>$model,
-				); ?>
+					
+				)); ?>
 			</div>
 		</section>
 		
