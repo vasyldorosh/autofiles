@@ -54,7 +54,7 @@ $rangePrice = AutoCompletion ::getMinMaxSpecsHp($hp, 'msrp');
 						<?php endif;?>
 						
 						<?php if (!empty($modelYear['curb_weight'])):?>
-							<li><a href="/weight/<?=$modelYear['make_alias']?>/<?=$modelYear['model_alias']?>/"><?=(float)$modelYear['curb_weight']?>Weight lbs.</a></li>
+							<li><a href="/weight/<?=$modelYear['make_alias']?>/<?=$modelYear['model_alias']?>/">Weight <?=(float)$modelYear['curb_weight']?> lbs.</a></li>
 						<?php endif;?>						
 						<?php if (!empty($modelYear['fuel_economy_city']) || !empty($modelYear['fuel_economy_highway'])):?>
 							<li>MPG <?=$modelYear['fuel_economy_city']?><?php if(!empty($modelYear['fuel_economy_city']) && !empty($modelYear['fuel_economy_highway'])):?>/<?php endif;?><?=$modelYear['fuel_economy_highway']?></a></li>
