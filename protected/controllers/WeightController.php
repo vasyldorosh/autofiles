@@ -84,7 +84,7 @@ class WeightController extends Controller
 		$years = AutoModel::getYears($model['id']);
 		//d($years);
 		
-		$otherYearsCompletions = [];
+		$otherYearsCompletions = array();
 		foreach ($years as $yearItem) {
 			if ($yearItem['year'] != $lastModelYear['year']) {
 				$otherYearsCompletions[] = [
