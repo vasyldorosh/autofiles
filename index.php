@@ -15,7 +15,7 @@ $debag = ($_SERVER['SERVER_NAME']=='auto.loc')?1:0;
 if (isset($_GET['t']))
 	$debag = 1;
 
-defined('YII_DEBUG') or define('YII_DEBUG', 1);
+defined('YII_DEBUG') or define('YII_DEBUG', true);
 //defined('YII_DEBUG') or define('YII_DEBUG',false);
 defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
 //show profiler
