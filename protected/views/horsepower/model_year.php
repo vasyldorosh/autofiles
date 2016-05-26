@@ -41,7 +41,7 @@
 							<li>Price <?=HtmlHelper::price($completion['msrp']);?></li>
 						<?php endif;?>
 						<?php if (!empty($completion['curb_weight'])):?>
-							<li>Weight <?=(float)$completion['curb_weight']?> lbs.</a></li>
+							<li><a href="/weight/<?=$make['alias']?>/<?=$model['alias']?>/">Weight <?=(float)$completion['curb_weight']?> lbs.</a></li>
 						<?php endif;?>						
 						<?php if (!empty($completion['fuel_economy_city']) || !empty($completion['fuel_economy_highway'])):?>
 							<li>MPG <?=$completion['fuel_economy_city']?><?php if(!empty($completion['fuel_economy_city']) && !empty($completion['fuel_economy_highway'])):?>/<?php endif;?><?=$completion['fuel_economy_highway']?></a></li>
