@@ -414,13 +414,10 @@ class SitemapCommand extends CConsoleCommand
 		$makes = AutoMake::model()->findAll($criteria);	
 				
 		foreach ($makes as $make) {
-				
-			foreach ($mapModules as $uri) {
-				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . '/weight/' . $make->alias . '/',
-					'lastmod' => time(),
-				));					
-			}								
+			$this->addItem($doc, $urlset, array(
+				'url' => $site_url . '/weight/' . $make->alias . '/',
+				'lastmod' => time(),
+			));					
 		}
 	
 		$criteria = new CDbCriteria();
@@ -433,15 +430,11 @@ class SitemapCommand extends CConsoleCommand
 		$models = AutoModel::model()->findAll($criteria);	
 				
 		foreach ($models as $model) {
-				
-			foreach ($mapModules as $uri) {
-				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . $uri . '/weight/' . $model->Make->alias . '/' . $model->alias . '/',
-					'lastmod' => time(),
-				));					
-			}								
+			$this->addItem($doc, $urlset, array(
+				'url' => $site_url . '/weight/' . $model->Make->alias . '/' . $model->alias . '/',
+				'lastmod' => time(),
+			));					
 		}
-	
 	
 				
 		$doc->formatOutput = true;
