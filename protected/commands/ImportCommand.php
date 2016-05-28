@@ -361,7 +361,7 @@ class ImportCommand extends CConsoleCommand
 
 	public function actionNotCompletionSpecs()
 	{	
-		$sql 	= "SELECT id FROM  auto_completion WHERE id >= 34507 LIMIT 10";
+		$sql 	= "SELECT id FROM  auto_completion WHERE id >= 34507";
 		$rows 	= Yii::app()->db->createCommand($sql)->queryAll();
 		$completionIds = array();
 		foreach ($rows as $row) {
@@ -557,17 +557,13 @@ class ImportCommand extends CConsoleCommand
 							$tempValue = str_replace('&#034;', '', $tempValue);	
 							$tempValue = trim($tempValue);
 							
-							if ($specs->id == 157) {
-								echo "$tempValue \n";	
-							} 
-							continue;
-							
 							$completionSpecs = new AutoCompletionSpecsTemp;
 							$completionSpecs->attributes = array(
 								'completion_id' => $completion->id,
 								'specs_id' => $specs->id,
 								'value' => $tempValue,
 							);
+							
 							
 							$temp[] = array(
 								't' => $specs->title,
@@ -587,10 +583,9 @@ class ImportCommand extends CConsoleCommand
 				
 				//print_r($temp);
 				
-				
 				echo "parses specs: completion: {$completion->id} \n";
 				//die();
-				continue;
+				
 				
 				//$content.= CUrlHelper::getPage('http://www.autoblog.com/buy/2016-Jeep-Cherokee/specs/', '', '');
 				preg_match_all('/<div class="rsContent col-tn-4"><div><a href="\/buy\/(.*?)-(.*?)-(.*?)\/"><img alt="(.*?)" class="rsImg" src="(.*?)" \/><h4>(.*?)<\/h4><\/a><\/div><\/div>/', $content, $matchCompetitorsContent);
