@@ -19,7 +19,7 @@ class SitemapCommand extends CConsoleCommand
 
 		$mapFiles = array(
 			'/', 
-			'/0-60-times.html',
+			'/0-60-times.html/',
 			'/wheels.html',
 			'/tires.html',
 			'/horsepower.html',
@@ -383,7 +383,25 @@ class SitemapCommand extends CConsoleCommand
 			$i++;
 		} while (true);		
 		
-
+		$mapFiles[] = $this->_weight();
+		
+		foreach ($mapFiles as $mapFile) {
+			$attributes = array(
+				'url' => $site_url . $mapFile,
+				'lastmod' => time(),
+			);
+			$this->addItem($doc, $urlset, $attributes);		
+		}
+	
+		
+		$doc->formatOutput = true;
+		$doc->save(dirname(__FILE__) ."/../../sitemap.xml");		
+		
+		
+		print_r($mapFiles);
+	}
+	
+	private function _weight() {
 		//weight
 		$file = "/sitemap/weight.xml";
 		$doc	= new DOMDocument("1.0", 'utf-8');
@@ -439,23 +457,8 @@ class SitemapCommand extends CConsoleCommand
 				
 		$doc->formatOutput = true;
 		$doc->save(dirname(__FILE__) ."/../../" . $file);		
-		
-		//
-		
-		foreach ($mapFiles as $mapFile) {
-			$attributes = array(
-				'url' => $site_url . $mapFile,
-				'lastmod' => time(),
-			);
-			$this->addItem($doc, $urlset, $attributes);		
-		}
 	
-		
-		$doc->formatOutput = true;
-		$doc->save(dirname(__FILE__) ."/../../sitemap.xml");		
-		
-		
-		print_r($mapFiles);
+		return $file;
 	}
 	
 	private function addItem(& $doc, & $urlset, $attributes)

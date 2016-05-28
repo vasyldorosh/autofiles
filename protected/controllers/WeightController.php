@@ -71,7 +71,7 @@ class WeightController extends Controller
 			
 		$this->breadcrumbs = array(
 			'/' => 'Home',
-			'/weight/' => 'Wheels',
+			'/weight/' => 'Weight',
 			'/weight'.$make['url'] => $make['title'] . ' weight',
 			'#' => $model['title'],
 		);
