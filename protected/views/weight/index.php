@@ -24,7 +24,8 @@
 			</ul>														
 		
 		</section>	
-
+		
+		<!--
 		<section class="product_photo_box make">
 			<h2 class="section-name_2">5 easiest cars in our database</h2>
 			<ul class="make__vehicle">
@@ -85,7 +86,7 @@
 				
 			</ul>
 		</section>
-		
+		-->
 		
 		
 		<section class="seo-text">
