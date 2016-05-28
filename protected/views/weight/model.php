@@ -101,12 +101,12 @@
 <?php endif;?>			
 
 
-<section class="table-container">
-	<h2 class="section-name_2"><?= $make['title']?> <?= $model['title']?> models weight across years</h2>
-</section>			
-<?php foreach ($otherYearsCompletions as $otherYearsCompletion):?>
+<?php $i=0;foreach ($otherYearsCompletions as $otherYearsCompletion):?>
 			<section class="table-container">
-					
+				<?php if ($i++==0):?>
+					<h2 class="section-name_2"><?= $make['title']?> <?= $model['title']?> models weight across years</h2>
+				<?php endif;?>
+				
 				<a name="<?= $otherYearsCompletion['year']['year']?>"><img alt="Photo <?= $otherYearsCompletion['year']['year']?> <?= $make['title']?> <?= $model['title']?>" src="<?= $otherYearsCompletion['year']['photo']?>" width="150"></a>				
 				
 				<table>
