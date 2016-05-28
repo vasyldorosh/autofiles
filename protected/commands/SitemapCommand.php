@@ -393,12 +393,6 @@ class SitemapCommand extends CConsoleCommand
 		$urlset->appendChild($xmlns);
 		$value = $doc->createTextNode('http://www.sitemaps.org/schemas/sitemap/0.9');
 		$xmlns->appendChild($value);		
-		foreach ($makeTireUrls as $makeTireUrl) {				
-			$this->addItem($doc, $urlset, array(
-				'url' => $makeTireUrl,
-				'lastmod' => time(),
-			));			
-		}
 		$mapFiles[] = $file;
 				
 		$doc->formatOutput = true;
@@ -423,7 +417,7 @@ class SitemapCommand extends CConsoleCommand
 				
 			foreach ($mapModules as $uri) {
 				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . $uri . '/weight/' . $make->alias . '/',
+					'url' => $site_url . '/weight/' . $make->alias . '/',
 					'lastmod' => time(),
 				));					
 			}								
