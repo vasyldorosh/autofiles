@@ -4,6 +4,8 @@
  */ 
 class SitemapCommand extends CConsoleCommand
 {	
+	const SITE_URL = 'http://autotk.com';
+
 	public function init() 
 	{
 		ini_set('max_execution_time', 3600*12);
@@ -14,9 +16,7 @@ class SitemapCommand extends CConsoleCommand
 	public function actionRun()
 	{
 		$limit = 10000; //(int)SiteConfig::getInstance()->getValue('count_items_in_file');	
-		
-		$site_url = 'http://autotk.com';//SiteConfig::getInstance()->getValue('sitemap_domain_url');	
-
+	
 		$mapFiles = array(
 			'/', 
 			'/0-60-times.html/',
@@ -61,7 +61,7 @@ class SitemapCommand extends CConsoleCommand
 				
 				foreach ($mapModules as $uri) {
 					$this->addItem($doc, $urlset, array(
-						'url' => $site_url . $uri . $make['alias'].'/',
+						'url' => SITE_URL . $uri . $make['alias'].'/',
 						'lastmod' => time(),
 					));					
 				}
@@ -105,7 +105,7 @@ class SitemapCommand extends CConsoleCommand
 				
 				foreach ($mapModules as $uri) {
 					$this->addItem($doc, $urlset, array(
-						'url' => $site_url . $uri . $model->Make->alias . '/' . $model->alias . '/',
+						'url' => SITE_URL . $uri . $model->Make->alias . '/' . $model->alias . '/',
 						'lastmod' => time(),
 					));					
 				}								
@@ -151,7 +151,7 @@ class SitemapCommand extends CConsoleCommand
 			foreach ($models as $model) {
 							
 				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . '/' . $model->Model->Make->alias . '/' . $model->Model->alias . '/' . $model->year.'/photos.html',
+					'url' => SITE_URL . '/' . $model->Model->Make->alias . '/' . $model->Model->alias . '/' . $model->year.'/photos.html',
 					'lastmod' => time(),
 				));					
 
@@ -161,7 +161,7 @@ class SitemapCommand extends CConsoleCommand
 					}
 					
 					$this->addItem($doc, $urlset, array(
-						'url' => $site_url . $uri . $model->Model->Make->alias . '/' . $model->Model->alias . '/' . $model->year.'/',
+						'url' => SITE_URL . $uri . $model->Model->Make->alias . '/' . $model->Model->alias . '/' . $model->year.'/',
 						'lastmod' => time(),
 					));					
 				}
@@ -200,7 +200,7 @@ class SitemapCommand extends CConsoleCommand
 			foreach ($models as $model) {
 				
 				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . '/tires/r'.$model->value.'.html',
+					'url' => SITE_URL . '/tires/r'.$model->value.'.html',
 					'lastmod' => time(),
 				));
 			}
@@ -266,12 +266,12 @@ class SitemapCommand extends CConsoleCommand
 				
 				$makeModels = Tire::getMakeModelsByTireIds(array($model->id));
 				foreach ($makeModels as $makeModel) {
-					$url = $site_url . '/tires/'.$makeModel['alias'] . '/' . Tire::url($tireAttr, true);
+					$url = SITE_URL . '/tires/'.$makeModel['alias'] . '/' . Tire::url($tireAttr, true);
 					$makeTireUrls[$url] = $url;
 				}
 
 				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . Tire::url($tireAttr),
+					'url' => SITE_URL . Tire::url($tireAttr),
 					'lastmod' => time(),
 				));
 			}
@@ -299,7 +299,7 @@ class SitemapCommand extends CConsoleCommand
 		$xmlns->appendChild($value);		
 		foreach ($hps = AutoCompletion::getHpList() as $hp) {
 			if (!$hp) {continue;}
-			$url = $site_url . '/horsepower/'.$hp . '/';
+			$url = SITE_URL . '/horsepower/'.$hp . '/';
 			$this->addItem($doc, $urlset, array(
 				'url' => $url,
 				'lastmod' => time(),
@@ -366,7 +366,7 @@ class SitemapCommand extends CConsoleCommand
 			foreach ($projects as $project) {
 							
 				$this->addItem($doc, $urlset, array(
-					'url' => $site_url . '/tuning/' . $project->Make->alias . '/' . $project->Model->alias . '/' . $project->id . '/',
+					'url' => SITE_URL . '/tuning/' . $project->Make->alias . '/' . $project->Model->alias . '/' . $project->id . '/',
 					'lastmod' => time(),
 				));					
 			}
@@ -387,7 +387,7 @@ class SitemapCommand extends CConsoleCommand
 		
 		foreach ($mapFiles as $mapFile) {
 			$attributes = array(
-				'url' => $site_url . $mapFile,
+				'url' => SITE_URL . $mapFile,
 				'lastmod' => time(),
 			);
 			$this->addItem($doc, $urlset, $attributes);		
@@ -433,7 +433,7 @@ class SitemapCommand extends CConsoleCommand
 				
 		foreach ($makes as $make) {
 			$this->addItem($doc, $urlset, array(
-				'url' => $site_url . '/weight/' . $make->alias . '/',
+				'url' => SITE_URL . '/weight/' . $make->alias . '/',
 				'lastmod' => time(),
 			));					
 		}
@@ -449,7 +449,7 @@ class SitemapCommand extends CConsoleCommand
 				
 		foreach ($models as $model) {
 			$this->addItem($doc, $urlset, array(
-				'url' => $site_url . '/weight/' . $model->Make->alias . '/' . $model->alias . '/',
+				'url' => SITE_URL . '/weight/' . $model->Make->alias . '/' . $model->alias . '/',
 				'lastmod' => time(),
 			));					
 		}
