@@ -19,12 +19,13 @@ class SitemapCommand extends CConsoleCommand
 
 		$mapFiles = array(
 			'/', 
-			'/0-60-times.html/',
+			'/0-60-times.html',
 			'/wheels.html',
 			'/tires.html',
 			'/horsepower.html',
 			'/dimensions.html',
 			'/tuning.html',
+			'/weight/',
 		);
 		
 		$mapModules = array(
@@ -382,6 +383,77 @@ class SitemapCommand extends CConsoleCommand
 			$i++;
 		} while (true);		
 		
+
+		//weight
+		$file = "/sitemap/weight.xml";
+		$doc	= new DOMDocument("1.0", 'utf-8');
+		$urlset = $doc->createElement("urlset");
+		$doc->appendChild($urlset);
+		$xmlns = $doc->createAttribute("xmlns");
+		$urlset->appendChild($xmlns);
+		$value = $doc->createTextNode('http://www.sitemaps.org/schemas/sitemap/0.9');
+		$xmlns->appendChild($value);		
+		foreach ($makeTireUrls as $makeTireUrl) {				
+			$this->addItem($doc, $urlset, array(
+				'url' => $makeTireUrl,
+				'lastmod' => time(),
+			));			
+		}
+		$mapFiles[] = $file;
+				
+		$doc->formatOutput = true;
+		$doc->save(dirname(__FILE__) ."/../../" . $file);		
+		
+		$doc	= new DOMDocument("1.0", 'utf-8');
+		$urlset = $doc->createElement("urlset");
+		$doc->appendChild($urlset);
+		$xmlns = $doc->createAttribute("xmlns");
+		$urlset->appendChild($xmlns);
+		$value = $doc->createTextNode('http://www.sitemaps.org/schemas/sitemap/0.9');
+		$xmlns->appendChild($value);
+	
+			
+		$criteria = new CDbCriteria();
+		$criteria->compare('t.is_active', 1);
+		$criteria->compare('t.is_deleted', 0);
+			
+		$makes = AutoMake::model()->findAll($criteria);	
+				
+		foreach ($makes as $make) {
+				
+			foreach ($mapModules as $uri) {
+				$this->addItem($doc, $urlset, array(
+					'url' => $site_url . $uri . '/weight/' . $make->alias . '/',
+					'lastmod' => time(),
+				));					
+			}								
+		}
+	
+		$criteria = new CDbCriteria();
+		$criteria->compare('t.is_active', 1);
+		$criteria->compare('t.is_deleted', 0);
+		$criteria->compare('Make.is_active', 1);
+		$criteria->compare('Make.is_deleted', 0);
+		$criteria->with = array('Make');
+			
+		$models = AutoModel::model()->findAll($criteria);	
+				
+		foreach ($models as $model) {
+				
+			foreach ($mapModules as $uri) {
+				$this->addItem($doc, $urlset, array(
+					'url' => $site_url . $uri . '/weight/' . $model->Make->alias . '/' . $model->alias . '/',
+					'lastmod' => time(),
+				));					
+			}								
+		}
+	
+	
+				
+		$doc->formatOutput = true;
+		$doc->save(dirname(__FILE__) ."/../../" . $file);		
+		
+		//
 		
 		foreach ($mapFiles as $mapFile) {
 			$attributes = array(
