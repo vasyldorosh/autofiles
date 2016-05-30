@@ -42,14 +42,14 @@
 							<td class="model-year__trim-levels"><?= $lastYearcompletion['title']?></td>
 							<td>
 							<?php if (!empty($lastYearcompletion['specs_curb_weight'])):?>	
-								<?= $lastYearcompletion['specs_curb_weight']?> lbs. (<?= (int) $lastYearcompletion['specs_curb_weight']*0.453592?> kg)
+								<?= (int) $lastYearcompletion['specs_curb_weight']?> lbs. (<?= (int) ($lastYearcompletion['specs_curb_weight']*0.453592)?> kg)
 							<?php else:?>
 								&ndash;
 							<?php endif;?>
 							</td>
 							<td>
 							<?php if (!empty($lastYearcompletion['specs_gross_vehicle_weight_rating_gvwr_'])):?>	
-								<?= $lastYearcompletion['specs_gross_vehicle_weight_rating_gvwr_']?> lbs. (<?= (int) $lastYearcompletion['specs_gross_vehicle_weight_rating_gvwr_']*0.453592?> kg)
+								<?= (int)$lastYearcompletion['specs_gross_vehicle_weight_rating_gvwr_']?> lbs. (<?= (int) ($lastYearcompletion['specs_gross_vehicle_weight_rating_gvwr_']*0.453592)?> kg)
 							<?php else:?>
 								&ndash;
 							<?php endif;?>							
