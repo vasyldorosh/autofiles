@@ -361,8 +361,8 @@ class ImportCommand extends CConsoleCommand
 
 	public function actionNotCompletionSpecs()
 	{	
-		//$sql 	= "SELECT id FROM  auto_completion WHERE id >= 34507";
-		$sql 	= "SELECT id FROM  auto_completion WHERE id >= 36127";
+		$sql 	= "SELECT id FROM  auto_completion WHERE id >= 34507";
+		//$sql 	= "SELECT id FROM  auto_completion WHERE id >= 36127";
 		$rows 	= Yii::app()->db->createCommand($sql)->queryAll();
 		$completionIds = array();
 		foreach ($rows as $row) {
