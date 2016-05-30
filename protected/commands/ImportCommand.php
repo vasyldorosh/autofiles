@@ -362,7 +362,7 @@ class ImportCommand extends CConsoleCommand
 	public function actionNotCompletionSpecs()
 	{	
 		//$sql 	= "SELECT id FROM  auto_completion WHERE id >= 34507";
-		$sql 	= "SELECT id FROM  auto_completion WHERE id >= 36120";
+		$sql 	= "SELECT id FROM  auto_completion WHERE id >= 36127";
 		$rows 	= Yii::app()->db->createCommand($sql)->queryAll();
 		$completionIds = array();
 		foreach ($rows as $row) {
@@ -529,6 +529,7 @@ class ImportCommand extends CConsoleCommand
 					$completion->title = $matchTitle[1][0];
 					$data['title'] = $completion->title;
 				}
+				
 				if (isset($matchCode[1][0])) {
 					$completion->code = $matchCode[1][0];
 					$data['code'] = $completion->code;
@@ -558,13 +559,16 @@ class ImportCommand extends CConsoleCommand
 							$tempValue = str_replace('&#034;', '', $tempValue);	
 							$tempValue = trim($tempValue);
 							
+							if (in_array($specs->id, array(157))) {
+								echo $tempValue . "\n";
+							}
+							
 							$completionSpecs = new AutoCompletionSpecsTemp;
 							$completionSpecs->attributes = array(
 								'completion_id' => $completion->id,
 								'specs_id' => $specs->id,
 								'value' => $tempValue,
 							);
-							
 							
 							$temp[] = array(
 								't' => $specs->title,
@@ -678,11 +682,6 @@ class ImportCommand extends CConsoleCommand
 				if ($spec->id == 169) {
 					$isMatch = true;
 					$type = AutoSpecs::TYPE_FLOAT;
-					$append = '"';	
-				}
-				if ($spec->id == 157) {
-					$isMatch = true;
-					$type = AutoSpecs::TYPE_INT;
 					$append = '"';	
 				}
 				if (in_array($spec->id, array(120))) {
