@@ -688,6 +688,63 @@ class AutoCompletion extends CActiveRecord
 		return $data;		
 	}		
 		
+	public static function getItemsCurbWeight($limit, $order)
+	{
+		$key = Tags::TAG_COMPLETION . '_getItemsCurbWeight' . $limit . $order;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data === false && !is_array($data)) {
+			$minYear = date('Y')-2;
+			$data = array();
+			
+			$sql = "SELECT 
+						c.model_year_id AS model_year_id, 
+						c.specs_curb_weight AS curb_weight,
+						c.title AS completion_title,
+						y.year AS model_year,
+						model.title AS model_title,
+						model.alias AS model_alias,
+						make.title AS make_title,
+						make.alias AS make_alias
+					FROM `auto_completion` AS c 
+					LEFT JOIN auto_model_year AS y ON c.model_year_id = y.id
+					LEFT JOIN auto_model AS model ON y.model_id = model.id
+					LEFT JOIN auto_make AS make ON model.make_id = make.id
+					WHERE 
+						c.is_active=1 AND 
+						c.is_deleted=0 AND 
+						y.is_active=1 AND  
+						y.is_deleted=0 AND 
+						model.is_active=1 AND 
+						model.is_deleted=0 AND 
+						make.is_active=1 AND
+						make.is_deleted=0 AND 
+						y.year >= {$minYear} AND
+						c.specs_curb_weight IS NOT NULL
+					GROUP BY c.model_year_id
+					ORDER BY curb_weight {$order}
+					LIMIT {$limit}";
+					
+			$rows = Yii::app()->db->createCommand($sql)->queryAll();			
+			$modelYearIds = array();
+			foreach ($rows as $row) {
+				$data[$row['model_year_id']] = $row;
+				$modelYearIds[] = $row['model_year_id'];
+			}	
+			
+			$criteria = new CDbCriteria;
+			$criteria->addInCondition('id',$modelYearIds);			
+			$modelYears = AutoModelYear::model()->findAll($criteria);			
+			foreach ($modelYears as $modelYear) {
+				$data[$modelYear->id]['photo'] = $modelYear->getThumb(150, null, 'resize');
+			}
+
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MAKE, Tags::TAG_MODEL, Tags::TAG_MODEL_YEAR, Tags::TAG_COMPLETION));
+		}
+		
+		return $data;		
+	}		
+		
 	public static function getThumb($image_path, $width, $height, $mode='origin')
 	{
 		$originFile = Yii::getPathOfAlias('webroot') . $image_path;

@@ -13,10 +13,14 @@ class WeightController extends Controller
 			'#' => 'Weight',
 		);		
 
-		$makes = AutoMake::getAllFrontFull();
+		$makes 		  	= AutoMake::getAllFrontFull();
+		$easiestItems 	= AutoCompletion::getItemsCurbWeight(5, 'ASC');
+		$heaviestItems 	= AutoCompletion::getItemsCurbWeight(5, 'DESC');
 		
 		$this->render('index', array(
-			'makes' => $makes,
+			'makes' 		=> $makes,
+			'easiestItems' 	=> $easiestItems,
+			'heaviestItems' => $heaviestItems,
 		));
 	}
 	

@@ -25,34 +25,22 @@
 		
 		</section>	
 		
-		<!--
 		<section class="product_photo_box make">
 			<h2 class="section-name_2">5 easiest cars in our database</h2>
 			<ul class="make__vehicle">
-				
+			<?php foreach ($easiestItems as $item):?>	
 				<li>
-					<div class="make__vehicle-image"><a title="Ferrari F12berlinetta weight" href="/weight/ferrari/f12berlinetta/"><img src="http://autotk.com/photos/model_year_item/150/ferrari-f12berlinetta-2013.jpg"></a></div>
-					<h3><a title="Ferrari F12berlinetta weight" href="/weight/ferrari/f12berlinetta/">Ferrari F12berlinetta</a></h3>
-					<h3>LT w/2LT 4dr Sedan</h3>
+					<div class="make__vehicle-image">
+						<a title="<?= $item['make_title']?> <?= $item['make_alias']?> weight" href="/weight/<?= $item['make_alias']?>/<?= $item['model_alias']?>/">
+							<img src="<?= $item['photo']?>"></a>
+					</div>
+					<h3><a title="<?= $item['make_title']?> <?= $item['model_title']?> weight" href="/weight/<?= $item['make_alias']?>/<?= $item['model_alias']?>/"><?= $item['model_year']?> <?= $item['make_title']?> <?= $item['model_title']?></a></h3>
+					<h3><?= $item['completion_title']?></h3>
 					<ul class="make__vehicle-specs">
-											<li>Car weight 2998 lbs.</li>
-							
-						
+						<li>Car weight <?= (int)$item['curb_weight']?> lbs.</li>
 					</ul>
 				</li>
-				
-				<li>
-					<div class="make__vehicle-image"><a title="Ferrari F12berlinetta weight" href="/weight/ferrari/f12berlinetta/"><img src="http://autotk.com/photos/model_year_item/150/ferrari-f12berlinetta-2013.jpg"></a></div>
-					<h3><a title="Ferrari F12berlinetta weight" href="/weight/ferrari/f12berlinetta/">2013 Ferrari F12berlinetta</a></h3>
-					<h3>LT w/2LT 4dr Sedan</h3>
-					<ul class="make__vehicle-specs">
-													<li>Car weight 2998 lbs.</li>
-							
-						
-					</ul>
-				</li>
-				
-				
+			<?php endforeach;?>	
 			</ul>
 		</section>
 		
@@ -60,34 +48,21 @@
 			<section class="product_photo_box make">
 			<h2 class="section-name_2">5 heaviest cars in our database</h2>
 			<ul class="make__vehicle">
-				
+			<?php foreach ($heaviestItems as $item):?>	
 				<li>
-					<div class="make__vehicle-image"><a title="Ferrari F12berlinetta weight" href="/weight/ferrari/f12berlinetta/"><img src="http://autotk.com/photos/model_year_item/150/ferrari-f12berlinetta-2013.jpg"></a></div>
-					<h3><a title="Ferrari F12berlinetta weight" href="/weight/ferrari/f12berlinetta/">Ferrari F12berlinetta</a></h3>
-					<h3>LT w/2LT 4dr Sedan</h3>
+					<div class="make__vehicle-image">
+						<a title="<?= $item['make_title']?> <?= $item['make_alias']?> weight" href="/weight/<?= $item['make_alias']?>/<?= $item['model_alias']?>/">
+							<img src="<?= $item['photo']?>"></a>
+					</div>
+					<h3><a title="<?= $item['make_title']?> <?= $item['model_title']?> weight" href="/weight/<?= $item['make_alias']?>/<?= $item['model_alias']?>/"><?= $item['model_year']?> <?= $item['make_title']?> <?= $item['model_title']?></a></h3>
+					<h3><?= $item['completion_title']?></h3>
 					<ul class="make__vehicle-specs">
-											<li>Car weight 2998 lbs.</li>
-							
-						
+						<li>Car weight <?= (int)$item['curb_weight']?> lbs.</li>
 					</ul>
 				</li>
-				
-				<li>
-					<div class="make__vehicle-image"><a title="Ferrari F12berlinetta weight" href="/weight/ferrari/f12berlinetta/"><img src="http://autotk.com/photos/model_year_item/150/ferrari-f12berlinetta-2013.jpg"></a></div>
-					<h3><a title="Ferrari F12berlinetta weight" href="/weight/ferrari/f12berlinetta/">2013 Ferrari F12berlinetta</a></h3>
-					<h3>LT w/2LT 4dr Sedan</h3>
-					<ul class="make__vehicle-specs">
-													<li>Car weight 2998 lbs.</li>
-							
-						
-					</ul>
-				</li>
-				
-				
+			<?php endforeach;?>	
 			</ul>
 		</section>
-		-->
-		
 		
 		<section class="seo-text">
 			<?=SiteConfig::getInstance()->getValue('weight_footer_text_block')?>
