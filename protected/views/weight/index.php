@@ -29,7 +29,7 @@
 			<h2 class="section-name_2">5 easiest cars in our database</h2>
 			<ul class="make__vehicle">
 			<?php foreach ($easiestItems as $item):?>	
-				<li>
+				<li>[<?= $item['completion_id']?>]
 					<div class="make__vehicle-image">
 						<a title="<?= $item['make_title']?> <?= $item['make_alias']?> weight" href="/weight/<?= $item['make_alias']?>/<?= $item['model_alias']?>/">
 							<img src="<?= $item['photo']?>"></a>
