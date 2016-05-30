@@ -560,7 +560,10 @@ class ImportCommand extends CConsoleCommand
 							$tempValue = trim($tempValue);
 							
 							if (in_array($specs->id, array(157))) {
+								$tempValue = str_replace(',', '', $tempValue);
+								$tempValue = (float) $tempValue;
 								echo $tempValue . "\n";
+								
 							}
 							
 							$completionSpecs = new AutoCompletionSpecsTemp;
