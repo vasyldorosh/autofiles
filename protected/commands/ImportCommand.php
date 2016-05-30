@@ -680,6 +680,11 @@ class ImportCommand extends CConsoleCommand
 					$type = AutoSpecs::TYPE_FLOAT;
 					$append = '"';	
 				}
+				if ($spec->id == 157) {
+					$isMatch = true;
+					$type = AutoSpecs::TYPE_INT;
+					$append = '"';	
+				}
 				if (in_array($spec->id, array(120))) {
 					$isMatch = true;
 					$type = AutoSpecs::TYPE_SELECT;
