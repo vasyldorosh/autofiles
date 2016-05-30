@@ -690,11 +690,12 @@ class AutoCompletion extends CActiveRecord
 		
 	public static function getItemsCurbWeight($limit, $order)
 	{
-		$key = Tags::TAG_COMPLETION . '_getItemsCurbWeight' . $limit . $order;
+		$minYear = date('Y')-1;
+			
+		$key = Tags::TAG_COMPLETION . '_getItemsCurbWeight' . $limit . $order . $minYear;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data === false && !is_array($data)) {
-			$minYear = date('Y')-2;
 			$data = array();
 			
 			$sql = "SELECT 
