@@ -306,8 +306,11 @@ class SitemapCommand extends CConsoleCommand
 			));			
 		}
 		$mapFiles[] = $file;		
+		$doc->formatOutput = true;
+		$doc->save(dirname(__FILE__) ."/../../" . $file);		
 		
 		
+		////////////////////////////////////////////////////////
 		$file = "/sitemap/tires_make_size.xml";
 		$doc	= new DOMDocument("1.0", 'utf-8');
 		$urlset = $doc->createElement("urlset");
@@ -323,10 +326,7 @@ class SitemapCommand extends CConsoleCommand
 			));			
 		}
 		$mapFiles[] = $file;
-				
-		$doc->formatOutput = true;
-		$doc->save(dirname(__FILE__) ."/../../" . $file);		
-		
+					
 		$doc	= new DOMDocument("1.0", 'utf-8');
 		$urlset = $doc->createElement("urlset");
 		$doc->appendChild($urlset);
@@ -334,12 +334,7 @@ class SitemapCommand extends CConsoleCommand
 		$urlset->appendChild($xmlns);
 		$value = $doc->createTextNode('http://www.sitemaps.org/schemas/sitemap/0.9');
 		$xmlns->appendChild($value);
-	
-				
-		$doc->formatOutput = true;
-		$doc->save(dirname(__FILE__) ."/../../" . $file);		
-		
-		
+			
 		$i=0;
 		do {		
 			$file = "/sitemap/project_{$i}.xml";
