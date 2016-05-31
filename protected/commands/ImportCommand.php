@@ -361,8 +361,8 @@ class ImportCommand extends CConsoleCommand
 
 	public function actionNotCompletionSpecs()
 	{	
-		$sql 	= "SELECT id FROM  auto_completion WHERE id >= 34507";
-		//$sql 	= "SELECT id FROM  auto_completion WHERE id >= 36127";
+		//$sql 	= "SELECT id FROM  auto_completion WHERE id >= 34511";
+		$sql 	= "SELECT id FROM  auto_completion WHERE id >= 36135";
 		$rows 	= Yii::app()->db->createCommand($sql)->queryAll();
 		$completionIds = array();
 		foreach ($rows as $row) {
@@ -373,7 +373,7 @@ class ImportCommand extends CConsoleCommand
 		if (!empty($completionIds)) {
 			$this->actionCompletionDetails($completionIds);
 			$this->actionSpecs();
-			$this->actionCompletionData($completionIds);
+			$this->actionCompletionData($completionIds, array(158));
 		}	
 	}	
 
@@ -559,7 +559,7 @@ class ImportCommand extends CConsoleCommand
 							$tempValue = str_replace('&#034;', '', $tempValue);	
 							$tempValue = trim($tempValue);
 							
-							if (in_array($specs->id, array(157))) {
+							if (in_array($specs->id, array(157, 158))) {
 								$tempValue = str_replace(',', '', $tempValue);
 								$tempValue = (float) $tempValue;
 								echo $tempValue . "\n";
@@ -777,7 +777,7 @@ class ImportCommand extends CConsoleCommand
 	/*
 	* Заполняем поля таблицы комплектации значениямы
 	*/
-	private function actionCompletionData($ids)
+	private function actionCompletionData($ids, $specsIds=array())
 	{
 			$specsData = AutoSpecs::getAllWithAttributes();
 	
@@ -792,6 +792,11 @@ class ImportCommand extends CConsoleCommand
 			
 				$completionSpecs = AutoCompletionSpecsTemp::model()->findAll($criteria);	
 				foreach ($completionSpecs as $completionSpec) {
+					if (!empty($specsIds) && !in_array($completionSpec['specs_id'], $specsIds)) {
+						continue;
+					}
+					
+					
 					$specData = $specsData[$completionSpec['specs_id']];
 				
 					$value = trim($completionSpec->value);
