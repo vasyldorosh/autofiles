@@ -68,7 +68,7 @@
 				<?php foreach ($competitors as $competitor):?>
 				<li>
 					<div class="make__vehicle-image">
-						<a title="<?= $competitor['year']['year']?> <?= $competitor['make']?> <?= $competitor['model']?> weight" href="/weight/<?= $competitor['make_alias']?>/<?= $competitor['model_alias']?>/">
+						<a title="<?= $competitor['make']?> <?= $competitor['model']?> weight" href="/weight/<?= $competitor['make_alias']?>/<?= $competitor['model_alias']?>/">
 							<img src="<?= $competitor['year']['photo_270']?>">
 						</a>
 					</div>
