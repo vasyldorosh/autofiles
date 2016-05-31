@@ -562,7 +562,7 @@ class ImportCommand extends CConsoleCommand
 							if (in_array($specs->id, array(157, 158))) {
 								$tempValue = str_replace(',', '', $tempValue);
 								$tempValue = (float) $tempValue;
-								echo $tempValue . "\n";
+								echo  "$specs->title:  {$tempValue} \n";
 								
 							}
 							
