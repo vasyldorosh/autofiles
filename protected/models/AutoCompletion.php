@@ -2,6 +2,8 @@
 
 class AutoCompletion extends CActiveRecord
 {
+	public $validateSpecs = true;
+	
 	const PHOTO_DIR = '/photos/completion/';
 	
 	public $file;
@@ -49,26 +51,29 @@ class AutoCompletion extends CActiveRecord
 			),		
 		);
 
-	
-		$specs = AutoSpecs::getAll();
-		foreach ($specs as $spec) {
-			$attribute = self::PREFIX_SPECS.$spec['alias'];
-			
-			if (!$this->hasAttribute($attribute)) {
-				continue;
-			}
-			
-			$rules[] = array($attribute, 'safe');
 		
-			if ($spec['is_required'])		
-				$rules[] = array($attribute, 'required');
+		if ($this->validateSpecs) {
+	
+			$specs = AutoSpecs::getAll();
+			foreach ($specs as $spec) {
+				$attribute = self::PREFIX_SPECS.$spec['alias'];
 				
-			if (in_array($spec['type'], array(AutoSpecs::TYPE_INT, AutoSpecs::TYPE_CHECKBOX, AutoSpecs::TYPE_SELECT)))
-				$rules[] = array($attribute, 'numerical', 'integerOnly' => true);
+				if (!$this->hasAttribute($attribute)) {
+					continue;
+				}
+				
+				$rules[] = array($attribute, 'safe');
 			
-			if ($spec['type'] == AutoSpecs::TYPE_FLOAT)
-				$rules[] = array($attribute, 'numerical');		
-		}	
+				if ($spec['is_required'])		
+					$rules[] = array($attribute, 'required');
+					
+				if (in_array($spec['type'], array(AutoSpecs::TYPE_INT, AutoSpecs::TYPE_CHECKBOX, AutoSpecs::TYPE_SELECT)))
+					$rules[] = array($attribute, 'numerical', 'integerOnly' => true);
+				
+				if ($spec['type'] == AutoSpecs::TYPE_FLOAT)
+					$rules[] = array($attribute, 'numerical');		
+			}
+		}
 
 		return $rules;
 	}

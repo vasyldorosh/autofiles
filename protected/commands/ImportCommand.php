@@ -822,7 +822,7 @@ class ImportCommand extends CConsoleCommand
 			
 				}
 				unset($completionSpecs);
-
+				$completion->validateSpecs = false;
 				if(!$completion->save()) {
 					print_r($completion->errors);
 					die();
