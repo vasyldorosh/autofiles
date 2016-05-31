@@ -317,13 +317,10 @@ class SiteController extends Controller
 			$modelYears = AutoModelYear::model()->findAll($criteria);
 			
 			foreach ($modelYears as $modelYear) {
-				$yearTo = $modelYear->year;
-				$yearFrom = $yearTo-2;
-				
 				
 				$sql = "SELECT y.model_id AS model_id FROM  auto_model_year_competitor AS c
 						LEFT JOIN auto_model_year AS y ON c.competitor_id = y.id
-						WHERE c.model_year_id = {$modelYear->id} AND y.year >= {$yearFrom} AND y.year <= {$yearTo} 
+						WHERE c.model_year_id = {$modelYear->id} AND y.year >= 2014 
 				";
 				
 				$items = Yii::app()->db->createCommand($sql)->queryAll();
