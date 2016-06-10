@@ -295,7 +295,6 @@ class ImportCommand extends CConsoleCommand
 						SET specs_fuel_economy__city={$city}, specs_fuel_economy__highway = {$highway}
 						WHERE id = " . $row['id'] . "; \n";
 			}
-			break;
 		}	
 
 		$s 	= "SELECT id, specs_fuel_tank_capacity FROM  auto_completion WHERE 
@@ -307,12 +306,8 @@ class ImportCommand extends CConsoleCommand
 			$sql .= "UPDATE auto_completion
 					SET specs_fuel_tank=".$row['specs_fuel_tank_capacity']."
 					WHERE id = " . $row['id'] . "; \n";
-			break;
 		}	
-
-		echo $sql;
-		die();
-		
+	
 		Yii::app()->db->createCommand($sql)->execute();
 	}
 	
