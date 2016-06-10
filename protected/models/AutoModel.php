@@ -940,14 +940,37 @@ class AutoModel extends CActiveRecord
 			$competitors[$k]['mile_speed']['max'] = AutoModelYear::getMaxSpecs('1_4_mile_speed', $competitor['year']['id']);
 			$competitors[$k]['mile_time']['min'] = AutoModelYear::getMinSpecs('1_4_mile_time', $competitor['year']['id']);				
 			$competitors[$k]['mile_speed']['min'] = AutoModelYear::getMinSpecs('1_4_mile_speed', $competitor['year']['id']);
+			$competitors[$k]['fuel_economy_city']	= AutoModelYear::getMinMaxSpecs('fuel_economy__city', $competitor['year']['id']);
+			$competitors[$k]['fuel_economy_highway'] = AutoModelYear::getMinMaxSpecs('fuel_economy__highway', $competitor['year']['id']);
 		}
+
 		
 
 		//d($competitors);
 		
-		
-		
 		return $competitors;
-	}		
+	}
+
+	public static function preparateMpg($make_id, $items) 
+	{
+		$key = Tags::TAG_MODEL . '_preparateMpg_' . $make_id;
+		$data = Yii::app()->cache->get($key);
+		
+		if ($data === false) {
+			$data = $items;
+			
+			foreach ($data as &$item) {
+				$lastYear = array_shift($item['years']);
+				
+				$item['mpg']['fuel_economy_city'] = AutoModelYear::getMinMaxSpecs('fuel_economy__city', $lastYear['id']);
+				$item['mpg']['fuel_economy_highway'] = AutoModelYear::getMinMaxSpecs('fuel_economy__highway', $lastYear['id']);
+			}
+			
+			Yii::app()->cache->set($key, $data, 0, new Tags(Tags::TAG_MODEL_YEAR, Tags::TAG_MODEL, Tags::TAG_COMPLETION));
+		}
+		
+		return $data;
+	
+	}
 	
 }

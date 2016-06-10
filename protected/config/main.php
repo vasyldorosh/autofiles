@@ -18,6 +18,11 @@ function cmpArrayCurbWeight ($a, $b) {
 		return ($a['specs_curb_weight'] < $b['specs_curb_weight']) ? -1 : 1;
 }
 
+function cmpArrayFuelEconomyCity ($a, $b) {
+	if ($a['specs_fuel_economy__city'] == $b['specs_fuel_economy__city']) return 0;
+		return ($a['specs_fuel_economy__city'] < $b['specs_fuel_economy__city']) ? -1 : 1;
+}
+
 function emm($data) {
 	if (empty($data)) {
 		return true;
@@ -116,6 +121,10 @@ return array(
 				'weight'=>'weight/index',
 				'weight/<alias:[a-z0-9-_]{1,255}>' => 'weight/make',
 				'weight/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'weight/model',
+			
+				'mpg'=>'mpg/index',
+				'mpg/<alias:[a-z0-9-_]{1,255}>' => 'mpg/make',
+				'mpg/<makeAlias:[a-z0-9-_]{1,255}>/<modelAlias:[a-z-0-9_]{1,255}>' => 'mpg/model',
 			
 				'tuning.html'=>'tuning/index',
 				'tuning/<alias:[a-z0-9-_]{1,255}>' => 'tuning/make',

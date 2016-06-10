@@ -439,6 +439,32 @@
 					true
 				)),				
 			
+                array(
+					'label'=>Yii::t('admin', 'Mpg'),
+					'content' => $this->renderPartial('_mpg', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+                array(
+					'label'=>Yii::t('admin', 'Mpg Make'),
+					'content' => $this->renderPartial('_mpg_make', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+                array(
+					'label'=>Yii::t('admin', 'Mpg Model'),
+					'content' => $this->renderPartial('_mpg_model', array(
+						'form'=>$form,
+						'values'=>$values,
+					), 
+					true
+				)),				
+				
+			
 				
 			)
 		));?>

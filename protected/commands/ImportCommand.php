@@ -266,9 +266,54 @@ class ImportCommand extends CConsoleCommand
 		$this->actionNotModelYear();
 		$this->actionEmptyCompletion();
 		$this->actionNotCompletionTitle();
-		
+			
+		$this->actionMoveSpecs();	
+			
 		CUrlHelper::getPage('http://autofiles.com/site/flush', '', '');
 	}	
+	
+	function actionMoveSpecs()
+	{
+		$sql    = '';
+		
+		// fuel
+		$sql 	= "SELECT id, specs_epa_mileage_estimates FROM  auto_completion WHERE 
+					specs_epa_mileage_estimates IS NOT NULL AND 
+					specs_epa_mileage_estimates <> 'N/A' AND 
+					specs_epa_mileage_estimates <> '' AND
+					specs_fuel_economy__city IS NULL AND 
+					specs_fuel_economy__highway IS NULL";
+		$rows 	= Yii::app()->db->createCommand($sql)->queryAll();
+		foreach ($rows as $row) {
+			$expl = explode('/', $row['specs_epa_mileage_estimates']);
+			if (count($expl) == 2) {
+				
+				$city = (int) trim($expl[0]);
+				$highway = (int) trim($expl[1]);
+				
+				$sql .= "UPDATE auto_completion
+						SET specs_fuel_economy__city={$city}, specs_fuel_economy__highway = {$highway}
+						WHERE id = " . $row['id'];
+			}
+			break;
+		}	
+
+		$sql 	= "SELECT id, specs_fuel_tank_capacity FROM  auto_completion WHERE 
+					specs_fuel_tank_capacity IS NOT NULL AND 
+					specs_fuel_tank IS NULL";
+		$rows 	= Yii::app()->db->createCommand($sql)->queryAll();
+		foreach ($rows as $row) {
+			$sql .= "UPDATE auto_completion
+					SET specs_fuel_tank=".$row['specs_fuel_tank_capacity']."
+					WHERE id = " . $row['id'];
+			break;
+		}	
+
+		echo $sql;
+		die();
+		
+		Yii::app()->db->createCommand($sql)->execute();
+	}
 	
 	public function actionNotCompletionTitle()
 	{	
@@ -389,6 +434,7 @@ class ImportCommand extends CConsoleCommand
 			'rear_leg_room' 	=> 'rear_legroom',
 			'curb' 				=> 'curb_weight',
 			'gross_weight' 		=> 'gross_vehicle_weight_rating_gvwr_',
+			'fuel_tank_capacity'=> 'fuel_tank',
 		);
 		
 		$attributes['alias'] = AutoSpecs::slug($attributes['title']);
