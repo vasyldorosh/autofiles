@@ -95,5 +95,6 @@ Found a mistake? We would be VERY grateful for flagging it here: <a href="mailto
 </div> 
 <?php endif;?>
 
+<script src="//www.anrdoezrs.net/am/8076417/include/allCj/impressions/page/am.js
 </body>
 </html>
