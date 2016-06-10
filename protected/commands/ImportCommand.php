@@ -300,12 +300,12 @@ class ImportCommand extends CConsoleCommand
 
 		$s 	= "SELECT id, specs_fuel_tank_capacity FROM  auto_completion WHERE 
 					specs_fuel_tank_capacity IS NOT NULL AND 
-					specs_fuel_tank IS NULL";
+					specs_fuel_tank IS NULL; \n";
 		$rows 	= Yii::app()->db->createCommand($s)->queryAll();
 		foreach ($rows as $row) {
 			$sql .= "UPDATE auto_completion
 					SET specs_fuel_tank=".$row['specs_fuel_tank_capacity']."
-					WHERE id = " . $row['id'];
+					WHERE id = " . $row['id'] . "; \n";
 			break;
 		}	
 
