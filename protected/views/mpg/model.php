@@ -49,8 +49,8 @@
 							<?php endif;?>
 							</td>
 							<td>
-							<?php if (!empty($lastYearcompletion['specs_fuel_tank_capacity'])):?>	
-								<?= $lastYearcompletion['specs_fuel_tank_capacity']?> gal.
+							<?php if (!empty($lastYearcompletion['specs_fuel_tank'])):?>	
+								<?= $lastYearcompletion['specs_fuel_tank']?> gal.
 							<?php else:?>
 								&ndash;
 							<?php endif;?>							
@@ -136,8 +136,8 @@
 							<?php endif;?>
 							</td>
 							<td>
-							<?php if (!empty($completion['specs_fuel_tank_capacity'])):?>	
-								<?= $completion['specs_fuel_tank_capacity']?> gal.
+							<?php if (!empty($completion['specs_fuel_tank'])):?>	
+								<?= $completion['specs_fuel_tank']?> gal.
 							<?php else:?>
 								&ndash;
 							<?php endif;?>							

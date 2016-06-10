@@ -231,6 +231,13 @@
 		</tr>	
 		<?php endif;?>		
 		
+		<?php $rangeCurbWeight = AutoModelYear::getMinMaxSpecs('curb_weight', $modelYear['id'])?>
+		
+		<tr>
+			<td><?=$project['year']?> <?=$make['title']?> <?=$model['title']?> stock weight</td>
+			<td><a href="/weight/<?=$make['alias']?>/<?=$model['alias']?>/"><?= $rangeCurbWeight['mmin']?><?php if ($rangeCurbWeight['mmin']!=$rangeCurbWeight['mmax'])?>-<?= $rangeCurbWeight['mmax']?> lbs.</a></td>
+		</tr>		
+		
 	</tbody>
 	</table>
 	</section>	
