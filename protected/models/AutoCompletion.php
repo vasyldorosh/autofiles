@@ -705,7 +705,7 @@ class AutoCompletion extends CActiveRecord
 	{
 		$minYear = date('Y')-1;
 			
-		$key = Tags::TAG_COMPLETION . '_getItemsCurbWeight_' . $limit . $order . $minYear;
+		$key = Tags::TAG_COMPLETION . '__getItemsCurbWeight_' . $limit . $order . $minYear;
 		$data = Yii::app()->cache->get($key);
 		
 		if ($data === false && !is_array($data)) {
@@ -735,7 +735,8 @@ class AutoCompletion extends CActiveRecord
 						make.is_active=1 AND
 						make.is_deleted=0 AND 
 						y.year >= {$minYear} AND
-						c.specs_curb_weight IS NOT NULL
+						c.specs_curb_weight IS NOT NULL AND
+						c.specs_curb_weight > 1
 					GROUP BY c.model_year_id
 					ORDER BY curb_weight {$order}
 					LIMIT {$limit}";
