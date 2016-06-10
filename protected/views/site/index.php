@@ -32,6 +32,7 @@
 		<!-- section 2 -->
 		<?php $years = AutoModelYear::getYears();?>
 		<section class="options">
+
 			<h2 class="section-name_2">Select a car</h2>
 			<div class="options__block">
 				<div class="options__item">
@@ -145,7 +146,9 @@ $('#btn_submit_filter').click(function(e) {
 </script>	
 
 		<?php $this->widget('application.widgets.CatalogWidget', array('action' => 'MostVisitedModelYear')); ?>
-		
+	<br>	
+<h2 class="section-name_2">See More: <a href="http://autotk.com/weight/">Cars Weight</a>, <a href="http://autotk.com/mpg/">MPG</a></h2>
+
 		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 		
 		
