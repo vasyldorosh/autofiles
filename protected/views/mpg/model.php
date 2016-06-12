@@ -34,7 +34,7 @@
 						<tbody>
 						<tr>
 							<td class="model-year__trim-levels"><b><?=$lastModelYear['year']?> <?= $make['title']?> <?= $model['title']?> mpg by trims </b></td>
-							<td><b>Fuel&nbsp;economy&nbsp;-&nbsp;city, Fuel&nbsp;economy&nbsp;-&nbsp;highway</b></td>
+							<td><b>City MPG, Highway MPG</b></td>
 							<td><b>Fuel Tank Capacity</b></td>
 							<td><b>Distance</b></td>
 						</tr>
@@ -105,13 +105,14 @@
 			<?php endforeach;?>			
 			</ul>
 		</section>				
-<?php endif;?>			
-
+<?php endif;?>	
+<br>		
+<h2 class="section-name_2"><?= $make['title']?> <?= $model['title']?> models mpg across years</h2>
 
 <?php $i=0;foreach ($otherYearsCompletions as $otherYearsCompletion):?>
 			<section class="table-container">
 				<?php if ($i++==0):?>
-					<h2 class="section-name_2"><?= $make['title']?> <?= $model['title']?> models mpg across years</h2>
+					
 				<?php endif;?>
 				
 				<a name="<?= $otherYearsCompletion['year']['year']?>"><img alt="Photo <?= $otherYearsCompletion['year']['year']?> <?= $make['title']?> <?= $model['title']?>" src="<?= $otherYearsCompletion['year']['photo']?>" width="150"></a>				
@@ -120,7 +121,7 @@
 					<tbody>
 						<tr>
 							<td class="model-year__trim-levels"><b><?= $otherYearsCompletion['year']['year']?> <?= $make['title']?> <?= $model['title']?> mpg by trims </b></td>
-							<td><b>Fuel&nbsp;economy&nbsp;-&nbsp;city, Fuel&nbsp;economy&nbsp;-&nbsp;highway</b></td>
+							<td><b>City MPG, Highway MPG</b></td>
 							<td><b>Fuel Tank Capacity</b></td>
 							<td><b>Distance</b></td>
 						</tr>
