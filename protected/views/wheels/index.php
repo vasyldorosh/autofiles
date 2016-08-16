@@ -136,7 +136,7 @@
 	
 </div>
 
-<script src="http://autofiles.com/js/owl.carousel.js"></script>
+<script src="/js/owl.carousel.js"></script>
 <script>
  $(document).ready(function() {
  

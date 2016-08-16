@@ -2,7 +2,7 @@
 
 class Project extends CActiveRecord
 {
-	public $is_active = 1;
+	//public $is_active = 1;
 	
 	/**
 	 * Returns the static model of the specified AR class.
@@ -372,6 +372,8 @@ class Project extends CActiveRecord
 	{	
 		if ($this->isNewRecord) {
 			$this->create_time = time();
+			
+			$this->user_id = Yii::app()->admin->id;
 		}
 		
 		foreach (array('rear_wheel_manufacturer', 'rear_wheel_model', 'rear_tire_manufacturer', 'rear_tire_model', 'tire_vehicle_class_id', 'rear_tire_aspect_ratio_id', 'rear_tire_section_width_id', 'tire_aspect_ratio_id', 'tire_section_width_id', 'rear_rim_offset_range_id', 'rear_rim_width_id', 'rear_rim_diameter_id','rim_offset_range_id', 'rim_width_id','rim_diameter_id') as $attr) {

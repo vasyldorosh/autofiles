@@ -11,6 +11,7 @@ class StatCommand extends CConsoleCommand
 
 	public function actionProject()
 	{	
+		//all stats
 		$time 			= strtotime('-1 day');
 		$dayTimeFrom 	= strtotime(date('Y-m-d 00:00:00', $time));
 		$monthTimeFrom 	= strtotime(date('Y-m-01 00:00:00', $time));
@@ -31,8 +32,36 @@ class StatCommand extends CConsoleCommand
 		$model->total = Project::model()->count($criteria);
 		
 		$model->date = date('Y-m-d', $time);
-		$model->save();
+		$model->save();		
 		
+		//user stats
+		$users = Admin::model()->findAll();
+		foreach ($users as $user) {
+			$time 			= strtotime('-1 day');
+			$dayTimeFrom 	= strtotime(date('Y-m-d 00:00:00', $time));
+			$monthTimeFrom 	= strtotime(date('Y-m-01 00:00:00', $time));
+			$timeTo 		= strtotime(date('Y-m-d 23:59:58', $time));
+			
+			$criteria=new CDbCriteria;
+			$criteria->condition = "create_time >= {$dayTimeFrom} AND create_time <= {$timeTo} AND user_id = {$user->id}";
+			
+			$model = new ProjectStatUser;
+			$model->user_id 	= $user->id;
+			$model->total_day 	= Project::model()->count($criteria);
+
+			$criteria=new CDbCriteria;
+			$criteria->condition = "create_time >= {$monthTimeFrom} AND create_time <= {$timeTo}  AND user_id = {$user->id}";
+			$model->total_month = Project::model()->count($criteria);
+			
+			$criteria=new CDbCriteria;
+			$criteria->condition = "create_time <= {$timeTo} AND user_id = {$user->id}";
+			$model->total = Project::model()->count($criteria);
+			
+			$model->date = date('Y-m-d', $time);
+			
+			if ($model->total_day || $model->total_month || $model->total)
+			$model->save();
+		}
 	}
 	
 	public function actionSet()

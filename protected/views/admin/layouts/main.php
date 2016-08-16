@@ -108,6 +108,7 @@ body {
 				array('label' => Yii::t('admin', 'Projects'), 'visible'=>(Access::is('project')), 'items' => array(
 					array('label' => Yii::t('admin', 'Project'), 'url' => Yii::app()->createUrl('admin/project'), 'visible'=>(Access::is('project'))),
 					array('label' => Yii::t('admin', 'Statistic'), 'url' => Yii::app()->createUrl('admin/project/stat'), 'visible'=>Access::is('project')),
+					array('label' => Yii::t('admin', 'Statistic By Users'), 'url' => Yii::app()->createUrl('admin/project/statuser'), 'visible'=>Access::is('project')),
 				)),	
 				
 				array('label' => Yii::t('admin', 'Makes'), 'visible'=>(Access::is('make')), 'items' => array(

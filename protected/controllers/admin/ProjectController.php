@@ -61,6 +61,21 @@ class ProjectController extends BackendController
         ));
     }
 
+   public function actionStatuser()
+    {
+		Access::is('project', 403);
+	
+        $model = new ProjectStatUser();
+        if (isset($_GET['ProjectStatUser'])) {
+            $model->attributes = $_GET['ProjectStatUser'];
+        }
+
+        $this->render("statuser", array(
+            'model' => $model,
+			'pageSize' => Yii::app()->request->getParam('pageSize', Yii::app()->params->defaultPerPage),
+        ));
+    }
+
 	public function actionCreate() {
 		Access::is('project.create', 403);
 	

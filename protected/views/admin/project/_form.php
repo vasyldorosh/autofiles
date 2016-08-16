@@ -1,3 +1,5 @@
+<?php echo $form->checkboxRow($model, 'is_active')?>
+
 <?php echo $form->dropDownListRow($model, 'make_id', AutoMake::getAll(),array('empty'=>''))?>
 
 <?php echo $form->dropDownListRow($model, 'model_id', AutoModel::getAllByMake($model->make_id),array('empty'=>''))?>
