@@ -46,6 +46,10 @@
 			</table>
 		</section>		
 
+<br>	
+<h2 class="section-name_2">See More: <a title="<?=$make['title']?> weight" href="http://autotk.com/weight/<?=$make['alias']?>/"><?=$make['title']?> Weight</a>, <a title="<?=$make['title']?> mpg" href="http://autotk.com/mpg/<?=$make['alias']?>/">MPG</a></h2>
+
+
 		<?php $this->widget('application.widgets.BannerWidget', array('banner' => 'horizontal')); ?>
 		
 	</div>

@@ -153,6 +153,10 @@
 			<?=$model['text_times']?>
 		</section>		
 		
+<br>	
+<h2 class="section-name_2">See More: <a title="<?=$make['title']?> <?=$model['title']?> weight" href="http://autotk.com/weight/<?=$make['alias']?>/<?=$model['alias']?>/"><?=$make['title']?> <?=$model['title']?> Weight</a>, <a title="<?=$make['title']?> <?=$model['title']?> mpg" href="http://autotk.com/mpg/<?=$make['alias']?>/<?=$model['alias']?>/">MPG</a></h2>
+
+
 	</div>
 	<div class="l-col2">
 		
