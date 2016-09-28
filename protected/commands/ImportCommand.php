@@ -269,7 +269,7 @@ class ImportCommand extends CConsoleCommand
 			
 		$this->actionMoveSpecs();	
 			
-		CUrlHelper::getPage('http://autofiles.com/site/flush', '', '');
+		CUrlHelper::getPage('http://autotk.com/site/flush', '', '');
 	}	
 	
 	function actionMoveSpecs()
@@ -308,7 +308,9 @@ class ImportCommand extends CConsoleCommand
 					WHERE id = " . $row['id'] . "; \n";
 		}	
 	
-		Yii::app()->db->createCommand($sql)->execute();
+		if (!empty($sql)) {
+			Yii::app()->db->createCommand($sql)->execute();
+		}
 	}
 	
 	public function actionNotCompletionTitle()
