@@ -236,7 +236,7 @@ class AutoModelYear extends CActiveRecord
 			}
 			
 			//$imageContent = CUrlHelper::getPage($this->file_url, '', '', $replace=false);	
-			$imageContent = file_get_contents($this->file_url);	
+			$imageContent = @file_get_contents($this->file_url);	
 
 			if (!empty($imageContent)) {
 				file_put_contents(self::getImage_directory(true) . $this->file_name, $imageContent);
