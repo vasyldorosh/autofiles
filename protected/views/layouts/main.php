@@ -67,7 +67,9 @@
 <!-- BEGIN FOOTER -->
 <footer>
 		<section class="footer__copyright"><br>
-		&copy <?=date('Y')?> Autotk.com. All Rights Reserved. <a rel="nofollow" href="/about.html">About us</a><br>
+<p>If you decide to make a purchase through our links, we may be paid a commission. This doesn't cost anything additional. <br>These commissions help support our ability to spend time providing additional content.</p>
+<iframe src="//rcm-na.amazon-adsystem.com/e/cm?o=1&p=7&l=ez&f=ifr&linkID=73ece6ec9594bc8b519c2c786ea7a638&t=auto036-20&tracking_id=auto036-20" width="468" height="40" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
+<br>		&copy <?=date('Y')?> Autotk.com. All Rights Reserved. <a rel="nofollow" href="/about.html">About us</a><br>
 Found a mistake? We would be VERY grateful for flagging it here: <a href="mailto:autotkcom@gmail.com">autotkcom@gmail.com</a>
                 </section>
 </footer>
@@ -95,6 +97,6 @@ Found a mistake? We would be VERY grateful for flagging it here: <a href="mailto
 </div> 
 <?php endif;?>
 
-<script src="//www.anrdoezrs.net/am/8076417/include/allCj/impressions/page/am.js
+
 </body>
 </html>
