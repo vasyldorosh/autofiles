@@ -126,18 +126,23 @@
 				
 			</tbody>
 			</table>
+<br><br>
+<h4>Buy Wheels and Tires</h4>
+<script type="text/javascript" language="javascript" src="http://www.tkqlhce.com/placeholder-23396072?target=_top&mouseover=N"></script>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="http://amzn.to/2djTShh"><img src="/img/amazon-logo-120x60.jpg"></a>
+<br><br>
+<h4>Buy Car Parts and Accessories</h4>
+<script type="text/javascript" language="javascript" src="http://www.jdoqocy.com/sn80wxtikmpwtlmz7ABBHE9AA?target=_top&mouseover=N"></script>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<script type="text/javascript" language="javascript" src="http://www.anrdoezrs.net/placeholder-23396088?target=_top&mouseover=N"></script>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<script type="text/javascript" language="javascript" src="http://www.anrdoezrs.net/po72i2zoqsv1zrs4DGHHNKFEG?target=_top&mouseover=N"></script>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<script type="text/javascript" language="javascript" src="http://www.anrdoezrs.net/c666i2zoqsv1zrs4DGHHNKFFE?target=_top&mouseover=N"></script>
 <br>
-
+<br>
+<br>
 <h2 class="section-name_2">Tire Pressure importance</h2><br>
-<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=ss_til&ad_type=product_link&tracking_id=auto036-20&marketplace=amazon&region=US&placement=B0037V0EW8&asins=B0037V0EW8&linkId=JKODWRM4J3P6AJPJ&show_border=true&link_opens_in_new_window=true">
-</iframe>
-<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=ss_til&ad_type=product_link&tracking_id=auto036-20&marketplace=amazon&region=US&placement=B00080QHMM&asins=B00080QHMM&linkId=KVLEKWOI5VXJCU6G&show_border=true&link_opens_in_new_window=true">
-</iframe><iframe  style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=ss_til&ad_type=product_link&tracking_id=auto036-20&marketplace=amazon&region=US&placement=B0007ZJ1IK&asins=B0007ZJ1IK&linkId=RULITZNTJN64KQPU&show_border=true&link_opens_in_new_window=true">
-</iframe>
-<br>
-<p>
-A digital tire pressure gauge is a must-have tool for checking the tire pressure and keeping it within a permissible range. You can quickly measure the pressure once the visual examination of the wheel evoked a shade of doubt. Still don't have one? Review the best digital tire pressure gauges forming a perfect seal with the valve stem without leaking air, even at night times. Find a perfect combination by choosing the right car air compressor to regulate the pressure in deflated or over-inflated tires. 
 
+<p>
+A digital <a href="http://amzn.to/2cKo1bP"><b>tire pressure gauge</b></a> is a must-have tool for checking the tire pressure and keeping it within a permissible range. You can quickly measure the pressure once the visual examination of the wheel evoked a shade of doubt. Still don't have one? Review the best digital tire pressure gauges forming a perfect seal with the valve stem without leaking air, even at night times. Find a perfect combination by choosing the right car air compressor to regulate the pressure in deflated or over-inflated tires. 
 </p>
 
 		</section>
