@@ -41,7 +41,7 @@ class ImportCommand extends CConsoleCommand
 
 	protected function actionBodyStyle()
 	{
-		$url = 'http://autoblog.com/new-cars/';
+		$url = 'http://www.autoblog.com/new-cars/';
 		$content = CUrlHelper::getPage($url, '', '');
 		
 		preg_match_all('/<a href="\/car-finder\/style-(.*?)\/"><span><\/span>(.*?)<\/a>/', $content, $matches);
@@ -61,7 +61,7 @@ class ImportCommand extends CConsoleCommand
 
 	protected function actionMake()
 	{
-		$url = 'http://autoblog.com/api/taxonomy/newmake/';
+		$url = 'http://www.autoblog.com/api/taxonomy/newmake/';
 		$items = json_decode(CUrlHelper::getPage($url, '', ''));
 		
 		foreach ($items as $makeTitle) {
@@ -245,7 +245,6 @@ class ImportCommand extends CConsoleCommand
 	{	
 		$this->actionMake();
 		$this->actionModel();
-		
 		$parsedModelYearIds = $this->actionModelYear(date('Y'));
 		$parsedModelYearIds = array_merge($parsedModelYearIds, $this->actionModelYear(date('Y')+1));
 		
@@ -370,7 +369,7 @@ class ImportCommand extends CConsoleCommand
 		$criteria->addInCondition('id', $ids);		
 		$autoModels = (array)AutoModelYear::model()->findAll($criteria);
 		foreach ($autoModels as $keyYear=>$autoModelYear) {
-			$url = "http://autoblog.com/buy/{$autoModelYear->year}-".str_replace(array(' '), array('+'), $autoModelYear->Model->Make->title)."-".str_replace(array(' '), array('+'), $autoModelYear->Model->title)."/photos/";
+			$url = "http://www.autoblog.com/buy/{$autoModelYear->year}-".str_replace(array(' '), array('+'), $autoModelYear->Model->Make->title)."-".str_replace(array(' '), array('+'), $autoModelYear->Model->title)."/photos/";
 			
 			$content = CUrlHelper::getPage($url, '', '');
 			preg_match_all('/<img alt=(.*?)" class="rsImg" data-rsBigImg="(.*?)" data-rsTmb="(.*?)" src="(.*?)" \/><\/div>/', $content, $matches);
@@ -895,7 +894,7 @@ class ImportCommand extends CConsoleCommand
 		
 			$s = "-".$row['year'];
 			$url = str_replace(array("cars-", $s), array("",""), $row['url']);
-			$url = 'http://autoblog.com'.$url;
+			$url = 'http://www.autoblog.com'.$url;
 			$urls[$url] = $url;
 		}
 		
