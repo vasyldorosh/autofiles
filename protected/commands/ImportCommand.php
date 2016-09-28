@@ -245,6 +245,7 @@ class ImportCommand extends CConsoleCommand
 	{	
 		$this->actionMake();
 		$this->actionModel();
+		
 		$parsedModelYearIds = $this->actionModelYear(date('Y'));
 		$parsedModelYearIds = array_merge($parsedModelYearIds, $this->actionModelYear(date('Y')+1));
 		
