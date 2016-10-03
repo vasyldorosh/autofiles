@@ -886,9 +886,10 @@ class ImportCommand extends CConsoleCommand
 				}
 				unset($completionSpecs);
 				$completion->validateSpecs = false;
+				$completion->validateTitle = false;
 				if(!$completion->save()) {
-					print_r($completion->errors);
-					die();
+					//print_r($completion->errors);
+					//die();
 				}
 						
 				echo 'Completion Data ' . $completion->id . "\n";

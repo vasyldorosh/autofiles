@@ -3,6 +3,7 @@
 class AutoCompletion extends CActiveRecord
 {
 	public $validateSpecs = true;
+	public $validateTitle = true;
 	
 	const PHOTO_DIR = '/photos/completion/';
 	
@@ -39,7 +40,7 @@ class AutoCompletion extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		$rules = array(
-			array('title, model_year_id', 'required'),
+			array('model_year_id', 'required'),
 			array('model_id, code, alias, url', 'safe'),
 			array('year, is_delete_photo', 'numerical', 'integerOnly' => true),
 			array('id,is_active, is_deleted', 'numerical', 'integerOnly' => true),
@@ -50,8 +51,11 @@ class AutoCompletion extends CActiveRecord
 				'allowEmpty'=>true
 			),		
 		);
-
 		
+		if ($this->validateTitle) {
+			$rules[] = array('title', 'required');
+		}
+
 		if ($this->validateSpecs) {
 	
 			$specs = AutoSpecs::getAll();
