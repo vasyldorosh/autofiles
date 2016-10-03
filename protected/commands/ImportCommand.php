@@ -29,6 +29,8 @@ class ImportCommand extends CConsoleCommand
 			}
 		}
 		
+		print_r($dataIds);
+		
 		if (!empty($dataIds)) {
 			foreach ($dataIds as $ids) {
 			
