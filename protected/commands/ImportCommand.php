@@ -509,6 +509,9 @@ class ImportCommand extends CConsoleCommand
 		$criteria->addInCondition('t.id', $ids);
 	
 		$modelYears = AutoModelYear::model()->findAll($criteria);
+		
+		echo __FUNCTION__ . ' : ' . count($modelYears) . "\n";
+		
 		foreach ($modelYears as $keyYear=>$autoModelYear) {
 			//echo $autoModelYear->id . ' - ' . $autoModelYear->year . ' ' . $autoModelYear->Model->Make->title . ' ' .  $autoModelYear->Model->title . "\n";
 		
