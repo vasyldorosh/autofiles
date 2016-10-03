@@ -26,23 +26,13 @@ class ImportCommand extends CConsoleCommand
 		}
 		
 		if (!empty($ids)) {
-			$criteria = new CDbCriteria();
-			$criteria->addInCondition('id', $ids);				
-			$modelYears = AutoModelYear::model()->findAll($criteria);		
-			$parsedModelYearIds = array();
-			foreach ($modelYears as $modelYear) {
-				$parsedModelYearIds[] = $modelYear->id;
-			}	
-			
-			if (!empty($parsedModelYearIds)) {
-				$completionIds = $this->actionCompletion($parsedModelYearIds);
+			$completionIds = $this->actionCompletion($ids);
 											
-				if (!empty($completionIds)) {
-					$this->actionCompletionDetails($completionIds);
-					$this->actionSpecs();
-					$this->actionCompletionData($completionIds);
-				}
-			}	
+			if (!empty($completionIds)) {
+				$this->actionCompletionDetails($completionIds);
+				$this->actionSpecs();
+				$this->actionCompletionData($completionIds);
+			}			
 		}
 		
 		echo __FUNCTION__ . "_end_ \n";
@@ -254,7 +244,6 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionCatalog()
 	{	
-		/*
 		$this->actionMake();
 		$this->actionModel();
 		$parsedModelYearIds = $this->actionModelYear(date('Y'));
@@ -274,7 +263,6 @@ class ImportCommand extends CConsoleCommand
 				$this->actionCompletionData($completionIds);
 			}
 		}
-		*/
 		
 		$this->actionNotModelYear();
 		$this->actionEmptyCompletion();
