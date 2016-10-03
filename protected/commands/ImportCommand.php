@@ -150,8 +150,7 @@ class ImportCommand extends CConsoleCommand
 				//DELETE
 				//if ($page > 2) {continue;}
 				
-				//echo "PAGE: $page - $url \n";	
-				
+				echo "PAGE: $page - $url \n";	
 				$content = CUrlHelper::getPage($url);
 				
 				preg_match_all('/<div class="trim__desc hidden-sm hidden-md hidden-lg"><div class="h4"><a class="desc__link" href="\/buy\/'.$year.'\-(.*?)\-(.*?)\/">'.$year.'(.*?)<\/a><\/div>/', $content, $matches);
