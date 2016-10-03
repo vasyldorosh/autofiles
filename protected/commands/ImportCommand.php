@@ -11,6 +11,8 @@ class ImportCommand extends CConsoleCommand
 
 	public function actionNotModelYear() 
 	{
+		echo __FUNCTION__ . "_start_ \n";
+		
 		$sql = "SELECT y.id AS id FROM auto_model_year y 
 			WHERE NOT EXISTS (
 			 SELECT model_year_id FROM auto_completion c
@@ -42,6 +44,8 @@ class ImportCommand extends CConsoleCommand
 				}
 			}	
 		}
+		
+		echo __FUNCTION__ . "_end_ \n";
 	}
 
 	protected function actionBodyStyle()
@@ -250,6 +254,7 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionCatalog()
 	{	
+		/*
 		$this->actionMake();
 		$this->actionModel();
 		$parsedModelYearIds = $this->actionModelYear(date('Y'));
@@ -269,6 +274,7 @@ class ImportCommand extends CConsoleCommand
 				$this->actionCompletionData($completionIds);
 			}
 		}
+		*/
 		
 		$this->actionNotModelYear();
 		$this->actionEmptyCompletion();
