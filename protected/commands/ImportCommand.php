@@ -200,7 +200,7 @@ class ImportCommand extends CConsoleCommand
 							$model->make_id = $dataMake[$aliasMake];
 							$model->save();
 							
-							echo "created: model $makeTitle $modelTitle \n";
+							echo "\t created: model $makeTitle $modelTitle \n";
 						}
 						
 						$dataModel[$aliasMake][$modelAlias] = $model->id;
@@ -231,7 +231,7 @@ class ImportCommand extends CConsoleCommand
 								die();
 							} 							
 						} else {
-							echo "$i: isset: ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
+							echo "\t $i: isset: ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
 						}						
 					$i++;
 				}
@@ -249,6 +249,8 @@ class ImportCommand extends CConsoleCommand
 		$this->actionModel();
 		$parsedModelYearIds = $this->actionModelYear(date('Y'));
 		$parsedModelYearIds = array_merge($parsedModelYearIds, $this->actionModelYear(date('Y')+1));
+		
+		print_r($parsedModelYearIds);
 		
 		//$parsedModelYearIds = range(7473, 7480);
 	
