@@ -138,6 +138,7 @@ class ImportCommand extends CConsoleCommand
 		//DELETE
 		//AutoModelYear::model()->deleteAllByAttributes(['year'=>$year]);
 		
+		$i=0;
 		if (isset($matchesPager[1][0]) && is_numeric($matchesPager[1][0])) {
 			for ($page=1; $page<=$matchesPager[1][0]; $page++) {
 					
@@ -225,11 +226,12 @@ class ImportCommand extends CConsoleCommand
 							$modelYear->model_id = $dataModel[$aliasMake][$modelAlias];
 							if ($modelYear->save()) {
 								$modelYearIds[] = $modelYear->id;
-								echo "created: ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
+								echo "$i: created: ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
 							} 							
 						} else {
-							echo "isset: ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
+							echo "$i: isset: ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
 						}						
+					$i++;
 				}
 			}
 		} else {
