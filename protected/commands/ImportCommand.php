@@ -11,16 +11,21 @@ class ImportCommand extends CConsoleCommand
 
 	public function actionNotModelYear() 
 	{
-		$sql = "SELECT DISTINCT model_year_id AS model_year_id FROM `auto_completion`";
+		$sql = "SELECT y.id AS id FROM auto_model_year y 
+			WHERE NOT EXISTS (
+			 SELECT model_year_id FROM auto_completion c
+			 WHERE y.id = c.model_year_id
+			 GROUP BY c.model_year_id
+			)";
 		$rows = Yii::app()->db->createCommand($sql)->queryAll();
 		$ids = array();
 		foreach ($rows as $row) {
-			$ids[$row['model_year_id']] = $row['model_year_id'];
+			$ids[] = $row['id'];
 		}
 		
 		if (!empty($ids)) {
 			$criteria = new CDbCriteria();
-			$criteria->addNotInCondition('id', $ids);				
+			$criteria->addInCondition('id', $ids);				
 			$modelYears = AutoModelYear::model()->findAll($criteria);		
 			$parsedModelYearIds = array();
 			foreach ($modelYears as $modelYear) {
@@ -249,8 +254,6 @@ class ImportCommand extends CConsoleCommand
 		$this->actionModel();
 		$parsedModelYearIds = $this->actionModelYear(date('Y'));
 		$parsedModelYearIds = array_merge($parsedModelYearIds, $this->actionModelYear(date('Y')+1));
-		
-		print_r($parsedModelYearIds);
 		
 		//$parsedModelYearIds = range(7473, 7480);
 	
