@@ -507,6 +507,7 @@ class ImportCommand extends CConsoleCommand
 		$criteria = new CDbCriteria();
 		$criteria->with = array('Model', 'Model.Make');
 		$criteria->addInCondition('t.id', $ids);
+		$criteria->addInCondition('t.year', array(date('Y'), (date('Y')+1)));
 	
 		$modelYears = AutoModelYear::model()->findAll($criteria);
 		
