@@ -227,6 +227,9 @@ class ImportCommand extends CConsoleCommand
 							if ($modelYear->save()) {
 								$modelYearIds[] = $modelYear->id;
 								echo "$i: created: ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
+							} else {
+								print_r($modelYear->errors);
+								die();
 							} 							
 						} else {
 							echo "$i: isset: ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
