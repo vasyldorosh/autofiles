@@ -253,6 +253,7 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionCatalog()
 	{	
+		/*
 		$this->actionMake();
 		$this->actionModel();
 		$parsedModelYearIds = $this->actionModelYear(date('Y'));
@@ -272,6 +273,7 @@ class ImportCommand extends CConsoleCommand
 				$this->actionCompletionData($completionIds);
 			}
 		}
+		*/
 		
 		$this->actionNotModelYear();
 		$this->actionEmptyCompletion();
