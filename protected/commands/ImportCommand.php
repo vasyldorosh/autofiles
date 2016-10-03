@@ -207,7 +207,6 @@ class ImportCommand extends CConsoleCommand
 				
 					}
 					
-					if (1) {
 						$modelYear = AutoModelYear::model()->findByAttributes(array(
 							'year' => $year,
 							'model_id' => $dataModel[$aliasMake][$modelAlias],
@@ -230,8 +229,7 @@ class ImportCommand extends CConsoleCommand
 							} 							
 						} else {
 							echo "isset: ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
-						}
-					}	
+						}						
 				}
 			}
 		} else {
