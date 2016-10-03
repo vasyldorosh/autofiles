@@ -20,19 +20,26 @@ class ImportCommand extends CConsoleCommand
 			 GROUP BY c.model_year_id
 			)";
 		$rows = Yii::app()->db->createCommand($sql)->queryAll();
-		$ids = array();
+		$dataIds = array();
+		$i=0;
 		foreach ($rows as $row) {
-			$ids[] = $row['id'];
+			$dataIds[$i][] = $row['id'];
+			if (count($dataIds[$i]) >= 100) {
+				$i++;
+			}
 		}
 		
-		if (!empty($ids)) {
-			$completionIds = $this->actionCompletion($ids);
-											
-			if (!empty($completionIds)) {
-				$this->actionCompletionDetails($completionIds);
-				$this->actionSpecs();
-				$this->actionCompletionData($completionIds);
-			}			
+		if (!empty($dataIds)) {
+			foreach ($dataIds as $ids) {
+			
+				$completionIds = $this->actionCompletion($ids);
+												
+				if (!empty($completionIds)) {
+					$this->actionCompletionDetails($completionIds);
+					$this->actionSpecs();
+					$this->actionCompletionData($completionIds);
+				}			
+			}
 		}
 		
 		echo __FUNCTION__ . "_end_ \n";
