@@ -132,7 +132,7 @@ class ImportCommand extends CConsoleCommand
 			'Chrysler' => array('Town-Country'=>228),
 		);
 		
-		$content = CUrlHelper::getPage("http://www.autoblog.com/car-finder/year-{$year}/");
+		$content = CUrlHelper::getPage("http://www.autoblog.com/car-finder/{$year}/");
 		preg_match_all('/<span id="TotalResults">(.*?)<\/span>/', $content, $matchesPager);
 
 		//DELETE
