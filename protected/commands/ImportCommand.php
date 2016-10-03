@@ -517,6 +517,9 @@ class ImportCommand extends CConsoleCommand
 		
 			$url = "http://www.autoblog.com/buy/{$autoModelYear->year}-".str_replace(array("-", " ", '&'), array("_", "_", "_"), $autoModelYear->Model->Make->title)."-".str_replace(array(" ", "-", "&"), array("+", "_", "_"), $autoModelYear->Model->title)."/specs/";
 			$content = CUrlHelper::getPage($url, '', '');
+			
+			echo $url . "\n";
+			
 			$p = '/<a href="\/buy\/(.*?)" class="btn btn-sm pull-left visible-sm visible-xs visible-tn">Explore<\/a>/';
 			//echo $p . "\n";
 			preg_match_all($p, $content, $matches);
