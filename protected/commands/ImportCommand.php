@@ -275,8 +275,8 @@ class ImportCommand extends CConsoleCommand
 		}
 		*/
 		
-		$this->actionNotModelYear();
-		$this->actionEmptyCompletion();
+		//$this->actionNotModelYear();
+		//$this->actionEmptyCompletion();
 		$this->actionNotCompletionTitle();
 			
 		$this->actionMoveSpecs();	
@@ -333,6 +333,9 @@ class ImportCommand extends CConsoleCommand
 		foreach ($rows as $row) {
 			$completionIds[] = $row['id'];
 		}
+	
+		print_r($completionIds);
+		die();
 	
 		//$completionIds = array(28409);
 		if (!empty($completionIds)) {
