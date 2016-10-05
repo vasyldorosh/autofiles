@@ -580,7 +580,7 @@ class ImportCommand extends CConsoleCommand
 				//$content.= CUrlHelper::getPage($url . 'equipment/', '', '');
 				//$content.= CUrlHelper::getPage($url . 'pricing/', '', '');
 				
-				file_put_contents($completion->id.'.html', $content);
+				file_put_contents(Yii::getPathOfAlias('webroot'). '/assets/'. $completion->id.'.html', $content);
 				continue;
 				
 				//preg_match_all('/<table id="data_table" cellpadding="0" cellspacing="0" class="fixed_wrap">(.*?)<\/table>/', $content, $matchTable);
