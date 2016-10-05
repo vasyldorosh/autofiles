@@ -574,12 +574,17 @@ class ImportCommand extends CConsoleCommand
 
 				$content = '';
 				$content.= CUrlHelper::getPage($url . 'specs/', '', '');
-				//$content.= CUrlHelper::getPage($url . 'equipment/', '', '');
-				//$content.= CUrlHelper::getPage($url . 'pricing/', '', '');
+				$content.= CUrlHelper::getPage($url . 'equipment/', '', '');
+				$content.= CUrlHelper::getPage($url . 'pricing/', '', '');
 				
-				var_dump($content);
 				
-				file_put_contents('/var/www/autotk/data/www/autotk.com/assets/'. $completion->id.'.html', $content);
+				
+				$count = substr_count($content, '<title>Autoblog Sitemap</title>');
+				echo $count . "\n";
+				if (!$count) {
+					echo "$completion->id ========================================= \n";				
+				}
+			
 				continue;
 				
 				//preg_match_all('/<table id="data_table" cellpadding="0" cellspacing="0" class="fixed_wrap">(.*?)<\/table>/', $content, $matchTable);
