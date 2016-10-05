@@ -558,7 +558,7 @@ class ImportCommand extends CConsoleCommand
 			$completions = AutoCompletion::model()->findAll($criteria);
 			
 			foreach ($completions as $key=>$completion) {
-				AutoCompletionSpecsTemp::model()->deleteAllByAttributes(array('completion_id'=>$completion->id));
+				//AutoCompletionSpecsTemp::model()->deleteAllByAttributes(array('completion_id'=>$completion->id));
 				$url = "http://www.autoblog.com/buy/" . $completion->url . '/';
 				
 				if (stripos($completion->url, '__') <= 0) {
@@ -577,8 +577,11 @@ class ImportCommand extends CConsoleCommand
 
 				$content = '';
 				$content.= CUrlHelper::getPage($url . 'specs/', '', '');
-				$content.= CUrlHelper::getPage($url . 'equipment/', '', '');
-				$content.= CUrlHelper::getPage($url . 'pricing/', '', '');
+				//$content.= CUrlHelper::getPage($url . 'equipment/', '', '');
+				//$content.= CUrlHelper::getPage($url . 'pricing/', '', '');
+				
+				file_put_contents($completion->id.'.html', $content);
+				continue;
 				
 				//preg_match_all('/<table id="data_table" cellpadding="0" cellspacing="0" class="fixed_wrap">(.*?)<\/table>/', $content, $matchTable);
 				preg_match_all('/<thead><tr><td>(.*?)<\/td><\/tr><\/thead>/', $content, $matchTable);
