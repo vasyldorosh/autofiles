@@ -279,9 +279,9 @@ class ImportCommand extends CConsoleCommand
 		//$this->actionEmptyCompletion();
 		$this->actionNotCompletionTitle();
 			
-		$this->actionMoveSpecs();	
+		//$this->actionMoveSpecs();	
 			
-		CUrlHelper::getPage('http://autotk.com/site/flush', '', '');
+		//CUrlHelper::getPage('http://autotk.com/site/flush', '', '');
 	}	
 	
 	function actionMoveSpecs()
@@ -339,8 +339,8 @@ class ImportCommand extends CConsoleCommand
 		$completionIds = array(37445, 37452);
 		if (!empty($completionIds)) {
 			$this->actionCompletionDetails($completionIds);
-			$this->actionSpecs();
-			$this->actionCompletionData($completionIds);
+			//$this->actionSpecs();
+			//$this->actionCompletionData($completionIds);
 		}	
 	}	
 	
