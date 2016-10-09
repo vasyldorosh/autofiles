@@ -599,6 +599,8 @@ class ImportCommand extends CConsoleCommand
 				if (isset($matchPrice[1][0])) {
 					$completion->specs_msrp = str_replace(array('$', ','), array('',''), $matchPrice[1][0]);
 					$data['specs_msrp'] = $completion->specs_msrp;
+				} else {
+					print_r($matchPrice);
 				}
 				if (isset($matchTitle[1][0])) {
 					$completion->title = $matchTitle[1][0];
