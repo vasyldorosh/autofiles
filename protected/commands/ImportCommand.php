@@ -578,7 +578,7 @@ class ImportCommand extends CConsoleCommand
 				$content.= CUrlHelper::getPage($url . 'pricing/', '', '');
 				
 				$count = substr_count($content, '<title>Autoblog Sitemap</title>');
-				echo $count . "\n";
+				//echo $count . "\n";
 				if (!$count) {
 					echo "$completion->id ========================================= \n";				
 				}
