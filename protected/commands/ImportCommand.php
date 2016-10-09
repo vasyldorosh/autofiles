@@ -582,6 +582,7 @@ class ImportCommand extends CConsoleCommand
 				if (!$count) {
 					echo "$completion->id ========================================= \n";				
 				}
+				continue;
 				
 				//preg_match_all('/<table id="data_table" cellpadding="0" cellspacing="0" class="fixed_wrap">(.*?)<\/table>/', $content, $matchTable);
 				preg_match_all('/<thead><tr><td>(.*?)<\/td><\/tr><\/thead>/', $content, $matchTable);
