@@ -261,7 +261,7 @@ class ImportCommand extends CConsoleCommand
 		$parsedModelYearIds = range(8372, 8417);
 	
 		if (!empty($parsedModelYearIds)) {
-			$this->actionModelYearPhoto($parsedModelYearIds);
+			//$this->actionModelYearPhoto($parsedModelYearIds);
 			$completionIds = $this->actionCompletion($parsedModelYearIds);
 			
 			//$completionIds = range(27814, 27765);
