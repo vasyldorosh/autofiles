@@ -253,6 +253,7 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionCatalog()
 	{	
+		/*
 		$this->actionMake();
 		$this->actionModel();
 		$parsedModelYearIds = $this->actionModelYear(date('Y'));
@@ -272,12 +273,13 @@ class ImportCommand extends CConsoleCommand
 				$this->actionCompletionData($completionIds);
 			}
 		}
+		*/
 		
-		$this->actionNotModelYear();
-		$this->actionEmptyCompletion();
+		//$this->actionNotModelYear();
+		//$this->actionEmptyCompletion();
 		$this->actionNotCompletionTitle();
 			
-		$this->actionMoveSpecs();	
+		//$this->actionMoveSpecs();	
 			
 		CUrlHelper::getPage('http://autotk.com/site/flush', '', '');
 	}	
@@ -335,8 +337,8 @@ class ImportCommand extends CConsoleCommand
 		//$completionIds = array(28409);
 		if (!empty($completionIds)) {
 			$this->actionCompletionDetails($completionIds);
-			$this->actionSpecs();
-			$this->actionCompletionData($completionIds);
+			//$this->actionSpecs();
+			//$this->actionCompletionData($completionIds);
 		}	
 	}	
 	
@@ -576,10 +578,11 @@ class ImportCommand extends CConsoleCommand
 				$content.= CUrlHelper::getPage($url . 'pricing/', '', '');
 				
 				$count = substr_count($content, '<title>Autoblog Sitemap</title>');
-				echo $count . "\n";
 				if (!$count) {
+					echo "$completion->url ========================================= \n";				
 					echo "$completion->id ========================================= \n";				
 				}
+				continue;
 				
 				//preg_match_all('/<table id="data_table" cellpadding="0" cellspacing="0" class="fixed_wrap">(.*?)<\/table>/', $content, $matchTable);
 				preg_match_all('/<thead><tr><td>(.*?)<\/td><\/tr><\/thead>/', $content, $matchTable);
