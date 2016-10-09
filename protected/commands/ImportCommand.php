@@ -262,14 +262,13 @@ class ImportCommand extends CConsoleCommand
 	
 		if (!empty($parsedModelYearIds)) {
 			//$this->actionModelYearPhoto($parsedModelYearIds);
-			$completionIds = $this->actionCompletion($parsedModelYearIds);
-			die();
-			//$completionIds = range(27814, 27765);
-			
+			//$completionIds = $this->actionCompletion($parsedModelYearIds);
+			$completionIds = range(37267, 37696);
 			if (!empty($completionIds)) {
 				$this->actionCompletionDetails($completionIds);
-				$this->actionSpecs();
-				$this->actionCompletionData($completionIds);
+				
+				//$this->actionSpecs();
+				//$this->actionCompletionData($completionIds);
 			}
 		}
 		
@@ -572,6 +571,7 @@ class ImportCommand extends CConsoleCommand
 				$content.= CUrlHelper::getPage($url . 'pricing/', '', '');
 				
 				$count = substr_count($content, '<title>Autoblog Sitemap</title>');
+				echo "$count \n";
 				if (!$count) {
 					echo "$completion->url ========================================= \n";				
 					echo "$completion->id ========================================= \n";				
@@ -585,11 +585,11 @@ class ImportCommand extends CConsoleCommand
 				preg_match_all('/<div id="build-and-price" data-acode="(.*?)" data-state/', $content, $matchCode);
 				
 				$data = array();
-				if (isset($matchPrice[1][0])) {
+				if (isset($matchPrice[1][0]) && $completion->specs_msrp==0) {
 					$completion->specs_msrp = str_replace(array('$', ','), array('',''), $matchPrice[1][0]);
 					$data['specs_msrp'] = $completion->specs_msrp;
 				}
-				if (isset($matchTitle[1][0])) {
+				if (isset($matchTitle[1][0]) && empty($completion->title)) {
 					$completion->title = $matchTitle[1][0];
 					$data['title'] = $completion->title;
 				}
