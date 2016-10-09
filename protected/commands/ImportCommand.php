@@ -327,14 +327,16 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionNotCompletionTitle()
 	{	
+		/*
 		$sql 	= "SELECT id FROM  auto_completion WHERE title = ''";
 		$rows 	= Yii::app()->db->createCommand($sql)->queryAll();
 		$completionIds = array();
 		foreach ($rows as $row) {
 			$completionIds[] = $row['id'];
 		}
+		*/
 	
-		//$completionIds = array(28409);
+		$completionIds = array(37445, 37452);
 		if (!empty($completionIds)) {
 			$this->actionCompletionDetails($completionIds);
 			$this->actionSpecs();
@@ -578,11 +580,14 @@ class ImportCommand extends CConsoleCommand
 				$content.= CUrlHelper::getPage($url . 'pricing/', '', '');
 				
 				$count = substr_count($content, '<title>Autoblog Sitemap</title>');
+				
+				/*
 				echo $count . "\n";
 				if (!$count) {
 					echo "$completion->id ========================================= \n";				
 				}
 				continue;
+				*/
 				
 				//preg_match_all('/<table id="data_table" cellpadding="0" cellspacing="0" class="fixed_wrap">(.*?)<\/table>/', $content, $matchTable);
 				preg_match_all('/<thead><tr><td>(.*?)<\/td><\/tr><\/thead>/', $content, $matchTable);
@@ -606,6 +611,7 @@ class ImportCommand extends CConsoleCommand
 				}
 				
 				print_r($data);
+				continue;
 				
 				$completion->save(false);
 				
