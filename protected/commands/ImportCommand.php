@@ -263,7 +263,7 @@ class ImportCommand extends CConsoleCommand
 		if (!empty($parsedModelYearIds)) {
 			//$this->actionModelYearPhoto($parsedModelYearIds);
 			$completionIds = $this->actionCompletion($parsedModelYearIds);
-			
+			die();
 			//$completionIds = range(27814, 27765);
 			
 			if (!empty($completionIds)) {
@@ -522,20 +522,13 @@ class ImportCommand extends CConsoleCommand
 			$p = '/<div class="row"><div class="col-tn-12 col-xs-7"><div class="col-tn-6">(.*?)<\/div><div class="msrp col-tn-6">(.*?)<\/div><\/div><div class="col-tn-12 col-xs-5"><a href="\/buy\/(.*?)\/" class="btn btn-sm pull-left">Explore<\/a><a href="(.*?)" class="btn btn-sm pull-right">(.*?)<\/a><\/div><\/div>/';
 			preg_match_all($p, $content, $matches);
 			
-			print_r($matches);
-			die();
-			
 			$modelYearTitle = $autoModelYear->year.'-'.$autoModelYear->Model->Make->title.'-'.str_replace('/', '\/', $autoModelYear->Model->title);
 	
-			foreach ($matches[1] as $k=>$match) {
-				$expl = explode('/', $match);
-				$url  = $expl[0];
+			foreach ($matches[1] as $k=>$title) {
+				$specs_msrp = str_replace(array('MSRP', ',', '$', ' '), '', $matches[2][$k]);
+				$url = $matches[3][$k];
 				
-				if ($k==0) {
-					continue;
-				}
-				
-				$completion = $this->getCompletion(array('model_year_id'=>$autoModelYear->id,'url'=>$url));
+				$completion = $this->getCompletion(array('model_year_id'=>$autoModelYear->id,'url'=>$url, 'title'=>$title, 'specs_msrp'=>$specs_msrp));
 				$completionIds[] = $completion->id;
 				echo "created  Completion " . $completion->id . "\n";				
 			} 
