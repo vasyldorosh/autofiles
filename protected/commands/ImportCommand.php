@@ -519,7 +519,7 @@ class ImportCommand extends CConsoleCommand
 			
 			echo $url . "\n";
 			
-			$p = '/<div class="row"><div class="col-tn-12 col-xs-7"><div class="col-tn-6">(.*?)<\/div><div class="msrp col-tn-6">(.*?)<\/div><\/div><div class="col-tn-12 col-xs-5"><a href="/\buy\/(.*?)\/" class="btn btn-sm pull-left">Explore<\/a><a href="(.*?)" class="btn btn-sm pull-right">(.*?)<\/a><\/div><\/div>/';
+			$p = '/<div class="row"><div class="col-tn-12 col-xs-7"><div class="col-tn-6">(.*?)<\/div><div class="msrp col-tn-6">(.*?)<\/div><\/div><div class="col-tn-12 col-xs-5"><a href="/\buy\/(.*?)\/" class="btn btn-sm pull-left">/';
 			//echo $p . "\n";
 			preg_match_all($p, $content, $matches);
 			
