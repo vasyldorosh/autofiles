@@ -253,13 +253,12 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionCatalog()
 	{	
-		/*
-		$this->actionMake();
-		$this->actionModel();
-		$parsedModelYearIds = $this->actionModelYear(date('Y'));
-		$parsedModelYearIds = array_merge($parsedModelYearIds, $this->actionModelYear(date('Y')+1));
+		//$this->actionMake();
+		//$this->actionModel();
+		//$parsedModelYearIds = $this->actionModelYear(date('Y'));
+		//$parsedModelYearIds = array_merge($parsedModelYearIds, $this->actionModelYear(date('Y')+1));
 		
-		//$parsedModelYearIds = range(7473, 7480);
+		$parsedModelYearIds = range(8372, 8417);
 	
 		if (!empty($parsedModelYearIds)) {
 			$this->actionModelYearPhoto($parsedModelYearIds);
@@ -273,11 +272,10 @@ class ImportCommand extends CConsoleCommand
 				$this->actionCompletionData($completionIds);
 			}
 		}
-		*/
 		
 		//$this->actionNotModelYear();
 		//$this->actionEmptyCompletion();
-		$this->actionNotCompletionTitle();
+		//$this->actionNotCompletionTitle();
 			
 		//$this->actionMoveSpecs();	
 			
@@ -521,11 +519,15 @@ class ImportCommand extends CConsoleCommand
 			
 			echo $url . "\n";
 			
-			$p = '/<a href="\/buy\/(.*?)" class="btn btn-sm pull-left visible-sm visible-xs visible-tn">Explore<\/a>/';
+			$p = '/<div class="row"><div class="col-tn-12 col-xs-7"><div class="col-tn-6">(.*?)<\/div><div class="msrp col-tn-6">(.*?)<\/div><\/div><div class="col-tn-12 col-xs-5"><a href="/\buy\/(.*?)\/" class="btn btn-sm pull-left">Explore<\/a><a href="(.*?)" class="btn btn-sm pull-right">(.*?)<\/a><\/div></div>/';
 			//echo $p . "\n";
 			preg_match_all($p, $content, $matches);
-			$modelYearTitle = $autoModelYear->year.'-'.$autoModelYear->Model->Make->title.'-'.str_replace('/', '\/', $autoModelYear->Model->title);
 			
+			print_r($matches);
+			die();
+			
+			$modelYearTitle = $autoModelYear->year.'-'.$autoModelYear->Model->Make->title.'-'.str_replace('/', '\/', $autoModelYear->Model->title);
+	
 			foreach ($matches[1] as $k=>$match) {
 				$expl = explode('/', $match);
 				$url  = $expl[0];
