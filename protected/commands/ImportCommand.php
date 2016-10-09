@@ -253,7 +253,6 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionCatalog()
 	{	
-		/*
 		$this->actionMake();
 		$this->actionModel();
 		$parsedModelYearIds = $this->actionModelYear(date('Y'));
@@ -273,15 +272,14 @@ class ImportCommand extends CConsoleCommand
 				$this->actionCompletionData($completionIds);
 			}
 		}
-		*/
 		
-		//$this->actionNotModelYear();
-		//$this->actionEmptyCompletion();
+		$this->actionNotModelYear();
+		$this->actionEmptyCompletion();
 		$this->actionNotCompletionTitle();
 			
-		//$this->actionMoveSpecs();	
+		$this->actionMoveSpecs();	
 			
-		//CUrlHelper::getPage('http://autotk.com/site/flush', '', '');
+		CUrlHelper::getPage('http://autotk.com/site/flush', '', '');
 	}	
 	
 	function actionMoveSpecs()
@@ -327,20 +325,18 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionNotCompletionTitle()
 	{	
-		/*
 		$sql 	= "SELECT id FROM  auto_completion WHERE title = ''";
 		$rows 	= Yii::app()->db->createCommand($sql)->queryAll();
 		$completionIds = array();
 		foreach ($rows as $row) {
 			$completionIds[] = $row['id'];
 		}
-		*/
 	
-		$completionIds = array(37445, 37452);
+		//$completionIds = array(28409);
 		if (!empty($completionIds)) {
 			$this->actionCompletionDetails($completionIds);
-			//$this->actionSpecs();
-			//$this->actionCompletionData($completionIds);
+			$this->actionSpecs();
+			$this->actionCompletionData($completionIds);
 		}	
 	}	
 	
@@ -580,14 +576,10 @@ class ImportCommand extends CConsoleCommand
 				$content.= CUrlHelper::getPage($url . 'pricing/', '', '');
 				
 				$count = substr_count($content, '<title>Autoblog Sitemap</title>');
-				
-				/*
 				echo $count . "\n";
 				if (!$count) {
 					echo "$completion->id ========================================= \n";				
 				}
-				continue;
-				*/
 				
 				//preg_match_all('/<table id="data_table" cellpadding="0" cellspacing="0" class="fixed_wrap">(.*?)<\/table>/', $content, $matchTable);
 				preg_match_all('/<thead><tr><td>(.*?)<\/td><\/tr><\/thead>/', $content, $matchTable);
@@ -596,12 +588,9 @@ class ImportCommand extends CConsoleCommand
 				preg_match_all('/<div id="build-and-price" data-acode="(.*?)" data-state/', $content, $matchCode);
 				
 				$data = array();
-				echo $completion->url . "\n";
 				if (isset($matchPrice[1][0])) {
 					$completion->specs_msrp = str_replace(array('$', ','), array('',''), $matchPrice[1][0]);
 					$data['specs_msrp'] = $completion->specs_msrp;
-				} else {
-					print_r($matchPrice);
 				}
 				if (isset($matchTitle[1][0])) {
 					$completion->title = $matchTitle[1][0];
@@ -614,7 +603,6 @@ class ImportCommand extends CConsoleCommand
 				}
 				
 				print_r($data);
-				continue;
 				
 				$completion->save(false);
 				
