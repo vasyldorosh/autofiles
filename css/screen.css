@@ -550,7 +550,7 @@ footer .footer__copyright { width: 100%; text-align: right; line-height: 27px; t
 .google_links{
 	border: 0px solid #e3e3e3;
 	width: 346px;
-	height: 280px;
+	
 	box-sizing:border-box;
 padding-bottom:10px;
 }

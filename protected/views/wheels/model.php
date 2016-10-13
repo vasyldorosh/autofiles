@@ -126,18 +126,7 @@
 				
 			</tbody>
 			</table>
-<br><br>
-<h4>Buy Wheels and Tires</h4>
-<script type="text/javascript" language="javascript" src="http://www.tkqlhce.com/placeholder-23396072?target=_top&mouseover=N"></script>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="http://amzn.to/2djTShh"><img src="/img/amazon-logo-120x60.jpg"></a>
-<br><br>
-<h4>Buy Car Parts and Accessories</h4>
-<script type="text/javascript" language="javascript" src="http://www.jdoqocy.com/sn80wxtikmpwtlmz7ABBHE9AA?target=_top&mouseover=N"></script>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<script type="text/javascript" language="javascript" src="http://www.anrdoezrs.net/placeholder-23396088?target=_top&mouseover=N"></script>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<script type="text/javascript" language="javascript" src="http://www.anrdoezrs.net/po72i2zoqsv1zrs4DGHHNKFEG?target=_top&mouseover=N"></script>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<script type="text/javascript" language="javascript" src="http://www.anrdoezrs.net/c666i2zoqsv1zrs4DGHHNKFFE?target=_top&mouseover=N"></script>
-<br>
-<br>
+
 <br>
 <h2 class="section-name_2">Tire Pressure importance</h2><br>
 
