@@ -183,8 +183,10 @@ class Iwi extends Image
 		}
 	    
 		// Check to make sure the image type is allowed
-        if (!isset(Image::$allowed_types[$image_info[2]]))
-            throw new CException('image type not allowed');
+        if (!isset(Image::$allowed_types[$image_info[2]])) {
+			unlink($image);
+			throw new CException("{$data[1]} - image type not allowed");		
+		}
 
         // Image has been validated, load it
         $this->image = array
