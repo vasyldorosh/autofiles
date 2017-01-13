@@ -149,7 +149,8 @@ A digital <a href="http://amzn.to/2cKo1bP"><b>tire pressure gauge</b></a> is a m
 					</tr>
 					<?php foreach ($wheelsDataItem['custom_rim_sizes'] as $item):?>
 					<tr>
-						<td><a href="/wheels/<?=$make['alias']?>/<?=$model['alias']?>/<?=$item['rim_diameter']?>x<?=TextHelper::f($item['rim_width'])?>/<?php if ($item['is_staggered'] && ($item['rear_rim_diameter']!=$item['rim_diameter'] || $item['rear_rim_width']!=$item['rim_width'])):?><?=(!empty($item['rear_rim_diameter']))?$item['rear_rim_diameter']:$item['rim_diameter']?>x<?=(!empty($item['rear_rim_width']))?TextHelper::f($item['rear_rim_width']):TextHelper::f($item['rim_width'])?>/<?php endif;?>"><?=$item['rim_diameter']?>x<?=TextHelper::f($item['rim_width'])?><?php if ($item['is_staggered'] && ($item['rear_rim_diameter']!=$item['rim_diameter'] || $item['rear_rim_width']!=$item['rim_width'])):?> / <?=(!empty($item['rear_rim_diameter']))?$item['rear_rim_diameter']:$item['rim_diameter']?>x<?=(!empty($item['rear_rim_width']))?TextHelper::f($item['rear_rim_width']):TextHelper::f($item['rim_width'])?><?php endif;?></a></td>
+						<td><?=$item['rim_diameter']?>x<?=TextHelper::f($item['rim_width'])?><?php if ($item['is_staggered'] && ($item['rear_rim_diameter']!=$item['rim_diameter'] || $item['rear_rim_width']!=$item['rim_width'])):?> / <?=(!empty($item['rear_rim_diameter']))?$item['rear_rim_diameter']:$item['rim_diameter']?>x<?=(!empty($item['rear_rim_width']))?TextHelper::f($item['rear_rim_width']):TextHelper::f($item['rim_width'])?><?php endif;?></td>
+			
 						<td><?=$item['ror_min']?>-<?=$item['ror_max']?></td>
 						<td><h3><a href="/tuning/<?=$make['alias']?>/<?=$model['alias']?>/wheels-<?=$item['rim_diameter']?>x<?=TextHelper::f($item['rim_width'])?>/"><?=$item['c']?></a></h3></td>
 					</tr>
