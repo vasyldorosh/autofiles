@@ -23,7 +23,7 @@
 						</a>
 					</div>
 					<h3><?=$completion['title']?></h3>	
-					<h3><a href="/horsepower/<?=trim($completion['hp'])?>/"><?=$completion['horsepower']?></a></h3>
+					<h3><?=$completion['horsepower']?></h3>
 					<ul class="make__vehicle-specs">
 						<?php if (!empty($completion['0_60_mph'])):?>
 						<li><a href="/0-60-times/<?=$make['alias']?>/<?=$model['alias']?>/" title="<?=$modelYear['year']?> <?=$make['title']?> <?=$model['title']?> 0-60 times <?=$completion['0_60_mph']?> sec">0-60 <?=$completion['0_60_mph']?> sec</a></li>

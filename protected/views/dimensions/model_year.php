@@ -114,7 +114,7 @@
 			<br><?=$content_text_2?>
 		</section>
 		<br clear="all">
-		<?php if (!empty($competitors)):?>
+		<!-- <?php if (!empty($competitors)):?>
 		<section class="make">
 			<h2 class="section-name_2">Competitors' dimensions</h2>
 				
@@ -134,8 +134,10 @@
 			</ul>
 		</section>
 		<?php endif;?>
-		
-		<!-- years -->
+		-- >
+
+
+		<!-- years 
 		<section class="years_box make">
 			<h2 class="section-name_2"><?=$make['title']?> <?=$model['title']?> dimensions by years</h2>
 			<ul class="years_list">
@@ -144,7 +146,7 @@
 			<?php endforeach;?>
 			</ul>
 		</section>		
-		
+		-->
 		
 		<?php if (!empty($otherModels)):?>
 		<section class="all-models">

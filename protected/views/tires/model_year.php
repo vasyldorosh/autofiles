@@ -44,7 +44,7 @@
 								if (count($expl)==1) $v = $v . '.0';
 								$dw = $tire['rim_diameter'] . 'x' . $v;
 								$title = str_replace(array('[diametr]', '[width]'), array($tire['rim_diameter'], $v), SiteConfig::getInstance()->getValue('seo_wheels_diametr_width_title'));
-								$rimWidthRange[] = sprintf('<a href="/wheels/%s/" title="%s">%s</a>', $dw, $title, $dw);
+								$rimWidthRange[] = sprintf('%s', $dw, $title, $dw);
 							endfor;?>
 							<li>
 							Rim width <?= implode(', ', $rimWidthRange)?>	

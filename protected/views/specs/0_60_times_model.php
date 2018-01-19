@@ -51,7 +51,7 @@
 				<?php foreach ($models as $item):?>
 				 
                                  <tr>
-					<td><?=$item['year']?> <?=$make['title']?> <?=$model['title']?></td>
+					<td><?=$item['year']?></td>
 					<td><h3>
 					<?php if ($item['0_60_times']['mmax'] == $item['0_60_times']['mmin']):?>
 						<?=$item['0_60_times']['mmin']?>

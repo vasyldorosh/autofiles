@@ -22,7 +22,7 @@
 				</a>
 			</div>
 			<h3>
-				<a href="/horsepower/<?=$make['alias']?>/<?=$model['alias']?>/<?=$item['year']?>/"><?=$item['year']?> <?=$make['title']?>  <?=$model['title']?> horsepower</a>
+				<a href="/horsepower/<?=$make['alias']?>/<?=$model['alias']?>/<?=$item['year']?>/"><?=$item['year']?> <?=$make['title']?>  <?=$model['title']?></a>
 			</h3>
 			
 			<ul class="make__vehicle-specs">
