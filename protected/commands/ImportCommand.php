@@ -825,6 +825,7 @@ class ImportCommand extends CConsoleCommand
 					}
 				}
 				
+                
 				//$spec->type = $type;
 				
                 $spec->append = $append;
