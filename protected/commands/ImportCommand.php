@@ -164,6 +164,8 @@ class ImportCommand extends CConsoleCommand
 				preg_match_all('/<div class="trim__desc hidden-sm hidden-md hidden-lg"><div class="h4"><a class="desc__link" href="\/buy\/'.$year.'\-(.*?)\-(.*?)\/">'.$year.'(.*?)<\/a><\/div>/', $content, $matches);
 				preg_match_all('/<img class="img-responsive" src="(.*?)" alt="'.$year.'(.*?)" \/>/', $content, $matchImgs);
 				
+                print_r($matches);
+                
 				$imagesData = array();
 				foreach ($matchImgs[1] as $key=>$img) {
 					if (strpos($img, 'img-responsive')) {
