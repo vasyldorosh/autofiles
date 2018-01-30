@@ -164,25 +164,11 @@ class ImportCommand extends CConsoleCommand
 				echo "PAGE: $page - $url \n";	
 				$content = CUrlHelper::getPage($url);
 				
-				preg_match_all('/<div class="trim-detail"><div class="h4"><a class="link" href="\/buy\/'.$year.'\-(.*?)\-(.*?)__(.*?)\/">'.$year.'(.*?)<\/a><\/div>/', $content, $matches);
-				preg_match_all('/<img class="img-responsive" src="(.*?)" alt="'.$year.'(.*?)" \/>/', $content, $matchImgs);
-				
-                print_r($matches);
-                
-				$imagesData = array();
-				foreach ($matchImgs[1] as $key=>$img) {
-					if (strpos($img, 'img-responsive')) {
-						$expl = explode('<img class="img-responsive" src="', $img);
-						$imagesData[$key] = end($expl);
-					} else {
-						$imagesData[$key] = $img;
-					}
-				}
-											
+				preg_match_all('/<a class="link" href="\/buy\/'.$year.'\-(.*?)\-(.*?)__(.*?)\/">'.$year.'(.*?)<\/a>/', $content, $matches);
+				 
 				foreach ($matches[1] as $key=>$makeTitle) {
-					$modelTitle = $matches[2][$key];
-					$makeTitle	= str_replace(array('_', '+'), array('-', ' '), $makeTitle);
-					$modelTitle	= str_replace(array('_', '+'), array('-', ' '), $modelTitle);
+					$makeTitle	= $matches[1][$key];
+					$modelTitle	= trim(str_replace($makeTitle, '', $matches[4][$key]));
 											
 					$aliasMake = TextHelper::urlSafe(str_replace(' ', '+', $makeTitle));
 					$modelAlias = TextHelper::urlSafe(str_replace(' ', '+', $modelTitle));
@@ -228,9 +214,15 @@ class ImportCommand extends CConsoleCommand
 						if (empty($modelYear)) {
 							$modelYear = new AutoModelYear;
 							
-							if (isset($imagesData[$key])) {
-								$modelYear->file_url = $imagesData[$key];
-								$modelYear->file_name = "{$model->Make->title}-{$model->title}-{$year}.jpg";	
+                            preg_match('/<a class="link" href="(.*?)">(.*?)<\/a>/', $matches[0][$key], $matchPageImg);
+                            
+                            if (isset($matchPageImg[1])) {
+                                $contentPageUrl = CUrlHelper::getPage("http://www.autoblog.com" . $matchPageImg[1]);
+                                preg_match('/<img itemprop="image" alt="(.*?)" src="(.*?)" \/>/', $contentPageUrl, $matchImg);
+                                if (isset($matchImg[2])) {
+                                    $modelYear->file_url = $matchImg[2];
+                                    $modelYear->file_name = "{$model->Make->title}-{$model->title}-{$year}.jpg";	
+                                }
 							}
 													
 							$modelYear->is_active = 1;
@@ -258,20 +250,18 @@ class ImportCommand extends CConsoleCommand
 	
 	public function actionCatalog()
 	{	
-        $this->actionModelYear(date('Y'));
-        die();
-    
-		$this->actionMake();
+        $this->actionMake();
 		$this->actionModel();
 		$parsedModelYearIds = $this->actionModelYear(date('Y'));
 		$parsedModelYearIds = array_merge($parsedModelYearIds, $this->actionModelYear(date('Y')+1));
 		
-		//$parsedModelYearIds = range(8372, 8417);
+		//$parsedModelYearIds = range(8512, 8526);
 	
 		if (!empty($parsedModelYearIds)) {
 			$this->actionModelYearPhoto($parsedModelYearIds);
 			$completionIds = $this->actionCompletion($parsedModelYearIds);
-			//$completionIds = range(37267, 37696);
+            
+			//$completionIds = range(28410, 28631);
 			if (!empty($completionIds)) {
 				$this->actionCompletionDetails($completionIds);
 				$this->actionSpecs();
@@ -386,22 +376,28 @@ class ImportCommand extends CConsoleCommand
 		$autoModels = (array)AutoModelYear::model()->findAll($criteria);
 		foreach ($autoModels as $keyYear=>$autoModelYear) {
 			$url = "http://www.autoblog.com/buy/{$autoModelYear->year}-".str_replace(array(' '), array('+'), $autoModelYear->Model->Make->title)."-".str_replace(array(' '), array('+'), $autoModelYear->Model->title)."/photos/";
-			
-			$content = CUrlHelper::getPage($url, '', '');
-			preg_match_all('/<img alt=(.*?)" class="rsImg" data-rsBigImg="(.*?)" data-rsTmb="(.*?)" src="(.*?)" \/><\/div>/', $content, $matches);
-			
+			$contentE = CUrlHelper::getPage($url, '', '');
+			$contentI = CUrlHelper::getPage($url . '?tab=interior', '', '');
+			preg_match_all('/<img alt="(.*?)" class="rsImg" data-rsBigImg="(.*?)" data-rsTmb="(.*?)" src="(.*?)" \/>/', $contentE, $matchesE);
+			preg_match_all('/<img alt="(.*?)" class="rsImg" data-rsBigImg="(.*?)" data-rsTmb="(.*?)" src="(.*?)" \/>/', $contentI, $matchesI);
 			
 			echo "created Model Year photos " . $autoModelYear->id  . "\n" ;
 			
-			if (isset($matches[2])) {
-				foreach ($matches[2] as $file_url) {
-					$photo = new AutoModelYearPhoto;
-					$photo->file_url = $file_url;
-					$photo->year_id = $autoModelYear->id;
-					$photo->save();
-					echo "\t Photo" . $photo->id . "\n" ;
-				}
-			}
+            $files = [];
+            foreach ($matchesE[2] as $file_url) {
+                $files[] = $file_url;
+            }
+            foreach ($matchesI[2] as $file_url) {
+                $files[] = $file_url;
+            }
+            
+            foreach ($files as $file_url) {
+                $photo = new AutoModelYearPhoto;
+                $photo->file_url = $file_url;
+                $photo->year_id = $autoModelYear->id;
+                $photo->save();
+                echo "\t Photo" . $photo->id . "\n" ;
+            }
 		}
 	}				
 
@@ -522,13 +518,13 @@ class ImportCommand extends CConsoleCommand
 		
 			$url = "http://www.autoblog.com/buy/{$autoModelYear->year}-".str_replace(array("-", " ", '&'), array("_", "_", "_"), $autoModelYear->Model->Make->title)."-".str_replace(array(" ", "-", "&"), array("+", "_", "_"), $autoModelYear->Model->title)."/specs/";
 			$content = CUrlHelper::getPage($url, '', '');
-			
+            
 			echo $url . "\n";
 			
 			$p = '/<div class="row"><div class="col-tn-12 col-xs-7"><div class="col-tn-6">(.*?)<\/div><div class="msrp col-tn-6">(.*?)<\/div><\/div><div class="col-tn-12 col-xs-5"><a href="\/buy\/(.*?)\/" class="btn btn-sm pull-left">Explore<\/a><a href="(.*?)" class="btn btn-sm pull-right">(.*?)<\/a><\/div><\/div>/';
 			preg_match_all($p, $content, $matches);
 			
-			$modelYearTitle = $autoModelYear->year.'-'.$autoModelYear->Model->Make->title.'-'.str_replace('/', '\/', $autoModelYear->Model->title);
+            $modelYearTitle = $autoModelYear->year.'-'.$autoModelYear->Model->Make->title.'-'.str_replace('/', '\/', $autoModelYear->Model->title);
 	
 			foreach ($matches[1] as $k=>$title) {
 				$specs_msrp = str_replace(array('MSRP', ',', '$', ' '), '', $matches[2][$k]);
