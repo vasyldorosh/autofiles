@@ -383,7 +383,7 @@ class ImportCommand extends CConsoleCommand
 			
 			echo "created Model Year photos " . $autoModelYear->id  . "\n" ;
 			
-            $files = [];
+            $files = array();
             foreach ($matchesE[2] as $file_url) {
                 $files[] = $file_url;
             }
