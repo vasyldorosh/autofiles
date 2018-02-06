@@ -162,13 +162,10 @@ class ImportCommand extends CConsoleCommand
 				//if ($page > 2) {continue;}
 				
 				echo "PAGE: $page - $url \n";	
-				$content = CUrlHelper::getPage($url);
+				$content = CUrlHelper::getPage($url, '', '', '', false);
 				
-				preg_match_all('/<a class="link" href="\/buy\/'.$year.'\-(.*?)\-(.*?)__(.*?)\/">'.$year.'(.*?)<\/a>/', $content, $matches);
-				 
-                print_r($matches);    
-                die();    
-                    
+				preg_match_all('/<a class="link" href="\/buy\/'.$year.'-(.*?)-(.*?)__(.*?)">'.$year.'(.*?)<\/a>/', $content, $matches);
+				    
 				foreach ($matches[1] as $key=>$makeTitle) {
 					$makeTitle	= $matches[1][$key];
 					$modelTitle	= trim(str_replace($makeTitle, '', $matches[4][$key]));
