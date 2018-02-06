@@ -166,6 +166,9 @@ class ImportCommand extends CConsoleCommand
 				
 				preg_match_all('/<a class="link" href="\/buy\/'.$year.'\-(.*?)\-(.*?)__(.*?)\/">'.$year.'(.*?)<\/a>/', $content, $matches);
 				 
+                print_r($matches);    
+                die();    
+                    
 				foreach ($matches[1] as $key=>$makeTitle) {
 					$makeTitle	= $matches[1][$key];
 					$modelTitle	= trim(str_replace($makeTitle, '', $matches[4][$key]));
