@@ -148,7 +148,8 @@ class ImportCommand extends CConsoleCommand
 		
 		$i=0;
 		if (isset($matchesPager[1][0]) && is_numeric($matchesPager[1][0])) {
-			for ($page=1; $page<=$matchesPager[1][0]; $page++) {
+            $couuntPage = min($matchesPager[1][0], 50);
+			for ($page=1; $page<=$couuntPage; $page++) {
                 
 				$url = "http://www.autoblog.com/car-finder/{$year}/";
 				if ($page > 1) {
@@ -254,12 +255,15 @@ class ImportCommand extends CConsoleCommand
 		
 		//$parsedModelYearIds = range(8512, 8526);
 	
+        print_r($parsedModelYearIds);
+    
 		if (!empty($parsedModelYearIds)) {
 			$this->actionModelYearPhoto($parsedModelYearIds);
 			$completionIds = $this->actionCompletion($parsedModelYearIds);
             
 			//$completionIds = range(28410, 28631);
 			if (!empty($completionIds)) {
+                print_r($completionIds);
 				$this->actionCompletionDetails($completionIds);
 				$this->actionSpecs();
 				$this->actionCompletionData($completionIds);
