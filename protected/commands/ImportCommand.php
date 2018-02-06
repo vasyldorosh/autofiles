@@ -149,9 +149,6 @@ class ImportCommand extends CConsoleCommand
 		$i=0;
 		if (isset($matchesPager[1][0]) && is_numeric($matchesPager[1][0])) {
 			for ($page=1; $page<=$matchesPager[1][0]; $page++) {
-                if ($page == 2) {
-                    die();
-                }        
                 
 				$url = "http://www.autoblog.com/car-finder/{$year}/";
 				if ($page > 1) {
