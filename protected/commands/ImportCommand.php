@@ -204,38 +204,44 @@ class ImportCommand extends CConsoleCommand
 				
 					}
 					
-						$modelYear = AutoModelYear::model()->findByAttributes(array(
-							'year' => $year,
-							'model_id' => $dataModel[$aliasMake][$modelAlias],
-						));
+                    $modelYear = AutoModelYear::model()->findByAttributes(array(
+                        'year' => $year,
+                        'model_id' => $dataModel[$aliasMake][$modelAlias],
+                    ));
 						
-						if (empty($modelYear)) {
-							$modelYear = new AutoModelYear;
-							
-                            preg_match('/<a class="link" href="(.*?)">(.*?)<\/a>/', $matches[0][$key], $matchPageImg);
-                            
-                            if (isset($matchPageImg[1])) {
-                                $contentPageUrl = CUrlHelper::getPage("http://www.autoblog.com" . $matchPageImg[1]);
-                                preg_match('/<img itemprop="image" alt="(.*?)" src="(.*?)" \/>/', $contentPageUrl, $matchImg);
-                                if (isset($matchImg[2])) {
-                                    $modelYear->file_url = $matchImg[2];
-                                    $modelYear->file_name = "{$model->Make->title}-{$model->title}-{$year}.jpg";	
-                                }
-							}
-													
-							$modelYear->is_active = 1;
-							$modelYear->year = $year;
-							$modelYear->model_id = $dataModel[$aliasMake][$modelAlias];
-							if ($modelYear->save()) {
-								$modelYearIds[] = $modelYear->id;
-								echo "$i: created: ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
-							} else {
-								print_r($modelYear->errors);
-								die();
-							} 							
-						} else {
-							echo "\t $i: isset: ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
-						}						
+                    if (empty($modelYear)) {
+                        $modelYear = new AutoModelYear;
+                        
+                        preg_match('/<a class="link" href="(.*?)">(.*?)<\/a>/', $matches[0][$key], $matchPageImg);
+                        
+                        if (isset($matchPageImg[1])) {
+                            $contentPageUrl = CUrlHelper::getPage("http://www.autoblog.com" . $matchPageImg[1]);
+                            preg_match('/<img itemprop="image" alt="(.*?)" src="(.*?)" \/>/', $contentPageUrl, $matchImg);
+                            if (isset($matchImg[2])) {
+                                $modelYear->file_url = $matchImg[2];
+                                $modelYear->file_name = "{$model->Make->title}-{$model->title}-{$year}.jpg";	
+                            }
+                        }
+                                                
+                        $modelYear->is_active = 1;
+                        $modelYear->year = $year;
+                        $modelYear->model_id = $dataModel[$aliasMake][$modelAlias];
+                        if ($modelYear->save()) {
+                            $modelYearIds[] = $modelYear->id;
+                            echo "$i: created: ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
+                        } else {
+                            print_r($modelYear->errors);
+                            die();
+                        } 							
+                    } else {
+                        echo "\t $i: isset: ModelYear: {$modelYear->id} - $year $makeTitle $modelTitle \n";
+                    }
+
+                    if (count($modelYearIds) > 20) {
+                        break 2;
+                    }
+
+						
 					$i++;
 				}
 			}
