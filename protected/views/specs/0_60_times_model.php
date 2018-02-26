@@ -148,9 +148,7 @@
 		)); ?>		
 		
 		<section class="seo-text">
-			<?=$descriptionFooter?>
-			
-			<?=$model['text_times']?>
+			<?= !empty($model['text_times']) ? $model['text_times'] : $descriptionFooter?>
 		</section>		
 		
 <br>	
