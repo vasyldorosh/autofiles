@@ -114,6 +114,10 @@ class SpecsController extends Controller
 		
 		//$fastests = AutoCompletion::getFastest(6);
 		
+        if (isset($_GET['t'])) {
+            d($model);
+        }
+        
 		$this->render('0_60_times_model', array(
 			'completionsCarsWithSame060Time' => $completionsCarsWithSame060Time,
 			'lastModelYear' => $lastModelYear,
