@@ -45,7 +45,7 @@ class CUrlHelper
 		
 		$r = $replace?str_replace(array("\n", "\t", "\r"), "", $result):$result;
 		if (empty($r)) {
-			$r = file_get_contents($url);
+			$r = @file_get_contents($url);
             $r = $replace?str_replace(array("\n", "\t", "\r"), "", $r):$r;
 		}
 		

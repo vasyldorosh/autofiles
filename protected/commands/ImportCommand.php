@@ -9,6 +9,11 @@ class ImportCommand extends CConsoleCommand
 		return parent::init();
 	}
 
+	public function actionFlush() 
+	{
+        Yii::app()->cache->flush();    
+    }
+    
 	public function actionNotModelYear() 
 	{
 		echo __FUNCTION__ . "_start_ \n";
@@ -257,7 +262,7 @@ class ImportCommand extends CConsoleCommand
         $this->actionMake();
 		$this->actionModel();
 		$parsedModelYearIds = $this->actionModelYear(date('Y'));
-		$parsedModelYearIds = array_merge($parsedModelYearIds, $this->actionModelYear(date('Y')+1));
+		//$parsedModelYearIds = array_merge($parsedModelYearIds, $this->actionModelYear(date('Y')+1));
 		
 		//$parsedModelYearIds = range(8512, 8526);
 	
